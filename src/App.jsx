@@ -44,10 +44,10 @@ const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
 
 const HERO_IMAGES = [
-  "https://images.pexels.com/photos/5461648/pexels-photo-5461648.jpeg?auto=compress&cs=tinysrgb&w=2070",
-  "https://images.pexels.com/photos/5379193/pexels-photo-5379193.jpeg?auto=compress&cs=tinysrgb&w=2070",
-  "https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=2070",
-  "https://images.pexels.com/photos/5378684/pexels-photo-5378684.jpeg?auto=compress&cs=tinysrgb&w=2070"
+  "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=2070&auto=format&fit=crop"
 ];
 
 const NAV_ITEMS = [
@@ -456,8 +456,10 @@ const COPY = {
 
 // --- Helper Components ---
 
-const WhatsAppButton = ({ text, message, variant = "primary", className = "", onClick, size = "normal" }) => {
+const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || "Hola, quiero información")}`;
+  const finalHref = href || url;
+  const isExternalLink = /^https?:\/\//.test(finalHref);
   
   const sizeClasses = {
     small: "px-6 py-3 text-xs",
@@ -465,7 +467,7 @@ const WhatsAppButton = ({ text, message, variant = "primary", className = "", on
     large: "px-12 py-6 text-lg"
   };
   
-  const baseStyle = "inline-flex items-center justify-center font-semibold transition-all duration-500 rounded-full tracking-wide relative overflow-hidden group";
+  const baseStyle = "inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group";
   
   // Updated variants: Removed gold, kept Silver/White/Black
   const variants = {
@@ -476,9 +478,9 @@ const WhatsAppButton = ({ text, message, variant = "primary", className = "", on
 
   return (
     <motion.a 
-      href={url} 
-      target="_blank" 
-      rel="noopener noreferrer" 
+      href={finalHref}
+      target={isExternalLink ? "_blank" : undefined}
+      rel={isExternalLink ? "noopener noreferrer" : undefined}
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
@@ -565,7 +567,7 @@ const TestimonialCard = ({ testimonial, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="min-w-[300px] md:min-w-[400px] bg-white dark:bg-stone-900 rounded-3xl p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col justify-between h-full"
+      className="min-w-[280px] md:min-w-[400px] bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col justify-between h-full"
     >
       <div>
         <div className="flex gap-1 mb-6">
@@ -685,46 +687,55 @@ const ConversionDemo = ({ language, copy }) => {
   const [businessName, setBusinessName] = useState("");
   const [businessPhone, setBusinessPhone] = useState("");
   const [guestName, setGuestName] = useState("");
-  const [guestPhone, setGuestPhone] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [nights, setNights] = useState(2);
   const [guests, setGuests] = useState(2);
 
   const businessPhoneDigits = businessPhone.replace(/[^\d]/g, "");
   const canGenerate = businessName.trim() && guestName.trim() && businessPhoneDigits.length >= 8 && checkIn && nights > 0 && guests > 0;
+  const formattedCheckIn = checkIn
+    ? new Date(`${checkIn}T00:00:00`).toLocaleDateString(language === "es" ? "es-PE" : "en-US", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      })
+    : language === "es"
+      ? "Por definir"
+      : "To be defined";
 
   const messageEs = `Hola 👋
-Quiero reservar en *${businessName}*.
+Soy *${guestName}* y quiero reservar en *${businessName}*.
 
-👤 *Cliente:* ${guestName}
-📱 *Número cliente:* ${guestPhone || "No especificado"}
-📅 *Check-in:* ${checkIn}
+📅 *Check-in:* ${formattedCheckIn}
 🌙 *Noches:* ${nights}
 🧑‍🤝‍🧑 *Huéspedes:* ${guests}
+💬 *Canal:* Reserva por WhatsApp
 
-¿Podrían confirmarme disponibilidad y tarifa final?`;
+¿Podrían confirmarme disponibilidad y tarifa final, por favor?`;
 
   const messageEn = `Hi 👋
-I want to book at *${businessName}*.
+I'm *${guestName}* and I want to book at *${businessName}*.
 
-👤 *Guest:* ${guestName}
-📱 *Guest phone:* ${guestPhone || "Not provided"}
-📅 *Check-in:* ${checkIn}
+📅 *Check-in:* ${formattedCheckIn}
 🌙 *Nights:* ${nights}
 🧑‍🤝‍🧑 *Guests:* ${guests}
+💬 *Channel:* WhatsApp booking
 
-Could you confirm availability and final rate?`;
+Could you please confirm availability and final rate?`;
 
   const demoMessage = language === "es" ? messageEs : messageEn;
+  const previewTitle = language === "es" ? "Vista previa del mensaje" : "Message preview";
+  const businessPhoneLabel = language === "es" ? "Número destino del negocio" : "Business destination number";
 
   return (
-    <div className="max-w-5xl mx-auto mt-16 grid lg:grid-cols-2 gap-8 items-stretch">
-      <div className="bg-stone-100 dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-8">
-        <h3 className="text-2xl md:text-3xl font-bold mb-3 dark:text-white">{copy.liveDemoTitle}</h3>
-        <p className="text-stone-500 dark:text-stone-400 mb-8">{copy.liveDemoSubtitle}</p>
+    <div id="demo-interactiva" className="max-w-5xl mx-auto mt-12 md:mt-16 grid lg:grid-cols-2 gap-6 md:gap-8 items-stretch">
+      <div className="bg-stone-100 dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-6 md:p-8">
+        <h3 className="text-3xl md:text-3xl font-bold mb-3 dark:text-white text-center lg:text-left">{copy.liveDemoTitle}</h3>
+        <p className="text-stone-500 dark:text-stone-400 mb-8 text-center lg:text-left">{copy.liveDemoSubtitle}</p>
 
         <div className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <input
               type="text"
               value={businessName}
@@ -741,19 +752,12 @@ Could you confirm availability and final rate?`;
             />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <input
               type="text"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
               placeholder={language === "es" ? "👤 Nombre del cliente" : "👤 Guest name"}
-              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
-            />
-            <input
-              type="tel"
-              value={guestPhone}
-              onChange={(e) => setGuestPhone(e.target.value)}
-              placeholder={language === "es" ? "📱 Número del cliente" : "📱 Guest phone number"}
               className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
             />
           </div>
@@ -797,32 +801,35 @@ Could you confirm availability and final rate?`;
           href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage)}` : "#"}
           target="_blank"
           rel="noreferrer noopener"
-          className={`mt-6 inline-flex w-full justify-center rounded-full px-6 py-4 font-semibold transition ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
+          className={`mt-6 inline-flex w-full h-[60px] justify-center items-center rounded-full px-6 text-base font-semibold transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98] ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
         >
           {copy.liveDemoCta}
         </a>
       </div>
 
-      <div className="bg-stone-950 rounded-[2rem] border border-stone-800 p-8 text-white">
+      <div className="bg-stone-950 rounded-[2rem] border border-stone-800 p-6 md:p-8 text-white">
         <div className="text-xs uppercase tracking-widest text-stone-500 mb-3">{language === "es" ? "Vista previa del flujo" : "Flow preview"}</div>
         <div className="space-y-4">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "1. Cliente reserva desde tu web" : "1. Guest books from your website"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "Completa datos en un formulario minimalista y rápido." : "Fills in data in a minimal and fast form."}</div>
+            <div className="font-semibold">{language === "es" ? "1. Cliente completa formulario" : "1. Guest completes the form"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "Se capturan check-in, noches y huéspedes en segundos." : "Check-in, nights and guests are captured in seconds."}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "2. Mensaje ordenado y automático" : "2. Clean and automatic message"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "Se abre WhatsApp del negocio con emojis y estructura profesional." : "Business WhatsApp opens with emojis and a professional structure."}</div>
+            <div className="font-semibold">{language === "es" ? "2. WhatsApp del negocio abre directo" : "2. Business WhatsApp opens directly"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "El mensaje sale limpio, con emojis y datos listos para responder." : "A clean message opens with emojis and ready-to-reply data."}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "3. Confirmación y cierre" : "3. Confirmation and closing"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "El negocio responde con disponibilidad, tarifa y cierra la reserva." : "The business replies with availability and rate, then closes the booking."}</div>
+            <div className="font-semibold">{language === "es" ? "3. Conversión inmediata" : "3. Immediate conversion"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "El prospecto pasa de visita a reserva real sin fricción." : "The lead moves from visit to real booking without friction."}</div>
           </div>
-          <img
-            src="https://images.pexels.com/photos/8867438/pexels-photo-8867438.jpeg?auto=compress&cs=tinysrgb&w=900"
-            alt={language === "es" ? "Reserva por WhatsApp" : "WhatsApp booking"}
-            className="rounded-2xl border border-white/10 w-full h-44 object-cover mt-2"
-          />
+          <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4">
+            <div className="text-xs uppercase tracking-widest text-emerald-300 mb-2">{businessPhoneLabel}</div>
+            <div className="font-semibold text-emerald-200">{businessPhoneDigits || (language === "es" ? "Ingresa un número del negocio" : "Enter a business number")}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="text-xs uppercase tracking-widest text-stone-500 mb-2">{previewTitle}</div>
+            <pre className="whitespace-pre-wrap text-sm text-stone-300 leading-relaxed font-sans">{demoMessage}</pre>
+          </div>
         </div>
       </div>
     </div>
@@ -1095,14 +1102,14 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-3 md:gap-4">
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="w-[340px] bg-stone-950 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-stone-700 overflow-hidden"
+            className="w-[calc(100vw-1.5rem)] max-w-[340px] bg-stone-950 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-stone-700 overflow-hidden"
           >
             {/* Header - With Functional Close Button */}
             <div className="bg-stone-900 p-4 flex items-center justify-between border-b border-stone-800">
@@ -1258,7 +1265,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
         onClick={toggleWidget}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-[0_10px_40px_-10px_rgba(251,191,36,0.6)] flex items-center justify-center text-stone-900 z-50"
+        className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-[0_10px_40px_-10px_rgba(251,191,36,0.6)] flex items-center justify-center text-stone-900 z-50"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -1471,7 +1478,7 @@ export default function App() {
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode='wait'>
             <motion.div key={currentHeroImage} initial={{ opacity: 0, scale: 1.1 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ opacity: { duration: 0.8 }, scale: { duration: 6 } }} className="absolute inset-0">
-              <img src={HERO_IMAGES[currentHeroImage]} alt="Hotel" className="w-full h-full object-cover" />
+              <img src={HERO_IMAGES[currentHeroImage]} alt="Mockup de sistema de reservas" className="w-full h-full object-cover" />
             </motion.div>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
@@ -1496,9 +1503,19 @@ export default function App() {
               {copy.heroSubtitle}
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-5 justify-center flex-wrap">
-              <WhatsAppButton text={copy.heroPrimaryCta} message={copy.heroPrimaryMsg} variant="primary" className="min-w-[220px]" size="large" />
-              <WhatsAppButton text={copy.heroSecondaryCta} variant="outline" className="min-w-[220px] !text-white !border-white hover:!bg-white/10" size="large" />
+            <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
+              <WhatsAppButton
+                text={copy.heroPrimaryCta}
+                href="#demo-interactiva"
+                onClick={(e) => scrollToSection(e, 'demo-interactiva')}
+                variant="primary"
+                className="w-full h-[60px] px-6 text-base font-semibold"
+              />
+              <WhatsAppButton
+                text={copy.heroSecondaryCta}
+                variant="outline"
+                className="w-full h-[56px] px-6 text-[15px] font-semibold border-[1.5px] !text-white !border-white hover:!bg-white/10"
+              />
             </div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-16 flex items-center justify-center gap-8 flex-wrap">
@@ -1545,7 +1562,7 @@ export default function App() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center">
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative aspect-video rounded-[2rem] overflow-hidden w-full max-w-5xl mb-16 border border-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] group">
-              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070" alt="Interior" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+              <img src="https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=2070&auto=format&fit=crop" alt="Hotel tech experience" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <motion.div className="absolute bottom-8 left-8 right-8 flex items-center gap-4" whileHover={{ scale: 1.05 }}>
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
@@ -1582,7 +1599,7 @@ export default function App() {
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-14">
             <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
-              <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=2070" alt="Demo" className="w-full aspect-video object-cover" />
+              <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5?q=80&w=2070&auto=format&fit=crop" alt="Mockup web hotelera" className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -1604,10 +1621,10 @@ export default function App() {
       {/* Gallery */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
         {[
-          "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/8867438/pexels-photo-8867438.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/3182774/pexels-photo-3182774.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1000&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1000&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop"
         ].map((src, i) => (
           <motion.div key={i} className="aspect-square overflow-hidden group relative" whileHover={{ scale: 1.02 }}>
             <img src={src} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -1717,7 +1734,7 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-stone-950 border-t border-white/5 py-16 dark:bg-stone-900 dark:border-stone-800">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center gap-8">
+          <div className="flex flex-col items-center gap-8 text-center">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
                 <Zap size={24} className="fill-stone-950" strokeWidth={2.5} />
