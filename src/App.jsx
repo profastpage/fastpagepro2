@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
 import { 
   Check, 
   MessageCircle, 
@@ -46,79 +46,303 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop"
 ];
 
-// Updated Testimonials (Realistic feedback, no ROI specifics)
-const TESTIMONIALS = [
-  { name: "Carlos Mendoza", hotel: "Hotel Vista Boutique", location: "Cusco", text: "La plataforma es increÃ­blemente rÃ¡pida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
-  { name: "Ana Patricia Vega", hotel: "CabaÃ±as del Valle", location: "Chachapoyas", text: "El diseÃ±o es elegante y profesional. Se adapta perfectamente a lo que buscÃ¡bamos." },
-  { name: "Roberto SÃ¡nchez", hotel: "Boutique Lima", location: "Lima", text: "La automatizaciÃ³n nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
-  { name: "MarÃ­a Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "El soporte tÃ©cnico es excelente. Siempre estÃ¡n disponibles para ayudarnos." },
-  { name: "Jorge Luis Paredes", hotel: "Casa Andina Select", location: "Valle Sagrado", text: "Implementar los pagos con Yape y Plin fue muy sencillo. Las reservas aumentaron." },
-  { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "La velocidad de la pÃ¡gina es impresionante. Nuestros huÃ©spedes lo notan." },
-  { name: "Miguel Ãngel Castro", hotel: "Hacienda San JosÃ©", location: "Chincha", text: "El panel de administraciÃ³n es muy intuitivo. Podemos gestionar todo fÃ¡cilmente." },
-  { name: "Lucia FernÃ¡ndez", hotel: "Inkaterra", location: "Machu Picchu", text: "Una soluciÃ³n completa. Desde el SEO hasta la pasarela de pagos, todo funciona." },
-  { name: "Pedro Castillo", hotel: "Libertador", location: "Arequipa", text: "La personalizaciÃ³n del diseÃ±o superÃ³ nuestras expectativas. Se ve muy premium." },
-  { name: "Carmen Ortiz", hotel: "Belmond", location: "Cusco", text: "La integraciÃ³n con Google Maps y Calendar nos facilita la logÃ­stica diaria." },
-  { name: "Fernando Diaz", hotel: "JW Marriott", location: "Lima", text: "La optimizaciÃ³n SEO ha mejorado mucho nuestra visibilidad en bÃºsquedas locales." },
-  { name: "Gabriela Mendez", hotel: "Hilton", location: "Lima", text: "El sistema de reservas directas es robusto y seguro. Confiamos plenamente en la plataforma." },
-  { name: "Ricardo Flores", hotel: "Costa del Sol", location: "Wyndham", text: "La aplicaciÃ³n PWA es un plus increÃ­ble para nuestros clientes recurrentes." },
-  { name: "Elena Gomez", hotel: "Swissotel", location: "Lima", text: "Profesionalismo puro. La web carga instantÃ¡neamente incluso en zonas con mala seÃ±al." }
+const NAV_ITEMS = [
+  { id: "demo", es: "Demo", en: "Demo" },
+  { id: "beneficios", es: "Beneficios", en: "Benefits" },
+  { id: "testimonios", es: "Testimonios", en: "Testimonials" },
+  { id: "planes", es: "Planes", en: "Plans" },
+  { id: "faq", es: "FAQ", en: "FAQ" }
 ];
 
-const PLANS = [
-  { 
-    name: "START", 
-    price: "700", 
-    period: "pago Ãºnico",
-    features: [
-      "Hosting RÃ¡pido Incluido",
-      "BotÃ³n Flotante de WhatsApp",
-      "Sistema de Reservas Directo",
-      "PersonalizaciÃ³n BÃ¡sica de Marca",
-      "DiseÃ±o Responsivo (MÃ³vil/PC)",
-      "Certificado SSL Seguro"
+const TESTIMONIALS_BY_LANG = {
+  es: [
+    { name: "Carlos Mendoza", hotel: "Hotel Vista Boutique", location: "Cusco", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
+    { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "El diseño es elegante y profesional. Se adapta perfectamente a lo que buscábamos." },
+    { name: "Roberto Sánchez", hotel: "Boutique Lima", location: "Lima", text: "La automatización nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
+    { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "El soporte técnico es excelente. Siempre están disponibles para ayudarnos." },
+    { name: "Jorge Luis Paredes", hotel: "Casa Andina Select", location: "Valle Sagrado", text: "Implementar los pagos con Yape y Plin fue muy sencillo. Las reservas aumentaron." },
+    { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "La velocidad de la página es impresionante. Nuestros huéspedes lo notan." },
+    { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "El panel de administración es muy intuitivo. Podemos gestionar todo fácilmente." },
+    { name: "Lucia Fernández", hotel: "Inkaterra", location: "Machu Picchu", text: "Una solución completa. Desde el SEO hasta la pasarela de pagos, todo funciona." },
+    { name: "Pedro Castillo", hotel: "Libertador", location: "Arequipa", text: "La personalización del diseño superó nuestras expectativas. Se ve muy premium." },
+    { name: "Carmen Ortiz", hotel: "Belmond", location: "Cusco", text: "La integración con Google Maps y Calendar nos facilita la logística diaria." },
+    { name: "Fernando Diaz", hotel: "JW Marriott", location: "Lima", text: "La optimización SEO ha mejorado mucho nuestra visibilidad en búsquedas locales." },
+    { name: "Gabriela Mendez", hotel: "Hilton", location: "Lima", text: "El sistema de reservas directas es robusto y seguro. Confiamos plenamente en la plataforma." },
+    { name: "Ricardo Flores", hotel: "Costa del Sol", location: "Wyndham", text: "La aplicación PWA es un plus increíble para nuestros clientes recurrentes." },
+    { name: "Elena Gomez", hotel: "Swissotel", location: "Lima", text: "Profesionalismo puro. La web carga instantáneamente incluso en zonas con mala señal." }
+  ],
+  en: [
+    { name: "Carlos Mendoza", hotel: "Hotel Vista Boutique", location: "Cusco", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
+    { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "The design is elegant and professional. It perfectly matches what we needed." },
+    { name: "Roberto Sánchez", hotel: "Boutique Lima", location: "Lima", text: "Automation has saved us hours of administrative work. Highly recommended." },
+    { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "Technical support is excellent. They are always available when we need help." },
+    { name: "Jorge Luis Paredes", hotel: "Casa Andina Select", location: "Valle Sagrado", text: "Integrating Yape and Plin payments was very easy. Bookings increased." },
+    { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "The page speed is impressive. Our guests notice it immediately." },
+    { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "The admin panel is very intuitive. We can manage everything with ease." },
+    { name: "Lucia Fernández", hotel: "Inkaterra", location: "Machu Picchu", text: "A complete solution. From SEO to payments, everything works smoothly." },
+    { name: "Pedro Castillo", hotel: "Libertador", location: "Arequipa", text: "The design customization exceeded our expectations. It looks truly premium." },
+    { name: "Carmen Ortiz", hotel: "Belmond", location: "Cusco", text: "Google Maps and Calendar integration makes our daily logistics easier." },
+    { name: "Fernando Diaz", hotel: "JW Marriott", location: "Lima", text: "SEO optimization significantly improved our visibility in local searches." },
+    { name: "Gabriela Mendez", hotel: "Hilton", location: "Lima", text: "The direct booking system is robust and secure. We trust the platform fully." },
+    { name: "Ricardo Flores", hotel: "Costa del Sol", location: "Wyndham", text: "The PWA app is a great advantage for our recurring guests." },
+    { name: "Elena Gomez", hotel: "Swissotel", location: "Lima", text: "Pure professionalism. The website loads instantly, even in poor signal areas." }
+  ]
+};
+
+const PLANS_BY_LANG = {
+  es: [
+    {
+      name: "START",
+      price: "700",
+      period: "pago único",
+      features: [
+        "Hosting Rápido Incluido",
+        "Botón Flotante de WhatsApp",
+        "Sistema de Reservas Directo",
+        "Personalización Básica de Marca",
+        "Diseño Responsivo (Móvil/PC)",
+        "Certificado SSL Seguro"
+      ],
+      highlight: false
+    },
+    {
+      name: "PRO",
+      price: "1200",
+      period: "pago único",
+      features: [
+        "Todo lo del Plan START",
+        "SEO Intermedio Optimizado",
+        "Diseño Premium Personalizado",
+        "Soporte Prioritario",
+        "Integración Google Maps",
+        "Configuración de Cuentas",
+        "Adaptación Tablet y PC",
+        "Galería de Imágenes Avanzada"
+      ],
+      highlight: true
+    },
+    {
+      name: "BUSINESS",
+      price: "1700",
+      period: "pago único",
+      features: [
+        "Todo lo del Plan PRO",
+        "App PWA (Instalable)",
+        "Panel Super Administración",
+        "Hosting Ultra Rápido",
+        "Soporte Inmediato 24/7",
+        "Imágenes en Alta Calidad",
+        "SEO Profesional Máximo",
+        "Optimización 95%+ PageSpeed",
+        "Pagos: Yape, Plin, Izipay",
+        "Trabajo Prioritario"
+      ],
+      highlight: false
+    }
+  ],
+  en: [
+    {
+      name: "START",
+      price: "700",
+      period: "one-time payment",
+      features: [
+        "Fast Hosting Included",
+        "Floating WhatsApp Button",
+        "Direct Booking System",
+        "Basic Brand Customization",
+        "Responsive Design (Mobile/Desktop)",
+        "Secure SSL Certificate"
+      ],
+      highlight: false
+    },
+    {
+      name: "PRO",
+      price: "1200",
+      period: "one-time payment",
+      features: [
+        "Everything in START",
+        "Optimized Intermediate SEO",
+        "Premium Custom Design",
+        "Priority Support",
+        "Google Maps Integration",
+        "Account Setup",
+        "Tablet and Desktop Adaptation",
+        "Advanced Image Gallery"
+      ],
+      highlight: true
+    },
+    {
+      name: "BUSINESS",
+      price: "1700",
+      period: "one-time payment",
+      features: [
+        "Everything in PRO",
+        "Installable PWA App",
+        "Super Admin Panel",
+        "Ultra Fast Hosting",
+        "Immediate 24/7 Support",
+        "High-Quality Images",
+        "Maximum Professional SEO",
+        "95%+ PageSpeed Optimization",
+        "Payments: Yape, Plin, Izipay",
+        "Priority Delivery"
+      ],
+      highlight: false
+    }
+  ]
+};
+
+const COPY = {
+  es: {
+    navCta: "Agendar Demo",
+    notificationTitle: "¡Nueva reserva recibida!",
+    notificationSubtitle: "Hotel Vista - hace 2 minutos",
+    heroBadge: "+500 hoteles confían",
+    heroTitleTop: "Reservas Directas.",
+    heroTitleBottom: "Sin Comisiones.",
+    heroSubtitle: "La plataforma premium que convierte visitantes en huéspedes vía WhatsApp.",
+    heroPrimaryCta: "Ver Demo Interactiva",
+    heroPrimaryMsg: "Quiero ver la demo",
+    heroSecondaryCta: "Hablar con Asesor",
+    trustTitle: "Hoteles Asociados",
+    stats: ["Más Reservas", "Hoteles Activos", "Comisión Ahorrada"],
+    editorialWatch: "Ver cómo funciona",
+    editorialTitle: "Recupera el control",
+    editorialTitleAccent: "de tus márgenes.",
+    editorialSubtitle: "Las agencias de viajes online se quedan con tu ganancia. Nosotros te devolvemos el 100%.",
+    editorialCommissions: "Comisiones",
+    editorialAutomation: "Automatización",
+    roiTitle: "¿Cuánto estás perdiendo?",
+    roiSubtitle: "Descubre tu ahorro con reservas directas",
+    roiBadge: "Calculadora ROI",
+    demoTitle: "Experiencia Fluida",
+    demoSubtitle: "Diseñado para máxima conversión",
+    demoCards: [
+      { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario" },
+      { title: "Interacción", desc: "Interfaz intuitiva que guía hacia la acción" },
+      { title: "Conversión", desc: "Cierre de venta inmediato en tu WhatsApp" }
     ],
-    highlight: false
+    testimonialsTitle: "Lo que dicen nuestros clientes",
+    testimonialsSubtitle: "Experiencias reales de hoteles reales",
+    testimonialsBadge: "Testimonios",
+    pricingTitle: "Planes Profesionales",
+    pricingSubtitle: "Inversión única para tu negocio",
+    popularTag: "Más Popular",
+    selectPlan: "Seleccionar Plan",
+    faqTitle: "Preguntas Frecuentes",
+    faqSubtitle: "Transparencia total antes de empezar",
+    faq: [
+      { q: "¿Necesito conocimientos técnicos?", a: "Absolutamente no. Nos encargamos de toda la infraestructura técnica, diseño y configuración." },
+      { q: "¿Puedo actualizar el contenido?", a: "Sí. Tendrás acceso a un panel intuitivo para gestionar tus fotos y textos." },
+      { q: "¿Existe permanencia mínima?", a: "No. Creemos en la calidad de nuestro servicio, por lo que no atamos a nuestros clientes con contratos forzosos." }
+    ],
+    finalTitle: "¿Listo para escalar?",
+    finalSubtitle: "Únete a los hoteles que ya están recibiendo reservas directas hoy mismo.",
+    finalCta: "Comenzar Ahora",
+    footerRights: "© 2024 FastPagePro. Todos los derechos reservados.",
+    tags: ["SSL Seguro", "Sin contrato", "Soporte 24/7"],
+    widget: {
+      assistant: "Asistente Virtual",
+      howContact: "¿Cómo deseas contactarnos hoy?",
+      scheduleMeet: "Agendar videollamada",
+      scheduleCall: "Agendar llamada",
+      directChat: "Chat Directo",
+      talkNow: "Hablar con un asesor ahora",
+      phoneCall: "Llamada Telefónica",
+      back: "Volver",
+      yourName: "Tu Nombre",
+      yourGmail: "Tu Gmail",
+      date: "Fecha",
+      time: "Hora",
+      enterName: "Ingresa tu nombre",
+      confirmMeeting: "Confirmar Reunión",
+      confirmCall: "Confirmar Llamada",
+      invalidDateTime: "Por favor selecciona una fecha y hora válidas",
+      userUnknown: "Usuario desconocido",
+      defineLater: "Por definir",
+      waDirect: "Hola FastPagePro ⚡, quiero información directa.",
+      waMeet: "Hola FastPagePro ⚡\nQuiero agendar Google Meet.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora: {{dateTime}}\n\nEspero su confirmación.",
+      waCall: "Hola FastPagePro ⚡\nQuiero agendar llamada telefónica.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora Preferente: {{dateTime}}\n\nEspero su llamada."
+    }
   },
-  { 
-    name: "PRO", 
-    price: "1200", 
-    period: "pago Ãºnico",
-    features: [
-      "Todo lo del Plan START",
-      "SEO Intermedio Optimizado",
-      "DiseÃ±o Premium Personalizado",
-      "Soporte Prioritario",
-      "IntegraciÃ³n Google Maps",
-      "ConfiguraciÃ³n de Cuentas",
-      "AdaptaciÃ³n Tablet y PC",
-      "GalerÃ­a de ImÃ¡genes Avanzada"
+  en: {
+    navCta: "Book Demo",
+    notificationTitle: "New booking received!",
+    notificationSubtitle: "Hotel Vista - 2 minutes ago",
+    heroBadge: "+500 hotels trust us",
+    heroTitleTop: "Direct Bookings.",
+    heroTitleBottom: "No Commissions.",
+    heroSubtitle: "The premium platform that turns visitors into guests through WhatsApp.",
+    heroPrimaryCta: "See Interactive Demo",
+    heroPrimaryMsg: "I want to see the demo",
+    heroSecondaryCta: "Talk to an Advisor",
+    trustTitle: "Partner Hotels",
+    stats: ["More Bookings", "Active Hotels", "Commission Saved"],
+    editorialWatch: "See how it works",
+    editorialTitle: "Take back control",
+    editorialTitleAccent: "of your margins.",
+    editorialSubtitle: "Online travel agencies keep your profits. We help you keep 100%.",
+    editorialCommissions: "Commissions",
+    editorialAutomation: "Automation",
+    roiTitle: "How much are you losing?",
+    roiSubtitle: "Discover your savings with direct bookings",
+    roiBadge: "ROI Calculator",
+    demoTitle: "Seamless Experience",
+    demoSubtitle: "Designed for maximum conversion",
+    demoCards: [
+      { title: "Attraction", desc: "High-impact visual design that keeps users engaged" },
+      { title: "Interaction", desc: "Intuitive interface that guides users to action" },
+      { title: "Conversion", desc: "Instant sales closure directly on your WhatsApp" }
     ],
-    highlight: true
-  },
-  { 
-    name: "BUSINESS", 
-    price: "1700", 
-    period: "pago Ãºnico",
-    features: [
-      "Todo lo del Plan PRO",
-      "App PWA (Instalable)",
-      "Panel Super AdministraciÃ³n",
-      "Hosting Ultra RÃ¡pido",
-      "Soporte Inmediato 24/7",
-      "ImÃ¡genes en Alta Calidad",
-      "SEO Profesional MÃ¡ximo",
-      "OptimizaciÃ³n 95%+ PageSpeed",
-      "Pagos: Yape, Plin, Izipay",
-      "Trabajo Prioritario"
+    testimonialsTitle: "What our clients say",
+    testimonialsSubtitle: "Real experiences from real hotels",
+    testimonialsBadge: "Testimonials",
+    pricingTitle: "Professional Plans",
+    pricingSubtitle: "One-time investment for your business",
+    popularTag: "Most Popular",
+    selectPlan: "Select Plan",
+    faqTitle: "Frequently Asked Questions",
+    faqSubtitle: "Full transparency before we start",
+    faq: [
+      { q: "Do I need technical knowledge?", a: "Absolutely not. We handle all infrastructure, design, and setup." },
+      { q: "Can I update my content?", a: "Yes. You will get access to an intuitive panel to manage photos and text." },
+      { q: "Is there a minimum contract?", a: "No. We believe in service quality, so we do not lock clients into forced contracts." }
     ],
-    highlight: false
+    finalTitle: "Ready to scale?",
+    finalSubtitle: "Join the hotels already getting direct bookings today.",
+    finalCta: "Get Started Now",
+    footerRights: "© 2024 FastPagePro. All rights reserved.",
+    tags: ["Secure SSL", "No contract", "24/7 support"],
+    widget: {
+      assistant: "Virtual Assistant",
+      howContact: "How would you like to contact us today?",
+      scheduleMeet: "Schedule video call",
+      scheduleCall: "Schedule call",
+      directChat: "Direct Chat",
+      talkNow: "Talk to an advisor now",
+      phoneCall: "Phone Call",
+      back: "Back",
+      yourName: "Your Name",
+      yourGmail: "Your Gmail",
+      date: "Date",
+      time: "Time",
+      enterName: "Enter your name",
+      confirmMeeting: "Confirm Meeting",
+      confirmCall: "Confirm Call",
+      invalidDateTime: "Please select a valid date and time",
+      userUnknown: "Unknown user",
+      defineLater: "To be defined",
+      waDirect: "Hi FastPagePro ⚡, I want direct information.",
+      waMeet: "Hi FastPagePro ⚡\nI want to schedule a Google Meet.\n\n👤 User: {{user}}{{contact}}\n📅 Date and Time: {{dateTime}}\n\nWaiting for your confirmation.",
+      waCall: "Hi FastPagePro ⚡\nI want to schedule a phone call.\n\n👤 User: {{user}}{{contact}}\n📅 Preferred Date and Time: {{dateTime}}\n\nWaiting for your call."
+    }
   }
-];
+};
 
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || "Hola, quiero informaciÃ³n")}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || "Hola, quiero información")}`;
   
   const sizeClasses = {
     small: "px-6 py-3 text-xs",
@@ -153,6 +377,8 @@ const WhatsAppButton = ({ text, message, variant = "primary", className = "", on
   );
 };
 
+const _motion = motion;
+
 // Enhanced Animated Counter
 const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => {
   const [count, setCount] = useState(0);
@@ -181,6 +407,7 @@ const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => 
 const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const IconComp = Icon;
 
   return (
     <motion.div 
@@ -200,7 +427,7 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
         <motion.div 
           className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 flex items-center justify-center relative overflow-hidden border border-white/5 group-hover:border-white/20 transition-colors duration-500"
         >
-          <Icon className="w-10 h-10 text-white/70 group-hover:text-white transition-colors duration-500 relative z-10" />
+          <IconComp className="w-10 h-10 text-white/70 group-hover:text-white transition-colors duration-500 relative z-10" />
         </motion.div>
         
         <div className="text-4xl md:text-6xl font-bold text-white mb-3 tracking-tight relative">
@@ -244,7 +471,7 @@ const TestimonialCard = ({ testimonial, index }) => {
         </div>
         <div>
           <div className="font-bold text-stone-950 dark:text-white">{testimonial.name}</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400">{testimonial.hotel} â€¢ {testimonial.location}</div>
+          <div className="text-sm text-stone-500 dark:text-stone-400">{testimonial.hotel} • {testimonial.location}</div>
         </div>
       </div>
     </motion.div>
@@ -338,10 +565,12 @@ const FAQItem = ({ question, answer, index }) => {
   );
 };
 
-const ROICalculator = () => {
+const ROICalculator = ({ language, copy }) => {
   const [reservas, setReservas] = useState(50);
   const [ticket, setTicket] = useState(300);
   const ahorro = Math.round(reservas * ticket * 0.18);
+  const currency = language === "es" ? "S/" : "$";
+  const yearlySuffix = language === "es" ? "al año" : "per year";
 
   return (
     <motion.div 
@@ -353,21 +582,21 @@ const ROICalculator = () => {
     >
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-white/5" />
       
-      <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center relative z-10">Calcula tu Ahorro</h3>
+      <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center relative z-10">{copy.roiBadge}</h3>
       <div className="grid md:grid-cols-2 gap-8 mb-8 relative z-10">
         <div>
-          <label className="block text-sm text-stone-400 mb-3 font-medium">Reservas mensuales</label>
+          <label className="block text-sm text-stone-400 mb-3 font-medium">{language === "es" ? "Reservas mensuales" : "Monthly bookings"}</label>
           <input type="range" min="10" max="200" value={reservas} onChange={(e) => setReservas(Number(e.target.value))} className="w-full accent-white h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer" />
-          <div className="text-3xl font-bold mt-4 text-white">{reservas} <span className="text-lg text-stone-400">reservas</span></div>
+          <div className="text-3xl font-bold mt-4 text-white">{reservas} <span className="text-lg text-stone-400">{language === "es" ? "reservas" : "bookings"}</span></div>
         </div>
         <div>
-          <label className="block text-sm text-stone-400 mb-3 font-medium">Ticket promedio (S/)</label>
+          <label className="block text-sm text-stone-400 mb-3 font-medium">{language === "es" ? "Ticket promedio" : "Average ticket"} ({currency})</label>
           <input type="range" min="100" max="1000" value={ticket} onChange={(e) => setTicket(Number(e.target.value))} className="w-full accent-white h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer" />
-          <div className="text-3xl font-bold mt-4 text-white">S/ {ticket}</div>
+          <div className="text-3xl font-bold mt-4 text-white">{currency} {ticket}</div>
         </div>
       </div>
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 text-center relative z-10 border border-white/10">
-        <div className="text-sm text-stone-400 mb-3 font-medium uppercase tracking-wider">Ahorro mensual estimado</div>
+        <div className="text-sm text-stone-400 mb-3 font-medium uppercase tracking-wider">{language === "es" ? "Ahorro mensual estimado" : "Estimated monthly savings"}</div>
         <motion.div 
           className="text-5xl md:text-6xl font-bold text-green-400"
           key={ahorro}
@@ -375,9 +604,9 @@ const ROICalculator = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 500 }}
         >
-          S/ {ahorro.toLocaleString()}
+          {currency} {ahorro.toLocaleString()}
         </motion.div>
-        <div className="text-sm text-stone-400 mt-4">S/ {(ahorro * 12).toLocaleString()} al aÃ±o</div>
+        <div className="text-sm text-stone-400 mt-4">{currency} {(ahorro * 12).toLocaleString()} {yearlySuffix}</div>
       </div>
     </motion.div>
   );
@@ -406,7 +635,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
 );
 
 // --- Advanced Widget Component (Updated Logic) ---
-const AdvancedWidget = () => {
+const AdvancedWidget = ({ language, widgetCopy }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState('main'); // main, meet-form, call-form
   const [selectedDate, setSelectedDate] = useState('');
@@ -433,30 +662,28 @@ const AdvancedWidget = () => {
 
   const handleBooking = (type) => {
     let message = "";
-    const now = new Date();
-    
-    // Format DateTime properly for display
+    const locale = language === "es" ? "es-PE" : "en-US";
     const formattedDateTime = selectedDate && selectedTime 
-      ? new Date(`${selectedDate}T${selectedTime}`).toLocaleString('es-PE', { dateStyle: 'full', timeStyle: 'short' })
-      : "Por definir";
+      ? new Date(`${selectedDate}T${selectedTime}`).toLocaleString(locale, { dateStyle: 'full', timeStyle: 'short' })
+      : widgetCopy.defineLater;
 
-    const userInfo = userName ? `${userName}` : "Usuario desconocido";
-    const contactInfo = userEmail ? `\nðŸ“§ Email: ${userEmail}` : "";
+    const userInfo = userName ? `${userName}` : widgetCopy.userUnknown;
+    const contactInfo = userEmail ? `\n📧 Email: ${userEmail}` : "";
 
     if (type === 'direct') {
-      message = "Hola FastPagePro âš¡, quiero informaciÃ³n directa.";
+      message = widgetCopy.waDirect;
     } else if (type === 'meet') {
       if (!formattedDateTime || formattedDateTime.includes("Invalid")) {
-        alert("Por favor selecciona una fecha y hora vÃ¡lidas");
+        alert(widgetCopy.invalidDateTime);
         return;
       }
-      message = `Hola FastPagePro âš¡\nQuiero agendar Google Meet.\n\nðŸ‘¤ Usuario: ${userInfo}${contactInfo}\nðŸ“… Fecha y Hora: ${formattedDateTime}\n\nEspero su confirmaciÃ³n.`;
+      message = widgetCopy.waMeet.replace("{{user}}", userInfo).replace("{{contact}}", contactInfo).replace("{{dateTime}}", formattedDateTime);
     } else if (type === 'call') {
       if (!formattedDateTime || formattedDateTime.includes("Invalid")) {
-        alert("Por favor selecciona una fecha y hora vÃ¡lidas");
+        alert(widgetCopy.invalidDateTime);
         return;
       }
-      message = `Hola FastPagePro âš¡\nQuiero agendar llamada telefÃ³nica.\n\nðŸ‘¤ Usuario: ${userInfo}${contactInfo}\nðŸ“… Fecha y Hora Preferente: ${formattedDateTime}\n\nEspero su llamada.`;
+      message = widgetCopy.waCall.replace("{{user}}", userInfo).replace("{{contact}}", contactInfo).replace("{{dateTime}}", formattedDateTime);
     }
     
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -485,7 +712,7 @@ const AdvancedWidget = () => {
                 </div>
                 <div>
                   <h3 className="text-white font-bold text-sm">FastPagePro</h3>
-                  <p className="text-stone-400 text-xs">Asistente Virtual</p>
+                  <p className="text-stone-400 text-xs">{widgetCopy.assistant}</p>
                 </div>
               </div>
               <motion.button 
@@ -502,7 +729,7 @@ const AdvancedWidget = () => {
             <div className="p-4 max-h-[500px] overflow-y-auto custom-scrollbar">
               {step === 'main' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                  <p className="text-stone-300 text-sm mb-4 text-center">Â¿CÃ³mo deseas contactarnos hoy?</p>
+                  <p className="text-stone-300 text-sm mb-4 text-center">{widgetCopy.howContact}</p>
                   
                   <button onClick={() => setStep('meet')} className="w-full flex items-center gap-3 p-4 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-colors group text-left">
                     <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
@@ -510,7 +737,7 @@ const AdvancedWidget = () => {
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-white text-sm">Google Meet</div>
-                      <div className="text-xs text-stone-400">Agendar videollamada</div>
+                      <div className="text-xs text-stone-400">{widgetCopy.scheduleMeet}</div>
                     </div>
                     <ArrowRight size={16} className="ml-auto text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
@@ -520,8 +747,8 @@ const AdvancedWidget = () => {
                       <Phone size={20} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">Llamada TelefÃ³nica</div>
-                      <div className="text-xs text-stone-400">Agendar llamada</div>
+                      <div className="font-bold text-white text-sm">{widgetCopy.phoneCall}</div>
+                      <div className="text-xs text-stone-400">{widgetCopy.scheduleCall}</div>
                     </div>
                     <ArrowRight size={16} className="ml-auto text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
@@ -534,8 +761,8 @@ const AdvancedWidget = () => {
                       <MessageCircle size={20} />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold text-white text-sm">Chat Directo</div>
-                      <div className="text-xs text-stone-400">Hablar con un asesor ahora</div>
+                      <div className="font-bold text-white text-sm">{widgetCopy.directChat}</div>
+                      <div className="text-xs text-stone-400">{widgetCopy.talkNow}</div>
                     </div>
                     <ArrowRight size={16} className="ml-auto text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
@@ -546,20 +773,20 @@ const AdvancedWidget = () => {
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
                   <div className="flex items-center justify-between mb-2">
                     <button onClick={() => setStep('main')} className="flex items-center gap-2 text-stone-400 hover:text-white text-sm">
-                      <ChevronLeft size={16} /> Volver
+                      <ChevronLeft size={16} /> {widgetCopy.back}
                     </button>
                     <span className="text-white font-bold text-sm">
-                      {step === 'meet' ? 'Google Meet' : 'Llamada TelefÃ³nica'}
+                      {step === 'meet' ? 'Google Meet' : widgetCopy.phoneCall}
                     </span>
                   </div>
                   
                   {/* Inputs */}
                   <div className="bg-stone-800 p-4 rounded-xl border border-stone-700 space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-stone-400 uppercase mb-1">Tu Nombre</label>
+                      <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourName}</label>
                       <input 
                         type="text" 
-                        placeholder="Ingresa tu nombre"
+                        placeholder={widgetCopy.enterName}
                         className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white placeholder-stone-500 focus:border-stone-500 focus:outline-none"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
@@ -568,7 +795,7 @@ const AdvancedWidget = () => {
                     
                     {step === 'meet' && (
                       <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">Tu Gmail</label>
+                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourGmail}</label>
                         <input 
                           type="email" 
                           placeholder="ejemplo@gmail.com"
@@ -581,7 +808,7 @@ const AdvancedWidget = () => {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">Fecha</label>
+                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.date}</label>
                         <input 
                           type="date" 
                           className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white focus:border-stone-500 focus:outline-none [color-scheme:dark]"
@@ -589,7 +816,7 @@ const AdvancedWidget = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">Hora</label>
+                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.time}</label>
                         <input 
                           type="time" 
                           className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white focus:border-stone-500 focus:outline-none [color-scheme:dark]"
@@ -604,7 +831,7 @@ const AdvancedWidget = () => {
                     className="w-full bg-stone-950 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
                   >
                     <Calendar size={18} />
-                    Confirmar {step === 'meet' ? 'ReuniÃ³n' : 'Llamada'}
+                    {step === 'meet' ? widgetCopy.confirmMeeting : widgetCopy.confirmCall}
                   </button>
                 </motion.div>
               )}
@@ -653,46 +880,67 @@ export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return saved === 'dark' || (!saved && prefersDark);
+    } catch {
+      return false;
+    }
+  });
+  const [language, setLanguage] = useState(() => {
+    try {
+      const savedLanguage = localStorage.getItem('language');
+      return savedLanguage === 'en' ? 'en' : 'es';
+    } catch {
+      return 'es';
+    }
+  });
   
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const copy = COPY[language];
+  const testimonials = TESTIMONIALS_BY_LANG[language];
+  const plans = PLANS_BY_LANG[language];
+  const navItems = NAV_ITEMS.map((item) => ({ id: item.id, label: item[language] }));
 
   useEffect(() => {
-    const checkTheme = () => {
-      try {
-        const saved = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        return saved === 'dark' || (!saved && prefersDark);
-      } catch { return false; }
-    };
-    const shouldStartDark = checkTheme();
-    setIsDarkMode(shouldStartDark);
-    if (shouldStartDark && typeof document !== 'undefined') document.documentElement.classList.add('dark');
-  }, []);
-
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
     try {
       if (typeof document !== 'undefined') {
-        if (newMode) { document.documentElement.classList.add('dark'); localStorage.setItem('theme', 'dark'); }
-        else { document.documentElement.classList.remove('dark'); localStorage.setItem('theme', 'light'); }
+        document.documentElement.classList.toggle('dark', isDarkMode);
       }
-    } catch {}
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    } catch {
+      // ignore localStorage/theme sync errors
+    }
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('language', language);
+    } catch {
+      // ignore localStorage language sync errors
+    }
+  }, [language]);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === 'es' ? 'en' : 'es'));
   };
 
   useEffect(() => {
     const handleScroll = () => {
       try {
         const totalScroll = document.documentElement.scrollTop;
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scroll = totalScroll / windowHeight;
-        setScrollProgress(scroll);
         setScrolled(totalScroll > 50);
-      } catch {}
+      } catch {
+        // ignore scroll calculation errors
+      }
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('scroll', handleScroll);
@@ -716,7 +964,9 @@ export default function App() {
     try {
       const element = document.getElementById(id);
       if (element) element.scrollIntoView({ behavior: 'smooth' });
-    } catch {}
+    } catch {
+      // ignore smooth scroll errors
+    }
   };
 
   return (
@@ -739,15 +989,32 @@ export default function App() {
           </motion.div>
           
           <div className="hidden md:flex gap-2 items-center">
-            {['Demo', 'Beneficios', 'Testimonios', 'Planes', 'FAQ'].map((item) => (
-              <motion.a key={item} href={`#${item.toLowerCase()}`} onClick={(e) => scrollToSection(e, item.toLowerCase())} whileHover={{ y: -2 }} className="text-sm font-medium text-white/70 hover:text-white transition-colors px-4 py-2 rounded-full hover:bg-white/10">{item}</motion.a>
+            {navItems.map((item) => (
+              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className="text-sm font-medium text-white/70 hover:text-white transition-colors px-4 py-2 rounded-full hover:bg-white/10">{item.label}</motion.a>
             ))}
             <div className="w-px h-6 bg-white/20 mx-2" />
+            <motion.button
+              onClick={toggleLanguage}
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.94 }}
+              className="px-3 py-2 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10"
+              aria-label="Toggle language"
+            >
+              {language === 'es' ? 'EN' : 'ES'}
+            </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <WhatsAppButton text="Agendar Demo" variant="primary" size="small" className="ml-2" />
+            <WhatsAppButton text={copy.navCta} variant="primary" size="small" className="ml-2" />
           </div>
           
           <div className="md:hidden flex items-center gap-3">
+            <motion.button
+              onClick={toggleLanguage}
+              whileTap={{ scale: 0.94 }}
+              className="px-2.5 py-2 rounded-full border border-white/20 text-xs font-bold text-white"
+              aria-label="Toggle language"
+            >
+              {language === 'es' ? 'EN' : 'ES'}
+            </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
             <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white p-2 rounded-lg bg-white/10 backdrop-blur-sm">
               {mobileMenu ? <X size={24} /> : <Menu size={24} />}
@@ -761,10 +1028,10 @@ export default function App() {
         {mobileMenu && (
           <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 bg-stone-950 pt-24 px-6 md:hidden">
             <div className="flex flex-col gap-4">
-              {['Demo', 'Beneficios', 'Testimonios', 'Planes', 'FAQ'].map((item, index) => (
-                <motion.a key={item} href={`#${item.toLowerCase()}`} onClick={(e) => scrollToSection(e, item.toLowerCase())} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item}</motion.a>
+              {navItems.map((item, index) => (
+                <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
-              <WhatsAppButton text="Agendar Demo" variant="primary" className="w-full mt-8" size="large" />
+              <WhatsAppButton text={copy.navCta} variant="primary" className="w-full mt-8" size="large" />
             </div>
           </motion.div>
         )}
@@ -778,8 +1045,8 @@ export default function App() {
               <Check className="text-white" size={24} />
             </motion.div>
             <div>
-              <div className="font-semibold text-stone-950 text-sm dark:text-white">Â¡Nueva reserva recibida!</div>
-              <div className="text-xs text-stone-500 dark:text-stone-400">Hotel Vista - hace 2 minutos</div>
+              <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
+              <div className="text-xs text-stone-500 dark:text-stone-400">{copy.notificationSubtitle}</div>
             </div>
           </motion.div>
         )}
@@ -802,28 +1069,28 @@ export default function App() {
             <motion.div className="inline-block mb-8 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
                 <Zap size={14} className="text-yellow-400 fill-yellow-400" />
-                +500 hoteles confÃ­an
+                {copy.heroBadge}
               </span>
             </motion.div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mb-8 leading-[1.05]">
-              Reservas Directas. <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">Sin Comisiones.</span>
+              {copy.heroTitleTop} <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{copy.heroTitleBottom}</span>
             </h1>
             
             <p className="text-lg md:text-xl lg:text-2xl text-stone-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-              La plataforma premium que convierte visitantes en huÃ©spedes vÃ­a WhatsApp.
+              {copy.heroSubtitle}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-5 justify-center flex-wrap">
-              <WhatsAppButton text="Ver Demo Interactiva" message="Quiero ver la demo" variant="primary" className="min-w-[220px]" size="large" />
-              <WhatsAppButton text="Hablar con Asesor" variant="outline" className="min-w-[220px] !text-white !border-white hover:!bg-white/10" size="large" />
+              <WhatsAppButton text={copy.heroPrimaryCta} message={copy.heroPrimaryMsg} variant="primary" className="min-w-[220px]" size="large" />
+              <WhatsAppButton text={copy.heroSecondaryCta} variant="outline" className="min-w-[220px] !text-white !border-white hover:!bg-white/10" size="large" />
             </div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-16 flex items-center justify-center gap-8 flex-wrap">
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Shield size={16} className="text-green-400" /> SSL Seguro</div>
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Clock size={16} className="text-white" /> Soporte 24/7</div>
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Award size={16} className="text-blue-400" /> GarantÃ­a 30 dÃ­as</div>
+              <div className="flex items-center gap-2 text-sm text-stone-400"><Shield size={16} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-2 text-sm text-stone-400"><Clock size={16} className="text-white" /> {copy.tags[2]}</div>
+              <div className="flex items-center gap-2 text-sm text-stone-400"><Award size={16} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
             </motion.div>
           </motion.div>
         </motion.div>
@@ -838,7 +1105,7 @@ export default function App() {
       {/* Trust Badges - Silver Highlight */}
       <section id="trust-badges" className="py-16 bg-stone-950 border-b border-white/5 dark:bg-stone-900 dark:border-stone-800">
         <div className="container mx-auto px-6">
-          <p className="text-center text-stone-500 text-xs mb-10 uppercase tracking-[0.2em] font-semibold">Hoteles Asociados</p>
+          <p className="text-center text-stone-500 text-xs mb-10 uppercase tracking-[0.2em] font-semibold">{copy.trustTitle}</p>
           <div className="flex flex-wrap justify-center gap-10 md:gap-20 opacity-60">
             {["Vuelo78", "Casa Andina", "Belmond", "Libertador", "JW Marriott", "Hilton"].map((logo, i) => (
               <motion.div key={i} className="text-stone-400 text-xl md:text-2xl font-bold cursor-default transition-all duration-500 ease-out hover:text-white hover:scale-110 hover:opacity-100 dark:text-stone-500 dark:hover:text-white" whileHover={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(200,200,255,0.6), 0 0 30px rgba(255,200,255,0.4)" }}>{logo}</motion.div>
@@ -848,13 +1115,13 @@ export default function App() {
       </section>
 
       {/* Stats */}
-      <section className="py-24 md:py-32 bg-stone-950 dark:bg-stone-900 relative overflow-hidden">
+      <section id="beneficios" className="py-24 md:py-32 bg-stone-950 dark:bg-stone-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <StatCard icon={Zap} value={40} suffix="%" label="MÃ¡s Reservas" delay={0} />
-            <StatCard icon={Users} value={500} suffix="+" label="Hoteles Activos" delay={0.2} />
-            <StatCard icon={BarChart3} value={18} suffix="%" label="ComisiÃ³n Ahorrada" delay={0.4} />
+            <StatCard icon={Zap} value={40} suffix="%" label={copy.stats[0]} delay={0} />
+            <StatCard icon={Users} value={500} suffix="+" label={copy.stats[1]} delay={0.2} />
+            <StatCard icon={BarChart3} value={18} suffix="%" label={copy.stats[2]} delay={0.4} />
           </div>
         </div>
       </section>
@@ -870,17 +1137,17 @@ export default function App() {
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
                   <Play size={28} className="text-white ml-1" />
                 </div>
-                <span className="text-white font-medium text-lg">Ver cÃ³mo funciona</span>
+                <span className="text-white font-medium text-lg">{copy.editorialWatch}</span>
                 <ArrowRight size={20} className="text-white" />
               </motion.div>
             </motion.div>
             
             <div className="max-w-3xl">
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">Recupera el control <span className="text-stone-500">de tus mÃ¡rgenes.</span></h3>
-              <p className="text-xl text-stone-400 mb-8 leading-relaxed">Las agencias de viajes online se quedan con tu ganancia. Nosotros te devolvemos el 100%.</p>
+              <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{copy.editorialTitle} <span className="text-stone-500">{copy.editorialTitleAccent}</span></h3>
+              <p className="text-xl text-stone-400 mb-8 leading-relaxed">{copy.editorialSubtitle}</p>
               <div className="flex justify-center gap-16 pt-8 border-t border-white/10">
-                <div><div className="text-6xl font-bold">0%</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">Comisiones</div></div>
-                <div><div className="text-6xl font-bold">24/7</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">AutomatizaciÃ³n</div></div>
+                <div><div className="text-6xl font-bold">0%</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialCommissions}</div></div>
+                <div><div className="text-6xl font-bold">24/7</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialAutomation}</div></div>
               </div>
             </div>
           </div>
@@ -890,22 +1157,22 @@ export default function App() {
       {/* ROI Calculator */}
       <section className="py-32 md:py-40 bg-stone-100 dark:bg-stone-800">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Â¿CuÃ¡nto estÃ¡s perdiendo?" subtitle="Descubre tu ahorro con reservas directas" badge="Calculadora ROI" />
-          <div className="max-w-3xl mx-auto"><ROICalculator /></div>
+          <SectionTitle title={copy.roiTitle} subtitle={copy.roiSubtitle} badge={copy.roiBadge} />
+          <div className="max-w-3xl mx-auto"><ROICalculator language={language} copy={copy} /></div>
         </div>
       </section>
 
       {/* Demo */}
       <section id="demo" className="py-32 md:py-40 bg-white dark:bg-stone-950">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Experiencia Fluida" subtitle="DiseÃ±ado para mÃ¡xima conversiÃ³n" />
+          <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-20">
             <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
               <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070" alt="Demo" className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[{ icon: Globe, title: "AtracciÃ³n", desc: "DiseÃ±o visual de alto impacto que retiene al usuario" }, { icon: Smartphone, title: "InteracciÃ³n", desc: "Interfaz intuitiva que guÃ­a hacia la acciÃ³n" }, { icon: MessageCircle, title: "ConversiÃ³n", desc: "Cierre de venta inmediato en tu WhatsApp" }].map((step, i) => (
+            {[{ icon: Globe, title: copy.demoCards[0].title, desc: copy.demoCards[0].desc }, { icon: Smartphone, title: copy.demoCards[1].title, desc: copy.demoCards[1].desc }, { icon: MessageCircle, title: copy.demoCards[2].title, desc: copy.demoCards[2].desc }].map((step, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="bg-white dark:bg-stone-900 rounded-[2rem] p-8 md:p-10 border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] text-center hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500" whileHover={{ y: -10 }}>
                 <div className="w-20 h-20 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center mx-auto mb-6"><step.icon size={36} className="text-stone-700 dark:text-white" /></div>
                 <h4 className="text-2xl font-bold mb-4 dark:text-white">{step.title}</h4>
@@ -929,18 +1196,18 @@ export default function App() {
       {/* TESTIMONIALS - Horizontal Scroll Carousel */}
       <section id="testimonios" className="py-32 md:py-40 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
-          <SectionTitle title="Lo que dicen nuestros clientes" subtitle="Experiencias reales de hoteles reales" badge="Testimonios" />
+          <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
           
           {/* Horizontal Scroll Container */}
           <div className="relative w-full overflow-hidden pb-8">
             <motion.div 
               className="flex gap-6"
               drag="x"
-              dragConstraints={{ left: -((TESTIMONIALS.length * 380) - window.innerWidth), right: 0 }}
+              dragConstraints={{ left: -((testimonials.length * 380) - window.innerWidth), right: 0 }}
               dragElastic={0.1}
               dragTransition={{ power: 0.5, timeConstant: 300 }}
             >
-              {TESTIMONIALS.map((t, i) => (
+              {testimonials.map((t, i) => (
                 <TestimonialCard key={i} testimonial={t} index={i} />
               ))}
             </motion.div>
@@ -955,9 +1222,9 @@ export default function App() {
       {/* PRICING - Updated */}
       <section id="planes" className="py-32 md:py-40 bg-stone-950 text-white dark:bg-stone-900">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Planes Profesionales" subtitle="InversiÃ³n Ãºnica para tu negocio" />
+          <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto mt-12 md:mt-20">
-            {PLANS.map((plan, i) => (
+            {plans.map((plan, i) => (
               <motion.div 
                 key={i} 
                 className={`relative p-8 md:p-10 rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-white text-stone-950 scale-105 shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10' : 'bg-stone-900/50 border-stone-800'}`}
@@ -965,7 +1232,7 @@ export default function App() {
               >
                 {plan.highlight && (
                   <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-stone-950 text-white text-xs font-bold px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
-                    MÃ¡s Popular
+                    {copy.popularTag}
                   </div>
                 )}
                 <h3 className="text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
@@ -982,7 +1249,7 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
-                <WhatsAppButton text="Seleccionar Plan" variant={plan.highlight ? "dark" : "outline"} className="w-full" message={`Plan ${plan.name}`} />
+                <WhatsAppButton text={copy.selectPlan} variant={plan.highlight ? "dark" : "outline"} className="w-full" message={`${language === 'es' ? 'Plan' : 'Plan'} ${plan.name}`} />
               </motion.div>
             ))}
           </div>
@@ -992,11 +1259,11 @@ export default function App() {
       {/* FAQ */}
       <section id="faq" className="py-32 md:py-40 bg-stone-50 dark:bg-stone-950">
         <div className="container mx-auto px-4 max-w-5xl">
-          <SectionTitle title="Preguntas Frecuentes" subtitle="Transparencia total antes de empezar" />
+          <SectionTitle title={copy.faqTitle} subtitle={copy.faqSubtitle} />
           <div className="mt-12">
-            <FAQItem question="Â¿Necesito conocimientos tÃ©cnicos?" answer="Absolutamente no. Nos encargamos de toda la infraestructura tÃ©cnica, diseÃ±o y configuraciÃ³n." index={0} />
-            <FAQItem question="Â¿Puedo actualizar el contenido?" answer="SÃ­. TendrÃ¡s acceso a un panel intuitivo para gestionar tus fotos y textos." index={1} />
-            <FAQItem question="Â¿Existe permanencia mÃ­nima?" answer="No. Creemos en la calidad de nuestro servicio, por lo que no atamos a nuestros clientes con contratos forzosos." index={2} />
+            <FAQItem question={copy.faq[0].q} answer={copy.faq[0].a} index={0} />
+            <FAQItem question={copy.faq[1].q} answer={copy.faq[1].a} index={1} />
+            <FAQItem question={copy.faq[2].q} answer={copy.faq[2].a} index={2} />
           </div>
         </div>
       </section>
@@ -1006,15 +1273,15 @@ export default function App() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[0.9] dark:text-white">Â¿Listo para escalar?</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-xl text-stone-500 mb-12 max-w-2xl mx-auto font-light dark:text-stone-400">Ãšnete a los hoteles que ya estÃ¡n recibiendo reservas directas hoy mismo.</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[0.9] dark:text-white">{copy.finalTitle}</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-xl text-stone-500 mb-12 max-w-2xl mx-auto font-light dark:text-stone-400">{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-            <WhatsAppButton text="Comenzar Ahora" className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
+            <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
           </motion.div>
           <div className="flex justify-center gap-8 mt-10 text-sm text-stone-400 flex-wrap">
-            <span className="flex items-center gap-2"><Shield size={16} /> SSL Seguro</span>
-            <span className="flex items-center gap-2"><Calendar size={16} /> Sin contrato</span>
-            <span className="flex items-center gap-2"><Clock size={16} /> Soporte 24/7</span>
+            <span className="flex items-center gap-2"><Shield size={16} /> {copy.tags[0]}</span>
+            <span className="flex items-center gap-2"><Calendar size={16} /> {copy.tags[1]}</span>
+            <span className="flex items-center gap-2"><Clock size={16} /> {copy.tags[2]}</span>
           </div>
         </div>
       </section>
@@ -1034,13 +1301,14 @@ export default function App() {
               <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><MessageCircle size={24} /></motion.a>
               <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><Star size={24} /></motion.a>
             </div>
-            <div className="text-stone-500 text-sm dark:text-stone-400">Â© 2024 FastPagePro. Todos los derechos reservados.</div>
+            <div className="text-stone-500 text-sm dark:text-stone-400">{copy.footerRights}</div>
           </div>
         </div>
       </footer>
 
       {/* Advanced Widget */}
-      <AdvancedWidget />
+      <AdvancedWidget language={language} widgetCopy={copy.widget} />
     </div>
   );
 }
+
