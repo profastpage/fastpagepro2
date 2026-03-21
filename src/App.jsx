@@ -38,21 +38,106 @@ import {
 
 // --- Constants ---
 const WHATSAPP_NUMBER = "51906431630";
+const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
+const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
 
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop"
+  "https://images.pexels.com/photos/5461648/pexels-photo-5461648.jpeg?auto=compress&cs=tinysrgb&w=2070",
+  "https://images.pexels.com/photos/5379193/pexels-photo-5379193.jpeg?auto=compress&cs=tinysrgb&w=2070",
+  "https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=2070",
+  "https://images.pexels.com/photos/5378684/pexels-photo-5378684.jpeg?auto=compress&cs=tinysrgb&w=2070"
 ];
 
 const NAV_ITEMS = [
   { id: "demo", es: "Demo", en: "Demo" },
+  { id: "portafolio", es: "Portafolio", en: "Portfolio" },
   { id: "beneficios", es: "Beneficios", en: "Benefits" },
   { id: "testimonios", es: "Testimonios", en: "Testimonials" },
   { id: "planes", es: "Planes", en: "Plans" },
   { id: "faq", es: "FAQ", en: "FAQ" }
 ];
+
+const LATIN_AVATARS = [
+  "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/712521/pexels-photo-712521.jpeg?auto=compress&cs=tinysrgb&w=160",
+  "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=160"
+];
+
+const PORTFOLIO_BY_LANG = {
+  es: [
+    {
+      title: "Casa Lima Suites",
+      location: "Lima, Perú",
+      category: "Hotel Boutique",
+      description: "Web de reservas directas por WhatsApp con disponibilidad por fechas y automatización de seguimiento.",
+      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Andes Mountain Lodge",
+      location: "Cusco, Perú",
+      category: "Lodge Turístico",
+      description: "Sistema de reservas para tours y habitaciones, integrado con WhatsApp y formularios inteligentes.",
+      image: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Selva Eco Stay",
+      location: "Iquitos, Perú",
+      category: "Hospedaje Ecológico",
+      description: "Landing de conversión con velocidad optimizada y módulo de cotización rápida para huéspedes.",
+      image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Costa Business Hotel",
+      location: "Piura, Perú",
+      category: "Hotel Corporativo",
+      description: "Flujo de reservas para clientes corporativos con confirmación automática y seguimiento comercial.",
+      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    }
+  ],
+  en: [
+    {
+      title: "Casa Lima Suites",
+      location: "Lima, Peru",
+      category: "Boutique Hotel",
+      description: "Direct-booking website via WhatsApp with date-based availability and automated follow-up.",
+      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Andes Mountain Lodge",
+      location: "Cusco, Peru",
+      category: "Tourist Lodge",
+      description: "Booking system for tours and rooms, integrated with WhatsApp and smart lead forms.",
+      image: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Selva Eco Stay",
+      location: "Iquitos, Peru",
+      category: "Eco Lodge",
+      description: "Conversion-focused landing page with high speed and quick quote module for guests.",
+      image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Costa Business Hotel",
+      location: "Piura, Peru",
+      category: "Corporate Hotel",
+      description: "Corporate booking flow with automatic confirmation and sales follow-up.",
+      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    }
+  ]
+};
 
 const TESTIMONIALS_BY_LANG = {
   es: [
@@ -217,11 +302,18 @@ const COPY = {
     roiBadge: "Calculadora ROI",
     demoTitle: "Experiencia Fluida",
     demoSubtitle: "Diseñado para máxima conversión",
+    liveDemoTitle: "Demo real de reservas por WhatsApp",
+    liveDemoSubtitle: "Simula la experiencia de un huésped real y genera la reserva en un clic.",
+    liveDemoCta: "Generar Reserva por WhatsApp",
     demoCards: [
       { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario" },
       { title: "Interacción", desc: "Interfaz intuitiva que guía hacia la acción" },
       { title: "Conversión", desc: "Cierre de venta inmediato en tu WhatsApp" }
     ],
+    portfolioTitle: "Portafolio de Proyectos",
+    portfolioSubtitle: "Sitios y sistemas de reservas desarrollados para hoteles y negocios del Perú.",
+    portfolioBadge: "Trabajos Reales",
+    portfolioCta: "Ver Proyecto",
     testimonialsTitle: "Lo que dicen nuestros clientes",
     testimonialsSubtitle: "Experiencias reales de hoteles reales",
     testimonialsBadge: "Testimonios",
@@ -234,12 +326,14 @@ const COPY = {
     faq: [
       { q: "¿Necesito conocimientos técnicos?", a: "Absolutamente no. Nos encargamos de toda la infraestructura técnica, diseño y configuración." },
       { q: "¿Puedo actualizar el contenido?", a: "Sí. Tendrás acceso a un panel intuitivo para gestionar tus fotos y textos." },
-      { q: "¿Existe permanencia mínima?", a: "No. Creemos en la calidad de nuestro servicio, por lo que no atamos a nuestros clientes con contratos forzosos." }
+      { q: "¿Existe permanencia mínima?", a: "No. Creemos en la calidad de nuestro servicio, por lo que no atamos a nuestros clientes con contratos forzosos." },
+      { q: "¿Incluyen dominio y hosting?", a: "Sí. Podemos gestionar dominio, hosting y SSL para que tu web salga lista para vender desde el día 1." },
+      { q: "¿En cuánto tiempo estará lista mi web?", a: "Depende del proyecto, pero en promedio entre 7 y 15 días hábiles con revisiones incluidas." }
     ],
     finalTitle: "¿Listo para escalar?",
     finalSubtitle: "Únete a los hoteles que ya están recibiendo reservas directas hoy mismo.",
     finalCta: "Comenzar Ahora",
-    footerRights: "© 2024 FastPagePro. Todos los derechos reservados.",
+    footerRights: "© 2026 Fast Page Pro. Todos los derechos reservados por Fast Page Pro.",
     tags: ["SSL Seguro", "Sin contrato", "Soporte 24/7"],
     widget: {
       assistant: "Asistente Virtual",
@@ -252,14 +346,19 @@ const COPY = {
       back: "Volver",
       yourName: "Tu Nombre",
       yourGmail: "Tu Gmail",
+      yourPhone: "Tu teléfono",
       date: "Fecha",
       time: "Hora",
       enterName: "Ingresa tu nombre",
+      enterPhone: "Ej. +51 999 999 999",
       confirmMeeting: "Confirmar Reunión",
       confirmCall: "Confirmar Llamada",
       invalidDateTime: "Por favor selecciona una fecha y hora válidas",
+      invalidPhone: "Ingresa un número de teléfono válido",
       userUnknown: "Usuario desconocido",
       defineLater: "Por definir",
+      meetingNote: "Al confirmar, abriremos Google Calendar con invitación a profastpage@gmail.com.",
+      saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
       waDirect: "Hola FastPagePro ⚡, quiero información directa.",
       waMeet: "Hola FastPagePro ⚡\nQuiero agendar Google Meet.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora: {{dateTime}}\n\nEspero su confirmación.",
       waCall: "Hola FastPagePro ⚡\nQuiero agendar llamada telefónica.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora Preferente: {{dateTime}}\n\nEspero su llamada."
@@ -289,11 +388,18 @@ const COPY = {
     roiBadge: "ROI Calculator",
     demoTitle: "Seamless Experience",
     demoSubtitle: "Designed for maximum conversion",
+    liveDemoTitle: "Real WhatsApp booking demo",
+    liveDemoSubtitle: "Simulate a real guest flow and generate a reservation in one click.",
+    liveDemoCta: "Generate WhatsApp Booking",
     demoCards: [
       { title: "Attraction", desc: "High-impact visual design that keeps users engaged" },
       { title: "Interaction", desc: "Intuitive interface that guides users to action" },
       { title: "Conversion", desc: "Instant sales closure directly on your WhatsApp" }
     ],
+    portfolioTitle: "Project Portfolio",
+    portfolioSubtitle: "Websites and booking systems delivered for hotels and businesses in Peru.",
+    portfolioBadge: "Real Work",
+    portfolioCta: "View Project",
     testimonialsTitle: "What our clients say",
     testimonialsSubtitle: "Real experiences from real hotels",
     testimonialsBadge: "Testimonials",
@@ -306,12 +412,14 @@ const COPY = {
     faq: [
       { q: "Do I need technical knowledge?", a: "Absolutely not. We handle all infrastructure, design, and setup." },
       { q: "Can I update my content?", a: "Yes. You will get access to an intuitive panel to manage photos and text." },
-      { q: "Is there a minimum contract?", a: "No. We believe in service quality, so we do not lock clients into forced contracts." }
+      { q: "Is there a minimum contract?", a: "No. We believe in service quality, so we do not lock clients into forced contracts." },
+      { q: "Do you include domain and hosting?", a: "Yes. We can handle domain, hosting and SSL so your site launches ready to sell." },
+      { q: "How long does delivery take?", a: "Depending on the scope, most projects are delivered in 7 to 15 business days including revisions." }
     ],
     finalTitle: "Ready to scale?",
     finalSubtitle: "Join the hotels already getting direct bookings today.",
     finalCta: "Get Started Now",
-    footerRights: "© 2024 FastPagePro. All rights reserved.",
+    footerRights: "© 2026 Fast Page Pro. All rights reserved by Fast Page Pro.",
     tags: ["Secure SSL", "No contract", "24/7 support"],
     widget: {
       assistant: "Virtual Assistant",
@@ -324,14 +432,19 @@ const COPY = {
       back: "Back",
       yourName: "Your Name",
       yourGmail: "Your Gmail",
+      yourPhone: "Your phone",
       date: "Date",
       time: "Time",
       enterName: "Enter your name",
+      enterPhone: "Ex. +51 999 999 999",
       confirmMeeting: "Confirm Meeting",
       confirmCall: "Confirm Call",
       invalidDateTime: "Please select a valid date and time",
+      invalidPhone: "Please enter a valid phone number",
       userUnknown: "Unknown user",
       defineLater: "To be defined",
+      meetingNote: "When you confirm, we will open Google Calendar with an invite to profastpage@gmail.com.",
+      saveLeadError: "Lead auto-save failed. We will still open WhatsApp.",
       waDirect: "Hi FastPagePro ⚡, I want direct information.",
       waMeet: "Hi FastPagePro ⚡\nI want to schedule a Google Meet.\n\n👤 User: {{user}}{{contact}}\n📅 Date and Time: {{dateTime}}\n\nWaiting for your confirmation.",
       waCall: "Hi FastPagePro ⚡\nI want to schedule a phone call.\n\n👤 User: {{user}}{{contact}}\n📅 Preferred Date and Time: {{dateTime}}\n\nWaiting for your call."
@@ -466,9 +579,12 @@ const TestimonialCard = ({ testimonial, index }) => {
       </div>
       
       <div className="flex items-center gap-4 pt-6 border-t border-stone-100 dark:border-stone-800">
-        <div className="w-12 h-12 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center font-bold text-stone-600 dark:text-stone-400">
-          {testimonial.name[0]}
-        </div>
+        <img
+          src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]}
+          alt={testimonial.name}
+          className="w-12 h-12 rounded-full object-cover border border-stone-200 dark:border-stone-700"
+          loading="lazy"
+        />
         <div>
           <div className="font-bold text-stone-950 dark:text-white">{testimonial.name}</div>
           <div className="text-sm text-stone-500 dark:text-stone-400">{testimonial.hotel} • {testimonial.location}</div>
@@ -565,6 +681,161 @@ const FAQItem = ({ question, answer, index }) => {
   );
 };
 
+const ConversionDemo = ({ language, copy }) => {
+  const [businessName, setBusinessName] = useState("");
+  const [guestName, setGuestName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [nights, setNights] = useState(2);
+  const [guests, setGuests] = useState(2);
+
+  const canGenerate = businessName.trim() && guestName.trim() && phone.trim() && checkIn;
+
+  const messageEs = `Hola FastPagePro ⚡
+Quiero una demo de reservas para mi negocio.
+
+🏨 Negocio: ${businessName}
+👤 Cliente: ${guestName}
+📱 Teléfono: ${phone}
+📅 Check-in: ${checkIn}
+🌙 Noches: ${nights}
+🧑‍🤝‍🧑 Huéspedes: ${guests}
+
+Envíenme cómo quedaría este flujo en mi web.`;
+
+  const messageEn = `Hi FastPagePro ⚡
+I want a booking flow demo for my business.
+
+🏨 Business: ${businessName}
+👤 Client: ${guestName}
+📱 Phone: ${phone}
+📅 Check-in: ${checkIn}
+🌙 Nights: ${nights}
+🧑‍🤝‍🧑 Guests: ${guests}
+
+Please show me how this flow would work on my website.`;
+
+  const demoMessage = language === "es" ? messageEs : messageEn;
+
+  return (
+    <div className="max-w-5xl mx-auto mt-16 grid lg:grid-cols-2 gap-8 items-stretch">
+      <div className="bg-stone-100 dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-8">
+        <h3 className="text-2xl md:text-3xl font-bold mb-3 dark:text-white">{copy.liveDemoTitle}</h3>
+        <p className="text-stone-500 dark:text-stone-400 mb-8">{copy.liveDemoSubtitle}</p>
+
+        <div className="space-y-4">
+          <input
+            type="text"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            placeholder={language === "es" ? "Nombre del hotel/negocio" : "Hotel/business name"}
+            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+          />
+          <input
+            type="text"
+            value={guestName}
+            onChange={(e) => setGuestName(e.target.value)}
+            placeholder={language === "es" ? "Nombre del cliente" : "Guest name"}
+            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+          />
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder={language === "es" ? "Teléfono del cliente" : "Guest phone"}
+            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+          />
+          <div className="grid grid-cols-3 gap-3">
+            <input
+              type="date"
+              value={checkIn}
+              onChange={(e) => setCheckIn(e.target.value)}
+              className="col-span-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+            />
+            <input
+              type="number"
+              min="1"
+              max="30"
+              value={nights}
+              onChange={(e) => setNights(Number(e.target.value))}
+              className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+            />
+          </div>
+          <input
+            type="number"
+            min="1"
+            max="10"
+            value={guests}
+            onChange={(e) => setGuests(Number(e.target.value))}
+            placeholder={language === "es" ? "N° huéspedes" : "Guests"}
+            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+          />
+        </div>
+
+        <a
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(demoMessage)}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={`mt-6 inline-flex w-full justify-center rounded-full px-6 py-4 font-semibold transition ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
+        >
+          {copy.liveDemoCta}
+        </a>
+      </div>
+
+      <div className="bg-stone-950 rounded-[2rem] border border-stone-800 p-8 text-white">
+        <div className="text-xs uppercase tracking-widest text-stone-500 mb-3">{language === "es" ? "Vista previa del flujo" : "Flow preview"}</div>
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="font-semibold">{language === "es" ? "1. Cliente completa formulario" : "1. Guest fills out form"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "Se capturan datos clave para la reserva." : "Key booking information is captured."}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="font-semibold">{language === "es" ? "2. WhatsApp abre con mensaje listo" : "2. WhatsApp opens with ready message"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "Tu equipo responde y confirma disponibilidad en segundos." : "Your team replies and confirms availability in seconds."}</div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div className="font-semibold">{language === "es" ? "3. Conversión inmediata" : "3. Immediate conversion"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "El prospecto pasa de visita a reserva real sin fricción." : "The lead becomes a real reservation with minimal friction."}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PortfolioSection = ({ copy, projects }) => (
+  <section id="portafolio" className="py-32 md:py-40 bg-white dark:bg-stone-950">
+    <div className="container mx-auto px-4">
+      <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
+      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        {projects.map((project, index) => (
+          <motion.article
+            key={`${project.title}-${index}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.07 }}
+            className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
+          >
+            <div className="aspect-[4/3] overflow-hidden">
+              <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="p-5">
+              <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
+              <h3 className="text-xl font-bold text-stone-950 dark:text-white">{project.title}</h3>
+              <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
+              <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
+              <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white">
+                {copy.portfolioCta} <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const ROICalculator = ({ language, copy }) => {
   const [reservas, setReservas] = useState(50);
   const [ticket, setTicket] = useState(300);
@@ -642,6 +913,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
   const [selectedTime, setSelectedTime] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
+  const [userPhone, setUserPhone] = useState('');
 
   const toggleWidget = () => setIsOpen(!isOpen);
   
@@ -652,6 +924,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
     setSelectedTime('');
     setUserEmail('');
     setUserName('');
+    setUserPhone('');
   };
 
   // Handle close button specifically
@@ -668,7 +941,54 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
       : widgetCopy.defineLater;
 
     const userInfo = userName ? `${userName}` : widgetCopy.userUnknown;
+    const cleanPhone = userPhone.trim();
+    const validPhone = /^[+\d][\d\s-]{7,}$/.test(cleanPhone);
     const contactInfo = userEmail ? `\n📧 Email: ${userEmail}` : "";
+    const phoneInfo = cleanPhone ? `\n📱 ${language === "es" ? "Teléfono" : "Phone"}: ${cleanPhone}` : "";
+
+    const saveLead = async (payload) => {
+      if (!LEADS_WEBHOOK_URL) return true;
+      try {
+        const res = await fetch(LEADS_WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    };
+
+    const buildGoogleCalendarLink = (bookingType) => {
+      const start = new Date(`${selectedDate}T${selectedTime}`);
+      const end = new Date(start.getTime() + 30 * 60000);
+      const formatGoogleDate = (date) => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+
+      const title = bookingType === "meet" ? "Fast Page Pro - Google Meet" : "Fast Page Pro - Phone Call";
+      const details = [
+        `Lead: ${userInfo}`,
+        userEmail ? `Email: ${userEmail}` : null,
+        cleanPhone ? `Phone: ${cleanPhone}` : null,
+        `Requested from web (${language.toUpperCase()})`
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const params = new URLSearchParams({
+        action: "TEMPLATE",
+        text: title,
+        dates: `${formatGoogleDate(start)}/${formatGoogleDate(end)}`,
+        details,
+        add: PROFASTPAGE_EMAIL
+      });
+
+      if (bookingType === "meet") {
+        params.set("location", "Google Meet");
+      }
+
+      return `https://calendar.google.com/calendar/render?${params.toString()}`;
+    };
 
     if (type === 'direct') {
       message = widgetCopy.waDirect;
@@ -677,20 +997,51 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
         alert(widgetCopy.invalidDateTime);
         return;
       }
-      message = widgetCopy.waMeet.replace("{{user}}", userInfo).replace("{{contact}}", contactInfo).replace("{{dateTime}}", formattedDateTime);
+      if (!validPhone) {
+        alert(widgetCopy.invalidPhone);
+        return;
+      }
+      message = widgetCopy.waMeet.replace("{{user}}", userInfo).replace("{{contact}}", `${contactInfo}${phoneInfo}`).replace("{{dateTime}}", formattedDateTime);
     } else if (type === 'call') {
       if (!formattedDateTime || formattedDateTime.includes("Invalid")) {
         alert(widgetCopy.invalidDateTime);
         return;
       }
-      message = widgetCopy.waCall.replace("{{user}}", userInfo).replace("{{contact}}", contactInfo).replace("{{dateTime}}", formattedDateTime);
+      if (!validPhone) {
+        alert(widgetCopy.invalidPhone);
+        return;
+      }
+      message = widgetCopy.waCall.replace("{{user}}", userInfo).replace("{{contact}}", `${contactInfo}${phoneInfo}`).replace("{{dateTime}}", formattedDateTime);
     }
-    
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-    // Optional: Keep widget open so they see "Message sent"
-    resetWidget();
-    // Optionally: setIsOpen(true); // If you want it to stay open, remove this line to close
+
+    const submit = async () => {
+      const payload = {
+        type,
+        language,
+        name: userName,
+        email: userEmail,
+        phone: cleanPhone,
+        preferredDate: selectedDate,
+        preferredTime: selectedTime,
+        source: "fastpagepro-widget"
+      };
+
+      const saved = await saveLead(payload);
+      if (!saved) {
+        alert(widgetCopy.saveLeadError);
+      }
+
+      if (type === "meet" || type === "call") {
+        const calendarLink = buildGoogleCalendarLink(type);
+        window.open(calendarLink, "_blank");
+      }
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      resetWidget();
+    };
+
+    submit();
   };
 
   return (
@@ -806,6 +1157,17 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
                       </div>
                     )}
 
+                    <div>
+                      <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourPhone}</label>
+                      <input
+                        type="tel"
+                        placeholder={widgetCopy.enterPhone}
+                        className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white placeholder-stone-500 focus:border-stone-500 focus:outline-none"
+                        value={userPhone}
+                        onChange={(e) => setUserPhone(e.target.value)}
+                      />
+                    </div>
+
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.date}</label>
@@ -833,6 +1195,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
                     <Calendar size={18} />
                     {step === 'meet' ? widgetCopy.confirmMeeting : widgetCopy.confirmCall}
                   </button>
+                  {step === 'meet' && <p className="text-xs text-stone-400 text-center">{widgetCopy.meetingNote}</p>}
                 </motion.div>
               )}
             </div>
@@ -904,6 +1267,7 @@ export default function App() {
   const copy = COPY[language];
   const testimonials = TESTIMONIALS_BY_LANG[language];
   const plans = PLANS_BY_LANG[language];
+  const portfolioProjects = PORTFOLIO_BY_LANG[language];
   const navItems = NAV_ITEMS.map((item) => ({ id: item.id, label: item[language] }));
 
   useEffect(() => {
@@ -1166,9 +1530,9 @@ export default function App() {
       <section id="demo" className="py-32 md:py-40 bg-white dark:bg-stone-950">
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
-          <div className="max-w-4xl mx-auto mb-20">
+          <div className="max-w-4xl mx-auto mb-14">
             <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
-              <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070" alt="Demo" className="w-full aspect-video object-cover" />
+              <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=2070" alt="Demo" className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -1180,12 +1544,21 @@ export default function App() {
               </motion.div>
             ))}
           </div>
+
+          <ConversionDemo language={language} copy={copy} />
         </div>
       </section>
 
+      <PortfolioSection copy={copy} projects={portfolioProjects} />
+
       {/* Gallery */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
-        {["https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800", "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800", "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800", "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=800"].map((src, i) => (
+        {[
+          "https://images.pexels.com/photos/7235895/pexels-photo-7235895.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/1684165/pexels-photo-1684165.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/4254555/pexels-photo-4254555.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=800"
+        ].map((src, i) => (
           <motion.div key={i} className="aspect-square overflow-hidden group relative" whileHover={{ scale: 1.02 }}>
             <img src={src} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -1266,9 +1639,9 @@ export default function App() {
         <div className="container mx-auto px-4 max-w-5xl">
           <SectionTitle title={copy.faqTitle} subtitle={copy.faqSubtitle} />
           <div className="mt-12">
-            <FAQItem question={copy.faq[0].q} answer={copy.faq[0].a} index={0} />
-            <FAQItem question={copy.faq[1].q} answer={copy.faq[1].a} index={1} />
-            <FAQItem question={copy.faq[2].q} answer={copy.faq[2].a} index={2} />
+            {copy.faq.map((item, index) => (
+              <FAQItem key={item.q} question={item.q} answer={item.a} index={index} />
+            ))}
           </div>
         </div>
       </section>
