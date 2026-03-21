@@ -1523,7 +1523,7 @@ export default function App() {
 
         <motion.div className="relative z-20 w-full px-4 text-center text-white flex flex-col items-center justify-center">
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl mx-auto">
-            <motion.div className="inline-block mb-8 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
+            <motion.div className="inline-block mb-8 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
                 <Zap size={14} className="text-yellow-400 fill-yellow-400" />
                 {copy.heroBadge}
