@@ -42,6 +42,18 @@ const _MOTION = motion;
 const WHATSAPP_NUMBER = "51919662011";
 const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
+const WA_EMOJI = {
+  wave: "\u{1F44B}",
+  check: "\u2705",
+  hotel: "\u{1F3E8}",
+  user: "\u{1F464}",
+  email: "\u{1F4E7}",
+  phone: "\u{1F4F1}",
+  calendar: "\u{1F4C5}",
+  moon: "\u{1F319}",
+  guests: "\u{1F465}",
+  chat: "\u{1F4AC}"
+};
 const IMAGE_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop stop-color='%230b0b0f'/><stop offset='1' stop-color='%23181a24'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%23f8fafc' font-family='Arial, sans-serif' font-size='56' font-weight='700'>Fast Page Pro</text><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial, sans-serif' font-size='26'>Webs y reservas por WhatsApp</text></svg>";
 const handleImageFallback = (event) => {
   if (event.currentTarget.src !== IMAGE_FALLBACK) {
@@ -367,9 +379,9 @@ const COPY = {
       defineLater: "Por definir",
       meetingNote: "Si el backend está configurado, la reunión se agenda y abre directo automáticamente.",
       saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
-      waDirect: "Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo.",
-      waMeet: "Hola Fast Page Pro 👋\n\nQuiero agendar una *reunión por Google Meet*.\n\n👤 *Usuario:* {{user}}{{contact}}\n📅 *Fecha y hora:* {{dateTime}}\n\nQuedo atento a su confirmación.",
-      waCall: "Hola Fast Page Pro 👋\n\nQuiero agendar una *llamada telefónica*.\n\n👤 *Usuario:* {{user}}{{contact}}\n📅 *Fecha y hora preferente:* {{dateTime}}\n\nQuedo atento a su llamada."
+      waDirect: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo.`,
+      waMeet: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero agendar una *reunión por Google Meet*.\n\n${WA_EMOJI.user} *Usuario:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Fecha y hora:* {{dateTime}}\n\nQuedo atento a su confirmación.`,
+      waCall: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero agendar una *llamada telefónica*.\n\n${WA_EMOJI.user} *Usuario:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Fecha y hora preferente:* {{dateTime}}\n\nQuedo atento a su llamada.`
     }
   },
   en: {
@@ -453,9 +465,9 @@ const COPY = {
       defineLater: "To be defined",
       meetingNote: "If backend is configured, the meeting is scheduled and opened automatically.",
       saveLeadError: "Lead auto-save failed. We will still open WhatsApp.",
-      waDirect: "Hi Fast Page Pro 👋\n\nI want information about *websites and WhatsApp booking systems*.\n\n✅ *Goal:* Book a demo.",
-      waMeet: "Hi Fast Page Pro 👋\n\nI want to schedule a *Google Meet call*.\n\n👤 *User:* {{user}}{{contact}}\n📅 *Date and time:* {{dateTime}}\n\nWaiting for your confirmation.",
-      waCall: "Hi Fast Page Pro 👋\n\nI want to schedule a *phone call*.\n\n👤 *User:* {{user}}{{contact}}\n📅 *Preferred date and time:* {{dateTime}}\n\nWaiting for your call."
+      waDirect: `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want information about *websites and WhatsApp booking systems*.\n\n${WA_EMOJI.check} *Goal:* Book a demo.`,
+      waMeet: `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want to schedule a *Google Meet call*.\n\n${WA_EMOJI.user} *User:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Date and time:* {{dateTime}}\n\nWaiting for your confirmation.`,
+      waCall: `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want to schedule a *phone call*.\n\n${WA_EMOJI.user} *User:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Preferred date and time:* {{dateTime}}\n\nWaiting for your call.`
     }
   }
 };
@@ -463,7 +475,7 @@ const COPY = {
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const defaultMessage = "Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.";
+  const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Negocio:* Por definir\n\nQuedo atento.`;
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
@@ -744,23 +756,23 @@ const ConversionDemo = ({ language, copy }) => {
       ? "Por definir"
       : "To be defined";
 
-  const messageEs = `Hola 👋
+  const messageEs = `Hola ${WA_EMOJI.wave}
 Soy *${guestName}* y quiero reservar en *${businessName}*.
 
-📅 *Check-in:* ${formattedCheckIn}
-🌙 *Noches:* ${nights}
-🧑‍🤝‍🧑 *Huéspedes:* ${guests}
-💬 *Canal:* Reserva por WhatsApp
+${WA_EMOJI.calendar} *Check-in:* ${formattedCheckIn}
+${WA_EMOJI.moon} *Noches:* ${nights}
+${WA_EMOJI.guests} *Huéspedes:* ${guests}
+${WA_EMOJI.chat} *Canal:* Reserva por WhatsApp
 
 ¿Podrían confirmarme disponibilidad y tarifa final, por favor?`;
 
-  const messageEn = `Hi 👋
+  const messageEn = `Hi ${WA_EMOJI.wave}
 I'm *${guestName}* and I want to book at *${businessName}*.
 
-📅 *Check-in:* ${formattedCheckIn}
-🌙 *Nights:* ${nights}
-🧑‍🤝‍🧑 *Guests:* ${guests}
-💬 *Channel:* WhatsApp booking
+${WA_EMOJI.calendar} *Check-in:* ${formattedCheckIn}
+${WA_EMOJI.moon} *Nights:* ${nights}
+${WA_EMOJI.guests} *Guests:* ${guests}
+${WA_EMOJI.chat} *Channel:* WhatsApp booking
 
 Could you please confirm availability and final rate?`;
 
@@ -1005,8 +1017,8 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
     const userInfo = userName ? `${userName}` : widgetCopy.userUnknown;
     const cleanPhone = userPhone.trim();
     const validPhone = /^[+\d][\d\s-]{7,}$/.test(cleanPhone);
-    const contactInfo = userEmail ? `\n📧 Email: ${userEmail}` : "";
-    const phoneInfo = cleanPhone ? `\n📱 ${language === "es" ? "Teléfono" : "Phone"}: ${cleanPhone}` : "";
+    const contactInfo = userEmail ? `\n${WA_EMOJI.email} Email: ${userEmail}` : "";
+    const phoneInfo = cleanPhone ? `\n${WA_EMOJI.phone} ${language === "es" ? "Teléfono" : "Phone"}: ${cleanPhone}` : "";
 
     const saveLead = async (payload) => {
       if (!LEADS_WEBHOOK_URL) return { ok: false, skipped: true, data: {} };
@@ -1775,8 +1787,8 @@ export default function App() {
                   variant={plan.highlight ? "dark" : "outline"}
                   className={`w-full ${plan.highlight ? '!text-white' : '!text-white !border-white/80 hover:!bg-white/10'}`}
                   message={language === 'es'
-                    ? `Hola Fast Page Pro 👋\n\nQuiero información y contratar el *Plan ${plan.name}*.\n\n✅ *Objetivo:* Implementar web con reservas por WhatsApp.\n\nQuedo atento.`
-                    : `Hi Fast Page Pro 👋\n\nI want information and to purchase the *${plan.name} Plan*.\n\n✅ *Goal:* Launch a website with WhatsApp bookings.\n\nLooking forward to your response.`}
+                    ? `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información y contratar el *Plan ${plan.name}*.\n\n${WA_EMOJI.check} *Objetivo:* Implementar web con reservas por WhatsApp.\n\nQuedo atento.`
+                    : `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want information and to purchase the *${plan.name} Plan*.\n\n${WA_EMOJI.check} *Goal:* Launch a website with WhatsApp bookings.\n\nLooking forward to your response.`}
                 />
               </motion.div>
             ))}
