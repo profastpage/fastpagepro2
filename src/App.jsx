@@ -1,13 +1,13 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
-import { 
-  Check, 
-  MessageCircle, 
-  Menu, 
-  X, 
-  Smartphone, 
-  Zap, 
-  Globe, 
+import {
+  Check,
+  MessageCircle,
+  Menu,
+  X,
+  Smartphone,
+  Zap,
+  Globe,
   ChevronDown,
   ChevronUp,
   ArrowRight,
@@ -27,13 +27,13 @@ import {
   Video,
   Phone,
   ChevronLeft,
-  Server,
-  Layout,
-  CreditCard,
-  Rocket,
-  Settings,
-  Image as ImageIcon,
-  Layers
+  Hotel,
+  Wifi,
+  Battery,
+  Signal,
+  Send,
+  Percent,
+  ExternalLink
 } from 'lucide-react';
 
 const _MOTION = motion;
@@ -91,15 +91,15 @@ const LATIN_AVATARS = [
 const PORTFOLIO_BY_LANG = {
   es: [
     {
-      title: "Casa Lima Suites",
+      title: "Vuelo 78 Hotel",
       location: "Lima, Perú",
       category: "Hotel Boutique",
       description: "Web de reservas directas por WhatsApp con disponibilidad por fechas y automatización de seguimiento.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://vuelo78hotel.com/"
     },
     {
-      title: "Andes Mountain Lodge",
+      title: "Killa Lodge",
       location: "Cusco, Perú",
       category: "Lodge Turístico",
       description: "Sistema de reservas para tours y habitaciones, integrado con WhatsApp y formularios inteligentes.",
@@ -107,7 +107,7 @@ const PORTFOLIO_BY_LANG = {
       link: "#"
     },
     {
-      title: "Selva Eco Stay",
+      title: "Amazonia Eco Stay",
       location: "Iquitos, Perú",
       category: "Hospedaje Ecológico",
       description: "Landing de conversión con velocidad optimizada y módulo de cotización rápida para huéspedes.",
@@ -115,7 +115,7 @@ const PORTFOLIO_BY_LANG = {
       link: "#"
     },
     {
-      title: "Costa Business Hotel",
+      title: "Pariwana Business Hotel",
       location: "Piura, Perú",
       category: "Hotel Corporativo",
       description: "Flujo de reservas para clientes corporativos con confirmación automática y seguimiento comercial.",
@@ -125,15 +125,15 @@ const PORTFOLIO_BY_LANG = {
   ],
   en: [
     {
-      title: "Casa Lima Suites",
+      title: "Vuelo 78 Hotel",
       location: "Lima, Peru",
       category: "Boutique Hotel",
       description: "Direct-booking website via WhatsApp with date-based availability and automated follow-up.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://vuelo78hotel.com/"
     },
     {
-      title: "Andes Mountain Lodge",
+      title: "Killa Lodge",
       location: "Cusco, Peru",
       category: "Tourist Lodge",
       description: "Booking system for tours and rooms, integrated with WhatsApp and smart lead forms.",
@@ -141,7 +141,7 @@ const PORTFOLIO_BY_LANG = {
       link: "#"
     },
     {
-      title: "Selva Eco Stay",
+      title: "Amazonia Eco Stay",
       location: "Iquitos, Peru",
       category: "Eco Lodge",
       description: "Conversion-focused landing page with high speed and quick quote module for guests.",
@@ -149,7 +149,7 @@ const PORTFOLIO_BY_LANG = {
       link: "#"
     },
     {
-      title: "Costa Business Hotel",
+      title: "Pariwana Business Hotel",
       location: "Piura, Peru",
       category: "Corporate Hotel",
       description: "Corporate booking flow with automatic confirmation and sales follow-up.",
@@ -161,36 +161,36 @@ const PORTFOLIO_BY_LANG = {
 
 const TESTIMONIALS_BY_LANG = {
   es: [
-    { name: "Carlos Mendoza", hotel: "Hotel Vista Boutique", location: "Cusco", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
+    { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Lima", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
     { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "El diseño es elegante y profesional. Se adapta perfectamente a lo que buscábamos." },
-    { name: "Roberto Sánchez", hotel: "Boutique Lima", location: "Lima", text: "La automatización nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
+    { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "La automatización nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
     { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "El soporte técnico es excelente. Siempre están disponibles para ayudarnos." },
-    { name: "Jorge Luis Paredes", hotel: "Casa Andina Select", location: "Valle Sagrado", text: "Implementar los pagos con Yape y Plin fue muy sencillo. Las reservas aumentaron." },
+    { name: "Jorge Luis Paredes", hotel: "Qorikilla Lodge", location: "Valle Sagrado", text: "Implementar los pagos con Yape y Plin fue muy sencillo. Las reservas aumentaron." },
     { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "La velocidad de la página es impresionante. Nuestros huéspedes lo notan." },
     { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "El panel de administración es muy intuitivo. Podemos gestionar todo fácilmente." },
-    { name: "Lucia Fernández", hotel: "Inkaterra", location: "Machu Picchu", text: "Una solución completa. Desde el SEO hasta la pasarela de pagos, todo funciona." },
-    { name: "Pedro Castillo", hotel: "Libertador", location: "Arequipa", text: "La personalización del diseño superó nuestras expectativas. Se ve muy premium." },
-    { name: "Carmen Ortiz", hotel: "Belmond", location: "Cusco", text: "La integración con Google Maps y Calendar nos facilita la logística diaria." },
-    { name: "Fernando Diaz", hotel: "JW Marriott", location: "Lima", text: "La optimización SEO ha mejorado mucho nuestra visibilidad en búsquedas locales." },
-    { name: "Gabriela Mendez", hotel: "Hilton", location: "Lima", text: "El sistema de reservas directas es robusto y seguro. Confiamos plenamente en la plataforma." },
-    { name: "Ricardo Flores", hotel: "Costa del Sol", location: "Wyndham", text: "La aplicación PWA es un plus increíble para nuestros clientes recurrentes." },
-    { name: "Elena Gomez", hotel: "Swissotel", location: "Lima", text: "Profesionalismo puro. La web carga instantáneamente incluso en zonas con mala señal." }
+    { name: "Lucia Fernández", hotel: "Tambopata Research", location: "Madre de Dios", text: "Una solución completa. Desde el SEO hasta la pasarela de pagos, todo funciona." },
+    { name: "Pedro Castillo", hotel: "Katari Hotel", location: "Puno", text: "La personalización del diseño superó nuestras expectativas. Se ve muy premium." },
+    { name: "Carmen Ortiz", hotel: "Sol y Luna Lodge", location: "Urubamba", text: "La integración con Google Maps y Calendar nos facilita la logística diaria." },
+    { name: "Fernando Diaz", hotel: "Tierra Viva", location: "Cusco", text: "La optimización SEO ha mejorado mucho nuestra visibilidad en búsquedas locales." },
+    { name: "Gabriela Mendez", hotel: "Aranwa Suites", location: "Lima", text: "El sistema de reservas directas es robusto y seguro. Confiamos plenamente en la plataforma." },
+    { name: "Ricardo Flores", hotel: "Terra Andina", location: "Cusco", text: "La aplicación PWA es un plus increíble para nuestros clientes recurrentes." },
+    { name: "Elena Gomez", hotel: "Pariwana Hostel", location: "Lima", text: "Profesionalismo puro. La web carga instantáneamente incluso en zonas con mala señal." }
   ],
   en: [
-    { name: "Carlos Mendoza", hotel: "Hotel Vista Boutique", location: "Cusco", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
+    { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Lima", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
     { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "The design is elegant and professional. It perfectly matches what we needed." },
-    { name: "Roberto Sánchez", hotel: "Boutique Lima", location: "Lima", text: "Automation has saved us hours of administrative work. Highly recommended." },
+    { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "Automation has saved us hours of administrative work. Highly recommended." },
     { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "Technical support is excellent. They are always available when we need help." },
-    { name: "Jorge Luis Paredes", hotel: "Casa Andina Select", location: "Valle Sagrado", text: "Integrating Yape and Plin payments was very easy. Bookings increased." },
+    { name: "Jorge Luis Paredes", hotel: "Qorikilla Lodge", location: "Valle Sagrado", text: "Integrating Yape and Plin payments was very easy. Bookings increased." },
     { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "The page speed is impressive. Our guests notice it immediately." },
     { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "The admin panel is very intuitive. We can manage everything with ease." },
-    { name: "Lucia Fernández", hotel: "Inkaterra", location: "Machu Picchu", text: "A complete solution. From SEO to payments, everything works smoothly." },
-    { name: "Pedro Castillo", hotel: "Libertador", location: "Arequipa", text: "The design customization exceeded our expectations. It looks truly premium." },
-    { name: "Carmen Ortiz", hotel: "Belmond", location: "Cusco", text: "Google Maps and Calendar integration makes our daily logistics easier." },
-    { name: "Fernando Diaz", hotel: "JW Marriott", location: "Lima", text: "SEO optimization significantly improved our visibility in local searches." },
-    { name: "Gabriela Mendez", hotel: "Hilton", location: "Lima", text: "The direct booking system is robust and secure. We trust the platform fully." },
-    { name: "Ricardo Flores", hotel: "Costa del Sol", location: "Wyndham", text: "The PWA app is a great advantage for our recurring guests." },
-    { name: "Elena Gomez", hotel: "Swissotel", location: "Lima", text: "Pure professionalism. The website loads instantly, even in poor signal areas." }
+    { name: "Lucia Fernández", hotel: "Tambopata Research", location: "Madre de Dios", text: "A complete solution. From SEO to payments, everything works smoothly." },
+    { name: "Pedro Castillo", hotel: "Katari Hotel", location: "Puno", text: "The design customization exceeded our expectations. It looks truly premium." },
+    { name: "Carmen Ortiz", hotel: "Sol y Luna Lodge", location: "Urubamba", text: "Google Maps and Calendar integration makes our daily logistics easier." },
+    { name: "Fernando Diaz", hotel: "Tierra Viva", location: "Cusco", text: "SEO optimization significantly improved our visibility in local searches." },
+    { name: "Gabriela Mendez", hotel: "Aranwa Suites", location: "Lima", text: "The direct booking system is robust and secure. We trust the platform fully." },
+    { name: "Ricardo Flores", hotel: "Terra Andina", location: "Cusco", text: "The PWA app is a great advantage for our recurring guests." },
+    { name: "Elena Gomez", hotel: "Pariwana Hostel", location: "Lima", text: "Pure professionalism. The website loads instantly, even in poor signal areas." }
   ]
 };
 
@@ -326,9 +326,9 @@ const COPY = {
     liveDemoSubtitle: "Simula la experiencia de un huésped real y genera la reserva en un clic.",
     liveDemoCta: "Generar Reserva por WhatsApp",
     demoCards: [
-      { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario" },
-      { title: "Interacción", desc: "Interfaz intuitiva que guía hacia la acción" },
-      { title: "Conversión", desc: "Cierre de venta inmediato en tu WhatsApp" }
+      { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
+      { title: "Interacción", desc: "Interfaz intuitiva que guía hacia las reservas", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
+      { title: "Conversión", desc: "Cierre de venta inmediato en tu WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
     portfolioTitle: "Portafolio de Proyectos",
     portfolioSubtitle: "Sitios y sistemas de reservas desarrollados para hoteles y negocios del Perú.",
@@ -412,9 +412,9 @@ const COPY = {
     liveDemoSubtitle: "Simulate a real guest flow and generate a reservation in one click.",
     liveDemoCta: "Generate WhatsApp Booking",
     demoCards: [
-      { title: "Attraction", desc: "High-impact visual design that keeps users engaged" },
-      { title: "Interaction", desc: "Intuitive interface that guides users to action" },
-      { title: "Conversion", desc: "Instant sales closure directly on your WhatsApp" }
+      { title: "Attraction", desc: "High-impact visual design that keeps users engaged", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
+      { title: "Interaction", desc: "Intuitive interface that guides users to bookings", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
+      { title: "Conversion", desc: "Instant sales closure directly on your WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
     portfolioTitle: "Project Portfolio",
     portfolioSubtitle: "Websites and booking systems delivered for hotels and businesses in Peru.",
@@ -544,7 +544,7 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
   const IconComp = Icon;
 
   return (
-    <motion.div 
+    <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 60, scale: 0.9 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
@@ -554,27 +554,457 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
     >
       {/* Silver/White Glow instead of Gold */}
       <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      
+
       <div className="relative bg-stone-950 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        <motion.div 
+
+        <motion.div
           className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 flex items-center justify-center relative overflow-hidden border border-white/5 group-hover:border-white/20 transition-colors duration-500"
         >
           <IconComp className="w-10 h-10 text-white/70 group-hover:text-white transition-colors duration-500 relative z-10" />
         </motion.div>
-        
+
         <div className="text-4xl md:text-6xl font-bold text-white mb-3 tracking-tight relative">
           <AnimatedCounter end={value} suffix={suffix} />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         </div>
-        
+
         <div className="text-sm text-stone-400 uppercase tracking-widest font-medium">{label}</div>
-        
+
         {/* Silver accent line */}
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-white/20 to-white/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
     </motion.div>
+  );
+};
+
+// --- NEW: Infinite Logo Carousel (Minimalist Deluxe) ---
+const InfiniteLogoCarousel = () => {
+  const logos = [
+    "Vuelo 78 Hotel",
+    "Casa Killa",
+    "Qorikilla Lodge",
+    "Tambopata Research",
+    "Sol y Luna",
+    "Tierra Viva",
+    "Terra Andina",
+    "Pariwana",
+  ];
+
+  return (
+    <div className="relative overflow-hidden bg-stone-950 dark:bg-stone-900 py-16 border-y border-white/5">
+      {/* Gradient Overlays */}
+      <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+
+      {/* Carousel Track */}
+      <motion.div
+        className="flex gap-20 md:gap-32"
+        animate={{ x: [0, -960] }}
+        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+      >
+        {[...logos, ...logos].map((logo, index) => (
+          <motion.div
+            key={`${logo}-${index}`}
+            initial={{ opacity: 0.4 }}
+            whileInView={{ opacity: 0.5 }}
+            whileHover={{ opacity: 1 }}
+            className="flex-shrink-0 cursor-pointer"
+          >
+            <span className="text-white/60 hover:text-white text-lg md:text-xl font-medium tracking-wide transition-all duration-300">
+              {logo}
+            </span>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Subtle Animated Dots Indicator */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.8, 0.3]
+            }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              delay: i * 0.4
+            }}
+            className="w-1.5 h-1.5 rounded-full bg-white/30"
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// --- Live Demo with Phone Mockup ---
+const PhoneMockupDemo = ({ language }) => {
+  const [guestName, setGuestName] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [nights, setNights] = useState(2);
+  const [guests, setGuests] = useState(2);
+  const [isTyping, setIsTyping] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const checkInRef = useRef(null);
+  const nightsRef = useRef(null);
+  const guestsRef = useRef(null);
+
+  const formattedCheckIn = checkIn
+    ? new Date(`${checkIn}T00:00:00`).toLocaleDateString(language === "es" ? "es-PE" : "en-US", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      })
+    : "";
+
+  useEffect(() => {
+    if (guestName && checkIn && nights > 0 && guests > 0) {
+      const timer = setTimeout(() => {
+        setIsTyping(true);
+        const timer2 = setTimeout(() => {
+          setIsTyping(false);
+          setShowMessage(true);
+        }, 1500);
+        return () => clearTimeout(timer2);
+      }, 800);
+      return () => clearTimeout(timer);
+    } else {
+      setShowMessage(false);
+      setIsTyping(false);
+    }
+  }, [guestName, checkIn, nights, guests]);
+
+  const messageEs = `Hola 👋
+Soy *${guestName || "___"}* y quiero reservar.
+
+📅 *Check-in:* ${formattedCheckIn || "__/__/____"}
+🌙 *Noches:* ${nights}
+👥 *Huéspedes:* ${guests}
+
+¿Podrían confirmarme disponibilidad?`;
+
+  const messageEn = `Hi 👋
+I'm *${guestName || "___"}* and I want to book.
+
+📅 *Check-in:* ${formattedCheckIn || "__/__/____"}
+🌙 *Nights:* ${nights}
+👥 *Guests:* ${guests}
+
+Could you confirm availability?`;
+
+  const demoMessage = language === "es" ? messageEs : messageEn;
+  const currentTime = new Date().toLocaleTimeString(language === "es" ? "es-PE" : "en-US", { hour: "2-digit", minute: "2-digit" });
+
+  return (
+    <div className="max-w-6xl mx-auto mt-16 grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+      {/* Phone Mockup */}
+      <div className="flex justify-center">
+        <motion.div
+          initial={{ opacity: 0, rotateY: -15, scale: 0.9 }}
+          whileInView={{ opacity: 1, rotateY: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative"
+        >
+          {/* Phone Frame */}
+          <div className="relative w-[320px] h-[650px] bg-stone-950 rounded-[3rem] border-4 border-stone-800 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)] overflow-hidden">
+            {/* Notch */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-stone-950 rounded-b-2xl z-20" />
+            
+            {/* Status Bar */}
+            <div className="absolute top-2 left-6 right-6 flex justify-between items-center z-10">
+              <span className="text-white text-xs font-medium">{currentTime}</span>
+              <div className="flex items-center gap-1">
+                <Signal size={14} className="text-white" />
+                <Wifi size={12} className="text-white" />
+                <Battery size={14} className="text-white" />
+              </div>
+            </div>
+
+            {/* WhatsApp Header */}
+            <div className="absolute top-10 left-0 right-0 h-20 bg-gradient-to-b from-stone-800 to-stone-900 z-10">
+              <div className="flex items-center gap-3 px-4 pt-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+                  <Hotel size={20} className="text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-white font-semibold text-sm">Fast Page Pro Hotel</div>
+                  <div className="text-green-400 text-xs">En línea</div>
+                </div>
+                <Video size={20} className="text-white" />
+                <Phone size={20} className="text-white ml-2" />
+              </div>
+            </div>
+
+            {/* Chat Area */}
+            <div className="absolute top-28 left-0 right-0 bottom-0 bg-[#0b141a] overflow-y-auto">
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-5" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+              }} />
+
+              {/* Date Divider */}
+              <div className="relative flex justify-center py-4">
+                <div className="bg-stone-800/80 backdrop-blur px-4 py-1.5 rounded-lg">
+                  <span className="text-stone-400 text-xs">{language === "es" ? "Hoy" : "Today"}</span>
+                </div>
+              </div>
+
+              {/* Message Bubbles */}
+              <div className="relative px-3 space-y-3 pb-4">
+                {/* Welcome Message */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-start"
+                >
+                  <div className="bg-stone-800 rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[85%]">
+                    <p className="text-white text-sm leading-relaxed">
+                      {language === "es"
+                        ? "¡Bienvenido! 🏨 Completa el formulario para reservar."
+                        : "Welcome! 🏨 Fill the form to make a reservation."}
+                    </p>
+                    <span className="text-stone-500 text-[10px] block mt-1 text-right">{currentTime}</span>
+                  </div>
+                </motion.div>
+
+                {/* User Message (appears when form is filled) */}
+                <AnimatePresence>
+                  {showMessage && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="flex justify-end"
+                    >
+                      <div className="bg-green-700 rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[85%]">
+                        <p className="text-white text-sm leading-relaxed whitespace-pre-wrap">{demoMessage}</p>
+                        <div className="flex items-center justify-end gap-1 mt-1">
+                          <span className="text-green-300 text-[10px]">{currentTime}</span>
+                          <Check size={10} className="text-blue-400" />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Typing Indicator */}
+                <AnimatePresence>
+                  {isTyping && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex justify-start"
+                    >
+                      <div className="bg-stone-800 rounded-2xl rounded-tl-none px-4 py-3">
+                        <div className="flex gap-1">
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                            className="w-2 h-2 bg-stone-500 rounded-full"
+                          />
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                            className="w-2 h-2 bg-stone-500 rounded-full"
+                          />
+                          <motion.div
+                            animate={{ y: [0, -5, 0] }}
+                            transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                            className="w-2 h-2 bg-stone-500 rounded-full"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          </div>
+
+          {/* Phone Glow Effect */}
+          <div className="absolute inset-0 bg-gradient-to-b from-green-500/20 to-emerald-500/20 blur-3xl -z-10" />
+        </motion.div>
+      </div>
+
+      {/* Form Controls */}
+      <div>
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="bg-stone-100 dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-6 md:p-8"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center">
+              <Smartphone size={24} className="text-white" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-stone-950 dark:text-white">
+                {language === "es" ? "Demo en Vivo" : "Live Demo"}
+              </h3>
+              <p className="text-sm text-stone-500 dark:text-stone-400">
+                {language === "es"
+                  ? "Completa el formulario y mira el mensaje en tiempo real"
+                  : "Fill the form and see the message in real-time"}
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {/* Guest Name */}
+            <div>
+              <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                {language === "es" ? "👤 Nombre del huésped" : "👤 Guest name"}
+              </label>
+              <input
+                ref={guestsRef}
+                type="text"
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder={language === "es" ? "Ej. Juan Pérez" : "Ex. John Doe"}
+                className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all cursor-text"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* Check-in Date - Full block clickable */}
+              <div
+                onClick={() => checkInRef.current?.showPicker()}
+                className="cursor-pointer group"
+              >
+                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                  {language === "es" ? "📅 Fecha check-in" : "📅 Check-in date"}
+                </label>
+                <div className="relative">
+                  <input
+                    ref={checkInRef}
+                    type="date"
+                    value={checkIn}
+                    onChange={(e) => setCheckIn(e.target.value)}
+                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all [color-scheme:light] dark:[color-scheme:dark] pointer-events-none"
+                  />
+                  <Calendar size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 group-hover:text-green-500 transition-colors pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Nights - Full block clickable with +/- buttons */}
+              <div
+                onClick={() => nightsRef.current?.focus()}
+                className="cursor-pointer group"
+              >
+                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                  {language === "es" ? "🌙 Noches" : "🌙 Nights"}
+                </label>
+                <div className="relative flex">
+                  <input
+                    ref={nightsRef}
+                    type="number"
+                    min="1"
+                    max="30"
+                    value={nights}
+                    onChange={(e) => setNights(Math.min(30, Math.max(1, parseInt(e.target.value) || 1)))}
+                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all pointer-events-none"
+                  />
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 pointer-events-auto">
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setNights(Math.max(1, nights - 1)); }}
+                      className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-stone-700 hover:bg-green-500 hover:text-white flex items-center justify-center transition-colors"
+                    >
+                      <ChevronDown size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); setNights(Math.min(30, nights + 1)); }}
+                      className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-stone-700 hover:bg-green-500 hover:text-white flex items-center justify-center transition-colors"
+                    >
+                      <ChevronUp size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Guests - Full block clickable with +/- buttons */}
+            <div
+              onClick={() => guestsRef.current?.focus()}
+              className="cursor-pointer group"
+            >
+              <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                {language === "es" ? "👥 Número de huéspedes" : "👥 Number of guests"}
+              </label>
+              <div className="relative flex">
+                <input
+                  ref={guestsRef}
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={guests}
+                  onChange={(e) => setGuests(Math.min(10, Math.max(1, parseInt(e.target.value) || 1)))}
+                  className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all pointer-events-none"
+                />
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 pointer-events-auto">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setGuests(Math.max(1, guests - 1)); }}
+                    className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-stone-700 hover:bg-green-500 hover:text-white flex items-center justify-center transition-colors"
+                  >
+                    <ChevronDown size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); setGuests(Math.min(10, guests + 1)); }}
+                    className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-stone-700 hover:bg-green-500 hover:text-white flex items-center justify-center transition-colors"
+                  >
+                    <ChevronUp size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Status Indicator */}
+            <div className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
+              showMessage
+                ? "bg-green-500/10 border border-green-500/30"
+                : "bg-stone-200/50 dark:bg-stone-800/50 border border-stone-300 dark:border-stone-700"
+            }`}>
+              <div className={`w-3 h-3 rounded-full ${
+                showMessage ? "bg-green-500 animate-pulse" : "bg-stone-400"
+              }`} />
+              <span className={`text-sm font-medium ${
+                showMessage ? "text-green-600 dark:text-green-400" : "text-stone-500 dark:text-stone-400"
+              }`}>
+                {showMessage
+                  ? (language === "es" ? "✅ Mensaje listo para enviar" : "✅ Message ready to send")
+                  : (language === "es" ? "⏳ Completa todos los campos" : "⏳ Fill all fields")}
+              </span>
+            </div>
+
+            <motion.a
+              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage)}` : "#"}
+              target="_blank"
+              rel="noreferrer noopener"
+              whileHover={showMessage ? { scale: 1.02 } : {}}
+              whileTap={showMessage ? { scale: 0.98 } : {}}
+              className={`flex items-center justify-center gap-2 w-full h-[56px] rounded-full font-semibold transition-all ${
+                showMessage
+                  ? "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-500/30"
+                  : "bg-stone-300 text-stone-500 cursor-not-allowed"
+              }`}
+            >
+              <Send size={18} />
+              {language === "es" ? "Enviar por WhatsApp" : "Send via WhatsApp"}
+            </motion.a>
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
@@ -586,19 +1016,19 @@ const TestimonialCard = ({ testimonial, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="min-w-[280px] md:min-w-[400px] bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col justify-between h-full"
+      className="min-w-[280px] md:min-w-[400px] bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col h-[280px]"
     >
-      <div>
+      <div className="flex-1">
         <div className="flex gap-1 mb-6">
           {[...Array(5)].map((_, i) => (
             <Star key={i} size={18} className="text-stone-900 dark:text-white fill-stone-900 dark:fill-white" />
           ))}
         </div>
-        <p className="text-stone-700 dark:text-stone-300 text-lg leading-relaxed mb-6">
+        <p className="text-stone-700 dark:text-stone-300 text-lg leading-relaxed mb-6 line-clamp-4">
           "{testimonial.text}"
         </p>
       </div>
-      
+
       <div className="flex items-center gap-4 pt-6 border-t border-stone-100 dark:border-stone-800">
         <img
           src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]}
@@ -1538,16 +1968,38 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Notification */}
+      {/* Notification - Enhanced */}
       <AnimatePresence>
         {showNotification && (
-          <motion.div initial={{ opacity: 0, y: 100, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 100, scale: 0.9 }} transition={{ type: "spring", stiffness: 500 }} className="hidden md:flex fixed bottom-6 left-6 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[320px]">
-            <motion.div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg" animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 0.5 }}>
-              <Check className="text-white" size={24} />
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.9, x: 0 }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+            exit={{ opacity: 0, y: 100, scale: 0.9, x: 0 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            className="hidden md:flex fixed bottom-6 left-6 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[340px]"
+          >
+            <motion.div
+              className="relative w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg"
+              animate={{
+                scale: [1, 1.15, 1],
+                rotate: [0, 5, -5, 0]
+              }}
+              transition={{ duration: 0.6 }}
+            >
+              <Check className="text-white" size={28} strokeWidth={3} />
+              <motion.div
+                className="absolute inset-0 bg-green-400 rounded-full"
+                animate={{ scale: [1, 1.3], opacity: [0.3, 0] }}
+                transition={{ duration: 0.6 }}
+              />
             </motion.div>
-            <div>
-              <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
-              <div className="text-xs text-stone-500 dark:text-stone-400">{copy.notificationSubtitle}</div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
+                <span className="text-xs text-green-600 dark:text-green-400 font-medium">● En vivo</span>
+              </div>
+              <div className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{copy.notificationSubtitle}</div>
+              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">💰 Reserva: S/ 450 • 2 noches</div>
             </div>
           </motion.div>
         )}
@@ -1582,6 +2034,13 @@ export default function App() {
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl mx-auto">
             <motion.div className="inline-block mb-8 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
+                <motion.div
+                  animate={{
+                    boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="w-2 h-2 rounded-full bg-yellow-400"
+                />
                 <Zap size={14} className="text-yellow-400 fill-yellow-400" />
                 {copy.heroBadge}
               </span>
@@ -1599,8 +2058,8 @@ export default function App() {
             <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
               <WhatsAppButton
                 text={copy.heroPrimaryCta}
-                href="#demo-interactiva"
-                onClick={(e) => scrollToSection(e, 'demo-interactiva')}
+                href="#demo"
+                onClick={(e) => scrollToSection(e, 'demo')}
                 variant="primary"
                 className="w-full h-[60px] px-6 text-base font-semibold"
               />
@@ -1616,27 +2075,29 @@ export default function App() {
               <div className="flex items-center gap-2 text-sm text-stone-400"><Clock size={16} className="text-white" /> {copy.tags[2]}</div>
               <div className="flex items-center gap-2 text-sm text-stone-400"><Award size={16} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
             </motion.div>
+
+            {/* Live Booking Counter */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2 }}
+              className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+            >
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-2 h-2 rounded-full bg-green-400"
+              />
+              <span className="text-sm text-stone-300">
+                <span className="font-bold text-white">12</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
+              </span>
+            </motion.div>
           </motion.div>
         </motion.div>
-
-        <motion.div animate={{ y: [0, 15, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/40 hidden sm:block cursor-pointer z-20" onClick={(e) => scrollToSection(e, 'trust-badges')}>
-          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
-            <motion.div animate={{ y: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} className="w-1.5 h-1.5 rounded-full bg-white" />
-          </div>
-        </motion.div>
       </section>
 
-      {/* Trust Badges - Silver Highlight */}
-      <section id="trust-badges" className="py-16 bg-stone-950 border-b border-white/5 dark:bg-stone-900 dark:border-stone-800">
-        <div className="container mx-auto px-6">
-          <p className="text-center text-stone-500 text-xs mb-10 uppercase tracking-[0.2em] font-semibold">{copy.trustTitle}</p>
-          <div className="flex flex-wrap justify-center gap-10 md:gap-20 opacity-60">
-            {["Vuelo78", "Casa Andina", "Belmond", "Libertador", "JW Marriott", "Hilton"].map((logo, i) => (
-              <motion.div key={i} className="text-stone-400 text-xl md:text-2xl font-bold cursor-default transition-all duration-500 ease-out hover:text-white hover:scale-110 hover:opacity-100 dark:text-stone-500 dark:hover:text-white" whileHover={{ textShadow: "0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(200,200,255,0.6), 0 0 30px rgba(255,200,255,0.4)" }}>{logo}</motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Trust Badges - Infinite Carousel (Minimalist Deluxe) */}
+      <InfiniteLogoCarousel />
 
       {/* Stats */}
       <section id="beneficios" className="py-24 md:py-32 bg-stone-950 dark:bg-stone-900 relative overflow-hidden">
@@ -1695,17 +2156,35 @@ export default function App() {
               <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" alt="Mockup web hotelera" onError={handleImageFallback} className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[{ icon: Globe, title: copy.demoCards[0].title, desc: copy.demoCards[0].desc }, { icon: Smartphone, title: copy.demoCards[1].title, desc: copy.demoCards[1].desc }, { icon: MessageCircle, title: copy.demoCards[2].title, desc: copy.demoCards[2].desc }].map((step, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="bg-white dark:bg-stone-900 rounded-[2rem] p-8 md:p-10 border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] text-center hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500" whileHover={{ y: -10 }}>
-                <div className="w-20 h-20 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center mx-auto mb-6"><step.icon size={36} className="text-stone-700 dark:text-white" /></div>
-                <h4 className="text-2xl font-bold mb-4 dark:text-white">{step.title}</h4>
-                <p className="text-stone-500 dark:text-stone-400 leading-relaxed">{step.desc}</p>
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {copy.demoCards.map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className="bg-white dark:bg-stone-900 rounded-[2rem] overflow-hidden border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500 group"
+                whileHover={{ y: -10 }}
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    onError={handleImageFallback}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                </div>
+                <div className="p-6 md:p-8">
+                  <h4 className="text-xl md:text-2xl font-bold mb-3 dark:text-white">{step.title}</h4>
+                  <p className="text-stone-500 dark:text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
 
-          <ConversionDemo language={language} copy={copy} />
+          {/* Live Demo with Phone Mockup */}
+          <PhoneMockupDemo language={language} />
         </div>
       </section>
 
