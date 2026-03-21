@@ -1249,7 +1249,12 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
-                <WhatsAppButton text={copy.selectPlan} variant={plan.highlight ? "dark" : "outline"} className="w-full" message={`${language === 'es' ? 'Plan' : 'Plan'} ${plan.name}`} />
+                <WhatsAppButton
+                  text={copy.selectPlan}
+                  variant={plan.highlight ? "dark" : "outline"}
+                  className={`w-full ${plan.highlight ? '!text-white' : '!text-white !border-white/80 hover:!bg-white/10'}`}
+                  message={`${language === 'es' ? 'Plan' : 'Plan'} ${plan.name}`}
+                />
               </motion.div>
             ))}
           </div>
