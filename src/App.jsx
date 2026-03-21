@@ -36,6 +36,8 @@ import {
   Layers
 } from 'lucide-react';
 
+const _MOTION = motion;
+
 // --- Constants ---
 const WHATSAPP_NUMBER = "51906431630";
 const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
@@ -357,7 +359,7 @@ const COPY = {
       invalidPhone: "Ingresa un número de teléfono válido",
       userUnknown: "Usuario desconocido",
       defineLater: "Por definir",
-      meetingNote: "Al confirmar, abriremos Google Calendar con invitación a profastpage@gmail.com.",
+      meetingNote: "Si el backend está configurado, la reunión se agenda y abre directo automáticamente.",
       saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
       waDirect: "Hola FastPagePro ⚡, quiero información directa.",
       waMeet: "Hola FastPagePro ⚡\nQuiero agendar Google Meet.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora: {{dateTime}}\n\nEspero su confirmación.",
@@ -443,7 +445,7 @@ const COPY = {
       invalidPhone: "Please enter a valid phone number",
       userUnknown: "Unknown user",
       defineLater: "To be defined",
-      meetingNote: "When you confirm, we will open Google Calendar with an invite to profastpage@gmail.com.",
+      meetingNote: "If backend is configured, the meeting is scheduled and opened automatically.",
       saveLeadError: "Lead auto-save failed. We will still open WhatsApp.",
       waDirect: "Hi FastPagePro ⚡, I want direct information.",
       waMeet: "Hi FastPagePro ⚡\nI want to schedule a Google Meet.\n\n👤 User: {{user}}{{contact}}\n📅 Date and Time: {{dateTime}}\n\nWaiting for your confirmation.",
@@ -489,8 +491,6 @@ const WhatsAppButton = ({ text, message, variant = "primary", className = "", on
     </motion.a>
   );
 };
-
-const _motion = motion;
 
 // Enhanced Animated Counter
 const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => {
@@ -683,37 +683,37 @@ const FAQItem = ({ question, answer, index }) => {
 
 const ConversionDemo = ({ language, copy }) => {
   const [businessName, setBusinessName] = useState("");
+  const [businessPhone, setBusinessPhone] = useState("");
   const [guestName, setGuestName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [guestPhone, setGuestPhone] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [nights, setNights] = useState(2);
   const [guests, setGuests] = useState(2);
 
-  const canGenerate = businessName.trim() && guestName.trim() && phone.trim() && checkIn;
+  const businessPhoneDigits = businessPhone.replace(/[^\d]/g, "");
+  const canGenerate = businessName.trim() && guestName.trim() && businessPhoneDigits.length >= 8 && checkIn && nights > 0 && guests > 0;
 
-  const messageEs = `Hola FastPagePro ⚡
-Quiero una demo de reservas para mi negocio.
+  const messageEs = `Hola 👋
+Quiero reservar en *${businessName}*.
 
-🏨 Negocio: ${businessName}
-👤 Cliente: ${guestName}
-📱 Teléfono: ${phone}
-📅 Check-in: ${checkIn}
-🌙 Noches: ${nights}
-🧑‍🤝‍🧑 Huéspedes: ${guests}
+👤 *Cliente:* ${guestName}
+📱 *Número cliente:* ${guestPhone || "No especificado"}
+📅 *Check-in:* ${checkIn}
+🌙 *Noches:* ${nights}
+🧑‍🤝‍🧑 *Huéspedes:* ${guests}
 
-Envíenme cómo quedaría este flujo en mi web.`;
+¿Podrían confirmarme disponibilidad y tarifa final?`;
 
-  const messageEn = `Hi FastPagePro ⚡
-I want a booking flow demo for my business.
+  const messageEn = `Hi 👋
+I want to book at *${businessName}*.
 
-🏨 Business: ${businessName}
-👤 Client: ${guestName}
-📱 Phone: ${phone}
-📅 Check-in: ${checkIn}
-🌙 Nights: ${nights}
-🧑‍🤝‍🧑 Guests: ${guests}
+👤 *Guest:* ${guestName}
+📱 *Guest phone:* ${guestPhone || "Not provided"}
+📅 *Check-in:* ${checkIn}
+🌙 *Nights:* ${nights}
+🧑‍🤝‍🧑 *Guests:* ${guests}
 
-Please show me how this flow would work on my website.`;
+Could you confirm availability and final rate?`;
 
   const demoMessage = language === "es" ? messageEs : messageEn;
 
@@ -724,56 +724,77 @@ Please show me how this flow would work on my website.`;
         <p className="text-stone-500 dark:text-stone-400 mb-8">{copy.liveDemoSubtitle}</p>
 
         <div className="space-y-4">
-          <input
-            type="text"
-            value={businessName}
-            onChange={(e) => setBusinessName(e.target.value)}
-            placeholder={language === "es" ? "Nombre del hotel/negocio" : "Hotel/business name"}
-            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
-          />
-          <input
-            type="text"
-            value={guestName}
-            onChange={(e) => setGuestName(e.target.value)}
-            placeholder={language === "es" ? "Nombre del cliente" : "Guest name"}
-            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
-          />
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder={language === "es" ? "Teléfono del cliente" : "Guest phone"}
-            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
-          />
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-2 gap-3">
             <input
-              type="date"
-              value={checkIn}
-              onChange={(e) => setCheckIn(e.target.value)}
-              className="col-span-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+              type="text"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              placeholder={language === "es" ? "🏨 Nombre del hotel/negocio" : "🏨 Hotel/business name"}
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
             />
             <input
-              type="number"
-              min="1"
-              max="30"
-              value={nights}
-              onChange={(e) => setNights(Number(e.target.value))}
-              className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+              type="tel"
+              value={businessPhone}
+              onChange={(e) => setBusinessPhone(e.target.value)}
+              placeholder={language === "es" ? "📲 Número WhatsApp negocio" : "📲 Business WhatsApp number"}
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
             />
           </div>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={guests}
-            onChange={(e) => setGuests(Number(e.target.value))}
-            placeholder={language === "es" ? "N° huéspedes" : "Guests"}
-            className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
-          />
+
+          <div className="grid md:grid-cols-2 gap-3">
+            <input
+              type="text"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+              placeholder={language === "es" ? "👤 Nombre del cliente" : "👤 Guest name"}
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+            />
+            <input
+              type="tel"
+              value={guestPhone}
+              onChange={(e) => setGuestPhone(e.target.value)}
+              placeholder={language === "es" ? "📱 Número del cliente" : "📱 Guest phone number"}
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
+              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Fecha de ingreso" : "Check-in date"}</label>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none [color-scheme:light] dark:[color-scheme:dark]"
+              />
+            </div>
+            <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
+              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Noches" : "Nights"}</label>
+              <input
+                type="number"
+                min="1"
+                max="30"
+                value={nights}
+                onChange={(e) => setNights(Math.max(1, Number(e.target.value) || 1))}
+                className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none"
+              />
+            </div>
+            <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
+              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Huéspedes" : "Guests"}</label>
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={guests}
+                onChange={(e) => setGuests(Math.max(1, Number(e.target.value) || 1))}
+                className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none"
+              />
+            </div>
+          </div>
         </div>
 
         <a
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(demoMessage)}`}
+          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage)}` : "#"}
           target="_blank"
           rel="noreferrer noopener"
           className={`mt-6 inline-flex w-full justify-center rounded-full px-6 py-4 font-semibold transition ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
@@ -786,17 +807,22 @@ Please show me how this flow would work on my website.`;
         <div className="text-xs uppercase tracking-widest text-stone-500 mb-3">{language === "es" ? "Vista previa del flujo" : "Flow preview"}</div>
         <div className="space-y-4">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "1. Cliente completa formulario" : "1. Guest fills out form"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "Se capturan datos clave para la reserva." : "Key booking information is captured."}</div>
+            <div className="font-semibold">{language === "es" ? "1. Cliente reserva desde tu web" : "1. Guest books from your website"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "Completa datos en un formulario minimalista y rápido." : "Fills in data in a minimal and fast form."}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "2. WhatsApp abre con mensaje listo" : "2. WhatsApp opens with ready message"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "Tu equipo responde y confirma disponibilidad en segundos." : "Your team replies and confirms availability in seconds."}</div>
+            <div className="font-semibold">{language === "es" ? "2. Mensaje ordenado y automático" : "2. Clean and automatic message"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "Se abre WhatsApp del negocio con emojis y estructura profesional." : "Business WhatsApp opens with emojis and a professional structure."}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="font-semibold">{language === "es" ? "3. Conversión inmediata" : "3. Immediate conversion"}</div>
-            <div className="text-sm text-stone-400">{language === "es" ? "El prospecto pasa de visita a reserva real sin fricción." : "The lead becomes a real reservation with minimal friction."}</div>
+            <div className="font-semibold">{language === "es" ? "3. Confirmación y cierre" : "3. Confirmation and closing"}</div>
+            <div className="text-sm text-stone-400">{language === "es" ? "El negocio responde con disponibilidad, tarifa y cierra la reserva." : "The business replies with availability and rate, then closes the booking."}</div>
           </div>
+          <img
+            src="https://images.pexels.com/photos/8867438/pexels-photo-8867438.jpeg?auto=compress&cs=tinysrgb&w=900"
+            alt={language === "es" ? "Reserva por WhatsApp" : "WhatsApp booking"}
+            className="rounded-2xl border border-white/10 w-full h-44 object-cover mt-2"
+          />
         </div>
       </div>
     </div>
@@ -947,16 +973,22 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
     const phoneInfo = cleanPhone ? `\n📱 ${language === "es" ? "Teléfono" : "Phone"}: ${cleanPhone}` : "";
 
     const saveLead = async (payload) => {
-      if (!LEADS_WEBHOOK_URL) return true;
+      if (!LEADS_WEBHOOK_URL) return { ok: false, skipped: true, data: {} };
       try {
         const res = await fetch(LEADS_WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
-        return res.ok;
+        let data = {};
+        try {
+          data = await res.json();
+        } catch {
+          data = {};
+        }
+        return { ok: res.ok, skipped: false, data };
       } catch {
-        return false;
+        return { ok: false, skipped: false, data: {} };
       }
     };
 
@@ -1026,14 +1058,32 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
         source: "fastpagepro-widget"
       };
 
-      const saved = await saveLead(payload);
-      if (!saved) {
+      const leadResult = await saveLead(payload);
+      if (!leadResult.ok && !leadResult.skipped) {
         alert(widgetCopy.saveLeadError);
       }
 
       if (type === "meet" || type === "call") {
-        const calendarLink = buildGoogleCalendarLink(type);
-        window.open(calendarLink, "_blank");
+        const apiMeetingUrl =
+          leadResult.data?.meetUrl ||
+          leadResult.data?.meetingUrl ||
+          leadResult.data?.googleMeetUrl ||
+          leadResult.data?.googleMeetLink ||
+          "";
+
+        const apiCalendarUrl =
+          leadResult.data?.calendarEventUrl ||
+          leadResult.data?.eventUrl ||
+          "";
+
+        if (type === "meet" && apiMeetingUrl) {
+          window.open(apiMeetingUrl, "_blank");
+        } else if (apiCalendarUrl) {
+          window.open(apiCalendarUrl, "_blank");
+        } else {
+          const calendarLink = buildGoogleCalendarLink(type);
+          window.open(calendarLink, "_blank");
+        }
       }
 
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -1404,7 +1454,7 @@ export default function App() {
       {/* Notification */}
       <AnimatePresence>
         {showNotification && (
-          <motion.div initial={{ opacity: 0, y: 100, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 100, scale: 0.9 }} transition={{ type: "spring", stiffness: 500 }} className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 flex items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[320px]">
+          <motion.div initial={{ opacity: 0, y: 100, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 100, scale: 0.9 }} transition={{ type: "spring", stiffness: 500 }} className="hidden md:flex fixed bottom-28 left-1/2 -translate-x-1/2 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[320px]">
             <motion.div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg" animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 0.5 }}>
               <Check className="text-white" size={24} />
             </motion.div>
@@ -1554,10 +1604,10 @@ export default function App() {
       {/* Gallery */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
         {[
-          "https://images.pexels.com/photos/7235895/pexels-photo-7235895.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/1684165/pexels-photo-1684165.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/4254555/pexels-photo-4254555.jpeg?auto=compress&cs=tinysrgb&w=800",
-          "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=800"
+          "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/8867438/pexels-photo-8867438.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+          "https://images.pexels.com/photos/3182774/pexels-photo-3182774.jpeg?auto=compress&cs=tinysrgb&w=800"
         ].map((src, i) => (
           <motion.div key={i} className="aspect-square overflow-hidden group relative" whileHover={{ scale: 1.02 }}>
             <img src={src} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -1689,4 +1739,5 @@ export default function App() {
     </div>
   );
 }
+
 
