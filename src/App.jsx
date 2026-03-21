@@ -39,9 +39,15 @@ import {
 const _MOTION = motion;
 
 // --- Constants ---
-const WHATSAPP_NUMBER = "51906431630";
+const WHATSAPP_NUMBER = "51919662011";
 const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
+const IMAGE_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop stop-color='%230b0b0f'/><stop offset='1' stop-color='%23181a24'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%23f8fafc' font-family='Arial, sans-serif' font-size='56' font-weight='700'>Fast Page Pro</text><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial, sans-serif' font-size='26'>Webs y reservas por WhatsApp</text></svg>";
+const handleImageFallback = (event) => {
+  if (event.currentTarget.src !== IMAGE_FALLBACK) {
+    event.currentTarget.src = IMAGE_FALLBACK;
+  }
+};
 
 const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
@@ -361,9 +367,9 @@ const COPY = {
       defineLater: "Por definir",
       meetingNote: "Si el backend está configurado, la reunión se agenda y abre directo automáticamente.",
       saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
-      waDirect: "Hola FastPagePro ⚡, quiero información directa.",
-      waMeet: "Hola FastPagePro ⚡\nQuiero agendar Google Meet.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora: {{dateTime}}\n\nEspero su confirmación.",
-      waCall: "Hola FastPagePro ⚡\nQuiero agendar llamada telefónica.\n\n👤 Usuario: {{user}}{{contact}}\n📅 Fecha y Hora Preferente: {{dateTime}}\n\nEspero su llamada."
+      waDirect: "Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo.",
+      waMeet: "Hola Fast Page Pro 👋\n\nQuiero agendar una *reunión por Google Meet*.\n\n👤 *Usuario:* {{user}}{{contact}}\n📅 *Fecha y hora:* {{dateTime}}\n\nQuedo atento a su confirmación.",
+      waCall: "Hola Fast Page Pro 👋\n\nQuiero agendar una *llamada telefónica*.\n\n👤 *Usuario:* {{user}}{{contact}}\n📅 *Fecha y hora preferente:* {{dateTime}}\n\nQuedo atento a su llamada."
     }
   },
   en: {
@@ -447,9 +453,9 @@ const COPY = {
       defineLater: "To be defined",
       meetingNote: "If backend is configured, the meeting is scheduled and opened automatically.",
       saveLeadError: "Lead auto-save failed. We will still open WhatsApp.",
-      waDirect: "Hi FastPagePro ⚡, I want direct information.",
-      waMeet: "Hi FastPagePro ⚡\nI want to schedule a Google Meet.\n\n👤 User: {{user}}{{contact}}\n📅 Date and Time: {{dateTime}}\n\nWaiting for your confirmation.",
-      waCall: "Hi FastPagePro ⚡\nI want to schedule a phone call.\n\n👤 User: {{user}}{{contact}}\n📅 Preferred Date and Time: {{dateTime}}\n\nWaiting for your call."
+      waDirect: "Hi Fast Page Pro 👋\n\nI want information about *websites and WhatsApp booking systems*.\n\n✅ *Goal:* Book a demo.",
+      waMeet: "Hi Fast Page Pro 👋\n\nI want to schedule a *Google Meet call*.\n\n👤 *User:* {{user}}{{contact}}\n📅 *Date and time:* {{dateTime}}\n\nWaiting for your confirmation.",
+      waCall: "Hi Fast Page Pro 👋\n\nI want to schedule a *phone call*.\n\n👤 *User:* {{user}}{{contact}}\n📅 *Preferred date and time:* {{dateTime}}\n\nWaiting for your call."
     }
   }
 };
@@ -457,7 +463,8 @@ const COPY = {
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || "Hola, quiero información")}`;
+  const defaultMessage = "Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.";
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
   
@@ -584,6 +591,7 @@ const TestimonialCard = ({ testimonial, index }) => {
         <img
           src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]}
           alt={testimonial.name}
+          onError={handleImageFallback}
           className="w-12 h-12 rounded-full object-cover border border-stone-200 dark:border-stone-700"
           loading="lazy"
         />
@@ -683,9 +691,41 @@ const FAQItem = ({ question, answer, index }) => {
   );
 };
 
+const QuantityField = ({ label, value, min, max, onChange }) => {
+  const increment = () => onChange(Math.min(max, value + 1));
+  const decrement = () => onChange(Math.max(min, value - 1));
+
+  return (
+    <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3">
+      <label className="text-xs text-stone-500 dark:text-stone-400">{label}</label>
+      <div className="mt-2 flex items-center justify-between">
+        <span className="text-lg font-semibold text-stone-900 dark:text-white">{value}</span>
+        <div className="flex flex-col">
+          <button
+            type="button"
+            aria-label={`Incrementar ${label}`}
+            onClick={increment}
+            className="w-8 h-6 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-200 dark:hover:bg-stone-700 flex items-center justify-center transition-colors"
+          >
+            <ChevronUp size={14} />
+          </button>
+          <button
+            type="button"
+            aria-label={`Disminuir ${label}`}
+            onClick={decrement}
+            className="w-8 h-6 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-200 hover:bg-stone-200 dark:hover:bg-stone-700 flex items-center justify-center mt-1 transition-colors"
+          >
+            <ChevronDown size={14} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ConversionDemo = ({ language, copy }) => {
-  const [businessName, setBusinessName] = useState("");
-  const [businessPhone, setBusinessPhone] = useState("");
+  const businessName = "Fast Page Pro";
+  const businessPhone = "+51 919 662 011";
   const [guestName, setGuestName] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [nights, setNights] = useState(2);
@@ -739,16 +779,14 @@ Could you please confirm availability and final rate?`;
             <input
               type="text"
               value={businessName}
-              onChange={(e) => setBusinessName(e.target.value)}
-              placeholder={language === "es" ? "🏨 Nombre del hotel/negocio" : "🏨 Hotel/business name"}
-              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+              readOnly
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-4 py-3 text-stone-900 dark:text-white focus:outline-none"
             />
             <input
               type="tel"
               value={businessPhone}
-              onChange={(e) => setBusinessPhone(e.target.value)}
-              placeholder={language === "es" ? "📲 Número WhatsApp negocio" : "📲 Business WhatsApp number"}
-              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-stone-400"
+              readOnly
+              className="w-full rounded-xl border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-4 py-3 text-stone-900 dark:text-white focus:outline-none"
             />
           </div>
 
@@ -772,28 +810,20 @@ Could you please confirm availability and final rate?`;
                 className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none [color-scheme:light] dark:[color-scheme:dark]"
               />
             </div>
-            <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
-              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Noches" : "Nights"}</label>
-              <input
-                type="number"
-                min="1"
-                max="30"
-                value={nights}
-                onChange={(e) => setNights(Math.max(1, Number(e.target.value) || 1))}
-                className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none"
-              />
-            </div>
-            <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
-              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Huéspedes" : "Guests"}</label>
-              <input
-                type="number"
-                min="1"
-                max="10"
-                value={guests}
-                onChange={(e) => setGuests(Math.max(1, Number(e.target.value) || 1))}
-                className="w-full bg-transparent text-stone-900 dark:text-white focus:outline-none"
-              />
-            </div>
+            <QuantityField
+              label={language === "es" ? "Noches" : "Nights"}
+              value={nights}
+              min={1}
+              max={30}
+              onChange={setNights}
+            />
+            <QuantityField
+              label={language === "es" ? "Huéspedes" : "Guests"}
+              value={guests}
+              min={1}
+              max={10}
+              onChange={setGuests}
+            />
           </div>
         </div>
 
@@ -851,7 +881,7 @@ const PortfolioSection = ({ copy, projects }) => (
             className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
           >
             <div className="aspect-[4/3] overflow-hidden">
-              <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src={project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </div>
             <div className="p-5">
               <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
@@ -939,8 +969,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
 );
 
 // --- Advanced Widget Component (Updated Logic) ---
-const AdvancedWidget = ({ language, widgetCopy }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
   const [step, setStep] = useState('main'); // main, meet-form, call-form
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
@@ -948,7 +977,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
   const [userName, setUserName] = useState('');
   const [userPhone, setUserPhone] = useState('');
 
-  const toggleWidget = () => setIsOpen(!isOpen);
+  const toggleWidget = () => setIsOpen((prev) => !prev);
   
   // Reset function
   const resetWidget = () => {
@@ -1298,6 +1327,7 @@ const AdvancedWidget = ({ language, widgetCopy }) => {
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -1352,6 +1382,12 @@ export default function App() {
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === 'es' ? 'en' : 'es'));
+  };
+
+  const openAgendaWidget = (event) => {
+    if (event) event.preventDefault();
+    setMobileMenu(false);
+    setIsWidgetOpen(true);
   };
 
   useEffect(() => {
@@ -1418,26 +1454,26 @@ export default function App() {
               onClick={toggleLanguage}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.94 }}
-              className="px-3 py-2 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10"
+              className="w-11 h-11 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10 flex items-center justify-center"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <WhatsAppButton text={copy.navCta} variant="primary" size="small" className="ml-2" />
+            <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
           </div>
           
           <div className="md:hidden flex items-center gap-3">
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className="px-2.5 py-2 rounded-full border border-white/20 text-xs font-bold text-white"
+              className="w-11 h-11 rounded-full border border-white/20 text-xs font-bold text-white flex items-center justify-center"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white p-2 rounded-lg bg-white/10 backdrop-blur-sm">
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
               {mobileMenu ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
           </div>
@@ -1452,7 +1488,7 @@ export default function App() {
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
-              <WhatsAppButton text={copy.navCta} variant="primary" className="w-full mt-8" size="large" />
+              <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" className="w-full mt-8" size="large" />
             </div>
           </motion.div>
         )}
@@ -1461,7 +1497,7 @@ export default function App() {
       {/* Notification */}
       <AnimatePresence>
         {showNotification && (
-          <motion.div initial={{ opacity: 0, y: 100, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 100, scale: 0.9 }} transition={{ type: "spring", stiffness: 500 }} className="hidden md:flex fixed bottom-28 left-1/2 -translate-x-1/2 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[320px]">
+          <motion.div initial={{ opacity: 0, y: 100, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 100, scale: 0.9 }} transition={{ type: "spring", stiffness: 500 }} className="hidden md:flex fixed bottom-6 left-6 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[320px]">
             <motion.div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg" animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 0.5 }}>
               <Check className="text-white" size={24} />
             </motion.div>
@@ -1478,7 +1514,7 @@ export default function App() {
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode='wait'>
             <motion.div key={currentHeroImage} initial={{ opacity: 0, scale: 1.1 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ opacity: { duration: 0.8 }, scale: { duration: 6 } }} className="absolute inset-0">
-              <img src={HERO_IMAGES[currentHeroImage]} alt="Mockup de sistema de reservas" className="w-full h-full object-cover" />
+              <img src={HERO_IMAGES[currentHeroImage]} alt="Mockup de sistema de reservas" onError={handleImageFallback} className="w-full h-full object-cover" />
             </motion.div>
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
@@ -1562,7 +1598,7 @@ export default function App() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center">
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative aspect-video rounded-[2rem] overflow-hidden w-full max-w-5xl mb-16 border border-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] group">
-              <img src="https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=2070&auto=format&fit=crop" alt="Hotel tech experience" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="Hotel tech experience" onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <motion.div className="absolute bottom-8 left-8 right-8 flex items-center gap-4" whileHover={{ scale: 1.05 }}>
                 <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
@@ -1599,7 +1635,7 @@ export default function App() {
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-14">
             <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
-              <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5?q=80&w=2070&auto=format&fit=crop" alt="Mockup web hotelera" className="w-full aspect-video object-cover" />
+              <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" alt="Mockup web hotelera" onError={handleImageFallback} className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -1627,7 +1663,7 @@ export default function App() {
           "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop"
         ].map((src, i) => (
           <motion.div key={i} className="aspect-square overflow-hidden group relative" whileHover={{ scale: 1.02 }}>
-            <img src={src} alt="Gallery" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+            <img src={src} alt="Gallery" onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.div>
         ))}
@@ -1693,7 +1729,9 @@ export default function App() {
                   text={copy.selectPlan}
                   variant={plan.highlight ? "dark" : "outline"}
                   className={`w-full ${plan.highlight ? '!text-white' : '!text-white !border-white/80 hover:!bg-white/10'}`}
-                  message={`${language === 'es' ? 'Plan' : 'Plan'} ${plan.name}`}
+                  message={language === 'es'
+                    ? `Hola Fast Page Pro 👋\n\nQuiero información y contratar el *Plan ${plan.name}*.\n\n✅ *Objetivo:* Implementar web con reservas por WhatsApp.\n\nQuedo atento.`
+                    : `Hi Fast Page Pro 👋\n\nI want information and to purchase the *${plan.name} Plan*.\n\n✅ *Goal:* Launch a website with WhatsApp bookings.\n\nLooking forward to your response.`}
                 />
               </motion.div>
             ))}
@@ -1752,7 +1790,7 @@ export default function App() {
       </footer>
 
       {/* Advanced Widget */}
-      <AdvancedWidget language={language} widgetCopy={copy.widget} />
+      <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
     </div>
   );
 }
