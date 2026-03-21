@@ -1329,6 +1329,7 @@ export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const [loadedHeroImages, setLoadedHeroImages] = useState(() => HERO_IMAGES.map(() => false));
   const [showNotification, setShowNotification] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
@@ -1406,9 +1407,40 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => setCurrentHeroImage((prev) => (prev + 1) % HERO_IMAGES.length), 5000);
-    return () => clearInterval(timer);
+    HERO_IMAGES.forEach((src, index) => {
+      const image = new window.Image();
+      image.src = src;
+      image.onload = () => {
+        setLoadedHeroImages((prev) => {
+          if (prev[index]) return prev;
+          const next = [...prev];
+          next[index] = true;
+          return next;
+        });
+      };
+      image.onerror = () => {
+        setLoadedHeroImages((prev) => {
+          if (prev[index]) return prev;
+          const next = [...prev];
+          next[index] = true;
+          return next;
+        });
+      };
+    });
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentHeroImage((prev) => {
+        for (let step = 1; step <= HERO_IMAGES.length; step += 1) {
+          const nextIndex = (prev + step) % HERO_IMAGES.length;
+          if (loadedHeroImages[nextIndex]) return nextIndex;
+        }
+        return prev;
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [loadedHeroImages]);
 
   useEffect(() => {
     const timer = setTimeout(() => { setShowNotification(true); setTimeout(() => setShowNotification(false), 5000); }, 8000);
@@ -1511,12 +1543,25 @@ export default function App() {
 
       {/* HERO SECTION */}
       <section id="top" className="relative w-full h-screen min-h-screen overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <AnimatePresence mode='wait'>
-            <motion.div key={currentHeroImage} initial={{ opacity: 0, scale: 1.1 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ opacity: { duration: 0.8 }, scale: { duration: 6 } }} className="absolute inset-0">
-              <img src={HERO_IMAGES[currentHeroImage]} alt="Mockup de sistema de reservas" onError={handleImageFallback} className="w-full h-full object-cover" />
-            </motion.div>
-          </AnimatePresence>
+        <div className="absolute inset-0 z-0 bg-black">
+          {HERO_IMAGES.map((src, index) => (
+            <motion.img
+              key={src}
+              src={src}
+              alt="Mockup de sistema de reservas"
+              onError={handleImageFallback}
+              className="absolute inset-0 w-full h-full object-cover"
+              initial={false}
+              animate={{
+                opacity: index === currentHeroImage ? 1 : 0,
+                scale: index === currentHeroImage ? 1 : 1.04
+              }}
+              transition={{
+                opacity: { duration: 0.9, ease: "easeInOut" },
+                scale: { duration: 6, ease: "easeOut" }
+              }}
+            />
+          ))}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
