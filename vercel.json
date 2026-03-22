@@ -4,6 +4,10 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "vite",
+  "domains": [
+    "fastpagepro.com",
+    "www.fastpagepro.com"
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
