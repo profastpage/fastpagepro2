@@ -2057,10 +2057,10 @@ export default function App() {
             
             <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
               <a
-                href="#demo-en-vivo"
+                href="#mockup-celular"
                 onClick={(e) => {
                   e.preventDefault();
-                  const target = document.getElementById('demo-en-vivo');
+                  const target = document.getElementById('mockup-celular');
                   if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
@@ -2190,7 +2190,9 @@ export default function App() {
           </div>
 
           {/* Live Demo with Phone Mockup */}
-          <PhoneMockupDemo language={language} />
+          <div id="mockup-celular">
+            <PhoneMockupDemo language={language} />
+          </div>
         </div>
       </section>
 
