@@ -3,19 +3,19 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const defaultMessage = `Hola Fast Page Pro \u{1F44B}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n\u2705 *Objetivo:* Agendar una demo\n\u{1F3E8} *Negocio:* Por definir\n\nQuedo atento.`;
+  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.`;
   const url = `https://wa.me/51919662011?text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
-  
+
   const sizeClasses = {
     small: "px-6 py-3 text-xs",
     normal: "px-8 py-4 md:px-10 md:py-5 text-sm md:text-base",
     large: "px-12 py-6 text-lg"
   };
-  
+
   const baseStyle = "inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group";
-  
+
   // Updated variants: Removed gold, kept Silver/White/Black
   const variants = {
     primary: "bg-stone-950 text-white hover:bg-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.6)] hover:-translate-y-1 dark:bg-white dark:text-stone-950 dark:hover:bg-stone-200",
@@ -24,7 +24,7 @@ const WhatsAppButton = ({ text, message, href, variant = "primary", className = 
   };
 
   return (
-    <motion.a 
+    <motion.a
       href={finalHref}
       target={isExternalLink ? "_blank" : undefined}
       rel={isExternalLink ? "noopener noreferrer" : undefined}

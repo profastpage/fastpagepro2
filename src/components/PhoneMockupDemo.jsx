@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Smartphone, 
-  Video, 
-  Phone, 
-  ChevronLeft, 
-  ChevronDown, 
-  ChevronUp, 
-  ArrowRight, 
-  Send, 
-  Calendar, 
-  Check, 
-  Hotel, 
-  Signal, 
-  Wifi, 
-  Battery 
+import {
+  Smartphone,
+  Video,
+  Phone,
+  ChevronLeft,
+  ChevronDown,
+  ChevronUp,
+  ArrowRight,
+  Send,
+  Calendar,
+  Check,
+  Hotel,
+  Signal,
+  Wifi,
+  Battery
 } from 'lucide-react';
 
 const PhoneMockupDemo = ({ language }) => {
@@ -27,6 +27,15 @@ const PhoneMockupDemo = ({ language }) => {
   const checkInRef = useRef(null);
   const nightsRef = useRef(null);
   const guestsRef = useRef(null);
+
+  // Get minimum date (today) in YYYY-MM-DD format for date input
+  const getMinDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const formattedCheckIn = checkIn
     ? new Date(`${checkIn}T00:00:00`).toLocaleDateString(language === "es" ? "es-PE" : "en-US", {
@@ -75,6 +84,12 @@ Could you confirm availability?`;
   const demoMessage = language === "es" ? messageEs : messageEn;
   const currentTime = new Date().toLocaleTimeString(language === "es" ? "es-PE" : "en-US", { hour: "2-digit", minute: "2-digit" });
 
+  const handleDateClick = () => {
+    if (checkInRef.current) {
+      checkInRef.current.showPicker();
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto mt-16 grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
       {/* Phone Mockup */}
@@ -90,7 +105,7 @@ Could you confirm availability?`;
           <div className="relative w-[320px] h-[650px] bg-stone-950 rounded-[3rem] border-4 border-stone-800 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)] overflow-hidden">
             {/* Notch */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-stone-950 rounded-b-2xl z-20" />
-            
+
             {/* Status Bar */}
             <div className="absolute top-2 left-6 right-6 flex justify-between items-center z-10">
               <span className="text-white text-xs font-medium">{currentTime}</span>
@@ -109,7 +124,9 @@ Could you confirm availability?`;
                 </div>
                 <div className="flex-1">
                   <div className="text-white font-semibold text-sm">Fast Page Pro Hotel</div>
-                  <div className="text-green-400 text-xs">En línea</div>
+                  <div className="text-green-400 text-xs">
+                    {language === "es" ? "En línea" : "Online"}
+                  </div>
                 </div>
                 <Video size={20} className="text-white" />
                 <Phone size={20} className="text-white ml-2" />
@@ -140,8 +157,8 @@ Could you confirm availability?`;
                 >
                   <div className="bg-stone-800 rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[85%]">
                     <p className="text-white text-sm leading-relaxed">
-                      {language === "es" 
-                        ? "¡Bienvenido! 🏨 Completa el formulario para reservar." 
+                      {language === "es"
+                        ? "¡Bienvenido! 🏨 Completa el formulario para reservar."
                         : "Welcome! 🏨 Fill the form to make a reservation."}
                     </p>
                     <span className="text-stone-500 text-[10px] block mt-1 text-right">{currentTime}</span>
@@ -168,14 +185,14 @@ Could you confirm availability?`;
                   )}
                 </AnimatePresence>
 
-                {/* Typing Indicator */}
+                {/* Typing Indicator with "Escribiendo..." / "Typing..." text */}
                 <AnimatePresence>
                   {isTyping && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="flex justify-start"
+                      className="flex justify-start items-end gap-2"
                     >
                       <div className="bg-stone-800 rounded-2xl rounded-tl-none px-4 py-3">
                         <div className="flex gap-1">
@@ -196,6 +213,9 @@ Could you confirm availability?`;
                           />
                         </div>
                       </div>
+                      <span className="text-green-400 text-xs font-medium mb-1 animate-pulse">
+                        {language === "es" ? "Escribiendo..." : "Typing..."}
+                      </span>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -225,15 +245,15 @@ Could you confirm availability?`;
                 {language === "es" ? "Demo en Vivo" : "Live Demo"}
               </h3>
               <p className="text-sm text-stone-500 dark:text-stone-400">
-                {language === "es" 
-                  ? "Completa el formulario y mira el mensaje en tiempo real" 
+                {language === "es"
+                  ? "Completa el formulario y mira el mensaje en tiempo real"
                   : "Fill the form and see the message in real-time"}
               </p>
             </div>
           </div>
 
           <div className="space-y-4">
-            {/* Guest Name - Full block clickable */}
+            {/* Guest Name */}
             <div>
               <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
                 {language === "es" ? "👤 Nombre del huésped" : "👤 Guest name"}
@@ -249,11 +269,8 @@ Could you confirm availability?`;
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {/* Check-in Date - Full block clickable */}
-              <div
-                onClick={() => checkInRef.current?.showPicker()}
-                className="cursor-pointer group"
-              >
+              {/* Check-in Date - Clickable with proper language support */}
+              <div>
                 <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
                   {language === "es" ? "📅 Fecha check-in" : "📅 Check-in date"}
                 </label>
@@ -262,18 +279,17 @@ Could you confirm availability?`;
                     ref={checkInRef}
                     type="date"
                     value={checkIn}
+                    min={getMinDate()}
                     onChange={(e) => setCheckIn(e.target.value)}
-                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all [color-scheme:light] dark:[color-scheme:dark] pointer-events-none"
+                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all [color-scheme:light] dark:[color-scheme:dark]"
+                    lang={language === "es" ? "es-PE" : "en-US"}
                   />
-                  <Calendar size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 group-hover:text-green-500 transition-colors pointer-events-none" />
+                  <Calendar size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
                 </div>
               </div>
 
               {/* Nights - Full block clickable with +/- buttons */}
-              <div
-                onClick={() => nightsRef.current?.focus()}
-                className="cursor-pointer group"
-              >
+              <div>
                 <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
                   {language === "es" ? "🌙 Noches" : "🌙 Nights"}
                 </label>
@@ -285,9 +301,9 @@ Could you confirm availability?`;
                     max="30"
                     value={nights}
                     onChange={(e) => setNights(Math.min(30, Math.max(1, parseInt(e.target.value) || 1)))}
-                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all pointer-events-none"
+                    className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                   />
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 pointer-events-auto">
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); setNights(Math.max(1, nights - 1)); }}
@@ -307,11 +323,8 @@ Could you confirm availability?`;
               </div>
             </div>
 
-            {/* Guests - Full block clickable with +/- buttons */}
-            <div
-              onClick={() => guestsRef.current?.focus()}
-              className="cursor-pointer group"
-            >
+            {/* Guests - With +/- buttons */}
+            <div>
               <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
                 {language === "es" ? "👥 Número de huéspedes" : "👥 Number of guests"}
               </label>
@@ -323,9 +336,9 @@ Could you confirm availability?`;
                   max="10"
                   value={guests}
                   onChange={(e) => setGuests(Math.min(10, Math.max(1, parseInt(e.target.value) || 1)))}
-                  className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all pointer-events-none"
+                  className="w-full px-4 py-4 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 text-stone-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                 />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1 pointer-events-auto">
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); setGuests(Math.max(1, guests - 1)); }}
@@ -346,8 +359,8 @@ Could you confirm availability?`;
 
             {/* Status Indicator */}
             <div className={`flex items-center gap-3 p-4 rounded-xl transition-all ${
-              showMessage 
-                ? "bg-green-500/10 border border-green-500/30" 
+              showMessage
+                ? "bg-green-500/10 border border-green-500/30"
                 : "bg-stone-200/50 dark:bg-stone-800/50 border border-stone-300 dark:border-stone-700"
             }`}>
               <div className={`w-3 h-3 rounded-full ${
@@ -356,7 +369,7 @@ Could you confirm availability?`;
               <span className={`text-sm font-medium ${
                 showMessage ? "text-green-600 dark:text-green-400" : "text-stone-500 dark:text-stone-400"
               }`}>
-                {showMessage 
+                {showMessage
                   ? (language === "es" ? "✅ Mensaje listo para enviar" : "✅ Message ready to send")
                   : (language === "es" ? "⏳ Completa todos los campos" : "⏳ Fill all fields")}
               </span>
@@ -369,8 +382,8 @@ Could you confirm availability?`;
               whileHover={showMessage ? { scale: 1.02 } : {}}
               whileTap={showMessage ? { scale: 0.98 } : {}}
               className={`flex items-center justify-center gap-2 w-full h-[56px] rounded-full font-semibold transition-all ${
-                showMessage 
-                  ? "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-500/30" 
+                showMessage
+                  ? "bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-500/30"
                   : "bg-stone-300 text-stone-500 cursor-not-allowed"
               }`}
             >

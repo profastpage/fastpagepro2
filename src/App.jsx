@@ -43,16 +43,16 @@ const WHATSAPP_NUMBER = "51919662011";
 const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
 const WA_EMOJI = {
-  wave: "\u{1F44B}",
-  check: "\u2705",
-  hotel: "\u{1F3E8}",
-  user: "\u{1F464}",
-  email: "\u{1F4E7}",
-  phone: "\u{1F4F1}",
-  calendar: "\u{1F4C5}",
-  moon: "\u{1F319}",
-  guests: "\u{1F465}",
-  chat: "\u{1F4AC}"
+  wave: "👋",
+  check: "✅",
+  hotel: "🏨",
+  user: "👤",
+  email: "📧",
+  phone: "📱",
+  calendar: "📅",
+  moon: "🌙",
+  guests: "👥",
+  chat: "💬"
 };
 const IMAGE_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop stop-color='%230b0b0f'/><stop offset='1' stop-color='%23181a24'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%23f8fafc' font-family='Arial, sans-serif' font-size='56' font-weight='700'>Fast Page Pro</text><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial, sans-serif' font-size='26'>Webs y reservas por WhatsApp</text></svg>";
 const handleImageFallback = (event) => {
@@ -2032,7 +2032,7 @@ export default function App() {
 
         <motion.div className="relative z-20 w-full px-4 text-center text-white flex flex-col items-center justify-center">
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl mx-auto">
-            <motion.div className="inline-block mb-8 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
+            <motion.div className="inline-block mb-12 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
                 <motion.div
                   animate={{
