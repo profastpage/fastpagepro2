@@ -2056,18 +2056,19 @@ export default function App() {
             </p>
             
             <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
-              <motion.a
-                href="#demo"
-                onClick={(e) => scrollToSection(e, 'demo')}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-[60px] px-6 text-base font-semibold inline-flex items-center justify-center rounded-full bg-stone-950 text-white hover:bg-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.6)] hover:-translate-y-1 transition-all duration-200 group"
+              <a
+                href="#demo-en-vivo"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById('demo-en-vivo');
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="block w-full max-w-xs mx-auto md:max-w-md bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-lg text-lg transition-all duration-300 shadow-lg"
               >
-                <span className="flex items-center gap-2">
-                  {copy.heroPrimaryCta}
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </motion.a>
+                {copy.heroPrimaryCta} →
+              </a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 variant="outline"
@@ -2153,7 +2154,7 @@ export default function App() {
       </section>
 
       {/* Demo */}
-      <section id="demo" className="py-32 md:py-40 bg-white dark:bg-stone-950">
+      <section id="demo-en-vivo" className="py-32 md:py-40 bg-white dark:bg-stone-950">
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-14">
