@@ -2030,8 +2030,8 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
 
-        <motion.div className="relative z-20 w-full px-4 text-center text-white flex flex-col items-center justify-center">
-          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl mx-auto">
+        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 text-center text-white flex flex-col items-center justify-center">
+          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl md:max-w-6xl lg:max-w-7xl mx-auto">
             <motion.div className="inline-block mb-12 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
                 <motion.div
@@ -2045,13 +2045,13 @@ export default function App() {
                 {copy.heroBadge}
               </span>
             </motion.div>
-            
+
             <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mb-8 leading-[1.05]">
               {copy.heroTitleTop} <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{copy.heroTitleBottom}</span>
             </h1>
-            
-            <p className="text-lg md:text-xl lg:text-2xl text-stone-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+
+            <p className="text-lg md:text-xl lg:text-2xl text-stone-300 mb-12 max-w-2xl md:max-w-3xl mx-auto leading-relaxed">
               {copy.heroSubtitle}
             </p>
             
