@@ -2056,13 +2056,18 @@ export default function App() {
             </p>
             
             <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
-              <WhatsAppButton
-                text={copy.heroPrimaryCta}
+              <motion.a
                 href="#demo"
                 onClick={(e) => scrollToSection(e, 'demo')}
-                variant="primary"
-                className="w-full h-[60px] px-6 text-base font-semibold"
-              />
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full h-[60px] px-6 text-base font-semibold inline-flex items-center justify-center rounded-full bg-stone-950 text-white hover:bg-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.6)] hover:-translate-y-1 transition-all duration-200 group"
+              >
+                <span className="flex items-center gap-2">
+                  {copy.heroPrimaryCta}
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 variant="outline"
