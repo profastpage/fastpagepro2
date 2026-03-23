@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
@@ -25,7 +26,7 @@
                     },
                     colors: {
                         'jungle': {
-                            900: '#064e3b', // Deep Jungle
+                            900: '#064e3b',
                             800: '#065f46',
                             700: '#047857',
                             50: '#ecfdf5',
@@ -48,7 +49,6 @@
     </script>
 
     <style>
-        /* Premium Utilities */
         body {
             background-color: #fafaf9;
             color: #1c1917;
@@ -69,7 +69,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Animations */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -85,7 +84,6 @@
         .reveal-delay-200 { transition-delay: 200ms; }
         .reveal-delay-300 { transition-delay: 300ms; }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -97,7 +95,6 @@
             border-radius: 4px;
         }
 
-        /* Image Zoom Effect */
         .img-zoom-container {
             overflow: hidden;
         }
@@ -108,7 +105,6 @@
             transform: scale(1.05);
         }
 
-        /* Input Styling */
         .premium-input {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(0,0,0,0.08);
@@ -119,6 +115,21 @@
             border-color: #064e3b;
             box-shadow: 0 0 0 4px rgba(6, 78, 59, 0.1);
         }
+
+        /* Image Loading */
+        img {
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        img.loaded {
+            animation: none;
+            background: none;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-jungle-900 selection:text-white">
@@ -126,12 +137,10 @@
     <!-- Navigation -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 py-6 px-6 lg:px-12 border-b border-transparent">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo -->
             <a href="#" class="text-2xl lg:text-3xl font-serif font-bold text-white tracking-wide z-50 relative group">
                 Amazonia<span class="text-white/70 group-hover:text-white transition-colors">EcoStay</span>
             </a>
 
-            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-12">
                 <a href="#experiencia" class="text-sm font-medium text-white/90 hover:text-white transition-colors uppercase tracking-widest text-[11px]">Experiencia</a>
                 <a href="#habitaciones" class="text-sm font-medium text-white/90 hover:text-white transition-colors uppercase tracking-widest text-[11px]">Habitaciones</a>
@@ -139,37 +148,31 @@
                 <a href="#ubicacion" class="text-sm font-medium text-white/90 hover:text-white transition-colors uppercase tracking-widest text-[11px]">Ubicación</a>
             </div>
 
-            <!-- CTA Button -->
-            <a href="https://wa.me/51987654321" target="_blank" class="hidden md:inline-flex items-center justify-center px-6 py-3 border border-white/30 text-xs font-bold text-white rounded-full hover:bg-white hover:text-jungle-900 transition-all duration-300 backdrop-blur-sm uppercase tracking-widest">
+            <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." target="_blank" class="hidden md:inline-flex items-center justify-center px-6 py-3 border border-white/30 text-xs font-bold text-white rounded-full hover:bg-white hover:text-jungle-900 transition-all duration-300 backdrop-blur-sm uppercase tracking-widest">
                 Reservar Ahora
             </a>
 
-            <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden text-white z-50 focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
         </div>
 
-        <!-- Mobile Menu Overlay -->
         <div id="mobile-menu" class="fixed inset-0 bg-jungle-900 z-40 transform translate-x-full transition-transform duration-500 flex flex-col items-center justify-center space-y-8 md:hidden">
             <a href="#experiencia" class="text-3xl font-serif text-white hover:text-white/70 mobile-link">Experiencia</a>
             <a href="#habitaciones" class="text-3xl font-serif text-white hover:text-white/70 mobile-link">Habitaciones</a>
             <a href="#galeria" class="text-3xl font-serif text-white hover:text-white/70 mobile-link">Galería</a>
             <a href="#ubicacion" class="text-3xl font-serif text-white hover:text-white/70 mobile-link">Ubicación</a>
-            <a href="https://wa.me/51987654321" class="px-8 py-4 bg-white text-jungle-900 rounded-full font-bold uppercase tracking-widest text-sm mobile-link">Reservar por WhatsApp</a>
+            <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="px-8 py-4 bg-white text-jungle-900 rounded-full font-bold uppercase tracking-widest text-sm mobile-link">Reservar por WhatsApp</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" alt="Amazonia Eco Stay Lodge" class="w-full h-full object-cover">
-            <!-- Gradient Overlay -->
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" alt="Amazonia Eco Stay Lodge" class="w-full h-full object-cover" onload="this.classList.add('loaded')">
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-jungle-900/90"></div>
         </div>
 
-        <!-- Content -->
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16">
             <span class="inline-block py-2 px-4 border border-white/20 rounded-full text-[10px] font-bold text-white/90 tracking-[0.2em] uppercase mb-8 backdrop-blur-md reveal">
                 Hospedaje Experiencial en Iquitos
@@ -185,7 +188,7 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-6 justify-center items-center reveal reveal-delay-300">
-                <a href="#reservas" class="w-full sm:w-auto px-10 py-4 bg-white text-jungle-900 rounded-full font-bold text-xs tracking-[0.15em] uppercase hover:bg-sand-200 transition-all transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]">
+                <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="w-full sm:w-auto px-10 py-4 bg-white text-jungle-900 rounded-full font-bold text-xs tracking-[0.15em] uppercase hover:bg-sand-200 transition-all transform hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]">
                     Consultar Disponibilidad
                 </a>
                 <a href="#experiencia" class="w-full sm:w-auto px-10 py-4 border border-white/30 text-white rounded-full font-bold text-xs tracking-[0.15em] uppercase hover:bg-white/10 backdrop-blur-sm transition-all">
@@ -194,7 +197,6 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/40">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
         </div>
@@ -239,12 +241,11 @@
     <!-- Experience Section -->
     <section id="experiencia" class="py-24 md:py-32 bg-sand-50 overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <!-- Block 1 -->
             <div class="flex flex-col lg:flex-row items-center gap-16 mb-32">
                 <div class="lg:w-1/2 reveal">
                     <div class="relative">
                         <div class="absolute -top-6 -left-6 w-full h-full border border-jungle-900/10 rounded-2xl z-0"></div>
-                        <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop" alt="Sendero en la selva" class="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[600px]">
+                        <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop" alt="Sendero en la selva" class="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[600px]" onload="this.classList.add('loaded')">
                     </div>
                 </div>
                 <div class="lg:w-1/2 lg:pl-12 reveal reveal-delay-200">
@@ -270,11 +271,10 @@
                 </div>
             </div>
 
-            <!-- Block 2 -->
             <div class="flex flex-col lg:flex-row-reverse items-center gap-16">
                 <div class="lg:w-1/2 reveal">
                     <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop" alt="Cena bajo las estrellas" class="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[600px]">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop" alt="Cena bajo las estrellas" class="relative z-10 rounded-2xl shadow-2xl w-full object-cover h-[600px]" onload="this.classList.add('loaded')">
                     </div>
                 </div>
                 <div class="lg:w-1/2 lg:pr-12 reveal reveal-delay-200">
@@ -283,7 +283,7 @@
                     <p class="text-gray-600 text-lg leading-relaxed mb-8 font-light">
                         Nuestra cocina fusiona técnicas modernas con ingredientes milenarios de la Amazonía. Disfruta de cenas bajo las estrellas, cócteles de autor con frutas exóticas y el mejor café de la región, todo preparado con pasión por nuestros chefs locales.
                     </p>
-                    <a href="#reservas" class="inline-flex items-center text-jungle-900 font-bold border-b border-jungle-900 pb-1 hover:text-jungle-700 hover:border-jungle-700 transition-colors uppercase tracking-widest text-xs">
+                    <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="inline-flex items-center text-jungle-900 font-bold border-b border-jungle-900 pb-1 hover:text-jungle-700 hover:border-jungle-700 transition-colors uppercase tracking-widest text-xs">
                         Ver menú degustación <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                     </a>
                 </div>
@@ -300,10 +300,9 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Room Card 1 -->
                 <div class="group reveal reveal-delay-100">
                     <div class="relative overflow-hidden rounded-2xl mb-6 aspect-[4/5] img-zoom-container cursor-pointer" onclick="scrollToBooking('Suite Jungle View')">
-                        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="Suite Jungle View" class="w-full h-full object-cover img-zoom">
+                        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="Suite Jungle View" class="w-full h-full object-cover img-zoom" onload="this.classList.add('loaded')">
                         <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-4 py-2 rounded-full text-[10px] font-bold text-jungle-900 uppercase tracking-widest shadow-lg">
                             Vista al Río
                         </div>
@@ -327,10 +326,9 @@
                     </p>
                 </div>
 
-                <!-- Room Card 2 -->
                 <div class="group reveal reveal-delay-200">
                     <div class="relative overflow-hidden rounded-2xl mb-6 aspect-[4/5] img-zoom-container cursor-pointer" onclick="scrollToBooking('Cabaña Deluxe')">
-                        <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop" alt="Cabana Deluxe" class="w-full h-full object-cover img-zoom filter brightness-95">
+                        <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=2070&auto=format&fit=crop" alt="Cabana Deluxe" class="w-full h-full object-cover img-zoom filter brightness-95" onload="this.classList.add('loaded')">
                         <div class="absolute top-4 right-4 bg-jungle-900 text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg">
                             Más Popular
                         </div>
@@ -354,10 +352,9 @@
                     </p>
                 </div>
 
-                <!-- Room Card 3 -->
                 <div class="group reveal reveal-delay-300">
                     <div class="relative overflow-hidden rounded-2xl mb-6 aspect-[4/5] img-zoom-container cursor-pointer" onclick="scrollToBooking('Family Lodge')">
-                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop" alt="Family Lodge" class="w-full h-full object-cover img-zoom filter brightness-95">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop" alt="Family Lodge" class="w-full h-full object-cover img-zoom filter brightness-95" onload="this.classList.add('loaded')">
                     </div>
                     <div class="flex justify-between items-end mb-4">
                         <div>
@@ -381,10 +378,10 @@
         </div>
     </section>
 
-    <!-- Booking Module (Sticky Style) -->
+    <!-- Booking Module -->
     <section id="reservas" class="py-24 relative">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=2088&auto=format&fit=crop" class="w-full h-full object-cover opacity-20">
+            <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=2088&auto=format&fit=crop" class="w-full h-full object-cover opacity-20" onload="this.classList.add('loaded')">
             <div class="absolute inset-0 bg-jungle-900/90"></div>
         </div>
         
@@ -396,19 +393,16 @@
                 </div>
 
                 <form id="booking-form" onsubmit="handleBooking(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end">
-                    <!-- Check In -->
                     <div class="lg:col-span-3 space-y-3">
                         <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Llegada</label>
                         <input type="date" id="checkin" required class="w-full premium-input rounded-xl px-5 py-4 text-sm font-medium text-jungle-900 placeholder-jungle-900/50">
                     </div>
                     
-                    <!-- Check Out -->
                     <div class="lg:col-span-3 space-y-3">
                         <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Salida</label>
                         <input type="date" id="checkout" required class="w-full premium-input rounded-xl px-5 py-4 text-sm font-medium text-jungle-900 placeholder-jungle-900/50">
                     </div>
 
-                    <!-- Guests -->
                     <div class="lg:col-span-2 space-y-3">
                         <label class="text-[10px] font-bold text-white/60 uppercase tracking-widest block">Huéspedes</label>
                         <select id="guests" class="w-full premium-input rounded-xl px-5 py-4 text-sm font-medium text-jungle-900 appearance-none cursor-pointer">
@@ -420,10 +414,8 @@
                         </select>
                     </div>
 
-                    <!-- Room Type (Hidden logic) -->
                     <input type="hidden" id="room-type" value="Consulta General">
 
-                    <!-- Submit Button -->
                     <div class="lg:col-span-4">
                         <button type="submit" class="w-full bg-white text-jungle-900 font-bold py-4 rounded-xl hover:bg-sand-200 transition-all transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-3 uppercase tracking-widest text-xs">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
@@ -435,7 +427,7 @@
         </div>
     </section>
 
-    <!-- New "Direct Booking" Section -->
+    <!-- Direct Booking Section -->
     <section class="py-24 bg-sand-50">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="grid md:grid-cols-2 gap-16 items-center">
@@ -477,7 +469,7 @@
                     </div>
                 </div>
                 <div class="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl reveal reveal-delay-200">
-                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop" alt="Check-in" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop" alt="Check-in" class="w-full h-full object-cover" onload="this.classList.add('loaded')">
                     <div class="absolute inset-0 bg-gradient-to-t from-jungle-900/80 to-transparent flex items-end p-8">
                         <p class="text-white font-serif text-2xl italic">"La mejor decisión que tomamos para nuestro viaje."</p>
                     </div>
@@ -494,31 +486,27 @@
                     <h2 class="text-4xl font-serif font-medium text-jungle-900 mb-2">Galería</h2>
                     <p class="text-gray-500 font-light">Momentos capturados en la selva.</p>
                 </div>
-                <a href="#" class="hidden md:inline-block text-jungle-900 font-bold border-b border-jungle-900 pb-1 hover:text-jungle-700 hover:border-jungle-700 transition-colors uppercase tracking-widest text-xs">Ver Instagram</a>
+                <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="hidden md:inline-block text-jungle-900 font-bold border-b border-jungle-900 pb-1 hover:text-jungle-700 hover:border-jungle-700 transition-colors uppercase tracking-widest text-xs">Ver Instagram</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
-                <!-- Large Item -->
                 <div class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl reveal reveal-delay-100 cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Lodge View">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Lodge View" onload="this.classList.add('loaded')">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
                         <span class="text-white font-serif text-2xl">Vista Panorámica</span>
                     </div>
                 </div>
                 
-                <!-- Small Item 1 -->
                 <div class="relative group overflow-hidden rounded-2xl reveal reveal-delay-200 cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16549766b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Cocktail">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16549766b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Cocktail" onload="this.classList.add('loaded')">
                 </div>
 
-                <!-- Small Item 2 -->
                 <div class="relative group overflow-hidden rounded-2xl reveal reveal-delay-300 cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Nature Path">
+                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Nature Path" onload="this.classList.add('loaded')">
                 </div>
 
-                <!-- Medium Item -->
                 <div class="md:col-span-2 relative group overflow-hidden rounded-2xl reveal reveal-delay-100 cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Dining">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover img-zoom" alt="Dining" onload="this.classList.add('loaded')">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
                         <span class="text-white font-serif text-2xl">Cena Amazónica</span>
                     </div>
@@ -533,13 +521,12 @@
             <svg class="w-12 h-12 text-jungle-900/10 mx-auto mb-12" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path></svg>
             
             <div class="grid md:grid-cols-3 gap-8 text-left">
-                <!-- Review 1 -->
                 <div class="bg-white p-8 rounded-2xl shadow-sm reveal reveal-delay-100 hover:shadow-xl transition-shadow duration-300">
                     <div class="flex text-jungle-900 mb-6 text-sm">★★★★★</div>
                     <p class="text-gray-700 mb-8 font-light italic leading-relaxed">"La reserva por WhatsApp fue increíblemente rápida. Llegamos y todo estaba perfecto. La cabaña es exactamente como en las fotos."</p>
                     <div class="flex items-center">
                         <div class="w-10 h-10 bg-gray-200 rounded-full mr-3 overflow-hidden">
-                            <img src="https://ui-avatars.com/api/?name=Carlos+M&background=random" alt="User">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" alt="Carlos M." class="w-full h-full object-cover" onload="this.classList.add('loaded')">
                         </div>
                         <div>
                             <p class="font-bold text-jungle-900 text-sm">Carlos M.</p>
@@ -548,13 +535,12 @@
                     </div>
                 </div>
 
-                <!-- Review 2 -->
                 <div class="bg-white p-8 rounded-2xl shadow-sm reveal reveal-delay-200 hover:shadow-xl transition-shadow duration-300">
                     <div class="flex text-jungle-900 mb-6 text-sm">★★★★★</div>
                     <p class="text-gray-700 mb-8 font-light italic leading-relaxed">"Un oasis de paz. El diseño del lodge es impresionante, se siente lujo pero respetando la naturaleza. Volveremos seguro."</p>
                     <div class="flex items-center">
                         <div class="w-10 h-10 bg-gray-200 rounded-full mr-3 overflow-hidden">
-                            <img src="https://ui-avatars.com/api/?name=Sofia+R&background=random" alt="User">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" alt="Sofía R." class="w-full h-full object-cover" onload="this.classList.add('loaded')">
                         </div>
                         <div>
                             <p class="font-bold text-jungle-900 text-sm">Sofía R.</p>
@@ -563,13 +549,12 @@
                     </div>
                 </div>
 
-                <!-- Review 3 -->
                 <div class="bg-white p-8 rounded-2xl shadow-sm reveal reveal-delay-300 hover:shadow-xl transition-shadow duration-300">
                     <div class="flex text-jungle-900 mb-6 text-sm">★★★★★</div>
                     <p class="text-gray-700 mb-8 font-light italic leading-relaxed">"La atención al detalle es brutal. Desde el desayuno hasta la hamaca en la terraza. 100% recomendado para desconectar."</p>
                     <div class="flex items-center">
                         <div class="w-10 h-10 bg-gray-200 rounded-full mr-3 overflow-hidden">
-                            <img src="https://ui-avatars.com/api/?name=Jorge+L&background=random" alt="User">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop" alt="Jorge L." class="w-full h-full object-cover" onload="this.classList.add('loaded')">
                         </div>
                         <div>
                             <p class="font-bold text-jungle-900 text-sm">Jorge L.</p>
@@ -605,20 +590,18 @@
                         +51 987 654 321
                     </div>
                 </div>
-                <a href="https://wa.me/51987654321" class="inline-block px-10 py-4 bg-white text-jungle-900 font-bold rounded-full hover:bg-sand-200 transition-colors shadow-lg uppercase tracking-widest text-xs">
+                <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="inline-block px-10 py-4 bg-white text-jungle-900 font-bold rounded-full hover:bg-sand-200 transition-colors shadow-lg uppercase tracking-widest text-xs">
                     Cómo Llegar
                 </a>
             </div>
             
             <div class="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 reveal reveal-delay-200">
-                <!-- Mock Map -->
                 <div class="absolute inset-0 bg-gray-800 flex items-center justify-center">
                     <div class="text-center">
                         <svg class="w-16 h-16 text-white/20 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         <p class="text-white/50 font-light tracking-widest uppercase text-xs">Mapa Interactivo</p>
                     </div>
-                    <!-- Overlay Image for Map Context -->
-                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=2088&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay">
+                    <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=2088&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay" onload="this.classList.add('loaded')">
                 </div>
             </div>
         </div>
@@ -633,7 +616,7 @@
             <p class="text-gray-600 text-lg mb-10 font-light max-w-2xl mx-auto">
                 Sin intermediarios. Atención personalizada. Una experiencia inolvidable en el corazón de la Amazonía.
             </p>
-            <a href="https://wa.me/51987654321" class="inline-flex items-center justify-center px-12 py-5 bg-jungle-900 text-white rounded-full font-bold hover:bg-jungle-800 transition-all transform hover:scale-105 shadow-xl uppercase tracking-widest text-xs">
+            <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="inline-flex items-center justify-center px-12 py-5 bg-jungle-900 text-white rounded-full font-bold hover:bg-jungle-800 transition-all transform hover:scale-105 shadow-xl uppercase tracking-widest text-xs">
                 Consultar disponibilidad por WhatsApp
             </a>
         </div>
@@ -647,17 +630,25 @@
                     <a href="#" class="text-2xl font-serif font-bold text-white tracking-wide block mb-4">
                         Amazonia<span class="text-white/40">EcoStay</span>
                     </a>
-                    <p class="text-xs tracking-widest uppercase opacity-50">© 2024 Todos los derechos reservados.</p>
+                    <p class="text-xs tracking-widest uppercase opacity-50 mb-4">© 2024 Todos los derechos reservados.</p>
+                    <p class="text-xs text-white/40">
+                        Diseño y desarrollo web por 
+                        <a href="https://wa.me/51919662011?text=Deseo%20crear%20mi%20sistema%20Web%20de%20reservas%20por%20WhatsApp%2C%20vengo%20de%20AmazoniaEcoStay" 
+                           target="_blank"
+                           class="text-gold-500 hover:text-gold-400 transition-colors font-semibold">
+                            Fast Page Pro
+                        </a>
+                    </p>
                 </div>
                 
                 <div class="flex space-x-8 mb-8 md:mb-0">
-                    <a href="#" class="hover:text-white transition-colors text-sm uppercase tracking-widest">Instagram</a>
-                    <a href="#" class="hover:text-white transition-colors text-sm uppercase tracking-widest">Facebook</a>
-                    <a href="#" class="hover:text-white transition-colors text-sm uppercase tracking-widest">TripAdvisor</a>
+                    <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="hover:text-white transition-colors text-sm uppercase tracking-widest">Instagram</a>
+                    <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="hover:text-white transition-colors text-sm uppercase tracking-widest">Facebook</a>
+                    <a href="https://wa.me/51919662011?text=Hola%20Fast%20Page%20Pro%2C%20deseo%20informaci%C3%B3n%20sobre%20Desarrollo%20Web.%20Vengo%20de%20AmazoniaEcoStay%20Demo." class="hover:text-white transition-colors text-sm uppercase tracking-widest">TripAdvisor</a>
                 </div>
 
                 <div class="flex space-x-4">
-                    <a href="https://wa.me/51987654321" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white hover:text-jungle-900 transition-all">
+                    <a href="https://wa.me/51919662011?text=Deseo%20crear%20mi%20sistema%20Web%20de%20reservas%20por%20WhatsApp%2C%20vengo%20de%20AmazoniaEcoStay" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white hover:text-jungle-900 transition-all">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     </a>
                 </div>
@@ -714,12 +705,18 @@
             observer.observe(el);
         });
 
+        // Image Loading Handler
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            }
+        });
+
         // Booking Logic
         function scrollToBooking(roomName) {
             document.getElementById('room-type').value = roomName;
             document.getElementById('reservas').scrollIntoView({ behavior: 'smooth' });
             
-            // Visual feedback
             const form = document.getElementById('booking-form');
             form.classList.add('ring-2', 'ring-white/30', 'rounded-3xl');
             setTimeout(() => {
@@ -740,9 +737,9 @@
                 return;
             }
 
-            const message = `🌿 *Hola Amazonia Eco Stay!* 🌿%0A%0AQuisiera reservar una estadía:%0A%0A📅 *Llegada:* ${checkin}%0A📅 *Salida:* ${checkout}%0A👥 *Huéspedes:* ${guests}%0A🏡 *Interés:* ${room}%0A%0A¿Podrían confirmarme disponibilidad y precio? ¡Gracias!`;
+            const message = `Hola Fast Page Pro, deseo información sobre Desarrollo Web. Vengo de AmazoniaEcoStay Demo.%0A%0AInterés en habitación: ${room}%0AFecha: ${checkin} - ${checkout}%0AHuéspedes: ${guests}`;
             
-            window.open(`https://wa.me/51987654321?text=${message}`, '_blank');
+            window.open(`https://wa.me/51919662011?text=${message}`, '_blank');
         }
 
         // Set minimum date to today
@@ -757,4 +754,4 @@
     </script>
 </body>
 </html>
-
+```

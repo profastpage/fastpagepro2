@@ -104,7 +104,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Hospedaje Experiencial",
       description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://amazoniaecostay.netlify.app/"
     },
     {
       title: "La Casona Gourmet",
@@ -112,7 +112,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Restaurante Premium",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://nimble-souffle-6f258a.netlify.app/"
+      link: "https://lacasagourmet.netlify.app/"
     },
     {
       title: "Growth Consulting Perú",
@@ -138,7 +138,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Experiential Lodge",
       description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://amazoniaecostay.netlify.app/"
     },
     {
       title: "La Casona Gourmet",
@@ -146,7 +146,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Premium Restaurant",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://nimble-souffle-6f258a.netlify.app/"
+      link: "https://lacasagourmet.netlify.app/"
     },
     {
       title: "Growth Consulting Peru",
