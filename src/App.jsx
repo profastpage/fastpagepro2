@@ -476,7 +476,7 @@ const COPY = {
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
   const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
   
@@ -987,7 +987,7 @@ Could you confirm availability?`;
             </div>
 
             <motion.a
-              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage)}` : "#"}
+              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
               target="_blank"
               rel="noreferrer noopener"
               whileHover={showMessage ? { scale: 1.02 } : {}}
@@ -1270,7 +1270,7 @@ Could you please confirm availability and final rate?`;
         </div>
 
         <a
-          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage)}` : "#"}
+          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
           target="_blank"
           rel="noreferrer noopener"
           className={`mt-6 inline-flex w-full h-[60px] justify-center items-center rounded-full px-6 text-base font-semibold transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98] ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
@@ -1564,7 +1564,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
         }
       }
 
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message).replace(/%20/g, ' ')}`;
       window.open(url, '_blank');
       resetWidget();
     };

@@ -376,7 +376,7 @@ Could you confirm availability?`;
             </div>
 
             <motion.a
-              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage)}` : "#"}
+              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
               target="_blank"
               rel="noreferrer noopener"
               whileHover={showMessage ? { scale: 1.02 } : {}}
