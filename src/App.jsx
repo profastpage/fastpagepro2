@@ -301,16 +301,16 @@ const COPY = {
   es: {
     navCta: "Agendar Demo",
     notificationTitle: "¡Nueva reserva recibida!",
-    notificationSubtitle: "Hotel Vista - hace 2 minutos",
-    heroBadge: "+500 hoteles confían",
+    notificationSubtitle: "Restaurante Sabor - hace 2 minutos",
+    heroBadge: "🚀 Programa Piloto 2026",
     heroTitleTop: "Reservas Directas.",
     heroTitleBottom: "Sin Comisiones.",
-    heroSubtitle: "La plataforma premium que convierte visitantes en huéspedes vía WhatsApp.",
+    heroSubtitle: "La plataforma premium que convierte visitantes en clientes reales vía WhatsApp.",
     heroPrimaryCta: "Ver Demo Interactiva",
     heroPrimaryMsg: "Quiero ver la demo",
     heroSecondaryCta: "Hablar con Asesor",
-    trustTitle: "Hoteles Asociados",
-    stats: ["Más Reservas", "Hoteles Activos", "Comisión Ahorrada"],
+    trustTitle: "Negocios Asociados",
+    stats: ["Más Reservas", "Negocios Activos", "Comisión Ahorrada"],
     editorialWatch: "Ver cómo funciona",
     editorialTitle: "Recupera el control",
     editorialTitleAccent: "de tus márgenes.",
@@ -323,7 +323,7 @@ const COPY = {
     demoTitle: "Experiencia Fluida",
     demoSubtitle: "Diseñado para máxima conversión",
     liveDemoTitle: "Demo real de reservas por WhatsApp",
-    liveDemoSubtitle: "Simula la experiencia de un huésped real y genera la reserva en un clic.",
+    liveDemoSubtitle: "Simula la experiencia de un cliente real y genera la reserva en un clic.",
     liveDemoCta: "Generar Reserva por WhatsApp",
     demoCards: [
       { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
@@ -331,11 +331,11 @@ const COPY = {
       { title: "Recibe reservas directas en tu WhatsApp", desc: "Cierre de venta inmediato en tu WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
     portfolioTitle: "Portafolio de Proyectos",
-    portfolioSubtitle: "Sitios y sistemas de reservas desarrollados para hoteles y negocios del Perú.",
+    portfolioSubtitle: "Sistemas de reservas desarrollados para hoteles, restaurantes, gimnasios y negocios del Perú.",
     portfolioBadge: "Trabajos Reales",
     portfolioCta: "Ver Proyecto",
     testimonialsTitle: "Lo que dicen nuestros clientes",
-    testimonialsSubtitle: "Experiencias reales de hoteles reales",
+    testimonialsSubtitle: "Experiencias reales de negocios reales",
     testimonialsBadge: "Testimonios",
     pricingTitle: "Planes Profesionales",
     pricingSubtitle: "Inversión única para tu negocio",
@@ -351,7 +351,7 @@ const COPY = {
       { q: "¿En cuánto tiempo estará lista mi web?", a: "Depende del proyecto, pero en promedio entre 7 y 15 días hábiles con revisiones incluidas." }
     ],
     finalTitle: "¿Listo para escalar?",
-    finalSubtitle: "Únete a los hoteles que ya están recibiendo reservas directas hoy mismo.",
+    finalSubtitle: "Únete a los negocios que ya están recibiendo reservas directas hoy mismo.",
     finalCta: "Comenzar Ahora",
     footerRights: "© 2026 Fast Page Pro. Todos los derechos reservados por Fast Page Pro.",
     tags: ["SSL Seguro", "Sin contrato", "Soporte 24/7"],
@@ -387,16 +387,16 @@ const COPY = {
   en: {
     navCta: "Book Demo",
     notificationTitle: "New booking received!",
-    notificationSubtitle: "Hotel Vista - 2 minutes ago",
-    heroBadge: "+500 hotels trust us",
+    notificationSubtitle: "Restaurant Sabor - 2 minutes ago",
+    heroBadge: "🚀 Pilot Program 2026",
     heroTitleTop: "Direct Bookings.",
     heroTitleBottom: "No Commissions.",
-    heroSubtitle: "The premium platform that turns visitors into guests through WhatsApp.",
+    heroSubtitle: "The premium platform that turns visitors into real customers through WhatsApp.",
     heroPrimaryCta: "See Interactive Demo",
     heroPrimaryMsg: "I want to see the demo",
     heroSecondaryCta: "Talk to an Advisor",
-    trustTitle: "Partner Hotels",
-    stats: ["More Bookings", "Active Hotels", "Commission Saved"],
+    trustTitle: "Partner Businesses",
+    stats: ["More Bookings", "Active Businesses", "Commission Saved"],
     editorialWatch: "See how it works",
     editorialTitle: "Take back control",
     editorialTitleAccent: "of your margins.",
@@ -409,7 +409,7 @@ const COPY = {
     demoTitle: "Seamless Experience",
     demoSubtitle: "Designed for maximum conversion",
     liveDemoTitle: "Real WhatsApp booking demo",
-    liveDemoSubtitle: "Simulate a real guest flow and generate a reservation in one click.",
+    liveDemoSubtitle: "Simulate a real customer flow and generate a booking in one click.",
     liveDemoCta: "Generate WhatsApp Booking",
     demoCards: [
       { title: "Attraction", desc: "High-impact visual design that keeps users engaged", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
@@ -417,11 +417,11 @@ const COPY = {
       { title: "Conversion", desc: "Instant sales closure directly on your WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
     portfolioTitle: "Project Portfolio",
-    portfolioSubtitle: "Websites and booking systems delivered for hotels and businesses in Peru.",
+    portfolioSubtitle: "Booking systems delivered for hotels, restaurants, gyms and businesses in Peru.",
     portfolioBadge: "Real Work",
     portfolioCta: "View Project",
     testimonialsTitle: "What our clients say",
-    testimonialsSubtitle: "Real experiences from real hotels",
+    testimonialsSubtitle: "Real experiences from real businesses",
     testimonialsBadge: "Testimonials",
     pricingTitle: "Professional Plans",
     pricingSubtitle: "One-time investment for your business",
@@ -437,7 +437,7 @@ const COPY = {
       { q: "How long does delivery take?", a: "Depending on the scope, most projects are delivered in 7 to 15 business days including revisions." }
     ],
     finalTitle: "Ready to scale?",
-    finalSubtitle: "Join the hotels already getting direct bookings today.",
+    finalSubtitle: "Join the businesses already getting direct bookings today.",
     finalCta: "Get Started Now",
     footerRights: "© 2026 Fast Page Pro. All rights reserved by Fast Page Pro.",
     tags: ["Secure SSL", "No contract", "24/7 support"],
@@ -475,7 +475,7 @@ const COPY = {
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Negocio:* Por definir\n\nQuedo atento.`;
+  const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Tipo de negocio:* Por definir\n\nQuedo atento.`;
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
