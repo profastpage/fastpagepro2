@@ -69,7 +69,7 @@ const HERO_IMAGES = [
 ];
 
 const NAV_ITEMS = [
-  { id: "demo", es: "Demo", en: "Demo" },
+  { id: "mockup-celular", es: "Demo", en: "Demo" },
   { id: "portafolio", es: "Portafolio", en: "Portfolio" },
   { id: "beneficios", es: "Beneficios", en: "Benefits" },
   { id: "testimonios", es: "Testimonios", en: "Testimonials" },
@@ -2285,7 +2285,7 @@ export default function App() {
                     href={mpLinks[plan.name]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group ${plan.highlight ? 'bg-stone-950 text-white hover:bg-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]' : 'bg-transparent border border-stone-200 text-stone-900 hover:bg-stone-50 dark:border-stone-700 dark:text-white dark:hover:bg-stone-800'} px-8 py-4 md:px-10 md:py-5 text-sm md:text-base`}
+                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group ${plan.highlight ? 'bg-white text-stone-950 hover:bg-stone-100 shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]' : 'bg-transparent border border-white/30 text-white hover:bg-white/10 dark:border-white/30 dark:text-white'} px-8 py-4 md:px-10 md:py-5 text-sm md:text-base`}
                   >
                     <span className="flex items-center gap-2 relative z-10">
                       {copy.selectPlan}
