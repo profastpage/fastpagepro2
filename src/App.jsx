@@ -92,62 +92,72 @@ const PORTFOLIO_BY_LANG = {
   es: [
     {
       title: "Vuelo 78 Hotel",
-      location: "Lima, Perú",
-      category: "Hotel Boutique",
-      description: "Web de reservas directas por WhatsApp con disponibilidad por fechas y automatización de seguimiento.",
+      location: "Tarapoto, Perú",
+      category: "Hotel Urbano",
+      description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://vuelo78hotel.com/"
     },
     {
-      title: "Killa Lodge",
-      location: "Cusco, Perú",
-      category: "Lodge Turístico",
-      description: "Sistema de reservas para tours y habitaciones, integrado con WhatsApp y formularios inteligentes.",
-      image: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
-    },
-    {
       title: "Amazonia Eco Stay",
       location: "Iquitos, Perú",
-      category: "Hospedaje Ecológico",
-      description: "Landing de conversión con velocidad optimizada y módulo de cotización rápida para huéspedes.",
+      category: "Hospedaje Experiencial",
+      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "#"
     },
     {
-      title: "Pariwana Business Hotel",
-      location: "Piura, Perú",
-      category: "Hotel Corporativo",
-      description: "Flujo de reservas para clientes corporativos con confirmación automática y seguimiento comercial.",
+      title: "La Casona Gourmet",
+      location: "Lima, Perú",
+      category: "Restaurante Premium",
+      description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Growth Consulting Perú",
+      location: "Lima, Perú",
+      category: "Consultoría Estratégica",
+      description: "Sistema de captación de clientes y agendamiento automático por WhatsApp enfocado en generar leads calificados.",
+      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "#"
     }
   ],
   en: [
     {
       title: "Vuelo 78 Hotel",
-      location: "Lima, Peru",
-      category: "Boutique Hotel",
-      description: "Direct-booking website via WhatsApp with date-based availability and automated follow-up.",
+      location: "Tarapoto, Peru",
+      category: "Urban Hotel",
+      description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://vuelo78hotel.com/"
     },
     {
-      title: "Killa Lodge",
-      location: "Cusco, Peru",
-      category: "Tourist Lodge",
-      description: "Booking system for tours and rooms, integrated with WhatsApp and smart lead forms.",
-      image: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
-    },
-    {
       title: "Amazonia Eco Stay",
       location: "Iquitos, Peru",
-      category: "Eco Lodge",
-      description: "Conversion-focused landing page with high speed and quick quote module for guests.",
+      category: "Experiential Lodge",
+      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "#"
     },
+    {
+      title: "La Casona Gourmet",
+      location: "Lima, Peru",
+      category: "Premium Restaurant",
+      description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
+      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    },
+    {
+      title: "Growth Consulting Peru",
+      location: "Lima, Peru",
+      category: "Strategic Consulting",
+      description: "Client acquisition and automatic scheduling system via WhatsApp focused on generating qualified leads.",
+      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "#"
+    }
+  ]
+};
     {
       title: "Pariwana Business Hotel",
       location: "Piura, Peru",
@@ -1312,7 +1322,18 @@ const PortfolioSection = ({ copy, projects }) => (
   <section id="portafolio" className="py-32 md:py-40 bg-white dark:bg-stone-950">
     <div className="container mx-auto px-4">
       <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+      
+      {/* COPY MAESTRO - Encima de las cards */}
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h3 className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white mb-4">
+          👉 Creamos sistemas de reservas y ventas directas por WhatsApp
+        </h3>
+        <p className="text-lg text-stone-600 dark:text-stone-400">
+          Diseñados para convertir visitantes en clientes reales en hoteles, restaurantes y negocios de servicios.
+        </p>
+      </div>
+      
+      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
         {projects.map((project, index) => (
           <motion.article
             key={`${project.title}-${index}`}
@@ -1321,21 +1342,38 @@ const PortfolioSection = ({ copy, projects }) => (
             viewport={{ once: true }}
             transition={{ delay: index * 0.07 }}
             className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
+            whileHover={{ y: -8 }}
           >
             <div className="aspect-[4/3] overflow-hidden">
-              <img src={project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img src={project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
             </div>
             <div className="p-5">
               <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
               <h3 className="text-xl font-bold text-stone-950 dark:text-white">{project.title}</h3>
               <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
               <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
-              <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white">
-                {copy.portfolioCta} <ArrowUpRight size={16} />
+              <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
+                Ver proyecto ↗
               </a>
             </div>
           </motion.article>
         ))}
+      </div>
+      
+      {/* MINI PRUEBA SOCIAL */}
+      <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">+15</div>
+          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">proyectos creados</div>
+        </div>
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">+300%</div>
+          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">aumento en reservas</div>
+        </div>
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">Perú</div>
+          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">clientes</div>
+        </div>
       </div>
     </div>
   </section>
