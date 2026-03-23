@@ -328,7 +328,7 @@ const COPY = {
     demoCards: [
       { title: "Atracción", desc: "Diseño visual de alto impacto que retiene al usuario", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
       { title: "Interacción", desc: "Interfaz intuitiva que guía hacia las reservas", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
-      { title: "Conversión", desc: "Cierre de venta inmediato en tu WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
+      { title: "Recibe reservas directas en tu WhatsApp", desc: "Cierre de venta inmediato en tu WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
     portfolioTitle: "Portafolio de Proyectos",
     portfolioSubtitle: "Sitios y sistemas de reservas desarrollados para hoteles y negocios del Perú.",
@@ -2179,11 +2179,11 @@ export default function App() {
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {copy.demoCards.map((step, i) => {
-              // Map card titles to image filenames
+              // Map card titles to image filenames (matching exact file names)
               const imageMap = {
-                "Atracción": "/images/02-demo-en-vivo/Experiencia-Fluida-principal.png",
-                "Interacción": "/images/02-demo-en-vivo/Experiencia-Fluida-principal.png",
-                "Conversión": "/images/02-demo-en-vivo/conversión.png"
+                "Atracción": "/images/02-demo-en-vivo/Atracción.png",
+                "Interacción": "/images/02-demo-en-vivo/Interacción.png",
+                "Recibe reservas directas en tu WhatsApp": "/images/02-demo-en-vivo/conversión.png"
               };
               
               return (
