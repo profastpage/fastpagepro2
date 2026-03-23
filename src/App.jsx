@@ -1314,40 +1314,51 @@ const PortfolioSection = ({ copy, projects }) => (
       <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
       
       {/* COPY MAESTRO - Encima de las cards */}
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <h3 className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white mb-4">
-          👉 Creamos sistemas de reservas y ventas directas por WhatsApp
+      <div className="max-w-4xl mx-auto text-center mb-4">
+        <h3 className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white mb-3">
+          Creamos sistemas que generan reservas y ventas directas por WhatsApp
         </h3>
-        <p className="text-lg text-stone-600 dark:text-stone-400">
-          Diseñados para convertir visitantes en clientes reales en hoteles, restaurantes y negocios de servicios.
+        {/* MICRO DETALLE PRO */}
+        <p className="text-base md:text-lg text-stone-600 dark:text-stone-400 font-medium">
+          💥 Sin intermediarios · Respuesta rápida · Automatización inteligente
         </p>
       </div>
       
       <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
-        {projects.map((project, index) => (
-          <motion.article
-            key={`${project.title}-${index}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.07 }}
-            className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
-            whileHover={{ y: -8 }}
-          >
-            <div className="aspect-[4/3] overflow-hidden">
-              <img src={project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            </div>
-            <div className="p-5">
-              <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
-              <h3 className="text-xl font-bold text-stone-950 dark:text-white">{project.title}</h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
-              <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
-              <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
-                Ver proyecto ↗
-              </a>
-            </div>
-          </motion.article>
-        ))}
+        {projects.map((project, index) => {
+          // Map portfolio items to local images
+          const imageMap = {
+            "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
+            "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
+            "La Casona Gourmet": "/images/03-portafolio/la-casona-gourmet.png",
+            "Growth Consulting Perú": "/images/03-portafolio/growth-consulting.png"
+          };
+          
+          return (
+            <motion.article
+              key={`${project.title}-${index}`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.07 }}
+              className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
+              whileHover={{ y: -8 }}
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={imageMap[project.title] || project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              </div>
+              <div className="p-5">
+                <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
+                <h3 className="text-xl font-bold text-stone-950 dark:text-white">{project.title}</h3>
+                <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
+                <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
+                <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
+                  Ver demo ↗
+                </a>
+              </div>
+            </motion.article>
+          );
+        })}
       </div>
       
       {/* MINI PRUEBA SOCIAL */}
