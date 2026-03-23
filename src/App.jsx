@@ -1330,8 +1330,8 @@ const PortfolioSection = ({ copy, projects }) => (
           const imageMap = {
             "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
             "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
-            "La Casona Gourmet": "/images/03-portafolio/la-casona-gourmet.png",
-            "Growth Consulting Perú": "/images/03-portafolio/growth-consulting.png"
+            "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
+            "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png"
           };
           
           return (
