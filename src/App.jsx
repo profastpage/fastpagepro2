@@ -96,7 +96,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Hotel Urbano",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://vuelo78hotel.com/"
+      link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
       title: "Amazonia Eco Stay",
@@ -130,7 +130,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Urban Hotel",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://vuelo78hotel.com/"
+      link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
       title: "Amazonia Eco Stay",
