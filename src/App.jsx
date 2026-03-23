@@ -1790,7 +1790,22 @@ export default function App() {
       return 'es';
     }
   });
-  
+
+  // Variable bookings counter - different each day
+  const [todayBookings, setTodayBookings] = useState(() => {
+    const today = new Date().toDateString();
+    const lastDate = localStorage.getItem('bookingsDate');
+    const lastBookings = localStorage.getItem('todayBookings');
+    
+    if (lastDate !== today) {
+      const newBookings = Math.floor(Math.random() * 14) + 8; // 8-21 bookings
+      localStorage.setItem('bookingsDate', today);
+      localStorage.setItem('todayBookings', newBookings.toString());
+      return newBookings;
+    }
+    return lastBookings ? parseInt(lastBookings) : Math.floor(Math.random() * 14) + 8;
+  });
+
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
@@ -2095,7 +2110,7 @@ export default function App() {
                 className="w-2 h-2 rounded-full bg-green-400"
               />
               <span className="text-sm text-stone-300">
-                <span className="font-bold text-white">12</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
+                <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
               </span>
             </motion.div>
           </motion.div>
