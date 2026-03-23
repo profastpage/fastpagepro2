@@ -112,7 +112,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Restaurante Premium",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://nimble-souffle-6f258a.netlify.app/"
     },
     {
       title: "Growth Consulting Perú",
@@ -146,7 +146,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Premium Restaurant",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://nimble-souffle-6f258a.netlify.app/"
     },
     {
       title: "Growth Consulting Peru",
