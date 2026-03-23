@@ -2174,7 +2174,7 @@ export default function App() {
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-14">
             <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
-              <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" alt="Mockup web hotelera" onError={handleImageFallback} className="w-full aspect-video object-cover" />
+              <img src="/images/02-demo-en-vivo/Experiencia-Fluida-principal.png" alt="Experiencia Fluida - Demo Fast Page Pro" onError={handleImageFallback} className="w-full aspect-video object-cover" />
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -2190,7 +2190,7 @@ export default function App() {
               >
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
-                    src={step.image}
+                    src={`/images/02-demo-en-vivo/conversion.png`}
                     alt={step.title}
                     onError={handleImageFallback}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
