@@ -1,0 +1,579 @@
+```html
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Casona Gourmet | Exclusive Dining</title>
+    <meta name="description" content="Reserva tu experiencia gastronómica premium en Lima.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['"Inter"', 'sans-serif'],
+                        'serif': ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        'obsidian': '#050505',
+                        'charcoal': '#121212',
+                        'slate': '#1e1e1e',
+                        'gold': {
+                            400: '#eab308',
+                            500: '#ca8a04',
+                            600: '#a16207',
+                            100: '#fef9c3',
+                        },
+                        'stone': {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                        }
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Core Styles */
+        body {
+            background-color: #050505;
+            color: #f5f5f4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Utilities */
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #ca8a04;
+            outline: none;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 { transition-delay: 100ms; }
+        .stagger-2 { transition-delay: 200ms; }
+        .stagger-3 { transition-delay: 300ms; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* Image Zoom */
+        .img-container { overflow: hidden; }
+        .img-zoom { transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .group:hover .img-zoom { transform: scale(1.05); }
+
+        /* Image Loading */
+        img {
+            background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        img.loaded {
+            animation: none;
+            background: none;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gold-500 selection:text-black">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 px-6 lg:px-12 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl lg:text-2xl font-serif font-bold text-white tracking-tight z-50">
+                La Casona<span class="text-gold-500">.</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#menu" class="text-xs font-medium text-stone-400 hover:text-white transition-colors uppercase tracking-widest">Menú</a>
+                <a href="#experience" class="text-xs font-medium text-stone-400 hover:text-white transition-colors uppercase tracking-widest">Experiencia</a>
+                <a href="#reviews" class="text-xs font-medium text-stone-400 hover:text-white transition-colors uppercase tracking-widest">Reseñas</a>
+            </div>
+
+            <a href="#reserve" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-white text-black text-xs font-bold rounded-full hover:bg-stone-200 transition-all uppercase tracking-widest">
+                Reservar Mesa
+            </a>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white z-50 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-obsidian z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden">
+            <a href="#menu" class="text-2xl font-serif text-white mobile-link">Menú</a>
+            <a href="#experience" class="text-2xl font-serif text-white mobile-link">Experiencia</a>
+            <a href="#reserve" class="text-2xl font-serif text-gold-500 mobile-link">Reservar</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Full Bleed Michelin Quality -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+            <!-- Premium Michelin-style food photography -->
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2574&auto=format&fit=crop" 
+                 alt="Fine Dining Experience" 
+                 class="w-full h-full object-cover"
+                 onload="this.classList.add('loaded')"
+                 onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16549766b?q=80&w=2070&auto=format&fit=crop'">
+            <!-- Dark overlay for contrast -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-obsidian"></div>
+            <!-- Vignette effect -->
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-white/20 bg-black/40 backdrop-blur-md mb-8 fade-in-up">
+                <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
+                <span class="text-[10px] font-bold text-white uppercase tracking-widest">Reservas Abiertas</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-white mb-8 leading-[1.1] fade-in-up stagger-1">
+                Alta cocina <br/> <span class="italic text-stone-300">sin intermediarios.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-stone-300 mb-12 max-w-xl mx-auto font-light leading-relaxed fade-in-up stagger-2">
+                Sistema directo de reservas y pedidos. Sin comisiones de plataforma. Atención prioritaria vía WhatsApp.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up stagger-3">
+                <a href="#reserve" class="w-full sm:w-auto px-8 py-4 bg-gold-600 text-white rounded-full font-bold text-xs tracking-[0.15em] uppercase hover:bg-gold-500 transition-all shadow-[0_0_30px_-10px_rgba(202,138,4,0.4)]">
+                    Reservar Ahora
+                </a>
+                <a href="#menu" class="w-full sm:w-auto px-8 py-4 border border-white/30 text-white rounded-full font-bold text-xs tracking-[0.15em] uppercase hover:bg-white/10 transition-all backdrop-blur-sm">
+                    Ver Carta Digital
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-stone-400">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </div>
+    </header>
+
+    <!-- Trust Strip -->
+    <section class="border-y border-white/5 bg-charcoal/50 backdrop-blur-sm py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-center text-xs font-bold text-stone-500 uppercase tracking-widest mb-8">Reconocido por</p>
+            <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                <span class="text-xl font-serif font-bold text-white">VOGUE</span>
+                <span class="text-xl font-serif font-bold text-white">FORBES</span>
+                <span class="text-xl font-serif font-bold text-white">Michelin</span>
+                <span class="text-xl font-serif font-bold text-white">Condé Nast</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-24 md:py-32 bg-obsidian">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex justify-between items-end mb-16 fade-in-up">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-serif font-medium text-white mb-2">Signature Dishes</h2>
+                    <p class="text-stone-500 font-light">Nuestros platos más solicitados.</p>
+                </div>
+                <a href="#" class="hidden md:flex items-center text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-gold-400 transition-colors">
+                    Ver menú completo <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group fade-in-up stagger-1">
+                    <div class="relative aspect-[4/3] mb-6 img-container rounded-lg cursor-pointer" onclick="orderItem('Ceviche Clásico')">
+                        <img src="https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?q=80&w=2070&auto=format&fit=crop" 
+                             class="w-full h-full object-cover img-zoom" 
+                             alt="Ceviche"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.style.background='#1a1a1a'">
+                        <div class="absolute top-4 right-4 bg-black/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest border border-white/10">
+                            Best Seller
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-serif text-white">Ceviche Clásico</h3>
+                        <span class="text-lg font-medium text-gold-500">S/ 55</span>
+                    </div>
+                    <p class="text-stone-500 text-sm font-light mb-4 line-clamp-2">Pescado del día, leche de tigre, camote glaseado.</p>
+                    <button onclick="orderItem('Ceviche Clásico')" class="w-full py-3 bg-white/5 border border-white/10 text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                        Pedir por WhatsApp
+                    </button>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="group fade-in-up stagger-2">
+                    <div class="relative aspect-[4/3] mb-6 img-container rounded-lg cursor-pointer" onclick="orderItem('Lomo Saltado')">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76690b67f61?q=80&w=2070&auto=format&fit=crop" 
+                             class="w-full h-full object-cover img-zoom" 
+                             alt="Lomo Saltado"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.style.background='#1a1a1a'">
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-serif text-white">Lomo Saltado</h3>
+                        <span class="text-lg font-medium text-gold-500">S/ 68</span>
+                    </div>
+                    <p class="text-stone-500 text-sm font-light mb-4 line-clamp-2">Lomo fino, wok, papas nativas, arroz graneado.</p>
+                    <button onclick="orderItem('Lomo Saltado')" class="w-full py-3 bg-white/5 border border-white/10 text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                        Pedir por WhatsApp
+                    </button>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group fade-in-up stagger-3">
+                    <div class="relative aspect-[4/3] mb-6 img-container rounded-lg cursor-pointer" onclick="orderItem('Pisco Sour')">
+                        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974&auto=format&fit=crop" 
+                             class="w-full h-full object-cover img-zoom" 
+                             alt="Pisco Sour"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.style.background='#1a1a1a'">
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-serif text-white">Pisco Sour</h3>
+                        <span class="text-lg font-medium text-gold-500">S/ 35</span>
+                    </div>
+                    <p class="text-stone-500 text-sm font-light mb-4 line-clamp-2">Pisco Quebranta, limón sutil, amargo de angostura.</p>
+                    <button onclick="orderItem('Pisco Sour')" class="w-full py-3 bg-white/5 border border-white/10 text-white rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all flex items-center justify-center gap-2">
+                        Pedir por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 bg-charcoal border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 fade-in-up">
+                <h4 class="text-gold-500 font-bold tracking-[0.2em] uppercase text-xs mb-6">La Experiencia</h4>
+                <h2 class="text-3xl md:text-5xl font-serif font-medium text-white mb-8 leading-tight">Diseñado para <br>el disfrute.</h2>
+                <div class="space-y-8 text-stone-400 font-light leading-relaxed">
+                    <p>
+                        No somos solo un restaurante; somos un destino. Ubicados en el corazón de San Isidro, ofrecemos un santuario culinario donde el ruido de la ciudad se desvanece.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8 pt-4">
+                        <div>
+                            <h5 class="text-white font-bold mb-2">Chef Ejecutivo</h5>
+                            <p class="text-sm">Técnicas francesas con alma peruana.</p>
+                        </div>
+                        <div>
+                            <h5 class="text-white font-bold mb-2">Bodega Premium</h5>
+                            <p class="text-sm">Más de 50 etiquetas exclusivas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 fade-in-up stagger-2">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gold-500/20 blur-3xl rounded-full opacity-20"></div>
+                    <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1974&auto=format&fit=crop" 
+                         class="relative rounded-lg shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" 
+                         alt="Chef plating"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.background='#1a1a1a'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation System -->
+    <section id="reserve" class="py-24 md:py-32 bg-obsidian relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-charcoal to-transparent opacity-50 pointer-events-none"></div>
+
+        <div class="max-w-3xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-serif font-medium text-white mb-4">Reserva tu Mesa</h2>
+                <p class="text-stone-500 font-light">Confirmación inmediata vía WhatsApp. Sin esperas.</p>
+            </div>
+
+            <div class="glass-panel p-8 md:p-10 rounded-2xl shadow-2xl fade-in-up stagger-2">
+                <form id="booking-form" onsubmit="handleBooking(event)" class="space-y-6">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Fecha</label>
+                            <input type="date" id="date" required class="w-full input-field rounded-lg px-4 py-3 text-sm text-white">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Hora</label>
+                            <input type="time" id="time" required class="w-full input-field rounded-lg px-4 py-3 text-sm text-white">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Personas</label>
+                            <select id="guests" class="w-full input-field rounded-lg px-4 py-3 text-sm text-white appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSI+PC9wb2x5bGluZT48L3N2Zz4=')] bg-no-repeat bg-right-4">
+                                <option value="2">2 Personas</option>
+                                <option value="3">3 Personas</option>
+                                <option value="4">4 Personas</option>
+                                <option value="5">5 Personas</option>
+                                <option value="6+">6+ Personas</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Zona</label>
+                            <select id="zone" class="w-full input-field rounded-lg px-4 py-3 text-sm text-white appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSI+PC9wb2x5bGluZT48L3N2Zz4=')] bg-no-repeat bg-right-4">
+                                <option value="Salón">Salón Principal</option>
+                                <option value="Terraza">Terraza</option>
+                                <option value="Privado">Salón Privado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-white text-black font-bold py-4 rounded-lg hover:bg-stone-200 transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 uppercase tracking-widest text-xs shadow-lg">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            Confirmar Disponibilidad
+                        </button>
+                        <p class="text-center text-[10px] text-stone-500 mt-4 flex items-center justify-center gap-1">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            Respuesta garantizada en &lt; 2 min
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews with Real Photos -->
+    <section id="reviews" class="py-24 bg-obsidian border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-serif font-medium text-white mb-4">Lo Que Dicen</h2>
+                <p class="text-stone-500 font-light">Experiencias reales de nuestros comensales.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="p-8 border border-white/5 rounded-xl bg-charcoal/30 fade-in-up stagger-1">
+                    <div class="flex text-gold-500 mb-4 text-xs">★★★★★</div>
+                    <p class="text-stone-300 text-sm font-light leading-relaxed mb-6">"La reserva fue instantánea. La comida es de otro mundo. Definitivamente el mejor lugar en Lima."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop" 
+                             alt="Ana P." 
+                             class="w-10 h-10 rounded-full object-cover"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'">
+                        <div>
+                            <p class="text-xs font-bold text-white">Ana P.</p>
+                            <p class="text-[10px] text-stone-500">Cliente Verificada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="p-8 border border-white/5 rounded-xl bg-charcoal/30 fade-in-up stagger-2">
+                    <div class="flex text-gold-500 mb-4 text-xs">★★★★★</div>
+                    <p class="text-stone-300 text-sm font-light leading-relaxed mb-6">"Atención impecable desde el WhatsApp hasta la mesa. El lomo saltado es obligatorio."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" 
+                             alt="Carlos R." 
+                             class="w-10 h-10 rounded-full object-cover"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'">
+                        <div>
+                            <p class="text-xs font-bold text-white">Carlos R.</p>
+                            <p class="text-[10px] text-stone-500">Cliente Verificado</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="p-8 border border-white/5 rounded-xl bg-charcoal/30 fade-in-up stagger-3">
+                    <div class="flex text-gold-500 mb-4 text-xs">★★★★★</div>
+                    <p class="text-stone-300 text-sm font-light leading-relaxed mb-6">"Ambiente sofisticado pero relajado. Perfecto para una cena de negocios o romántica."</p>
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop" 
+                             alt="María L." 
+                             class="w-10 h-10 rounded-full object-cover"
+                             onload="this.classList.add('loaded')"
+                             onerror="this.src='https://images.unsplash.com/photo-1554151228-14d9def656ec?q=80&w=200&auto=format&fit=crop'">
+                        <div>
+                            <p class="text-xs font-bold text-white">María L.</p>
+                            <p class="text-[10px] text-stone-500">Cliente Verificada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="py-24 bg-charcoal border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl md:text-4xl font-serif font-medium text-white mb-4">Galería</h2>
+                <p class="text-stone-500 font-light">Momentos capturados en La Casona.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="col-span-2 row-span-2 fade-in-up stagger-1">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop" 
+                         class="w-full h-full object-cover rounded-lg img-container group" 
+                         alt="Restaurant Interior"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.background='#1a1a1a'">
+                </div>
+                <div class="fade-in-up stagger-2">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3c47e2ce2?q=80&w=2070&auto=format&fit=crop" 
+                         class="w-full h-48 object-cover rounded-lg img-container group" 
+                         alt="Wine"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.background='#1a1a1a'">
+                </div>
+                <div class="fade-in-up stagger-3">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop" 
+                         class="w-full h-48 object-cover rounded-lg img-container group" 
+                         alt="Plating"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.background='#1a1a1a'">
+                </div>
+                <div class="col-span-2 fade-in-up stagger-2">
+                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop" 
+                         class="w-full h-48 object-cover rounded-lg img-container group" 
+                         alt="Terrace"
+                         onload="this.classList.add('loaded')"
+                         onerror="this.style.background='#1a1a1a'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <a href="#" class="text-xl font-serif font-bold text-white tracking-tight block mb-2">
+                    La Casona<span class="text-gold-500">.</span>
+                </a>
+                <p class="text-[10px] text-stone-500 uppercase tracking-widest">© 2024 All Rights Reserved.</p>
+            </div>
+            
+            <div class="flex space-x-6">
+                <a href="#" class="text-stone-500 hover:text-white transition-colors text-xs uppercase tracking-widest">Instagram</a>
+                <a href="#" class="text-stone-500 hover:text-white transition-colors text-xs uppercase tracking-widest">Facebook</a>
+            </div>
+
+            <a href="https://wa.me/51987654321" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold-600 hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-obsidian/90', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                navbar.classList.remove('py-6', 'border-white/5');
+            } else {
+                navbar.classList.remove('bg-obsidian/90', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                navbar.classList.add('py-6', 'border-white/5');
+            }
+        });
+
+        // Mobile Menu
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('translate-x-full');
+            document.body.classList.toggle('overflow-hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.classList.remove('overflow-hidden');
+            });
+        });
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // Image Loading Handler
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            }
+        });
+
+        // Logic
+        function orderItem(item) {
+            const msg = `🍽️ *Hola La Casona!* Quisiera pedir: ${item}. ¿Disponibilidad?`;
+            window.open(`https://wa.me/51987654321?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const guests = document.getElementById('guests').value;
+            const zone = document.getElementById('zone').value;
+            
+            const msg = `🍷 *Reserva La Casona*%0A%0A📅 ${date}%0A⏰ ${time}%0A👥 ${guests} pax%0A🪑 ${zone}%0A%0A¿Confirmado?`;
+            window.open(`https://wa.me/51987654321?text=${msg}`, '_blank');
+        }
+
+        // Set min date
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>
+```
