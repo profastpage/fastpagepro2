@@ -104,7 +104,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Hospedaje Experiencial",
       description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://amazoniaecostay.netlify.app/"
+      link: "https://amazonia-eco-stay.netlify.app/"
     },
     {
       title: "La Casona Gourmet",
@@ -120,7 +120,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Consultoría Estratégica",
       description: "Sistema de captación de clientes y agendamiento automático por WhatsApp enfocado en generar leads calificados.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://growth-consulting-peru.netlify.app/"
     }
   ],
   en: [
@@ -138,7 +138,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Experiential Lodge",
       description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "https://amazoniaecostay.netlify.app/"
+      link: "https://amazonia-eco-stay.netlify.app/"
     },
     {
       title: "La Casona Gourmet",
@@ -154,7 +154,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Strategic Consulting",
       description: "Client acquisition and automatic scheduling system via WhatsApp focused on generating qualified leads.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
+      link: "https://growth-consulting-peru.netlify.app/"
     }
   ]
 };
