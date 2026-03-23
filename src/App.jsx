@@ -158,16 +158,6 @@ const PORTFOLIO_BY_LANG = {
     }
   ]
 };
-    {
-      title: "Pariwana Business Hotel",
-      location: "Piura, Peru",
-      category: "Corporate Hotel",
-      description: "Corporate booking flow with automatic confirmation and sales follow-up.",
-      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      link: "#"
-    }
-  ]
-};
 
 const TESTIMONIALS_BY_LANG = {
   es: [
