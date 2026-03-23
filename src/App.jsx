@@ -161,7 +161,7 @@ const PORTFOLIO_BY_LANG = {
 
 const TESTIMONIALS_BY_LANG = {
   es: [
-    { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Lima", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
+    { name: "Cesar", hotel: "Vuelo78Hotel-Perú", location: "Lima", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
     { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "El diseño es elegante y profesional. Se adapta perfectamente a lo que buscábamos." },
     { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "La automatización nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
     { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "El soporte técnico es excelente. Siempre están disponibles para ayudarnos." },
@@ -177,7 +177,7 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Elena Gomez", hotel: "Pariwana Hostel", location: "Lima", text: "Profesionalismo puro. La web carga instantáneamente incluso en zonas con mala señal." }
   ],
   en: [
-    { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Lima", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
+    { name: "Cesar", hotel: "Vuelo78Hotel-Peru", location: "Lima", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
     { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "The design is elegant and professional. It perfectly matches what we needed." },
     { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "Automation has saved us hours of administrative work. Highly recommended." },
     { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "Technical support is excellent. They are always available when we need help." },
@@ -2042,7 +2042,7 @@ export default function App() {
                   className="w-2 h-2 rounded-full bg-yellow-400"
                 />
                 <Zap size={14} className="text-yellow-400 fill-yellow-400" />
-                {copy.heroBadge}
+                🚀 Programa Piloto 2026
               </span>
             </motion.div>
 
@@ -2244,41 +2244,60 @@ export default function App() {
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto mt-12 md:mt-20">
-            {plans.map((plan, i) => (
-              <motion.div 
-                key={i} 
-                className={`relative p-8 md:p-10 rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-white text-stone-950 scale-105 shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10' : 'bg-stone-900/50 border-stone-800'}`}
-                whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
-              >
-                {plan.highlight && (
-                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-stone-950 text-white text-xs font-bold px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
-                    {copy.popularTag}
+            {plans.map((plan, i) => {
+              const mpLinks = {
+                START: "https://mpago.la/2jScw4A",
+                PRO: "https://mpago.la/28BQCLQ",
+                BUSINESS: "https://mpago.la/1GY3yPf"
+              };
+              const cuotas = {
+                START: "233.33",
+                PRO: "400",
+                BUSINESS: "566.67"
+              };
+              
+              return (
+                <motion.div
+                  key={i}
+                  className={`relative p-8 md:p-10 rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-white text-stone-950 scale-105 shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10' : 'bg-stone-900/50 border-stone-800'}`}
+                  whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
+                >
+                  {plan.highlight && (
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-stone-950 text-white text-xs font-bold px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                      {copy.popularTag}
+                    </div>
+                  )}
+                  <h3 className="text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
+                  <div className="text-5xl md:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
+                  <div className="text-sm opacity-40 mb-8">{plan.period}</div>
+
+                  <ul className="space-y-4 mb-10 flex-1 text-left">
+                    {plan.features.map((f, j) => (
+                      <li key={j} className="flex items-start gap-3 text-sm md:text-base">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-stone-950 text-white' : 'bg-white/10 text-white'}`}>
+                          <Check size={12} strokeWidth={3} />
+                        </div>
+                        <span className={plan.highlight ? 'text-stone-600' : 'text-stone-300'}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href={mpLinks[plan.name]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group ${plan.highlight ? 'bg-stone-950 text-white hover:bg-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]' : 'bg-transparent border border-stone-200 text-stone-900 hover:bg-stone-50 dark:border-stone-700 dark:text-white dark:hover:bg-stone-800'} px-8 py-4 md:px-10 md:py-5 text-sm md:text-base`}
+                  >
+                    <span className="flex items-center gap-2 relative z-10">
+                      {copy.selectPlan}
+                      {!plan.highlight && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
+                    </span>
+                  </a>
+                  <div className="mt-2 text-center">
+                    <p className="text-xs text-gray-500 dark:text-stone-400">💳 3 cuotas sin interés: <span className="font-semibold">S/ {cuotas[plan.name]}/mes</span></p>
                   </div>
-                )}
-                <h3 className="text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
-                <div className="text-5xl md:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
-                <div className="text-sm opacity-40 mb-8">{plan.period}</div>
-                
-                <ul className="space-y-4 mb-10 flex-1 text-left">
-                  {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm md:text-base">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-stone-950 text-white' : 'bg-white/10 text-white'}`}>
-                        <Check size={12} strokeWidth={3} />
-                      </div>
-                      <span className={plan.highlight ? 'text-stone-600' : 'text-stone-300'}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <WhatsAppButton
-                  text={copy.selectPlan}
-                  variant={plan.highlight ? "dark" : "outline"}
-                  className={`w-full ${plan.highlight ? '!text-white' : '!text-white !border-white/80 hover:!bg-white/10'}`}
-                  message={language === 'es'
-                    ? `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información y contratar el *Plan ${plan.name}*.\n\n${WA_EMOJI.check} *Objetivo:* Implementar web con reservas por WhatsApp.\n\nQuedo atento.`
-                    : `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want information and to purchase the *${plan.name} Plan*.\n\n${WA_EMOJI.check} *Goal:* Launch a website with WhatsApp bookings.\n\nLooking forward to your response.`}
-                />
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -2328,7 +2347,7 @@ export default function App() {
               <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><MessageCircle size={24} /></motion.a>
               <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><Star size={24} /></motion.a>
             </div>
-            <div className="text-stone-500 text-sm dark:text-stone-400">{copy.footerRights}</div>
+            <div className="text-stone-500 text-sm dark:text-stone-400">© 2026 FastPagePro - Fabio Herrera, Fundador. Todos los derechos reservados.</div>
           </div>
         </div>
       </footer>
