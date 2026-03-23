@@ -2222,8 +2222,8 @@ export default function App() {
               const imageMap = {
                 "Atracción": "/images/02-demo-en-vivo/Atracción.png",
                 "Interacción": "/images/02-demo-en-vivo/Interacción.png",
-                "Recibe reservas directas en tu WhatsApp": "/images/02-demo-en-vivo/conversión.png",
-                "Conversion": "/images/02-demo-en-vivo/conversión.png"
+                "Conversión": "/images/02-demo-en-vivo/conversión.png",
+                "Recibe reservas directas en tu WhatsApp": "/images/02-demo-en-vivo/conversión.png"
               };
               
               return (
