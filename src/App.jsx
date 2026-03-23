@@ -2178,30 +2178,39 @@ export default function App() {
             </motion.div>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {copy.demoCards.map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="bg-white dark:bg-stone-900 rounded-[2rem] overflow-hidden border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500 group"
-                whileHover={{ y: -10 }}
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={`/images/02-demo-en-vivo/conversion.png`}
-                    alt={step.title}
-                    onError={handleImageFallback}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                </div>
-                <div className="p-6 md:p-8">
-                  <h4 className="text-xl md:text-2xl font-bold mb-3 dark:text-white">{step.title}</h4>
-                  <p className="text-stone-500 dark:text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            {copy.demoCards.map((step, i) => {
+              // Map card titles to image filenames
+              const imageMap = {
+                "Atracción": "/images/02-demo-en-vivo/Experiencia-Fluida-principal.png",
+                "Interacción": "/images/02-demo-en-vivo/Experiencia-Fluida-principal.png",
+                "Conversión": "/images/02-demo-en-vivo/conversión.png"
+              };
+              
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                  className="bg-white dark:bg-stone-900 rounded-[2rem] overflow-hidden border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500 group"
+                  whileHover={{ y: -10 }}
+                >
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img
+                      src={imageMap[step.title] || step.image}
+                      alt={step.title}
+                      onError={handleImageFallback}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-6 md:p-8">
+                    <h4 className="text-xl md:text-2xl font-bold mb-3 dark:text-white">{step.title}</h4>
+                    <p className="text-stone-500 dark:text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Live Demo with Phone Mockup */}
