@@ -2087,9 +2087,9 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
 
-        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 pt-24 md:pt-28 lg:pt-32 text-center text-white flex flex-col items-center justify-center">
-          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl md:max-w-6xl lg:max-w-7xl mx-auto">
-            <motion.div className="inline-block mb-12 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
+        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 pt-20 md:pt-24 lg:pt-28 pb-8 md:pb-12 text-center text-white flex flex-col items-center justify-center">
+          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl md:max-w-6xl lg:max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[80vh] md:min-h-[85vh]">
+            <motion.div className="inline-block mb-6 md:mb-8 px-5 md:px-6 py-2 md:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
                 <motion.div
                   animate={{
@@ -2103,16 +2103,16 @@ export default function App() {
               </span>
             </motion.div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mb-8 leading-[1.05]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter mb-4 md:mb-6 leading-[1.05]">
               {copy.heroTitleTop} <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{copy.heroTitleBottom}</span>
             </h1>
 
-            <p className="text-lg md:text-xl lg:text-2xl text-stone-300 mb-12 max-w-2xl md:max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-stone-300 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
               {copy.heroSubtitle}
             </p>
-            
-            <div className="w-full max-w-xl mx-auto flex flex-col gap-3 sm:gap-4">
+
+            <div className="w-full max-w-md mx-auto flex flex-col gap-3 sm:gap-4 px-4">
               <a
                 href="#mockup-celular"
                 onClick={(e) => {
@@ -2122,21 +2122,21 @@ export default function App() {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                className="block w-full max-w-xs mx-auto md:max-w-md bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-lg text-lg transition-all duration-300 shadow-lg"
+                className="block w-full mx-auto bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3.5 md:py-4 px-6 rounded-lg text-base md:text-lg transition-all duration-300 shadow-lg"
               >
                 {copy.heroPrimaryCta} →
               </a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 variant="outline"
-                className="w-full h-[56px] px-6 text-[15px] font-semibold border-[1.5px] !text-white !border-white hover:!bg-white/10"
+                className="w-full h-[50px] md:h-[56px] px-6 text-[14px] md:text-[15px] font-semibold border-[1.5px] !text-white !border-white hover:!bg-white/10"
               />
             </div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-16 flex items-center justify-center gap-8 flex-wrap">
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Shield size={16} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Clock size={16} className="text-white" /> {copy.tags[2]}</div>
-              <div className="flex items-center gap-2 text-sm text-stone-400"><Award size={16} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-6 md:mt-8 flex items-center justify-center gap-4 md:gap-6 flex-wrap px-4">
+              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Shield size={14} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Clock size={14} className="text-white" /> {copy.tags[2]}</div>
+              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Award size={14} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
             </motion.div>
 
             {/* Live Booking Counter */}
@@ -2144,14 +2144,14 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2 }}
-              className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+              className="mt-4 md:mt-6 inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
             >
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="w-2 h-2 rounded-full bg-green-400"
               />
-              <span className="text-sm text-stone-300">
+              <span className="text-xs md:text-sm text-stone-300">
                 <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
               </span>
             </motion.div>

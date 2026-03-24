@@ -91,3 +91,17 @@ body {
     min-height: 900px;
   }
 }
+
+/* For tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  #top {
+    min-height: 100vh;
+  }
+}
+
+/* For mobile devices (320px - 767px) */
+@media (max-width: 767px) {
+  #top {
+    min-height: 100vh;
+  }
+}
