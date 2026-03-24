@@ -1333,15 +1333,18 @@ const PortfolioSection = ({ copy, projects }) => (
             "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
             "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png"
           };
-          
+
           return (
-            <motion.article
+            <motion.a
               key={`${project.title}-${index}`}
+              href={project.link}
+              target="_blank"
+              rel="noreferrer noopener"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.07 }}
-              className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)]"
+              className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)] block no-underline"
               whileHover={{ y: -8 }}
             >
               <div className="aspect-[4/3] overflow-hidden">
@@ -1349,14 +1352,14 @@ const PortfolioSection = ({ copy, projects }) => (
               </div>
               <div className="p-5">
                 <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
-                <h3 className="text-xl font-bold text-stone-950 dark:text-white">{project.title}</h3>
+                <h3 className="text-xl font-bold text-stone-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h3>
                 <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
                 <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
-                <a href={project.link} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
-                  Ver demo ↗
-                </a>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
+                  {copy.portfolioCta}
+                </span>
               </div>
-            </motion.article>
+            </motion.a>
           );
         })}
       </div>
