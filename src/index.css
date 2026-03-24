@@ -69,3 +69,25 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Hero Section - 1920x1080px Desktop Responsive */
+/* Ensures full 1080p height on desktop while maintaining responsiveness */
+@media (min-width: 1920px) {
+  #top {
+    min-height: 1080px;
+  }
+}
+
+/* For screens between 1366px and 1919px - common laptop/desktop sizes */
+@media (min-width: 1366px) and (max-width: 1919px) {
+  #top {
+    min-height: 1080px;
+  }
+}
+
+/* For smaller laptops (1024px - 1365px) */
+@media (min-width: 1024px) and (max-width: 1365px) {
+  #top {
+    min-height: 900px;
+  }
+}

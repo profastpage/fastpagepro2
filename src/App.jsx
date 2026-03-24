@@ -2062,8 +2062,8 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION */}
-      <section id="top" className="relative w-full h-screen min-h-screen overflow-hidden flex items-center justify-center">
+      {/* HERO SECTION - 1920x1080px Desktop Responsive */}
+      <section id="top" className="relative w-full h-screen min-h-[1080px] overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0 bg-black">
           {HERO_IMAGES.map((src, index) => (
             <motion.img
@@ -2087,7 +2087,7 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
 
-        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 text-center text-white flex flex-col items-center justify-center">
+        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 pt-24 md:pt-28 lg:pt-32 text-center text-white flex flex-col items-center justify-center">
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl md:max-w-6xl lg:max-w-7xl mx-auto">
             <motion.div className="inline-block mb-12 mt-8 lg:mt-14 px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
               <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
