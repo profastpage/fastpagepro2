@@ -2062,8 +2062,8 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION - 1920x1080px Desktop Responsive */}
-      <section id="top" className="relative w-full h-screen min-h-[1080px] overflow-hidden flex items-center justify-center">
+      {/* HERO SECTION - Mobile First Responsive */}
+      <section id="top" className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0 bg-black">
           {HERO_IMAGES.map((src, index) => (
             <motion.img
@@ -2087,32 +2087,44 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
 
-        <motion.div className="relative z-20 w-full px-4 md:px-12 lg:px-24 pt-20 md:pt-24 lg:pt-28 pb-8 md:pb-12 text-center text-white flex flex-col items-center justify-center">
-          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="max-w-5xl md:max-w-6xl lg:max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[80vh] md:min-h-[85vh]">
-            <motion.div className="inline-block mb-6 md:mb-8 px-5 md:px-6 py-2 md:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" whileHover={{ scale: 1.05 }}>
-              <span className="text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-2">
+        <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 60 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 1, delay: 0.2 }} 
+            className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
+          >
+            {/* Badge - Fixed for mobile */}
+            <motion.div 
+              className="inline-block mb-5 sm:mb-6 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" 
+              whileHover={{ scale: 1.05 }}
+            >
+              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
                 <motion.div
                   animate={{
                     boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-2 h-2 rounded-full bg-yellow-400"
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
                 />
-                <Zap size={14} className="text-yellow-400 fill-yellow-400" />
-                🚀 Programa Piloto 2026
+                <Zap size={12} className="text-yellow-400 fill-yellow-400" />
+                <span className="hidden xs:inline">🚀</span> Programa Piloto 2026
               </span>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter mb-4 md:mb-6 leading-[1.05]">
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-3 sm:mb-4 md:mb-6 leading-[1.1]">
               {copy.heroTitleTop} <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{copy.heroTitleBottom}</span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-stone-300 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
+            {/* Subtitle */}
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-stone-300 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
               {copy.heroSubtitle}
             </p>
 
-            <div className="w-full max-w-md mx-auto flex flex-col gap-3 sm:gap-4 px-4">
+            {/* CTA Buttons - Same size and design */}
+            <div className="w-full max-w-sm mx-auto flex flex-col gap-3 sm:gap-4">
               <a
                 href="#mockup-celular"
                 onClick={(e) => {
@@ -2122,36 +2134,45 @@ export default function App() {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                className="block w-full mx-auto bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3.5 md:py-4 px-6 rounded-lg text-base md:text-lg transition-all duration-300 shadow-lg"
+                className="block w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)] hover:-translate-y-0.5"
               >
-                {copy.heroPrimaryCta} →
+                <span className="flex items-center justify-center gap-2">
+                  {language === 'es' ? 'Ver cómo funciona' : 'See how it works'}
+                  <ArrowRight size={18} />
+                </span>
               </a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 variant="outline"
-                className="w-full h-[50px] md:h-[56px] px-6 text-[14px] md:text-[15px] font-semibold border-[1.5px] !text-white !border-white hover:!bg-white/10"
+                className="w-full h-[52px] px-6 text-base font-semibold border-2 !text-white !border-white hover:!bg-white/10 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
               />
             </div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="mt-6 md:mt-8 flex items-center justify-center gap-4 md:gap-6 flex-wrap px-4">
-              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Shield size={14} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Clock size={14} className="text-white" /> {copy.tags[2]}</div>
-              <div className="flex items-center gap-1.5 md:gap-2 text-xs md:text-sm text-stone-400"><Award size={14} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
+            {/* Trust Badges */}
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 1.2 }} 
+              className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
+            >
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Clock size={12} className="text-white" /> {copy.tags[2]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Award size={12} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
             </motion.div>
 
-            {/* Live Booking Counter */}
+            {/* Live Booking Counter - Fixed for mobile */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 2 }}
-              className="mt-4 md:mt-6 inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+              transition={{ delay: 1.8 }}
+              className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 max-w-full"
             >
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-2 h-2 rounded-full bg-green-400"
+                className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"
               />
-              <span className="text-xs md:text-sm text-stone-300">
+              <span className="text-xs sm:text-sm text-stone-300 whitespace-nowrap overflow-hidden text-ellipsis">
                 <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
               </span>
             </motion.div>
