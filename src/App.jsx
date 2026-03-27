@@ -1073,21 +1073,21 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
       {/* Navigation Arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+        className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
         aria-label="Previous testimonial"
       >
-        <ChevronLeft size={20} />
+        <ChevronLeft size={18} />
       </button>
       <button
         onClick={goToNext}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+        className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-9 h-9 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
         aria-label="Next testimonial"
       >
-        <ChevronRight size={20} />
+        <ChevronRight size={18} />
       </button>
 
       {/* Carousel Track */}
-      <div className="overflow-hidden px-12">
+      <div className="overflow-hidden px-14">
         <motion.div
           className="flex"
           animate={{ x: `-${currentIndex * 100}%` }}
@@ -1098,15 +1098,40 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
           onDragEnd={handleDragEnd}
         >
           {testimonials.map((t, i) => (
-            <div key={i} className="w-full flex-shrink-0 px-2">
-              <TestimonialCard testimonial={t} index={i} />
+            <div key={i} className="w-full flex-shrink-0 px-1.5">
+              <div className="bg-white dark:bg-stone-900 rounded-3xl p-5 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col h-[260px]">
+                <div className="flex-1">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, starIndex) => (
+                      <Star key={starIndex} size={16} className="text-stone-900 dark:text-white fill-stone-900 dark:fill-white" />
+                    ))}
+                  </div>
+                  <p className="text-stone-700 dark:text-stone-300 text-sm leading-relaxed line-clamp-4">
+                    "{t.text}"
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+                  <img
+                    src={t.avatar || LATIN_AVATARS[i % LATIN_AVATARS.length]}
+                    alt={t.name}
+                    onError={handleImageFallback}
+                    className="w-10 h-10 rounded-full object-cover border border-stone-200 dark:border-stone-700 flex-shrink-0"
+                    loading="lazy"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-stone-950 dark:text-white text-sm truncate">{t.name}</div>
+                    <div className="text-xs text-stone-500 dark:text-stone-400 truncate">{t.hotel} • {t.location}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </motion.div>
       </div>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="flex justify-center gap-2 mt-5">
         {testimonials.map((_, i) => (
           <button
             key={i}
