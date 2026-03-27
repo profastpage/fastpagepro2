@@ -1012,11 +1012,11 @@ Could you confirm availability?`;
 const TestimonialCard = ({ testimonial, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="min-w-[280px] md:min-w-[400px] bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col h-[280px]"
+      className="bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col h-auto min-h-[280px]"
     >
       <div className="flex-1">
         <div className="flex gap-1 mb-6">
@@ -1024,7 +1024,7 @@ const TestimonialCard = ({ testimonial, index }) => {
             <Star key={i} size={18} className="text-stone-900 dark:text-white fill-stone-900 dark:fill-white" />
           ))}
         </div>
-        <p className="text-stone-700 dark:text-stone-300 text-lg leading-relaxed mb-6 line-clamp-4">
+        <p className="text-stone-700 dark:text-stone-300 text-base md:text-lg leading-relaxed mb-6">
           "{testimonial.text}"
         </p>
       </div>
@@ -1034,12 +1034,12 @@ const TestimonialCard = ({ testimonial, index }) => {
           src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]}
           alt={testimonial.name}
           onError={handleImageFallback}
-          className="w-12 h-12 rounded-full object-cover border border-stone-200 dark:border-stone-700"
+          className="w-12 h-12 rounded-full object-cover border border-stone-200 dark:border-stone-700 flex-shrink-0"
           loading="lazy"
         />
-        <div>
-          <div className="font-bold text-stone-950 dark:text-white">{testimonial.name}</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400">{testimonial.hotel} • {testimonial.location}</div>
+        <div className="flex-1 min-w-0">
+          <div className="font-bold text-stone-950 dark:text-white truncate">{testimonial.name}</div>
+          <div className="text-sm text-stone-500 dark:text-stone-400 truncate">{testimonial.hotel} • {testimonial.location}</div>
         </div>
       </div>
     </motion.div>
@@ -2301,17 +2301,24 @@ export default function App() {
         ))}
       </section>
 
-      {/* TESTIMONIALS - Horizontal Scroll Carousel */}
-      <section id="testimonios" className="py-32 md:py-40 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
+      {/* TESTIMONIALS - Grid on Mobile, Horizontal Scroll on Desktop */}
+      <section id="testimonios" className="py-16 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
-          
-          {/* Horizontal Scroll Container */}
-          <div className="relative w-full overflow-hidden pb-8">
-            <motion.div 
+
+          {/* Mobile: Vertical Grid */}
+          <div className="md:hidden grid grid-cols-1 gap-6">
+            {testimonials.map((t, i) => (
+              <TestimonialCard key={i} testimonial={t} index={i} />
+            ))}
+          </div>
+
+          {/* Desktop: Horizontal Scroll */}
+          <div className="hidden md:block relative w-full overflow-hidden pb-8">
+            <motion.div
               className="flex gap-6"
               drag="x"
-              dragConstraints={{ left: -((testimonials.length * 380) - window.innerWidth), right: 0 }}
+              dragConstraints={{ left: -((testimonials.length * 420) - window.innerWidth), right: 0 }}
               dragElastic={0.1}
               dragTransition={{ power: 0.5, timeConstant: 300 }}
             >
@@ -2319,7 +2326,7 @@ export default function App() {
                 <TestimonialCard key={i} testimonial={t} index={i} />
               ))}
             </motion.div>
-            
+
             {/* Gradient Fade Edges */}
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-stone-50 to-transparent dark:from-stone-950 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-stone-50 to-transparent dark:from-stone-950 pointer-events-none" />
