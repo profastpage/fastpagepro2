@@ -1046,6 +1046,83 @@ const TestimonialCard = ({ testimonial, index }) => {
   );
 };
 
+// Mobile Testimonial Carousel Component
+const MobileTestimonialCarousel = ({ testimonials }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleDragEnd = (_, info) => {
+    const swipeThreshold = 50;
+    if (info.offset.x > swipeThreshold) {
+      goToPrevious();
+    } else if (info.offset.x < -swipeThreshold) {
+      goToNext();
+    }
+  };
+
+  return (
+    <div className="md:hidden relative">
+      {/* Navigation Arrows */}
+      <button
+        onClick={goToPrevious}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+        aria-label="Previous testimonial"
+      >
+        <ChevronLeft size={20} />
+      </button>
+      <button
+        onClick={goToNext}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white dark:bg-stone-900 rounded-full shadow-lg border border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-900 dark:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+        aria-label="Next testimonial"
+      >
+        <ChevronRight size={20} />
+      </button>
+
+      {/* Carousel Track */}
+      <div className="overflow-hidden px-12">
+        <motion.div
+          className="flex"
+          animate={{ x: `-${currentIndex * 100}%` }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={handleDragEnd}
+        >
+          {testimonials.map((t, i) => (
+            <div key={i} className="w-full flex-shrink-0 px-2">
+              <TestimonialCard testimonial={t} index={i} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Dots Indicator */}
+      <div className="flex justify-center gap-2 mt-4">
+        {testimonials.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              i === currentIndex
+                ? "bg-stone-900 dark:bg-white w-6"
+                : "bg-stone-300 dark:bg-stone-700"
+            }`}
+            aria-label={`Go to testimonial ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const SectionTitle = ({ title, subtitle, badge }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -2301,17 +2378,13 @@ export default function App() {
         ))}
       </section>
 
-      {/* TESTIMONIALS - Grid on Mobile, Horizontal Scroll on Desktop */}
+      {/* TESTIMONIALS - Carousel on Mobile, Horizontal Scroll on Desktop */}
       <section id="testimonios" className="py-16 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
 
-          {/* Mobile: Vertical Grid */}
-          <div className="md:hidden grid grid-cols-1 gap-6">
-            {testimonials.map((t, i) => (
-              <TestimonialCard key={i} testimonial={t} index={i} />
-            ))}
-          </div>
+          {/* Mobile: Carousel with arrows */}
+          <MobileTestimonialCarousel testimonials={testimonials} />
 
           {/* Desktop: Horizontal Scroll */}
           <div className="hidden md:block relative w-full overflow-hidden pb-8">
