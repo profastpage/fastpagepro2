@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 describe('Constants', () => {
   it('should have correct WhatsApp number', () => {
-    expect('51919662011').toBe('51919662011');
+    expect('51933667414').toBe('51933667414');
   });
 
   it('should have correct email', () => {

@@ -22,7 +22,7 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   size = 'normal',
 }) => {
   const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/51919662011?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
+  const url = `https://wa.me/51933667414?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
 

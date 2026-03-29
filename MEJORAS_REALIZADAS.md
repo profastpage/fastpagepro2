@@ -82,7 +82,7 @@ Esta documentação descreve todas as melhorias implementadas na plataforma Fast
   "@type": "ProfessionalService",
   "name": "Fast Page Pro",
   "priceRange": "S/ 700 - S/ 1700",
-  "telephone": "+51919662011",
+  "telephone": "+51933667414",
   "email": "profastpage@gmail.com"
 }
 ```

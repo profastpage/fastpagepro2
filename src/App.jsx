@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
 import {
   Check,
@@ -40,7 +40,7 @@ import {
 const _MOTION = motion;
 
 // --- Constants ---
-const WHATSAPP_NUMBER = "51919662011";
+const WHATSAPP_NUMBER = "51933667414";
 const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
 const WA_EMOJI = {
@@ -988,7 +988,7 @@ Could you confirm availability?`;
             </div>
 
             <motion.a
-              href={showMessage ? `https://wa.me/51919662011?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
+              href={showMessage ? `https://wa.me/51933667414?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
               target="_blank"
               rel="noreferrer noopener"
               whileHover={showMessage ? { scale: 1.02 } : {}}
