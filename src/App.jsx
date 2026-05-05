@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -113,6 +113,15 @@ const PORTFOLIO_CATEGORIES = {
 const PORTFOLIO_BY_LANG = {
   es: [
     {
+      title: "Urban Style",
+      location: "Lima, Perú",
+      category: "Tienda Online",
+      type: "tienda",
+      description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
+      image: "/images/03-portafolio/UrbanStyle.png",
+      link: "https://tienda-online-oficial.vercel.app/demo"
+    },
+    {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Perú",
       category: "Web Profesional",
@@ -186,6 +195,15 @@ const PORTFOLIO_BY_LANG = {
     }
   ],
   en: [
+    {
+      title: "Urban Style",
+      location: "Lima, Peru",
+      category: "Online Store",
+      type: "tienda",
+      description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
+      image: "/images/03-portafolio/UrbanStyle.png",
+      link: "https://tienda-online-oficial.vercel.app/demo"
+    },
     {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Peru",
@@ -1536,10 +1554,10 @@ Could you please confirm availability and final rate?`;
 };
 
 // --- Work Process Timeline (GSAP Animated) ---
-const ProcessTimeline = ({ copy }) => {
+const ProcessTimeline = ({ copy, language }) => {
   const timelineRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const timelineEl = timelineRef.current;
     if (!timelineEl) return;
 
@@ -1548,20 +1566,19 @@ const ProcessTimeline = ({ copy }) => {
     const circles = timelineEl.querySelectorAll('.timeline-circle');
     if (!steps.length) return;
 
-    // Immediately hide to prevent flash
-    steps.forEach((step, i) => {
-      gsap.set(step, { opacity: 0, x: i % 2 === 0 ? -60 : 60, scale: 0.95 });
-    });
-    gsap.set(arrows, { opacity: 0, scaleY: 0, transformOrigin: "center center" });
-    gsap.set(circles, { scale: 0, rotation: -180 });
-
     const ctx = gsap.context(() => {
+      // Hide items before paint
+      steps.forEach((step, i) => {
+        gsap.set(step, { opacity: 0, x: i % 2 === 0 ? -60 : 60, scale: 0.95 });
+      });
+      gsap.set(arrows, { opacity: 0, scaleY: 0, transformOrigin: "center center" });
+      gsap.set(circles, { scale: 0, rotation: -180 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: timelineEl,
           start: "top 75%",
-          toggleActions: "play none none none",
-          once: true
+          toggleActions: "play none none none"
         }
       });
 
@@ -1603,15 +1620,15 @@ const ProcessTimeline = ({ copy }) => {
   ];
 
   const ArrowDown = () => (
-    <div className="timeline-arrow flex justify-center py-1">
-      <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center">
-        <ChevronDown size={16} className="text-stone-400 dark:text-stone-500" />
+    <div className="timeline-arrow flex justify-center py-2">
+      <div className="w-10 h-10 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center shadow-md">
+        <ChevronDown size={18} className="text-stone-500 dark:text-stone-400" />
       </div>
     </div>
   );
 
   return (
-    <section id="proceso" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
+    <section id="proceso" className="py-16 md:py-28 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -1622,28 +1639,29 @@ const ProcessTimeline = ({ copy }) => {
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
             const isLast = index === copy.processSteps.length - 1;
+            const stepLabel = language === "es" ? "PASO" : "STEP";
 
             return (
-              <div key={step.num}>
+              <React.Fragment key={step.num}>
                 <div className="timeline-step relative flex items-start gap-4 md:gap-6">
                   {/* Icon Circle */}
-                  <div className="timeline-circle flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10">
-                    <Icon className="w-6 h-6 md:w-7 md:h-7 text-stone-950" />
+                  <div className="timeline-circle flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10">
+                    <Icon className="w-5 h-5 md:w-7 md:h-7 text-stone-950" />
                   </div>
 
                   {/* Content Card */}
-                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl p-5 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl p-4 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
                     <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] md:text-xs font-bold text-white mb-3 tracking-wider`}>
-                      PASO {step.num}
+                      {stepLabel} {step.num}
                     </div>
-                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                    <h3 className="text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                     <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
                   </div>
                 </div>
 
                 {/* Arrow between steps */}
                 {!isLast && <ArrowDown />}
-              </div>
+              </React.Fragment>
             );
           })}
         </div>
@@ -1658,7 +1676,7 @@ const ContactSection = ({ copy, language }) => {
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const formRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!formRef.current) return;
     const els = formRef.current.querySelectorAll('.contact-reveal');
     if (!els.length) return;
@@ -1781,7 +1799,7 @@ const ContactSection = ({ copy, language }) => {
 const CasesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!sectionRef.current) return;
     const cards = sectionRef.current.querySelectorAll('.case-card');
     if (!cards.length) return;
@@ -1853,27 +1871,27 @@ const TechStackSection = ({ copy }) => {
   const row1Ref = useRef(null);
   const row2Ref = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
     const row1El = row1Ref.current;
     const row2El = row2Ref.current;
-    const sectionEl = sectionRef.current;
-    if (!row1El || !row2El || !sectionEl) return;
+    if (!row1El || !row2El) return;
 
     const row1Items = row1El.querySelectorAll('.tech-item-row1');
     const row2Items = row2El.querySelectorAll('.tech-item-row2');
     if (!row1Items.length || !row2Items.length) return;
 
-    // Immediately hide items to prevent flash
-    gsap.set(row1Items, { opacity: 0, x: -120, scale: 0.5, rotation: -8 });
-    gsap.set(row2Items, { opacity: 0, x: 120, scale: 0.5, rotation: 8 });
-
     const ctx = gsap.context(() => {
+      // Hide items before paint
+      gsap.set(row1Items, { opacity: 0, x: -120, scale: 0.5, rotation: -8 });
+      gsap.set(row2Items, { opacity: 0, x: 120, scale: 0.5, rotation: 8 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionEl,
           start: "top 80%",
-          toggleActions: "play none none none",
-          once: true
+          toggleActions: "play none none none"
         }
       });
 
@@ -1922,20 +1940,20 @@ const TechStackSection = ({ copy }) => {
     <motion.div
       whileHover={{ y: -6, scale: 1.08, rotate: [-1, 1, -1, 0] }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
-      className={`${rowClass} group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] dark:bg-white/5 dark:border-white/10 dark:hover:border-white/30 dark:hover:bg-white/10`}
+      className={`${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
       style={{
         background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)'
       }}
     >
-      <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
+      <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
         {tech.name.charAt(0)}
       </div>
-      <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors dark:text-white/80 dark:group-hover:text-white" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
+      <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
     </motion.div>
   );
 
   return (
-    <section className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+    <section className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
@@ -1943,14 +1961,14 @@ const TechStackSection = ({ copy }) => {
 
         <div className="max-w-5xl mx-auto space-y-4">
           {/* Row 1 - Animate from LEFT */}
-          <div ref={row1Ref} className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div ref={row1Ref} className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow1.map((tech) => (
               <TechItem key={tech.name} tech={tech} rowClass="tech-item-row1" />
             ))}
           </div>
 
           {/* Row 2 - Animate from RIGHT */}
-          <div ref={row2Ref} className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div ref={row2Ref} className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow2.map((tech) => (
               <TechItem key={tech.name} tech={tech} rowClass="tech-item-row2" />
             ))}
@@ -2035,7 +2053,7 @@ const GSAPPreloader = ({ onComplete }) => {
 const useGSAPScrollReveal = (ref, options = {}) => {
   const { y = 60, duration = 0.8, stagger = 0.15, delay = 0, trigger, start = "top 85%" } = options;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) return;
 
     const elements = ref.current.querySelectorAll('.gsap-reveal');
@@ -2145,6 +2163,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
           <AnimatePresence mode="wait">
             {filteredProjects.map((project, index) => {
               const imageMap = {
+                "Urban Style": "/images/03-portafolio/UrbanStyle.png",
                 "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
                 "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
                 "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
@@ -2202,7 +2221,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
         {/* Stats Social Proof */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-16 gsap-reveal">
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+20</div>
+            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+45</div>
             <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
           </div>
           <div className="text-center">
@@ -3127,7 +3146,7 @@ export default function App() {
       <ServicesSection copy={copy} language={language} />
 
       {/* Process Timeline */}
-      <ProcessTimeline copy={copy} />
+      <ProcessTimeline copy={copy} language={language} />
 
       {/* Tech Stack */}
       <TechStackSection copy={copy} />
