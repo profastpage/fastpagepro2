@@ -44,7 +44,13 @@ import {
   Layers,
   Code,
   Palette,
-  Filter
+  Filter,
+  Search,
+  Rocket,
+  FlaskConical,
+  FileText,
+  MapPin,
+  Heart
 } from 'lucide-react';
 
 const _MOTION = motion;
@@ -443,6 +449,34 @@ const COPY = {
     servicesAppDesc: "Apps nativas y PWA (Progressive Web Apps) con experiencia de usuario fluida, notificaciones push, modo offline y rendimiento optimizado. Transformamos tu idea en una app que tus clientes amarán usar.",
     servicesCustomTitle: "Proyectos Personalizados",
     servicesCustomDesc: "Dashboards empresariales, sistemas de automatización, integraciones con APIs y soluciones a medida. Si lo puedes imaginar, lo podemos construir con tecnología de vanguardia.",
+    processTitle: "Nuestro Proceso",
+    processSubtitle: "Un flujo de trabajo probado que garantiza resultados profesionales en cada proyecto",
+    processBadge: "Como Trabajamos",
+    processSteps: [
+      { num: "01", title: "Descubrimiento", desc: "Analizamos tu negocio, competencia y objetivos para crear una estrategia digital personalizada que maximice tus resultados." },
+      { num: "02", title: "Diseño", desc: "Creamos wireframes y prototipos visuales de alta fidelidad. Cada pixel está pensado para convertir visitantes en clientes." },
+      { num: "03", title: "Desarrollo", desc: "Construimos tu proyecto con las mejores tecnologías del mercado. Código limpio, rendimiento extremo y seguridad integrada." },
+      { num: "04", title: "Pruebas", desc: "Testeamos en múltiples dispositivos y navegadores. Cada interacción funciona perfectamente antes del lanzamiento." },
+      { num: "05", title: "Lanzamiento", desc: "Desplegamos tu proyecto en producción con dominio, hosting ultra rápido y SSL. Tu negocio online desde el día 1." }
+    ],
+    contactTitle: "Hablemos de tu Proyecto",
+    contactSubtitle: "Cuéntanos tu idea y te responderemos en menos de 24 horas con una propuesta personalizada",
+    contactBadge: "Contacto",
+    contactName: "Tu Nombre",
+    contactEmail: "Tu Email",
+    contactPhone: "Tu Teléfono",
+    contactMessage: "Cuéntanos sobre tu proyecto...",
+    contactSend: "Enviar Mensaje",
+    contactSending: "Enviando...",
+    contactSuccess: "Mensaje enviado correctamente. Te contactaremos pronto.",
+    contactError: "Error al enviar. Intenta de nuevo o escríbenos por WhatsApp.",
+    casesTitle: "Casos de Éxito",
+    casesSubtitle: "Resultados reales de negocios que confiaron en nosotros para transformar su presencia digital",
+    casesBadge: "Historias de Éxito",
+    casesReadMore: "Leer caso completo",
+    techTitle: "Tecnologías que Usamos",
+    techSubtitle: "Trabajamos con las herramientas más avanzadas del mercado para garantizar rendimiento, seguridad y escalabilidad",
+    techBadge: "Tech Stack",
     testimonialsTitle: "Resultados reales",
     testimonialsSubtitle: "Negocios que ya están generando clientes con este sistema",
     testimonialsBadge: "Testimonios",
@@ -541,6 +575,34 @@ const COPY = {
     servicesAppDesc: "Native apps and PWAs with fluid user experience, push notifications, offline mode and optimized performance. We transform your idea into an app your customers will love using.",
     servicesCustomTitle: "Custom Projects",
     servicesCustomDesc: "Business dashboards, automation systems, API integrations and tailored solutions. If you can imagine it, we can build it with cutting-edge technology.",
+    processTitle: "Our Process",
+    processSubtitle: "A proven workflow that guarantees professional results in every project",
+    processBadge: "How We Work",
+    processSteps: [
+      { num: "01", title: "Discovery", desc: "We analyze your business, competition and goals to create a custom digital strategy that maximizes your results." },
+      { num: "02", title: "Design", desc: "We create high-fidelity wireframes and visual prototypes. Every pixel is designed to convert visitors into customers." },
+      { num: "03", title: "Development", desc: "We build your project with the best technologies on the market. Clean code, extreme performance and built-in security." },
+      { num: "04", title: "Testing", desc: "We test across multiple devices and browsers. Every interaction works perfectly before launch." },
+      { num: "05", title: "Launch", desc: "We deploy your project with domain, ultra-fast hosting and SSL. Your business online from day one." }
+    ],
+    contactTitle: "Let's Talk About Your Project",
+    contactSubtitle: "Tell us your idea and we will respond within 24 hours with a custom proposal",
+    contactBadge: "Contact",
+    contactName: "Your Name",
+    contactEmail: "Your Email",
+    contactPhone: "Your Phone",
+    contactMessage: "Tell us about your project...",
+    contactSend: "Send Message",
+    contactSending: "Sending...",
+    contactSuccess: "Message sent successfully. We will contact you soon.",
+    contactError: "Error sending. Try again or write us on WhatsApp.",
+    casesTitle: "Success Stories",
+    casesSubtitle: "Real results from businesses that trusted us to transform their digital presence",
+    casesBadge: "Success Stories",
+    casesReadMore: "Read full case",
+    techTitle: "Technologies We Use",
+    techSubtitle: "We work with the most advanced tools on the market to guarantee performance, security and scalability",
+    techBadge: "Tech Stack",
     testimonialsTitle: "Real Results",
     testimonialsSubtitle: "Businesses already generating customers with this system",
     testimonialsBadge: "Testimonials",
@@ -1528,6 +1590,358 @@ Could you please confirm availability and final rate?`;
         </div>
       </div>
     </div>
+  );
+};
+
+// --- Work Process Timeline (GSAP Animated) ---
+const ProcessTimeline = ({ copy }) => {
+  const timelineRef = useRef(null);
+
+  useEffect(() => {
+    if (!timelineRef.current) return;
+    const steps = timelineRef.current.querySelectorAll('.process-step');
+    const line = timelineRef.current.querySelector('.process-line-fill');
+    if (!steps.length || !line) return;
+
+    gsap.set(steps, { opacity: 0, y: 60 });
+    gsap.set(line, { scaleY: 0, transformOrigin: "top" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: timelineRef.current,
+        start: "top 80%",
+        toggleActions: "play none none none"
+      }
+    });
+
+    tl.to(steps, {
+      opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: "power3.out"
+    }).to(line, {
+      scaleY: 1, duration: 1.2, ease: "power2.inOut"
+    }, 0.3);
+
+    return () => { tl.kill(); };
+  }, []);
+
+  const icons = [Search, Palette, Code, FlaskConical, Rocket];
+  const gradients = [
+    "from-blue-500 to-cyan-400",
+    "from-purple-500 to-violet-400",
+    "from-emerald-500 to-green-400",
+    "from-orange-500 to-amber-400",
+    "from-yellow-400 to-amber-500"
+  ];
+
+  return (
+    <section id="proceso" className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
+
+        <div ref={timelineRef} className="max-w-4xl mx-auto relative">
+          {/* Vertical line - desktop */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2">
+            <div className="process-line-fill absolute top-0 left-0 w-full bg-gradient-to-b from-yellow-400 via-amber-500 to-orange-500" style={{ height: "100%" }} />
+          </div>
+
+          {copy.processSteps.map((step, index) => {
+            const Icon = icons[index];
+            const isLeft = index % 2 === 0;
+            return (
+              <div key={step.num} className={`process-step relative mb-12 md:mb-20 last:mb-0 md:flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8`}>
+                {/* Content */}
+                <div className={`md:w-1/2 ${isLeft ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
+                  <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-xs font-bold text-white mb-3 tracking-wider`}>
+                    PASO {step.num}
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{step.title}</h3>
+                  <p className="text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                </div>
+
+                {/* Center circle - desktop */}
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 items-center justify-center shadow-lg shadow-yellow-500/30 z-10 border-4 border-stone-950">
+                  <Icon className="w-6 h-6 text-stone-950" />
+                </div>
+
+                {/* Mobile layout */}
+                <div className="md:hidden flex items-start gap-4">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className={`inline-block px-3 py-1 rounded-full bg-white/10 text-xs font-bold text-stone-300 mb-2 tracking-wider`}>
+                      PASO {step.num}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
+                    <p className="text-stone-400 leading-relaxed text-sm">{step.desc}</p>
+                  </div>
+                </div>
+
+                {/* Spacer for opposite side */}
+                <div className="hidden md:block md:w-1/2" />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- Contact Form Section ---
+const ContactSection = ({ copy, language }) => {
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (!formRef.current) return;
+    const els = formRef.current.querySelectorAll('.contact-reveal');
+    if (!els.length) return;
+
+    gsap.set(els, { opacity: 0, y: 40 });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: formRef.current, start: "top 85%", toggleActions: "play none none none" }
+    });
+    tl.to(els, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" });
+
+    return () => { tl.kill(); };
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    const msg = `Hola Fast Page Pro!\n\nNombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.phone}\n\n${formData.message}`;
+    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+    setTimeout(() => {
+      window.open(waUrl, "_blank");
+      setStatus("success");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+      setTimeout(() => setStatus("idle"), 4000);
+    }, 800);
+  };
+
+  return (
+    <section id="contacto" className="py-32 md:py-40 bg-stone-100 dark:bg-stone-800 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-400/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div ref={formRef} className="container mx-auto px-4 relative z-10 max-w-3xl">
+        <SectionTitle title={copy.contactTitle} subtitle={copy.contactSubtitle} badge={copy.contactBadge} />
+
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-stone-900 rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200 dark:border-stone-800">
+          <div className="grid md:grid-cols-2 gap-5 mb-5">
+            <div className="contact-reveal">
+              <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactName}</label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
+                placeholder="Juan Pérez"
+              />
+            </div>
+            <div className="contact-reveal">
+              <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactEmail}</label>
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
+                placeholder="juan@email.com"
+              />
+            </div>
+          </div>
+          <div className="mb-5 contact-reveal">
+            <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactPhone}</label>
+            <input
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
+              placeholder="+51 999 999 999"
+            />
+          </div>
+          <div className="mb-6 contact-reveal">
+            <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactMessage}</label>
+            <textarea
+              required
+              rows={4}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm resize-none"
+            />
+          </div>
+
+          <div className="contact-reveal">
+            <AnimatePresence mode="wait">
+              {status === "success" ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 rounded-xl p-4 text-center"
+                >
+                  <p className="text-emerald-700 dark:text-emerald-300 font-semibold flex items-center justify-center gap-2">
+                    <Check size={18} /> {copy.contactSuccess}
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.button
+                  key="button"
+                  type="submit"
+                  disabled={status === "sending"}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-stone-950 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-950 font-semibold py-4 rounded-xl transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] flex items-center justify-center gap-2 text-sm"
+                >
+                  {status === "sending" ? (
+                    <>{copy.contactSending} <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}><Send size={16} /></motion.div></>
+                  ) : (
+                    <>{copy.contactSend} <ArrowRight size={16} /></>
+                  )}
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+};
+
+// --- Success Cases Section ---
+const CasesSection = ({ copy, language }) => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const cards = sectionRef.current.querySelectorAll('.case-card');
+    if (!cards.length) return;
+
+    gsap.set(cards, { opacity: 0, y: 50, scale: 0.95 });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", toggleActions: "play none none none" }
+    });
+    tl.to(cards, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.15, ease: "power3.out" });
+
+    return () => { tl.kill(); };
+  }, []);
+
+  const cases = [
+    {
+      title: language === "es" ? "Vuelo 78 Hotel: +180% reservas en 3 meses" : "Vuelo 78 Hotel: +180% bookings in 3 months",
+      metric: language === "es" ? "+180% reservas" : "+180% bookings",
+      desc: language === "es" ? "Tras implementar el sistema de reservas directas por WhatsApp, Vuelo 78 Hotel en Tarapoto pasó de 15 a 42 reservas mensuales. La automatización eliminó el 90% del trabajo manual en recepción." : "After implementing direct WhatsApp booking, Vuelo 78 Hotel in Tarapoto went from 15 to 42 monthly bookings. Automation eliminated 90% of manual reception work.",
+      image: "/images/03-portafolio/vuelo78hotel.png",
+      color: "from-blue-500 to-cyan-400"
+    },
+    {
+      title: language === "es" ? "Growth Consulting: 3x más leads calificados" : "Growth Consulting: 3x more qualified leads",
+      metric: language === "es" ? "3x leads" : "3x leads",
+      desc: language === "es" ? "La plataforma de captación generó un sistema automático que triplicó la cantidad de leads calificados. El tiempo de respuesta se redujo de horas a segundos con el bot de WhatsApp." : "The capture platform generated an automatic system that tripled qualified leads. Response time went from hours to seconds with the WhatsApp bot.",
+      image: "/images/03-portafolio/GrowthConsultingPerú.png",
+      color: "from-purple-500 to-violet-400"
+    },
+    {
+      title: language === "es" ? "La Casona Gourmet: +95% pedidos online" : "La Casona Gourmet: +95% online orders",
+      metric: language === "es" ? "+95% pedidos" : "+95% orders",
+      desc: language === "es" ? "El menú visual interactivo por WhatsApp transformó la experiencia de pedido. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono." : "The interactive visual menu via WhatsApp transformed the ordering experience. Customers now order in under 2 minutes without needing to call.",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      color: "from-emerald-500 to-green-400"
+    }
+  ];
+
+  return (
+    <section className="py-32 md:py-40 bg-white dark:bg-stone-950 relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.casesTitle} subtitle={copy.casesSubtitle} badge={copy.casesBadge} />
+
+        <div ref={sectionRef} className="space-y-8 max-w-5xl mx-auto">
+          {cases.map((c, i) => (
+            <div key={i} className="case-card group relative rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500">
+              <div className="grid md:grid-cols-5 gap-0">
+                <div className="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
+                  <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                </div>
+                <div className="md:col-span-3 p-6 md:p-10 flex flex-col justify-center">
+                  <div className={`inline-block self-start px-4 py-1.5 rounded-full bg-gradient-to-r ${c.color} text-xs font-bold text-white mb-4 tracking-wider`}>
+                    {c.metric}
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{c.title}</h3>
+                  <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm md:text-base">{c.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- Tech Stack Section ---
+const TechStackSection = ({ copy }) => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const items = sectionRef.current.querySelectorAll('.tech-item');
+    if (!items.length) return;
+
+    gsap.set(items, { opacity: 0, y: 30, scale: 0.9 });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: sectionRef.current, start: "top 85%", toggleActions: "play none none none" }
+    });
+    tl.to(items, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06, ease: "power3.out" });
+
+    return () => { tl.kill(); };
+  }, []);
+
+  const techs = [
+    { name: "React", color: "#61DAFB" },
+    { name: "Next.js", color: "#000000" },
+    { name: "TypeScript", color: "#3178C6" },
+    { name: "Tailwind CSS", color: "#06B6D4" },
+    { name: "Node.js", color: "#339933" },
+    { name: "Vite", color: "#646CFF" },
+    { name: "GSAP", color: "#88CE02" },
+    { name: "Framer Motion", color: "#0055FF" },
+    { name: "Vercel", color: "#000000" },
+    { name: "Prisma", color: "#2D3748" },
+    { name: "MongoDB", color: "#47A248" },
+    { name: "PostgreSQL", color: "#4169E1" },
+    { name: "Firebase", color: "#FFCA28" },
+    { name: "Stripe", color: "#635BFF" },
+    { name: "Figma", color: "#F24E1E" }
+  ];
+
+  return (
+    <section className="py-24 md:py-32 bg-stone-950 relative overflow-hidden">
+      <div className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
+
+        <div ref={sectionRef} className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+          {techs.map((tech) => (
+            <motion.div
+              key={tech.name}
+              whileHover={{ y: -5, scale: 1.05 }}
+              className="tech-item group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 cursor-default"
+            >
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
+                {tech.name.charAt(0)}
+              </div>
+              <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors">{tech.name}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -2788,6 +3202,15 @@ export default function App() {
       {/* Services Section */}
       <ServicesSection copy={copy} language={language} />
 
+      {/* Process Timeline */}
+      <ProcessTimeline copy={copy} />
+
+      {/* Tech Stack */}
+      <TechStackSection copy={copy} />
+
+      {/* Success Cases */}
+      <CasesSection copy={copy} language={language} />
+
       {/* Gallery */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
         {[
@@ -2907,6 +3330,9 @@ export default function App() {
         </div>
       </section>
 
+      {/* Contact Form */}
+      <ContactSection copy={copy} language={language} />
+
       {/* Final CTA */}
       <section className="py-32 md:py-40 bg-white text-center dark:bg-stone-950 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
@@ -2926,21 +3352,68 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-stone-950 border-t border-white/5 py-16 dark:bg-stone-900 dark:border-stone-800">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center gap-8 text-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
-                <Zap size={24} className="fill-stone-950" strokeWidth={2.5} />
+      <footer className="bg-stone-950 border-t border-white/5 dark:bg-stone-900 dark:border-stone-800">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
+                  <Zap size={24} className="fill-stone-950" strokeWidth={2.5} />
+                </div>
+                <span className="text-white font-bold text-xl tracking-tight">FastPagePro</span>
               </div>
-              <span className="text-white font-bold text-2xl dark:text-stone-400">FastPagePro</span>
+              <p className="text-stone-500 text-sm leading-relaxed mb-6">
+                {language === "es"
+                  ? "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados que impulsan tu negocio."
+                  : "We create professional websites, online stores, mobile apps and custom projects that drive your business forward."}
+              </p>
+              <div className="flex gap-3">
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><Globe size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><MessageCircle size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><Star size={18} /></motion.a>
+              </div>
             </div>
-            <div className="flex gap-6 text-stone-500">
-              <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><Globe size={24} /></motion.a>
-              <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><MessageCircle size={24} /></motion.a>
-              <motion.a href="#" whileHover={{ scale: 1.2, y: -3 }} className="hover:text-white transition-colors"><Star size={24} /></motion.a>
+
+            {/* Links */}
+            <div>
+              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Servicios" : "Services"}</h4>
+              <ul className="space-y-3">
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Páginas Web" : "Websites"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Tiendas Online" : "Online Stores"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Apps Móviles" : "Mobile Apps"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Proyectos Custom" : "Custom Projects"}</a></li>
+              </ul>
             </div>
-            <div className="text-stone-500 text-sm dark:text-stone-400">© 2026 FastPagePro - Fabio Herrera, Fundador. Todos los derechos reservados.</div>
+
+            <div>
+              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
+              <ul className="space-y-3">
+                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Portafolio" : "Portfolio"}</a></li>
+                <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
+                <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
+                <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Contacto" : "Contact"}</h4>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-2 text-stone-500 text-sm"><Phone size={14} /> +51 933 667 414</li>
+                <li className="flex items-center gap-2 text-stone-500 text-sm"><Send size={14} /> profastpage@gmail.com</li>
+                <li className="flex items-center gap-2 text-stone-500 text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-stone-600 text-xs">© 2026 FastPagePro - Fabio Herrera, Fundador. {language === "es" ? "Todos los derechos reservados." : "All rights reserved."}</div>
+            <div className="flex items-center gap-2 text-stone-600 text-xs">
+              <span>{language === "es" ? "Hecho con" : "Made with"}</span>
+              <Heart size={12} className="text-red-500" />
+              <span>y tecnología de vanguardia</span>
+            </div>
           </div>
         </div>
       </footer>
