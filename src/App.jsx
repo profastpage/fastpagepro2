@@ -86,7 +86,6 @@ const HERO_IMAGES = [
 ];
 
 const NAV_ITEMS = [
-  { id: "mockup-celular", es: "Demo", en: "Demo" },
   { id: "portafolio", es: "Portafolio", en: "Portfolio" },
   { id: "servicios", es: "Servicios", en: "Services" },
   { id: "beneficios", es: "Beneficios", en: "Benefits" },
@@ -264,36 +263,20 @@ const PORTFOLIO_BY_LANG = {
 
 const TESTIMONIALS_BY_LANG = {
   es: [
-    { name: "Cesar", hotel: "Vuelo78Hotel-Perú", location: "Lima", text: "La plataforma es increíblemente rápida. Nuestros clientes prefieren reservar por WhatsApp ahora." },
-    { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "El diseño es elegante y profesional. Se adapta perfectamente a lo que buscábamos." },
-    { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "La automatización nos ha ahorrado horas de trabajo administrativo. Muy recomendado." },
-    { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "El soporte técnico es excelente. Siempre están disponibles para ayudarnos." },
-    { name: "Jorge Luis Paredes", hotel: "Qorikilla Lodge", location: "Valle Sagrado", text: "Implementar los pagos con Yape y Plin fue muy sencillo. Las reservas aumentaron." },
-    { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "La velocidad de la página es impresionante. Nuestros huéspedes lo notan." },
-    { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "El panel de administración es muy intuitivo. Podemos gestionar todo fácilmente." },
-    { name: "Lucia Fernández", hotel: "Tambopata Research", location: "Madre de Dios", text: "Una solución completa. Desde el SEO hasta la pasarela de pagos, todo funciona." },
-    { name: "Pedro Castillo", hotel: "Katari Hotel", location: "Puno", text: "La personalización del diseño superó nuestras expectativas. Se ve muy premium." },
-    { name: "Carmen Ortiz", hotel: "Sol y Luna Lodge", location: "Urubamba", text: "La integración con Google Maps y Calendar nos facilita la logística diaria." },
-    { name: "Fernando Diaz", hotel: "Tierra Viva", location: "Cusco", text: "La optimización SEO ha mejorado mucho nuestra visibilidad en búsquedas locales." },
-    { name: "Gabriela Mendez", hotel: "Aranwa Suites", location: "Lima", text: "El sistema de reservas directas es robusto y seguro. Confiamos plenamente en la plataforma." },
-    { name: "Ricardo Flores", hotel: "Terra Andina", location: "Cusco", text: "La aplicación PWA es un plus increíble para nuestros clientes recurrentes." },
-    { name: "Elena Gomez", hotel: "Pariwana Hostel", location: "Lima", text: "Profesionalismo puro. La web carga instantáneamente incluso en zonas con mala señal." }
+    { name: "Carlos Mendoza", hotel: "E-commerce Andina Shop", location: "Cusco", text: "La tienda online que nos crearon es increíble. Las ventas aumentaron 200% en el primer mes. Totalmente recomendados." },
+    { name: "María Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "Profesionales de verdad. La landing page la tuvieron lista en 48 horas y el diseño superó todas nuestras expectativas." },
+    { name: "Roberto Sánchez", hotel: "App FitLife", location: "Lima", text: "La app móvil que desarrollaron funciona perfectamente. El equipo entiende de tecnología y de negocio." },
+    { name: "Ana García", hotel: "Web Corporativa TechFlow", location: "Remoto", text: "El dashboard empresarial que nos crearon transformó nuestra gestión interna. Código limpio y muy bien documentado." },
+    { name: "Jorge Paredes", hotel: "Tienda GastroMarket", location: "Arequipa", text: "La integración con Yape y Plin fue impecable. Nuestros clientes ahora pagan con un solo clic." },
+    { name: "Lucía Fernández", hotel: "Web La Casona Gourmet", location: "Lima", text: "El sistema de pedidos por WhatsApp que implementaron nos ahorra horas de trabajo diario. Excelente soporte." }
   ],
   en: [
-    { name: "Cesar", hotel: "Vuelo78Hotel-Peru", location: "Lima", text: "The platform is incredibly fast. Our guests now prefer booking through WhatsApp." },
-    { name: "Ana Patricia Vega", hotel: "Cabañas del Valle", location: "Chachapoyas", text: "The design is elegant and professional. It perfectly matches what we needed." },
-    { name: "Roberto Sánchez", hotel: "Casa Killa Boutique", location: "Lima", text: "Automation has saved us hours of administrative work. Highly recommended." },
-    { name: "María Fernanda Torres", hotel: "Residencial El Golf", location: "Arequipa", text: "Technical support is excellent. They are always available when we need help." },
-    { name: "Jorge Luis Paredes", hotel: "Qorikilla Lodge", location: "Valle Sagrado", text: "Integrating Yape and Plin payments was very easy. Bookings increased." },
-    { name: "Sofia Ramirez", hotel: "Selva Verde Lodge", location: "Iquitos", text: "The page speed is impressive. Our guests notice it immediately." },
-    { name: "Miguel Ángel Castro", hotel: "Hacienda San José", location: "Chincha", text: "The admin panel is very intuitive. We can manage everything with ease." },
-    { name: "Lucia Fernández", hotel: "Tambopata Research", location: "Madre de Dios", text: "A complete solution. From SEO to payments, everything works smoothly." },
-    { name: "Pedro Castillo", hotel: "Katari Hotel", location: "Puno", text: "The design customization exceeded our expectations. It looks truly premium." },
-    { name: "Carmen Ortiz", hotel: "Sol y Luna Lodge", location: "Urubamba", text: "Google Maps and Calendar integration makes our daily logistics easier." },
-    { name: "Fernando Diaz", hotel: "Tierra Viva", location: "Cusco", text: "SEO optimization significantly improved our visibility in local searches." },
-    { name: "Gabriela Mendez", hotel: "Aranwa Suites", location: "Lima", text: "The direct booking system is robust and secure. We trust the platform fully." },
-    { name: "Ricardo Flores", hotel: "Terra Andina", location: "Cusco", text: "The PWA app is a great advantage for our recurring guests." },
-    { name: "Elena Gomez", hotel: "Pariwana Hostel", location: "Lima", text: "Pure professionalism. The website loads instantly, even in poor signal areas." }
+    { name: "Carlos Mendoza", hotel: "E-commerce Andina Shop", location: "Cusco", text: "The online store they built is incredible. Sales increased 200% in the first month. Highly recommended." },
+    { name: "Maria Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "True professionals. The landing page was ready in 48 hours and the design exceeded all our expectations." },
+    { name: "Roberto Sanchez", hotel: "App FitLife", location: "Lima", text: "The mobile app they developed works perfectly. The team understands both technology and business." },
+    { name: "Ana Garcia", hotel: "Corporate Website TechFlow", location: "Remote", text: "The business dashboard they created transformed our internal management. Clean code and well documented." },
+    { name: "Jorge Paredes", hotel: "GastroMarket Store", location: "Arequipa", text: "The Yape and Plin integration was flawless. Our customers now pay with a single click." },
+    { name: "Lucia Fernandez", hotel: "Web La Casona Gourmet", location: "Lima", text: "The WhatsApp ordering system they implemented saves us hours of work daily. Excellent support." }
   ]
 };
 
@@ -413,26 +396,7 @@ const COPY = {
     heroPrimaryMsg: "Quiero ver el portafolio",
     heroSecondaryCta: "Cotizar Mi Proyecto",
     trustTitle: "Negocios Asociados",
-    stats: ["+500 proyectos entregados", "Entrega en 2-3 días", "Garantía 30 días"],
-    editorialWatch: "Ver cómo funciona",
-    editorialTitle: "Más clientes.",
-    editorialTitleAccent: "Menos fricción.",
-    editorialSubtitle: "No se trata de tener más visitas, sino de convertirlas mejor. Este sistema automatiza respuestas, guía conversaciones y transforma cada interacción en una reserva, pedido o cliente real.",
-    editorialCommissions: "Comisiones",
-    editorialAutomation: "Automatización",
-    roiTitle: "¿Cuánto estás perdiendo?",
-    roiSubtitle: "Descubre tu ahorro con reservas directas",
-    roiBadge: "Calculadora ROI",
-    demoTitle: "Todo ocurre en un solo flujo.",
-    demoSubtitle: "Tu web atrae. El sistema responde automáticamente. WhatsApp convierte en reservas o ventas.",
-    liveDemoTitle: "Demo real de reservas por WhatsApp",
-    liveDemoSubtitle: "Simula la experiencia de un cliente real y genera la reserva en un clic.",
-    liveDemoCta: "Generar Reserva por WhatsApp",
-    demoCards: [
-      { title: "Atracción", desc: "Captura atención desde el primer segundo", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
-      { title: "Interacción", desc: "Guía automáticamente hacia la conversación", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
-      { title: "Conversión", desc: "Cierre directo en WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
-    ],
+    stats: ["+45 proyectos entregados", "6+ años de experiencia", "100% satisfacción"],
     portfolioTitle: "Nuestro Portafolio",
     portfolioSubtitle: "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados",
     portfolioBadge: "Portafolio",
@@ -539,26 +503,7 @@ const COPY = {
     heroPrimaryMsg: "I want to see the portfolio",
     heroSecondaryCta: "Get a Quote",
     trustTitle: "Partner Businesses",
-    stats: ["+500 projects delivered", "Delivery in 2-3 days", "30-day guarantee"],
-    editorialWatch: "See how it works",
-    editorialTitle: "More customers.",
-    editorialTitleAccent: "Less friction.",
-    editorialSubtitle: "It's not about having more visitors, but converting them better. This system automates responses, guides conversations and transforms every interaction into a booking, order or real customer.",
-    editorialCommissions: "Commissions",
-    editorialAutomation: "Automation",
-    roiTitle: "How much are you losing?",
-    roiSubtitle: "Discover your savings with direct bookings",
-    roiBadge: "ROI Calculator",
-    demoTitle: "Everything happens in a single flow.",
-    demoSubtitle: "Your website attracts. The system responds automatically. WhatsApp converts into bookings or sales.",
-    liveDemoTitle: "Real WhatsApp booking demo",
-    liveDemoSubtitle: "Simulate a real customer flow and generate a booking in one click.",
-    liveDemoCta: "Generate WhatsApp Booking",
-    demoCards: [
-      { title: "Attraction", desc: "Capture attention from the first second", image: "https://images.pexels.com/photos/193948/pexels-photo-193948.jpeg?auto=compress&cs=tinysrgb&w=800" },
-      { title: "Interaction", desc: "Automatically guide towards conversation", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
-      { title: "Conversion", desc: "Direct closure on WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
-    ],
+    stats: ["+45 projects delivered", "6+ years experience", "100% satisfaction"],
     portfolioTitle: "Our Portfolio",
     portfolioSubtitle: "We create professional websites, online stores, mobile apps and custom projects",
     portfolioBadge: "Portfolio",
@@ -1595,29 +1540,57 @@ const ProcessTimeline = ({ copy }) => {
   const timelineRef = useRef(null);
 
   useEffect(() => {
-    if (!timelineRef.current) return;
-    const steps = timelineRef.current.querySelectorAll('.process-step');
-    const line = timelineRef.current.querySelector('.process-line-fill');
-    if (!steps.length || !line) return;
+    const timelineEl = timelineRef.current;
+    if (!timelineEl) return;
 
-    gsap.set(steps, { opacity: 0, y: 60 });
-    gsap.set(line, { scaleY: 0, transformOrigin: "top" });
+    const steps = timelineEl.querySelectorAll('.timeline-step');
+    const arrows = timelineEl.querySelectorAll('.timeline-arrow');
+    const circles = timelineEl.querySelectorAll('.timeline-circle');
+    if (!steps.length) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: timelineRef.current,
-        start: "top 80%",
-        toggleActions: "play none none none"
-      }
+    // Immediately hide to prevent flash
+    steps.forEach((step, i) => {
+      gsap.set(step, { opacity: 0, x: i % 2 === 0 ? -60 : 60, scale: 0.95 });
     });
+    gsap.set(arrows, { opacity: 0, scaleY: 0, transformOrigin: "center center" });
+    gsap.set(circles, { scale: 0, rotation: -180 });
 
-    tl.to(steps, {
-      opacity: 1, y: 0, duration: 0.7, stagger: 0.2, ease: "power3.out"
-    }).to(line, {
-      scaleY: 1, duration: 1.2, ease: "power2.inOut"
-    }, 0.3);
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: timelineEl,
+          start: "top 75%",
+          toggleActions: "play none none none",
+          once: true
+        }
+      });
 
-    return () => { tl.kill(); };
+      steps.forEach((step, i) => {
+        tl.to(step, {
+          opacity: 1, x: 0, scale: 1,
+          duration: 0.8,
+          ease: "back.out(1.2)"
+        });
+
+        if (circles[i]) {
+          tl.to(circles[i], {
+            scale: 1, rotation: 0,
+            duration: 0.6,
+            ease: "elastic.out(1, 0.5)"
+          }, `-=${0.4}`);
+        }
+
+        if (arrows[i]) {
+          tl.to(arrows[i], {
+            opacity: 1, scaleY: 1,
+            duration: 0.4,
+            ease: "power2.out"
+          }, `-=${0.2}`);
+        }
+      });
+    }, timelineEl);
+
+    return () => ctx.revert();
   }, []);
 
   const icons = [Search, Palette, Code, FlaskConical, Rocket];
@@ -1629,6 +1602,14 @@ const ProcessTimeline = ({ copy }) => {
     "from-yellow-400 to-amber-500"
   ];
 
+  const ArrowDown = () => (
+    <div className="timeline-arrow flex justify-center py-1">
+      <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center">
+        <ChevronDown size={16} className="text-stone-400 dark:text-stone-500" />
+      </div>
+    </div>
+  );
+
   return (
     <section id="proceso" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
@@ -1637,47 +1618,31 @@ const ProcessTimeline = ({ copy }) => {
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
 
-        <div ref={timelineRef} className="max-w-4xl mx-auto relative">
-          {/* Vertical line - desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-200 dark:bg-white/10 -translate-x-1/2">
-            <div className="process-line-fill absolute top-0 left-0 w-full bg-gradient-to-b from-yellow-400 via-amber-500 to-orange-500" style={{ height: "100%" }} />
-          </div>
-
+        <div ref={timelineRef} className="max-w-3xl mx-auto">
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
-            const isLeft = index % 2 === 0;
+            const isLast = index === copy.processSteps.length - 1;
+
             return (
-              <div key={step.num} className={`process-step relative mb-10 md:mb-16 last:mb-0 md:flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8`}>
-                {/* Content */}
-                <div className={`md:w-1/2 ${isLeft ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-xs font-bold text-white mb-3 tracking-wider`}>
-                    PASO {step.num}
+              <div key={step.num}>
+                <div className="timeline-step relative flex items-start gap-4 md:gap-6">
+                  {/* Icon Circle */}
+                  <div className="timeline-circle flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10">
+                    <Icon className="w-6 h-6 md:w-7 md:h-7 text-stone-950" />
                   </div>
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-stone-900 mb-3 dark:text-white">{step.title}</h3>
-                  <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
-                </div>
 
-                {/* Center circle - desktop */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 items-center justify-center shadow-lg shadow-yellow-500/30 z-10 border-4 border-stone-50 dark:border-stone-950">
-                  <Icon className="w-6 h-6 text-stone-950" />
-                </div>
-
-                {/* Mobile layout */}
-                <div className="md:hidden flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                    <Icon className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="inline-block px-3 py-1 rounded-full bg-stone-200 dark:bg-white/10 text-xs font-bold text-stone-600 dark:text-stone-300 mb-2 tracking-wider">
+                  {/* Content Card */}
+                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl p-5 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                    <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] md:text-xs font-bold text-white mb-3 tracking-wider`}>
                       PASO {step.num}
                     </div>
-                    <h3 className="text-lg font-bold text-stone-900 mb-2 dark:text-white">{step.title}</h3>
-                    <p className="text-stone-600 leading-relaxed text-sm dark:text-stone-400">{step.desc}</p>
+                    <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                    <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
                   </div>
                 </div>
 
-                {/* Spacer for opposite side */}
-                <div className="hidden md:block md:w-1/2" />
+                {/* Arrow between steps */}
+                {!isLast && <ArrowDown />}
               </div>
             );
           })}
@@ -1889,36 +1854,47 @@ const TechStackSection = ({ copy }) => {
   const row2Ref = useRef(null);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
+    const row1El = row1Ref.current;
+    const row2El = row2Ref.current;
+    const sectionEl = sectionRef.current;
+    if (!row1El || !row2El || !sectionEl) return;
 
-    // Row 1: slide in from LEFT with WOW stagger
-    const row1Items = row1Ref.current?.querySelectorAll('.tech-item-row1') || [];
-    // Row 2: slide in from RIGHT with WOW stagger
-    const row2Items = row2Ref.current?.querySelectorAll('.tech-item-row2') || [];
+    const row1Items = row1El.querySelectorAll('.tech-item-row1');
+    const row2Items = row2El.querySelectorAll('.tech-item-row2');
+    if (!row1Items.length || !row2Items.length) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", toggleActions: "play none none none" }
-    });
-
-    // Row 1 - Slide from left + scale bounce + rotation WOW
+    // Immediately hide items to prevent flash
     gsap.set(row1Items, { opacity: 0, x: -120, scale: 0.5, rotation: -8 });
-    tl.to(row1Items, {
-      opacity: 1, x: 0, scale: 1, rotation: 0,
-      duration: 0.7,
-      stagger: { amount: 0.8, from: "start" },
-      ease: "back.out(1.4)"
-    });
-
-    // Row 2 - Slide from right + scale bounce + rotation WOW
     gsap.set(row2Items, { opacity: 0, x: 120, scale: 0.5, rotation: 8 });
-    tl.to(row2Items, {
-      opacity: 1, x: 0, scale: 1, rotation: 0,
-      duration: 0.7,
-      stagger: { amount: 0.8, from: "end" },
-      ease: "back.out(1.4)"
-    }, "-=0.4");
 
-    return () => { tl.kill(); };
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionEl,
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true
+        }
+      });
+
+      // Row 1 - Slide from left + scale bounce + rotation WOW
+      tl.to(row1Items, {
+        opacity: 1, x: 0, scale: 1, rotation: 0,
+        duration: 0.7,
+        stagger: { amount: 0.8, from: "start" },
+        ease: "back.out(1.4)"
+      });
+
+      // Row 2 - Slide from right + scale bounce + rotation WOW
+      tl.to(row2Items, {
+        opacity: 1, x: 0, scale: 1, rotation: 0,
+        duration: 0.7,
+        stagger: { amount: 0.8, from: "end" },
+        ease: "back.out(1.4)"
+      }, "-=0.4");
+    }, sectionEl);
+
+    return () => ctx.revert();
   }, []);
 
   const techsRow1 = [
@@ -3133,106 +3109,14 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Trust Badges - Infinite Carousel (Minimalist Deluxe) */}
-      <InfiniteLogoCarousel />
-
       {/* Stats */}
       <section id="beneficios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <StatCard icon={Rocket} value={500} suffix="+" label={copy.stats[0]} delay={0} />
-            <StatCard icon={Clock} value={3} suffix={language === 'es' ? ' días' : ' days'} label={copy.stats[1]} delay={0.2} />
-            <StatCard icon={Award} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
-          </div>
-        </div>
-      </section>
-
-      {/* Editorial */}
-      <section id="editorial" className="py-24 md:py-32 bg-white dark:bg-stone-900 text-white dark:text-white">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col items-center text-center">
-            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative aspect-video rounded-[2rem] overflow-hidden w-full max-w-5xl mb-12 md:mb-16 border border-stone-200 dark:border-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.1)] dark:shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] group">
-              <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="Hotel tech experience" onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <motion.div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 flex items-center gap-4" whileHover={{ scale: 1.05 }}>
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
-                  <Play size={26} className="text-white ml-1" />
-                </div>
-                <span className="text-white font-medium text-base md:text-lg">{copy.editorialWatch}</span>
-                <ArrowRight size={18} className="text-white" />
-              </motion.div>
-            </motion.div>
-            
-            <div className="max-w-3xl">
-              <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-5 md:mb-6 leading-tight text-stone-900 dark:text-white">{copy.editorialTitle} <span className="text-stone-400 dark:text-stone-500">{copy.editorialTitleAccent}</span></h3>
-              <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-8 leading-relaxed">{copy.editorialSubtitle}</p>
-              <div className="flex justify-center gap-12 md:gap-16 pt-6 md:pt-8 border-t border-stone-200 dark:border-white/10">
-                <div><div className="text-4xl md:text-6xl font-bold text-stone-900 dark:text-white">0%</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialCommissions}</div></div>
-                <div><div className="text-4xl md:text-6xl font-bold text-stone-900 dark:text-white">24/7</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialAutomation}</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ROI Calculator */}
-      <section className="py-24 md:py-32 bg-stone-50 dark:bg-stone-800">
-        <div className="container mx-auto px-4">
-          <SectionTitle title={copy.roiTitle} subtitle={copy.roiSubtitle} badge={copy.roiBadge} />
-          <div className="max-w-3xl mx-auto"><ROICalculator language={language} copy={copy} /></div>
-        </div>
-      </section>
-
-      {/* Demo */}
-      <section id="demo-en-vivo" className="py-24 md:py-32 bg-stone-50 dark:bg-stone-950">
-        <div className="container mx-auto px-4">
-          <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
-          <div className="max-w-4xl mx-auto mb-14">
-            <motion.div initial={{ opacity: 0, y: 80, rotateX: -10 }} whileInView={{ opacity: 1, y: 0, rotateX: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="rounded-[2rem] shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] overflow-hidden border dark:border-stone-800" style={{ perspective: 1000 }}>
-              <img src="/images/02-demo-en-vivo/Experiencia-Fluida-principal.png" alt="Experiencia Fluida - Demo Fast Page Pro" onError={handleImageFallback} className="w-full aspect-video object-cover" />
-            </motion.div>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {copy.demoCards.map((step, i) => {
-              // Map card titles to image filenames (matching exact file names)
-              const imageMap = {
-                "Atracción": "/images/02-demo-en-vivo/Atracción.png",
-                "Interacción": "/images/02-demo-en-vivo/Interacción.png",
-                "Conversión": "/images/02-demo-en-vivo/conversión.png",
-                "Recibe reservas directas en tu WhatsApp": "/images/02-demo-en-vivo/conversión.png"
-              };
-              
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.15 }}
-                  className="bg-white dark:bg-stone-900 rounded-[2rem] overflow-hidden border border-stone-100 dark:border-stone-800 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-500 group"
-                  whileHover={{ y: -10 }}
-                >
-                  <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={imageMap[step.title] || step.image}
-                      alt={step.title}
-                      onError={handleImageFallback}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-6 md:p-8">
-                    <h4 className="text-xl md:text-2xl font-bold mb-3 dark:text-white">{step.title}</h4>
-                    <p className="text-stone-500 dark:text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Live Demo with Phone Mockup */}
-          <div id="mockup-celular">
-            <PhoneMockupDemo language={language} />
+          <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+            <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
+            <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
+            <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
           </div>
         </div>
       </section>
@@ -3250,21 +3134,6 @@ export default function App() {
 
       {/* Success Cases */}
       <CasesSection copy={copy} language={language} />
-
-      {/* Gallery */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
-        {[
-          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop"
-        ].map((src, i) => (
-          <motion.div key={i} className="aspect-square overflow-hidden group relative" whileHover={{ scale: 1.02 }}>
-            <img src={src} alt="Gallery" onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </motion.div>
-        ))}
-      </section>
 
       {/* TESTIMONIALS - Carousel on Mobile, Horizontal Scroll on Desktop */}
       <section id="testimonios" className="py-16 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
