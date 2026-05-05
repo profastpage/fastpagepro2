@@ -696,20 +696,20 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-stone-200/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-3xl p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-50 to-transparent opacity-0 dark:from-white/5 dark:to-transparent group-hover:opacity-100 transition-opacity duration-500" />
 
         <motion.div
-          className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-5 md:mb-6 rounded-2xl bg-gradient-to-br from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900 flex items-center justify-center relative overflow-hidden border border-stone-200 dark:border-white/5 group-hover:border-yellow-400/30 transition-colors duration-500"
+          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4 sm:mb-5 md:mb-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900 flex items-center justify-center relative overflow-hidden border border-stone-200 dark:border-white/5 group-hover:border-yellow-400/30 transition-colors duration-500"
         >
-          <IconComp className="w-8 h-8 md:w-10 md:h-10 text-stone-600 group-hover:text-yellow-600 dark:text-white/70 dark:group-hover:text-yellow-400 transition-colors duration-500 relative z-10" />
+          <IconComp className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-stone-600 group-hover:text-yellow-600 dark:text-white/70 dark:group-hover:text-yellow-400 transition-colors duration-500 relative z-10" />
         </motion.div>
 
-        <div className="text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-2 md:mb-3 tracking-tight relative">
+        <div className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-2 md:mb-3 tracking-tight relative">
           <AnimatedCounter end={value} suffix={suffix} />
         </div>
 
-        <div className="text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium">{label}</div>
+        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium break-words">{label}</div>
 
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
@@ -1355,17 +1355,17 @@ const FAQItem = ({ question, answer, index }) => {
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-8 flex flex-col items-center text-center focus:outline-none group"
+        className="w-full py-5 sm:py-8 flex flex-col items-center text-center focus:outline-none group"
       >
-        <div className="flex items-center justify-between w-full max-w-3xl px-4">
-          <span className={`text-xl md:text-2xl font-medium transition-colors duration-300 ${isOpen ? 'text-stone-950' : 'text-stone-600 group-hover:text-stone-900'} dark:text-stone-300 dark:group-hover:text-white`}>
+        <div className="flex items-center justify-between w-full max-w-3xl px-2 sm:px-4">
+          <span className={`text-sm sm:text-base md:text-xl lg:text-2xl font-medium transition-colors duration-300 ${isOpen ? 'text-stone-950' : 'text-stone-600 group-hover:text-stone-900'} dark:text-stone-300 dark:group-hover:text-white`}>
             {question}
           </span>
           <motion.div 
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${isOpen ? 'bg-stone-950 text-white' : 'bg-stone-100 text-stone-400 group-hover:bg-stone-200'} dark:bg-stone-800 dark:text-stone-400`}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300 flex-shrink-0 ml-3 ${isOpen ? 'bg-stone-950 text-white' : 'bg-stone-100 text-stone-400 group-hover:bg-stone-200'} dark:bg-stone-800 dark:text-stone-400`}
             animate={{ rotate: isOpen ? 180 : 0 }}
           >
-            {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {isOpen ? (<><ChevronUp size={16} className="sm:hidden" /><ChevronUp size={20} className="hidden sm:block" /></>) : (<><ChevronDown size={16} className="sm:hidden" /><ChevronDown size={20} className="hidden sm:block" /></>)}
           </motion.div>
         </div>
         <AnimatePresence>
@@ -1612,22 +1612,22 @@ const ProcessTimeline = ({ copy, language }) => {
                 >
                   {/* Icon Circle */}
                   <motion.div
-                    className="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10"
+                    className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10"
                     initial={{ scale: 0, rotate: -180 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: index * 0.12 + 0.15, type: "spring", stiffness: 200, damping: 15 }}
                   >
-                    <Icon className="w-5 h-5 md:w-7 md:h-7 text-stone-950" />
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-stone-950" />
                   </motion.div>
 
                   {/* Content Card */}
-                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl p-4 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-5 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
                     <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] md:text-xs font-bold text-white mb-3 tracking-wider`}>
                       {stepLabel} {step.num}
                     </div>
-                    <h3 className="text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
-                    <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
+                    <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                    <p className="text-stone-600 leading-relaxed text-xs sm:text-sm md:text-base dark:text-stone-400">{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -1669,7 +1669,7 @@ const ContactSection = ({ copy, language }) => {
       <div ref={formRef} className="container mx-auto px-4 relative z-10 max-w-3xl">
         <SectionTitle title={copy.contactTitle} subtitle={copy.contactSubtitle} badge={copy.contactBadge} />
 
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-stone-900 rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200 dark:border-stone-800">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-stone-900 rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200 dark:border-stone-800">
           <div className="grid md:grid-cols-2 gap-5 mb-5">
             <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0 }}>
               <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactName}</label>
@@ -1788,7 +1788,7 @@ const CasesSection = ({ copy, language }) => {
 
         <div ref={sectionRef} className="space-y-8 max-w-5xl mx-auto">
           {cases.map((c, i) => (
-            <motion.div key={i} className="case-card group relative rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500" initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div key={i} className="case-card group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500" initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}>
               <div className="grid md:grid-cols-5 gap-0">
                 <div className="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
                   <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -2074,14 +2074,14 @@ const PortfolioSection = ({ copy, projects, language }) => {
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
         
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 md:mb-14 gsap-reveal">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 md:mb-14 gsap-reveal px-2">
           {categories.map((cat) => (
             <motion.button
               key={cat}
               onClick={() => setCurrentFilter(cat)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 border ${
+              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide transition-all duration-300 border ${
                 currentFilter === cat
                   ? "bg-stone-900 text-white border-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:bg-white dark:text-stone-950 dark:border-white dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
                   : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200 hover:text-stone-900 hover:border-stone-300 dark:bg-white/5 dark:text-stone-400 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white/20"
@@ -2123,7 +2123,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ delay: index * 0.06, duration: 0.5 }}
-                  className="group rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative"
+                  className="group rounded-xl sm:rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative"
                   whileHover={{ y: -6, borderColor: undefined }}
                 >
                   {/* Top gradient accent */}
@@ -2138,16 +2138,16 @@ const PortfolioSection = ({ copy, projects, language }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="p-4 md:p-5">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
-                        <Icon size={12} />
+                  <div className="p-3 sm:p-4 md:p-5">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <span className={`inline-flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
+                        <Icon size={11} />
                         {project.category}
                       </span>
                     </div>
-                    <h3 className="text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
-                    <p className="text-xs md:text-sm text-stone-500 mb-2 dark:text-stone-500">{project.location}</p>
-                    <p className="text-xs md:text-sm text-stone-600 leading-relaxed mb-3 line-clamp-4 dark:text-stone-400">{project.description}</p>
+                    <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-500">{project.location}</p>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-600 leading-relaxed mb-2 sm:mb-3 line-clamp-4 dark:text-stone-400">{project.description}</p>
                     <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-400 dark:group-hover:text-yellow-400">
                       {copy.portfolioCta}
                     </span>
@@ -2244,12 +2244,12 @@ const ServicesSection = ({ copy, language }) => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.12, duration: 0.6 }}
                 whileHover={{ y: -5, scale: 1.01 }}
-                className={`gsap-reveal group relative rounded-[2rem] p-8 md:p-10 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] overflow-hidden`}
+                className={`gsap-reveal group relative rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-10 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] overflow-hidden`}
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                <div className="flex items-start gap-5">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                    <Icon className="w-7 h-7 text-white" />
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
@@ -3072,7 +3072,7 @@ export default function App() {
       <section id="beneficios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
             <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
             <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
             <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
@@ -3143,7 +3143,7 @@ export default function App() {
               return (
                 <motion.div
                   key={i}
-                  className={`relative p-7 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
+                  className={`relative p-6 sm:p-7 md:p-10 rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white sm:scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
                   whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
                 >
                   {plan.highlight && (
@@ -3206,8 +3206,8 @@ export default function App() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] text-stone-900 dark:text-white">{copy.finalTitle}</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-400">{copy.finalSubtitle}</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] text-stone-900 dark:text-white">{copy.finalTitle}</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-400">{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
             <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
           </motion.div>
