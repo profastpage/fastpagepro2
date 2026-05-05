@@ -403,17 +403,17 @@ const PLANS_BY_LANG = {
 const COPY = {
   es: {
     navCta: "Agendar Demo",
-    notificationTitle: "¡Nueva reserva recibida!",
-    notificationSubtitle: "Restaurante Sabor - hace 2 minutos",
-    heroBadge: "Sistema de conversión por WhatsApp",
-    heroTitleTop: "Convierte visitas en clientes.",
-    heroTitleBottom: "Automáticamente.",
-    heroSubtitle: "Sistema que convierte visitas en reservas, pedidos o clientes directamente por WhatsApp, sin depender de plataformas ni perder comisiones.",
-    heroPrimaryCta: "Ver cómo funciona →",
-    heroPrimaryMsg: "Quiero ver la demo",
-    heroSecondaryCta: "Hablar con Asesor",
+    notificationTitle: "Nuevo proyecto entregado!",
+    notificationSubtitle: "Tienda Online Andina Shop - hace 2 minutos",
+    heroBadge: "Listo en 2-3 dias",
+    heroTitleTop: "Paginas web profesionales",
+    heroTitleBottom: "listas en 2-3 dias.",
+    heroSubtitle: "Diseñamos y desarrollamos webs de alto impacto, tiendas online, apps moviles y proyectos a medida. Calidad premium, rendimiento extremo, entrega en tiempo record.",
+    heroPrimaryCta: "Ver Portafolio",
+    heroPrimaryMsg: "Quiero ver el portafolio",
+    heroSecondaryCta: "Cotizar Mi Proyecto",
     trustTitle: "Negocios Asociados",
-    stats: ["+40% más clientes", "500+ negocios activos", "0% comisiones"],
+    stats: ["+500 proyectos entregados", "Entrega en 2-3 días", "Garantía 30 días"],
     editorialWatch: "Ver cómo funciona",
     editorialTitle: "Más clientes.",
     editorialTitleAccent: "Menos fricción.",
@@ -497,7 +497,7 @@ const COPY = {
     finalSubtitle: "Tus clientes ya están buscando. Solo necesitas el sistema correcto para convertirlos.",
     finalCta: "Comenzar ahora →",
     footerRights: "© 2026 Fast Page Pro. Todos los derechos reservados por Fast Page Pro.",
-    tags: ["Sin comisiones", "Sin intermediarios", "Solo resultados"],
+    tags: ["Calidad Premium", "Sin contratos forzosos", "Soporte incluido"],
     widget: {
       assistant: "Asistente Virtual",
       howContact: "¿Cómo deseas contactarnos hoy?",
@@ -529,17 +529,17 @@ const COPY = {
   },
   en: {
     navCta: "Book Demo",
-    notificationTitle: "New booking received!",
-    notificationSubtitle: "Restaurant Sabor - 2 minutes ago",
-    heroBadge: "WhatsApp Conversion System",
-    heroTitleTop: "Turn visitors into customers.",
-    heroTitleBottom: "Automatically.",
-    heroSubtitle: "System that converts visitors into bookings, orders or customers directly via WhatsApp, without depending on platforms or losing commissions.",
-    heroPrimaryCta: "See how it works →",
-    heroPrimaryMsg: "I want to see the demo",
-    heroSecondaryCta: "Talk on WhatsApp",
+    notificationTitle: "New project delivered!",
+    notificationSubtitle: "Online Store Andina Shop - 2 minutes ago",
+    heroBadge: "Ready in 2-3 Days",
+    heroTitleTop: "Professional Websites",
+    heroTitleBottom: "delivered in 2-3 days.",
+    heroSubtitle: "We design and build high-impact websites, online stores, mobile apps and custom projects. Premium quality, extreme performance, record-breaking delivery.",
+    heroPrimaryCta: "See Portfolio",
+    heroPrimaryMsg: "I want to see the portfolio",
+    heroSecondaryCta: "Get a Quote",
     trustTitle: "Partner Businesses",
-    stats: ["+40% more customers", "500+ active businesses", "0% commissions"],
+    stats: ["+500 projects delivered", "Delivery in 2-3 days", "30-day guarantee"],
     editorialWatch: "See how it works",
     editorialTitle: "More customers.",
     editorialTitleAccent: "Less friction.",
@@ -623,7 +623,7 @@ const COPY = {
     finalSubtitle: "Your customers are already searching. You just need the right system to convert them.",
     finalCta: "Get started now →",
     footerRights: "© 2026 Fast Page Pro. All rights reserved by Fast Page Pro.",
-    tags: ["No commissions", "No intermediaries", "Just results"],
+    tags: ["Premium Quality", "No forced contracts", "Support included"],
     widget: {
       assistant: "Virtual Assistant",
       howContact: "How would you like to contact us today?",
@@ -2969,7 +2969,7 @@ export default function App() {
                 <span className="text-xs text-green-600 dark:text-green-400 font-medium">● En vivo</span>
               </div>
               <div className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{copy.notificationSubtitle}</div>
-              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">💰 Reserva: S/ 450 • 2 noches</div>
+              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">🚀 Entregado en 2 días • Web + WhatsApp</div>
             </div>
           </motion.div>
         )}
@@ -3021,7 +3021,7 @@ export default function App() {
                   className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
                 />
                 <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-                <span className="hidden xs:inline">🚀</span> Programa Piloto 2026
+                <span className="hidden xs:inline">🚀</span> {copy.heroBadge}
               </span>
             </motion.div>
 
@@ -3039,10 +3039,10 @@ export default function App() {
             {/* CTA Buttons - Same size and design */}
             <div className="w-full max-w-sm mx-auto flex flex-col gap-3 sm:gap-4">
               <a
-                href="#mockup-celular"
+                href="#portafolio"
                 onClick={(e) => {
                   e.preventDefault();
-                  const target = document.getElementById('mockup-celular');
+                  const target = document.getElementById('portafolio');
                   if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
@@ -3050,7 +3050,7 @@ export default function App() {
                 className="block w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)] hover:-translate-y-0.5"
               >
                 <span className="flex items-center justify-center gap-2">
-                  {language === 'es' ? 'Ver cómo funciona' : 'See how it works'}
+                  {copy.heroPrimaryCta}
                   <ArrowRight size={18} />
                 </span>
               </a>
@@ -3069,8 +3069,8 @@ export default function App() {
               className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
             >
               <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Clock size={12} className="text-white" /> {copy.tags[2]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Award size={12} className="text-blue-400" /> {language === 'es' ? 'Garantía 30 días' : '30-day guarantee'}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
             </motion.div>
 
             {/* Live Booking Counter - Fixed for mobile */}
@@ -3086,7 +3086,7 @@ export default function App() {
                 className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"
               />
               <span className="text-xs sm:text-sm text-stone-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'reservas hoy' : 'bookings today'}
+                <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'proyectos activos' : 'active projects'}
               </span>
             </motion.div>
           </motion.div>
@@ -3101,9 +3101,9 @@ export default function App() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <StatCard icon={Zap} value={40} suffix="%" label={copy.stats[0]} delay={0} />
-            <StatCard icon={Users} value={500} suffix="+" label={copy.stats[1]} delay={0.2} />
-            <StatCard icon={BarChart3} value={18} suffix="%" label={copy.stats[2]} delay={0.4} />
+            <StatCard icon={Rocket} value={500} suffix="+" label={copy.stats[0]} delay={0} />
+            <StatCard icon={Clock} value={3} suffix={language === 'es' ? ' días' : ' days'} label={copy.stats[1]} delay={0.2} />
+            <StatCard icon={Award} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
           </div>
         </div>
       </section>
