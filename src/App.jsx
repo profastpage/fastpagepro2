@@ -1291,9 +1291,21 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
   );
 };
 
-const SectionTitle = ({ title, subtitle, badge }) => {
+const SectionTitle = ({ title, subtitle, badge, darkBg = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const badgeClass = darkBg
+    ? "inline-block mb-5 px-5 py-2 rounded-full border border-stone-700 bg-stone-800 text-stone-300 text-xs font-semibold tracking-widest uppercase shadow-sm"
+    : "inline-block mb-5 px-5 py-2 rounded-full border border-stone-200 bg-stone-100 text-stone-600 text-xs font-semibold tracking-widest uppercase shadow-sm dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300";
+
+  const titleClass = darkBg
+    ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-5"
+    : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1] mb-5 dark:text-white";
+
+  const subtitleClass = darkBg
+    ? "text-base md:text-lg text-stone-400 font-normal leading-relaxed"
+    : "text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-400";
 
   return (
     <div ref={ref} className="mb-12 md:mb-16 text-center max-w-4xl mx-auto px-4">
@@ -1303,7 +1315,7 @@ const SectionTitle = ({ title, subtitle, badge }) => {
           animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="inline-block mb-5 px-5 py-2 rounded-full border border-stone-200 bg-stone-100 text-stone-600 text-xs font-semibold tracking-widest uppercase shadow-sm dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
+          className={badgeClass}
         >
           {badge}
         </motion.span>
@@ -1313,7 +1325,7 @@ const SectionTitle = ({ title, subtitle, badge }) => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1] mb-5 dark:text-white"
+        className={titleClass}
       >
         {title}
       </motion.h2>
@@ -1323,7 +1335,7 @@ const SectionTitle = ({ title, subtitle, badge }) => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-400"
+          className={subtitleClass}
         >
           {subtitle}
         </motion.p>
@@ -1869,65 +1881,6 @@ const CasesSection = ({ copy, language }) => {
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const sectionEl = sectionRef.current;
-    if (!sectionEl) return;
-
-    const allItems = sectionEl.querySelectorAll('.tech-item');
-    if (!allItems.length) return;
-
-    const ctx = gsap.context(() => {
-      allItems.forEach((item) => {
-        const isRow1 = item.classList.contains('tech-row1');
-        const idx = parseInt(item.getAttribute('data-idx') || '0', 10);
-        const delay = idx * 0.12;
-
-        // Set initial hidden state
-        gsap.set(item, {
-          opacity: 0,
-          x: isRow1 ? -100 : 100,
-          y: 30,
-          scale: 0.6,
-          rotation: isRow1 ? -12 : 12
-        });
-
-        // Individual ScrollTrigger per item
-        gsap.to(item, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 0.9,
-          delay: delay,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 92%",
-            toggleActions: "play none none none"
-          }
-        });
-
-        // Glow pulse after appearing
-        gsap.fromTo(item, {
-          boxShadow: "0 0 0px rgba(255,255,255,0)"
-        }, {
-          boxShadow: "0 0 25px rgba(255,255,255,0.15)",
-          duration: 0.6,
-          delay: delay + 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 92%",
-            toggleActions: "play none none none"
-          }
-        });
-      });
-    }, sectionEl);
-
-    return () => ctx.revert();
-  }, []);
-
   const techsRow1 = [
     { name: "React", color: "#61DAFB" },
     { name: "Next.js", color: "#000000" },
@@ -1949,38 +1902,53 @@ const TechStackSection = ({ copy }) => {
     { name: "Figma", color: "#F24E1E" }
   ];
 
-  const TechItem = ({ tech, rowClass, idx }) => (
-    <div
-      className={`tech-item ${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
-      data-idx={idx}
-      style={{
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
-        opacity: 0
-      }}
-    >
-      <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
-        {tech.name.charAt(0)}
-      </div>
-      <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
-    </div>
-  );
+  const TechItem = ({ tech, rowClass, idx }) => {
+    const isRow1 = rowClass === 'tech-row1';
+    const itemRef = useRef(null);
+    const isInView = useInView(itemRef, { once: true, margin: "-30px" });
+
+    return (
+      <motion.div
+        ref={itemRef}
+        initial={{ opacity: 0, x: isRow1 ? -100 : 100, y: 30, scale: 0.6, rotate: isRow1 ? -12 : 12 }}
+        animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 } : { opacity: 0, x: isRow1 ? -100 : 100, y: 30, scale: 0.6, rotate: isRow1 ? -12 : 12 }}
+        transition={{
+          duration: 0.9,
+          delay: idx * 0.12,
+          type: "spring",
+          stiffness: 180,
+          damping: 12
+        }}
+        className={`tech-item ${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
+        data-idx={idx}
+        style={{
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+        }}
+      >
+        <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
+          {tech.name.charAt(0)}
+        </div>
+        <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
+      </motion.div>
+    );
+  };
 
   return (
     <section className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
-        <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
+        <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} darkBg />
 
         <div className="max-w-5xl mx-auto space-y-4">
-          {/* Row 1 - Each item animates from LEFT individually on scroll */}
+          {/* Row 1 - Each item animates from LEFT on scroll */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow1.map((tech, idx) => (
               <TechItem key={tech.name} tech={tech} rowClass="tech-row1" idx={idx} />
             ))}
           </div>
 
-          {/* Row 2 - Each item animates from RIGHT individually on scroll */}
+          {/* Row 2 - Each item animates from RIGHT on scroll */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow2.map((tech, idx) => (
               <TechItem key={tech.name} tech={tech} rowClass="tech-row2" idx={idx} />
@@ -3014,10 +2982,10 @@ export default function App() {
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
-                <span className="text-xs text-green-600 dark:text-green-400 font-medium">● En vivo</span>
+                <span className="text-xs text-green-600 dark:text-green-400 font-medium">● {language === 'es' ? 'En vivo' : 'Live'}</span>
               </div>
               <div className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{copy.notificationSubtitle}</div>
-              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">🚀 Entregado en 2 días • Web + WhatsApp</div>
+              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">🚀 {language === 'es' ? 'Entregado en 2 días' : 'Delivered in 2 days'} • Web + WhatsApp</div>
             </div>
           </motion.div>
         )}
@@ -3349,11 +3317,11 @@ export default function App() {
 
           {/* Bottom bar */}
           <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-stone-600 text-xs">© 2026 FastPagePro - Fabio Herrera, Fundador. {language === "es" ? "Todos los derechos reservados." : "All rights reserved."}</div>
-            <div className="flex items-center gap-2 text-stone-600 text-xs">
+            <div className="text-stone-400 text-xs">© 2026 FastPagePro - Fabio Herrera, Fundador. {language === "es" ? "Todos los derechos reservados." : "All rights reserved."}</div>
+            <div className="flex items-center gap-2 text-stone-400 text-xs">
               <span>{language === "es" ? "Hecho con" : "Made with"}</span>
               <Heart size={12} className="text-red-500" />
-              <span>y tecnología de vanguardia</span>
+              <span>{language === "es" ? "y tecnología de vanguardia" : "and cutting-edge technology"}</span>
             </div>
           </div>
         </div>
