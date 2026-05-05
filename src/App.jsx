@@ -1,9 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 import {
   Check,
   MessageCircle,
@@ -1565,63 +1561,8 @@ Could you please confirm availability and final rate?`;
   );
 };
 
-// --- Work Process Timeline (GSAP Animated) ---
+// --- Work Process Timeline (framer-motion Animated) ---
 const ProcessTimeline = ({ copy, language }) => {
-  const timelineRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const timelineEl = timelineRef.current;
-    if (!timelineEl) return;
-
-    const steps = timelineEl.querySelectorAll('.timeline-step');
-    const arrows = timelineEl.querySelectorAll('.timeline-arrow');
-    const circles = timelineEl.querySelectorAll('.timeline-circle');
-    if (!steps.length) return;
-
-    const ctx = gsap.context(() => {
-      // Hide items before paint
-      steps.forEach((step, i) => {
-        gsap.set(step, { opacity: 0, x: i % 2 === 0 ? -60 : 60, scale: 0.95 });
-      });
-      gsap.set(arrows, { opacity: 0, scaleY: 0, transformOrigin: "center center" });
-      gsap.set(circles, { scale: 0, rotation: -180 });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: timelineEl,
-          start: "top 75%",
-          toggleActions: "play none none none"
-        }
-      });
-
-      steps.forEach((step, i) => {
-        tl.to(step, {
-          opacity: 1, x: 0, scale: 1,
-          duration: 0.8,
-          ease: "back.out(1.2)"
-        });
-
-        if (circles[i]) {
-          tl.to(circles[i], {
-            scale: 1, rotation: 0,
-            duration: 0.6,
-            ease: "elastic.out(1, 0.5)"
-          }, `-=${0.4}`);
-        }
-
-        if (arrows[i]) {
-          tl.to(arrows[i], {
-            opacity: 1, scaleY: 1,
-            duration: 0.4,
-            ease: "power2.out"
-          }, `-=${0.2}`);
-        }
-      });
-    }, timelineEl);
-
-    return () => ctx.revert();
-  }, []);
-
   const icons = [Search, Palette, Code, FlaskConical, Rocket];
   const gradients = [
     "from-blue-500 to-cyan-400",
@@ -1631,12 +1572,19 @@ const ProcessTimeline = ({ copy, language }) => {
     "from-yellow-400 to-amber-500"
   ];
 
-  const ArrowDown = () => (
-    <div className="timeline-arrow flex justify-center py-2">
+  const ArrowDown = ({ index }) => (
+    <motion.div
+      className="flex justify-center py-2"
+      initial={{ opacity: 0, scaleY: 0 }}
+      whileInView={{ opacity: 1, scaleY: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
+      style={{ transformOrigin: "center center" }}
+    >
       <div className="w-10 h-10 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center shadow-md">
         <ChevronDown size={18} className="text-stone-500 dark:text-stone-400" />
       </div>
-    </div>
+    </motion.div>
   );
 
   return (
@@ -1647,7 +1595,7 @@ const ProcessTimeline = ({ copy, language }) => {
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
 
-        <div ref={timelineRef} className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
             const isLast = index === copy.processSteps.length - 1;
@@ -1655,11 +1603,23 @@ const ProcessTimeline = ({ copy, language }) => {
 
             return (
               <React.Fragment key={step.num}>
-                <div className="timeline-step relative flex items-start gap-4 md:gap-6">
+                <motion.div
+                  className="relative flex items-start gap-4 md:gap-6"
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60, scale: 0.95 }}
+                  whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.8, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                >
                   {/* Icon Circle */}
-                  <div className="timeline-circle flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10">
+                  <motion.div
+                    className="flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10"
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.12 + 0.15, type: "spring", stiffness: 200, damping: 15 }}
+                  >
                     <Icon className="w-5 h-5 md:w-7 md:h-7 text-stone-950" />
-                  </div>
+                  </motion.div>
 
                   {/* Content Card */}
                   <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl p-4 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
@@ -1669,10 +1629,10 @@ const ProcessTimeline = ({ copy, language }) => {
                     <h3 className="text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                     <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Arrow between steps */}
-                {!isLast && <ArrowDown />}
+                {!isLast && <ArrowDown index={index} />}
               </React.Fragment>
             );
           })}
@@ -1687,20 +1647,6 @@ const ContactSection = ({ copy, language }) => {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const formRef = useRef(null);
-
-  useLayoutEffect(() => {
-    if (!formRef.current) return;
-    const els = formRef.current.querySelectorAll('.contact-reveal');
-    if (!els.length) return;
-
-    gsap.set(els, { opacity: 0, y: 40 });
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: formRef.current, start: "top 85%", toggleActions: "play none none none" }
-    });
-    tl.to(els, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" });
-
-    return () => { tl.kill(); };
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -1725,7 +1671,7 @@ const ContactSection = ({ copy, language }) => {
 
         <form onSubmit={handleSubmit} className="bg-white dark:bg-stone-900 rounded-[2rem] p-8 md:p-12 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-stone-200 dark:border-stone-800">
           <div className="grid md:grid-cols-2 gap-5 mb-5">
-            <div className="contact-reveal">
+            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0 }}>
               <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactName}</label>
               <input
                 type="text"
@@ -1735,8 +1681,8 @@ const ContactSection = ({ copy, language }) => {
                 className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
                 placeholder="Juan Pérez"
               />
-            </div>
-            <div className="contact-reveal">
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}>
               <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactEmail}</label>
               <input
                 type="email"
@@ -1746,9 +1692,9 @@ const ContactSection = ({ copy, language }) => {
                 className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
                 placeholder="juan@email.com"
               />
-            </div>
+            </motion.div>
           </div>
-          <div className="mb-5 contact-reveal">
+          <motion.div className="mb-5" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
             <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactPhone}</label>
             <input
               type="tel"
@@ -1757,8 +1703,8 @@ const ContactSection = ({ copy, language }) => {
               className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm"
               placeholder="+51 999 999 999"
             />
-          </div>
-          <div className="mb-6 contact-reveal">
+          </motion.div>
+          <motion.div className="mb-6" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}>
             <label className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">{copy.contactMessage}</label>
             <textarea
               required
@@ -1767,9 +1713,9 @@ const ContactSection = ({ copy, language }) => {
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               className="w-full px-4 py-3.5 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-white focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400 outline-none transition-all text-sm resize-none"
             />
-          </div>
+          </motion.div>
 
-          <div className="contact-reveal">
+          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.4 }}>
             <AnimatePresence mode="wait">
               {status === "success" ? (
                 <motion.div
@@ -1800,7 +1746,7 @@ const ContactSection = ({ copy, language }) => {
                 </motion.button>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </form>
       </div>
     </section>
@@ -1810,20 +1756,6 @@ const ContactSection = ({ copy, language }) => {
 // --- Success Cases Section ---
 const CasesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
-
-  useLayoutEffect(() => {
-    if (!sectionRef.current) return;
-    const cards = sectionRef.current.querySelectorAll('.case-card');
-    if (!cards.length) return;
-
-    gsap.set(cards, { opacity: 0, y: 50, scale: 0.95 });
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", toggleActions: "play none none none" }
-    });
-    tl.to(cards, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.15, ease: "power3.out" });
-
-    return () => { tl.kill(); };
-  }, []);
 
   const cases = [
     {
@@ -1856,7 +1788,7 @@ const CasesSection = ({ copy, language }) => {
 
         <div ref={sectionRef} className="space-y-8 max-w-5xl mx-auto">
           {cases.map((c, i) => (
-            <div key={i} className="case-card group relative rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500">
+            <motion.div key={i} className="case-card group relative rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500" initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}>
               <div className="grid md:grid-cols-5 gap-0">
                 <div className="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
                   <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -1869,7 +1801,7 @@ const CasesSection = ({ copy, language }) => {
                   <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm md:text-base">{c.desc}</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -1960,104 +1892,131 @@ const TechStackSection = ({ copy }) => {
   );
 };
 
-// --- GSAP Preloader Component ---
+// --- Preloader Component (framer-motion, no GSAP) ---
 const GSAPPreloader = ({ onComplete }) => {
-  const preloaderRef = useRef(null);
-  const counterRef = useRef(null);
-  const progressRef = useRef(null);
+  const [count, setCount] = useState(0);
+  const [slideOut, setSlideOut] = useState(false);
+  const completedRef = useRef(false);
 
+  // Animate counter from 0 to 100
   useEffect(() => {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        if (onComplete) onComplete();
+    const duration = 1800; // ms
+    const startTime = Date.now();
+    let raf;
+    const tick = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-in-out approximation
+      const eased = progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      setCount(Math.round(eased * 100));
+      if (progress < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        // Counter done, wait a moment then slide out
+        setTimeout(() => {
+          setSlideOut(true);
+        }, 200);
       }
-    });
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
-    // Counter animation
-    tl.fromTo(counterRef.current, 
-      { textContent: 0 },
-      {
-        textContent: 100,
-        duration: 1.8,
-        ease: "power2.inOut",
-        snap: { textContent: 1 },
-        onUpdate: function() {
-          if (counterRef.current) {
-            counterRef.current.textContent = Math.round(this.targets()[0].textContent);
-          }
-        }
-      },
-      0
-    );
+  // Safety fallback: never block more than 3 seconds
+  useEffect(() => {
+    const safetyTimer = setTimeout(() => {
+      if (!completedRef.current) {
+        completedRef.current = true;
+        setSlideOut(true);
+      }
+    }, 3000);
+    return () => clearTimeout(safetyTimer);
+  }, []);
 
-    // Progress bar fill
-    tl.fromTo(progressRef.current,
-      { scaleX: 0 },
-      { scaleX: 1, duration: 1.8, ease: "power2.inOut", transformOrigin: "left" },
-      0
-    );
-
-    // Fade out preloader
-    tl.to(preloaderRef.current, {
-      yPercent: -100,
-      duration: 0.8,
-      ease: "power3.inOut",
-      delay: 0.2
-    }, 2);
-
-    return () => { tl.kill(); };
+  const handleAnimationComplete = useCallback(() => {
+    if (!completedRef.current) {
+      completedRef.current = true;
+      if (onComplete) onComplete();
+    }
   }, [onComplete]);
 
   return (
-    <div ref={preloaderRef} className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center">
-      <div className="text-center mb-8">
-        <div className="flex items-center gap-3 justify-center mb-6">
-          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
-            <Zap size={28} className="fill-stone-950" strokeWidth={2.5} />
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!slideOut ? (
+        <motion.div
+          key="preloader"
+          className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center"
+          exit={{ yPercent: -100 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="text-center mb-8">
+            <div className="flex items-center gap-3 justify-center mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
+                <Zap size={28} className="fill-stone-950" strokeWidth={2.5} />
+              </div>
+              <span className="text-white font-bold text-3xl tracking-tighter">FastPagePro</span>
+            </div>
           </div>
-          <span className="text-white font-bold text-3xl tracking-tighter">FastPagePro</span>
-        </div>
-      </div>
-      <div className="text-7xl md:text-8xl font-black text-white mb-6 tabular-nums">
-        <span ref={counterRef}>0</span>
-        <span className="text-yellow-400">%</span>
-      </div>
-      <div className="w-64 md:w-80 h-[2px] bg-stone-800 rounded-full overflow-hidden">
-        <div ref={progressRef} className="h-full bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full" />
-      </div>
-      <p className="text-stone-500 text-sm mt-4 tracking-widest uppercase">Cargando experiencia</p>
-    </div>
+          <div className="text-7xl md:text-8xl font-black text-white mb-6 tabular-nums">
+            <span>{count}</span>
+            <span className="text-yellow-400">%</span>
+          </div>
+          <div className="w-64 md:w-80 h-[2px] bg-stone-800 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: count / 100 }}
+              transition={{ duration: 0.1, ease: "linear" }}
+              style={{ transformOrigin: "left" }}
+            />
+          </div>
+          <p className="text-stone-500 text-sm mt-4 tracking-widest uppercase">Cargando experiencia</p>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 };
 
-// --- GSAP Scroll Animation Hook ---
+// --- Scroll Animation Hook (IntersectionObserver, no GSAP) ---
 const useGSAPScrollReveal = (ref, options = {}) => {
-  const { y = 60, duration = 0.8, stagger = 0.15, delay = 0, trigger, start = "top 85%" } = options;
+  const { y = 60, stagger = 0.15, delay = 0 } = options;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!ref.current) return;
 
-    const elements = ref.current.querySelectorAll('.gsap-reveal');
+    const container = ref.current;
+    const elements = container.querySelectorAll('.gsap-reveal');
     if (elements.length === 0) return;
 
-    gsap.set(elements, { opacity: 0, y });
-
-    const tween = gsap.to(elements, {
-      opacity: 1,
-      y: 0,
-      duration,
-      stagger,
-      delay,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: trigger || ref.current,
-        start,
-        toggleActions: "play none none none"
-      }
+    // Set initial hidden state via inline styles
+    elements.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = `translateY(${y}px)`;
+      el.style.transition = `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay + i * stagger}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay + i * stagger}s`;
     });
 
-    return () => { tween.kill(); ScrollTrigger.getAll().forEach(t => t.kill()); };
-  }, [ref, y, duration, stagger, delay, trigger, start]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Reveal all elements
+            elements.forEach((el) => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(container);
+
+    return () => observer.disconnect();
+  }, [ref, y, stagger, delay]);
 };
 
 const PortfolioSection = ({ copy, projects, language }) => {
@@ -2889,9 +2848,9 @@ export default function App() {
     
     <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark bg-stone-950' : 'bg-stone-50'}`}>
       
-      {/* Progress Bar - Silver/White */}
-      <motion.div className="fixed top-0 left-0 right-0 h-1.5 bg-stone-800 z-[60]" style={{ scaleX }}>
-        <motion.div className="h-full bg-gradient-to-r from-stone-400 via-white to-stone-400" style={{ backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
+      {/* Progress Bar */}
+      <motion.div className="fixed top-0 left-0 right-0 h-1.5 bg-stone-200 dark:bg-stone-800 z-[60]" style={{ scaleX }}>
+        <motion.div className="h-full bg-gradient-to-r from-stone-400 via-stone-900 to-stone-400 dark:from-stone-600 dark:via-white dark:to-stone-600" style={{ backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
       </motion.div>
 
       {/* Navigation */}
