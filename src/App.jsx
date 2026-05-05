@@ -409,6 +409,7 @@ const COPY = {
     heroPrimaryCta: "Ver Portafolio",
     heroPrimaryMsg: "Quiero ver el portafolio",
     heroSecondaryCta: "Cotizar Mi Proyecto",
+    heroSecondaryMsg: `Hola Fast Page Pro \ud83d\udc4b\n\nQuiero *cotizar mi proyecto web* \ud83d\ude80\n\n\ud83d\udcbc *Tipo de proyecto:* Por definir\n\ud83c\udf10 *Necesito:* Web profesional / Tienda online / App\n\n\ud83d\udcc8 *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta. \u2728`,
     trustTitle: "Negocios Asociados",
     stats: ["+45 proyectos entregados", "6+ años de experiencia", "100% satisfacción"],
     portfolioTitle: "Nuestro Portafolio",
@@ -516,6 +517,7 @@ const COPY = {
     heroPrimaryCta: "See Portfolio",
     heroPrimaryMsg: "I want to see the portfolio",
     heroSecondaryCta: "Get a Quote",
+    heroSecondaryMsg: `Hi Fast Page Pro \ud83d\udc4b\n\nI want to *get a quote for my web project* \ud83d\ude80\n\n\ud83d\udcbc *Project type:* To be defined\n\ud83c\udf10 *I need:* Professional website / Online store / App\n\n\ud83d\udcc8 *Goal:* Boost my business online\n\nLooking forward to your response. \u2728`,
     trustTitle: "Partner Businesses",
     stats: ["+45 projects delivered", "6+ years experience", "100% satisfaction"],
     portfolioTitle: "Our Portfolio",
@@ -709,7 +711,7 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
           <AnimatedCounter end={value} suffix={suffix} />
         </div>
 
-        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium break-words">{label}</div>
+        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-widest font-medium break-words">{label}</div>
 
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
@@ -750,7 +752,7 @@ const InfiniteLogoCarousel = () => {
             whileHover={{ opacity: 1 }}
             className="flex-shrink-0 cursor-pointer"
           >
-            <span className="text-white/60 hover:text-white text-lg md:text-xl font-medium tracking-wide transition-all duration-300">
+            <span className="text-white/50 hover:text-white text-lg md:text-xl font-medium tracking-wide transition-all duration-300">
               {logo}
             </span>
           </motion.div>
@@ -1533,7 +1535,7 @@ Could you please confirm availability and final rate?`;
       </div>
 
       <div className="bg-stone-950 rounded-[2rem] border border-stone-800 p-6 md:p-8 text-white">
-        <div className="text-xs uppercase tracking-widest text-stone-500 mb-3">{language === "es" ? "Vista previa del flujo" : "Flow preview"}</div>
+        <div className="text-xs uppercase tracking-widest text-stone-400 mb-3">{language === "es" ? "Vista previa del flujo" : "Flow preview"}</div>
         <div className="space-y-4">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <div className="font-semibold">{language === "es" ? "1. Cliente completa formulario" : "1. Guest completes the form"}</div>
@@ -1552,7 +1554,7 @@ Could you please confirm availability and final rate?`;
             <div className="font-semibold text-emerald-200">{businessPhoneDigits || (language === "es" ? "Ingresa un número del negocio" : "Enter a business number")}</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="text-xs uppercase tracking-widest text-stone-500 mb-2">{previewTitle}</div>
+            <div className="text-xs uppercase tracking-widest text-stone-400 mb-2">{previewTitle}</div>
             <pre className="whitespace-pre-wrap text-sm text-stone-300 leading-relaxed font-sans">{demoMessage}</pre>
           </div>
         </div>
@@ -1627,7 +1629,7 @@ const ProcessTimeline = ({ copy, language }) => {
                       {stepLabel} {step.num}
                     </div>
                     <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
-                    <p className="text-stone-600 leading-relaxed text-xs sm:text-sm md:text-base dark:text-stone-400">{step.desc}</p>
+                    <p className="text-stone-600 leading-relaxed text-xs sm:text-sm md:text-base dark:text-stone-300">{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -1798,7 +1800,7 @@ const CasesSection = ({ copy, language }) => {
                     {c.metric}
                   </div>
                   <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{c.title}</h3>
-                  <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm md:text-base">{c.desc}</p>
+                  <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{c.desc}</p>
                 </div>
               </div>
             </motion.div>
@@ -1972,7 +1974,7 @@ const GSAPPreloader = ({ onComplete }) => {
               style={{ transformOrigin: "left" }}
             />
           </div>
-          <p className="text-stone-500 text-sm mt-4 tracking-widest uppercase">Cargando experiencia</p>
+          <p className="text-stone-400 text-sm mt-4 tracking-widest uppercase">Cargando experiencia</p>
         </motion.div>
       ) : null}
     </AnimatePresence>
@@ -2146,7 +2148,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
                       </span>
                     </div>
                     <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
-                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-500">{project.location}</p>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-400">{project.location}</p>
                     <p className="text-[11px] sm:text-xs md:text-sm text-stone-600 leading-relaxed mb-2 sm:mb-3 line-clamp-4 dark:text-stone-400">{project.description}</p>
                     <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-400 dark:group-hover:text-yellow-400">
                       {copy.portfolioCta}
@@ -2162,19 +2164,19 @@ const PortfolioSection = ({ copy, projects, language }) => {
         <div className="flex flex-wrap justify-center gap-6 md:gap-16 gsap-reveal">
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+45</div>
-            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
+            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+300%</div>
-            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
+            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">4</div>
-            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
+            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
           </div>
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">100%</div>
-            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
+            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
           </div>
         </div>
       </div>
@@ -2253,7 +2255,7 @@ const ServicesSection = ({ copy, language }) => {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
-                    <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm md:text-base">{service.desc}</p>
+                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{service.desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -2520,7 +2522,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
               </div>
               <motion.button 
                 onClick={handleCloseClick} 
-                className="text-stone-500 hover:text-white transition-colors"
+                className="text-stone-400 hover:text-white transition-colors"
                 whileHover={{ rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -2944,7 +2946,7 @@ export default function App() {
                 <span className="text-xs text-green-600 dark:text-green-400 font-medium">● {language === 'es' ? 'En vivo' : 'Live'}</span>
               </div>
               <div className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{copy.notificationSubtitle}</div>
-              <div className="text-xs text-stone-400 dark:text-stone-500 mt-1">🚀 {language === 'es' ? 'Entregado en 2 días' : 'Delivered in 2 days'} • Web + WhatsApp</div>
+              <div className="text-xs text-stone-400 dark:text-stone-300 mt-1">🚀 {language === 'es' ? 'Entregado en 2 días' : 'Delivered in 2 days'} • Web + WhatsApp</div>
             </div>
           </motion.div>
         )}
@@ -3031,6 +3033,7 @@ export default function App() {
               </a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
+                message={copy.heroSecondaryMsg}
                 variant="outline"
                 className="w-full h-[52px] px-6 text-base font-semibold border-2 !text-white !border-white hover:!bg-white/10 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
               />
@@ -3153,7 +3156,7 @@ export default function App() {
                   )}
                   <h3 className="text-base md:text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
                   <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
-                  <div className="text-xs md:text-sm opacity-40 mb-7 md:mb-8">{plan.period}</div>
+                  <div className="text-xs md:text-sm opacity-50 sm:opacity-40 mb-7 md:mb-8">{plan.period}</div>
 
                   <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1 text-left">
                     {plan.features.map((f, j) => (
@@ -3177,7 +3180,7 @@ export default function App() {
                     </span>
                   </a>
                   <div className="mt-2 text-center">
-                    <p className="text-xs text-stone-400 dark:text-stone-500">3 cuotas sin interes: <span className="font-semibold text-stone-600 dark:text-stone-400">S/ {cuotas[plan.name]}/mes</span></p>
+                    <p className="text-xs text-stone-500 dark:text-stone-300">3 cuotas sin interes: <span className="font-semibold text-stone-700 dark:text-stone-200">S/ {cuotas[plan.name]}/mes</span></p>
                   </div>
                 </motion.div>
               );
@@ -3231,15 +3234,15 @@ export default function App() {
                 </div>
                 <span className="text-white font-bold text-xl tracking-tight">FastPagePro</span>
               </div>
-              <p className="text-stone-500 text-sm leading-relaxed mb-6">
+              <p className="text-stone-400 text-sm leading-relaxed mb-6">
                 {language === "es"
                   ? "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados que impulsan tu negocio."
                   : "We create professional websites, online stores, mobile apps and custom projects that drive your business forward."}
               </p>
               <div className="flex gap-3">
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><Globe size={18} /></motion.a>
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><MessageCircle size={18} /></motion.a>
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-500 hover:text-white hover:bg-white/10 transition-all"><Star size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><Globe size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><MessageCircle size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><Star size={18} /></motion.a>
               </div>
             </div>
 
@@ -3247,29 +3250,29 @@ export default function App() {
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Servicios" : "Services"}</h4>
               <ul className="space-y-3">
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Páginas Web" : "Websites"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Tiendas Online" : "Online Stores"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Apps Móviles" : "Mobile Apps"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Proyectos Custom" : "Custom Projects"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Páginas Web" : "Websites"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Tiendas Online" : "Online Stores"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Apps Móviles" : "Mobile Apps"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Proyectos Custom" : "Custom Projects"}</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
               <ul className="space-y-3">
-                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Portafolio" : "Portfolio"}</a></li>
-                <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
-                <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
-                <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-stone-500 hover:text-white text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
+                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Portafolio" : "Portfolio"}</a></li>
+                <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
+                <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
+                <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Contacto" : "Contact"}</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-stone-500 text-sm"><Phone size={14} /> +51 933 667 414</li>
-                <li className="flex items-center gap-2 text-stone-500 text-sm"><Send size={14} /> profastpage@gmail.com</li>
-                <li className="flex items-center gap-2 text-stone-500 text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
+                <li className="flex items-center gap-2 text-stone-400 text-sm"><Phone size={14} /> +51 933 667 414</li>
+                <li className="flex items-center gap-2 text-stone-400 text-sm"><Send size={14} /> profastpage@gmail.com</li>
+                <li className="flex items-center gap-2 text-stone-400 text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
               </ul>
             </div>
           </div>
