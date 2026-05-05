@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import {
   Check,
   MessageCircle,
@@ -34,7 +38,13 @@ import {
   Signal,
   Send,
   Percent,
-  ExternalLink
+  ExternalLink,
+  Monitor,
+  ShoppingCart,
+  Layers,
+  Code,
+  Palette,
+  Filter
 } from 'lucide-react';
 
 const _MOTION = motion;
@@ -72,6 +82,7 @@ const HERO_IMAGES = [
 const NAV_ITEMS = [
   { id: "mockup-celular", es: "Demo", en: "Demo" },
   { id: "portafolio", es: "Portafolio", en: "Portfolio" },
+  { id: "servicios", es: "Servicios", en: "Services" },
   { id: "beneficios", es: "Beneficios", en: "Benefits" },
   { id: "testimonios", es: "Testimonios", en: "Testimonials" },
   { id: "planes", es: "Planes", en: "Plans" },
@@ -89,12 +100,18 @@ const LATIN_AVATARS = [
   "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=160"
 ];
 
+const PORTFOLIO_CATEGORIES = {
+  es: ["Todos", "Web Profesional", "Tienda Online", "App Móvil", "Proyecto Personalizado"],
+  en: ["All", "Professional Web", "Online Store", "Mobile App", "Custom Project"]
+};
+
 const PORTFOLIO_BY_LANG = {
   es: [
     {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Perú",
-      category: "Hotel Urbano",
+      category: "Web Profesional",
+      type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://vuelo78hotel-demo.netlify.app/"
@@ -102,7 +119,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "Amazonia Eco Stay",
       location: "Iquitos, Perú",
-      category: "Hospedaje Experiencial",
+      category: "Web Profesional",
+      type: "web",
       description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://amazonia-eco-stay.vercel.app/"
@@ -110,7 +128,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "La Casona Gourmet",
       location: "Lima, Perú",
-      category: "Restaurante Premium",
+      category: "Tienda Online",
+      type: "tienda",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://la-casa-gourmet.vercel.app/"
@@ -118,17 +137,55 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "Growth Consulting Perú",
       location: "Lima, Perú",
-      category: "Consultoría Estratégica",
+      category: "Web Profesional",
+      type: "web",
       description: "Sistema de captación de clientes y agendamiento automático por WhatsApp enfocado en generar leads calificados.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://growth-consulting-peru.vercel.app/"
+    },
+    {
+      title: "Andina Shop",
+      location: "Cusco, Perú",
+      category: "Tienda Online",
+      type: "tienda",
+      description: "E-commerce completo con catálogo de productos artesanales, carrito de compras y pasarela de pagos integrada.",
+      image: "https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "FitLife App",
+      location: "Lima, Perú",
+      category: "App Móvil",
+      type: "app",
+      description: "Aplicación móvil de seguimiento de entrenamiento con planes personalizados, progreso en tiempo real y notificaciones push.",
+      image: "https://images.pexels.com/photos/4668548/pexels-photo-4668548.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "TechFlow Dashboard",
+      location: "Remoto, Latam",
+      category: "Proyecto Personalizado",
+      type: "custom",
+      description: "Panel de control empresarial con métricas en tiempo real, reportes automatizados y gestión de equipos integrada.",
+      image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "GastroMarket",
+      location: "Arequipa, Perú",
+      category: "Tienda Online",
+      type: "tienda",
+      description: "Plataforma de delivery gastronómico con menús interactivos, tracking de pedidos y pasarela Yape/Plin integrada.",
+      image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
     }
   ],
   en: [
     {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Peru",
-      category: "Urban Hotel",
+      category: "Professional Web",
+      type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://vuelo78hotel-demo.netlify.app/"
@@ -136,7 +193,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "Amazonia Eco Stay",
       location: "Iquitos, Peru",
-      category: "Experiential Lodge",
+      category: "Professional Web",
+      type: "web",
       description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
       image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://amazonia-eco-stay.vercel.app/"
@@ -144,7 +202,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "La Casona Gourmet",
       location: "Lima, Peru",
-      category: "Premium Restaurant",
+      category: "Online Store",
+      type: "tienda",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
       image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://la-casa-gourmet.vercel.app/"
@@ -152,10 +211,47 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "Growth Consulting Peru",
       location: "Lima, Peru",
-      category: "Strategic Consulting",
+      category: "Professional Web",
+      type: "web",
       description: "Client acquisition and automatic scheduling system via WhatsApp focused on generating qualified leads.",
       image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
       link: "https://growth-consulting-peru.vercel.app/"
+    },
+    {
+      title: "Andina Shop",
+      location: "Cusco, Peru",
+      category: "Online Store",
+      type: "tienda",
+      description: "Complete e-commerce with artisan product catalog, shopping cart and integrated payment gateway.",
+      image: "https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "FitLife App",
+      location: "Lima, Peru",
+      category: "Mobile App",
+      type: "app",
+      description: "Mobile fitness tracking app with personalized plans, real-time progress and push notifications.",
+      image: "https://images.pexels.com/photos/4668548/pexels-photo-4668548.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "TechFlow Dashboard",
+      location: "Remote, Latam",
+      category: "Custom Project",
+      type: "custom",
+      description: "Business control panel with real-time metrics, automated reports and integrated team management.",
+      image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "GastroMarket",
+      location: "Arequipa, Peru",
+      category: "Online Store",
+      type: "tienda",
+      description: "Gastronomic delivery platform with interactive menus, order tracking and Yape/Plin payment integration.",
+      image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      link: "https://vuelo78hotel-demo.netlify.app/"
     }
   ]
 };
@@ -331,10 +427,22 @@ const COPY = {
       { title: "Interacción", desc: "Guía automáticamente hacia la conversación", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
       { title: "Conversión", desc: "Cierre directo en WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
-    portfolioTitle: "Casos reales",
-    portfolioSubtitle: "Sistemas activos que ya están generando reservas y ventas por WhatsApp",
-    portfolioBadge: "Trabajos Reales",
+    portfolioTitle: "Nuestro Portafolio",
+    portfolioSubtitle: "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados",
+    portfolioBadge: "Portafolio",
     portfolioCta: "Ver sistema en vivo ↗",
+    portfolioFilterAll: "Todos",
+    servicesTitle: "Nuestros Servicios",
+    servicesSubtitle: "Soluciones digitales completas para impulsar tu negocio al siguiente nivel",
+    servicesBadge: "Lo que hacemos",
+    servicesWebTitle: "Páginas Web Profesionales",
+    servicesWebDesc: "Diseñamos y desarrollamos sitios web de alto rendimiento que reflejan la identidad de tu marca. Landing pages, webs corporativas y sistemas de reservas con optimización SEO avanzada para posicionarte en Google desde el primer día.",
+    servicesTiendaTitle: "Tiendas Online",
+    servicesTiendaDesc: "E-commerce completo con catálogo de productos, carrito de compras, pasarelas de pago (Yape, Plin, Izipay) y gestión de inventario integrada. Tu tienda abierta 24/7 generando ventas automáticas.",
+    servicesAppTitle: "Aplicaciones Móviles",
+    servicesAppDesc: "Apps nativas y PWA (Progressive Web Apps) con experiencia de usuario fluida, notificaciones push, modo offline y rendimiento optimizado. Transformamos tu idea en una app que tus clientes amarán usar.",
+    servicesCustomTitle: "Proyectos Personalizados",
+    servicesCustomDesc: "Dashboards empresariales, sistemas de automatización, integraciones con APIs y soluciones a medida. Si lo puedes imaginar, lo podemos construir con tecnología de vanguardia.",
     testimonialsTitle: "Resultados reales",
     testimonialsSubtitle: "Negocios que ya están generando clientes con este sistema",
     testimonialsBadge: "Testimonios",
@@ -417,10 +525,22 @@ const COPY = {
       { title: "Interaction", desc: "Automatically guide towards conversation", image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=800" },
       { title: "Conversion", desc: "Direct closure on WhatsApp", image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=800" }
     ],
-    portfolioTitle: "Real Cases",
-    portfolioSubtitle: "Active systems already generating bookings and sales via WhatsApp",
-    portfolioBadge: "Real Work",
+    portfolioTitle: "Our Portfolio",
+    portfolioSubtitle: "We create professional websites, online stores, mobile apps and custom projects",
+    portfolioBadge: "Portfolio",
     portfolioCta: "See live system ↗",
+    portfolioFilterAll: "All",
+    servicesTitle: "Our Services",
+    servicesSubtitle: "Complete digital solutions to take your business to the next level",
+    servicesBadge: "What we do",
+    servicesWebTitle: "Professional Websites",
+    servicesWebDesc: "We design and develop high-performance websites that reflect your brand identity. Landing pages, corporate sites and booking systems with advanced SEO optimization to rank on Google from day one.",
+    servicesTiendaTitle: "Online Stores",
+    servicesTiendaDesc: "Complete e-commerce with product catalog, shopping cart, payment gateways (Yape, Plin, Izipay) and integrated inventory management. Your store open 24/7 generating automatic sales.",
+    servicesAppTitle: "Mobile Applications",
+    servicesAppDesc: "Native apps and PWAs with fluid user experience, push notifications, offline mode and optimized performance. We transform your idea into an app your customers will love using.",
+    servicesCustomTitle: "Custom Projects",
+    servicesCustomDesc: "Business dashboards, automation systems, API integrations and tailored solutions. If you can imagine it, we can build it with cutting-edge technology.",
     testimonialsTitle: "Real Results",
     testimonialsSubtitle: "Businesses already generating customers with this system",
     testimonialsBadge: "Testimonials",
@@ -1411,80 +1531,350 @@ Could you please confirm availability and final rate?`;
   );
 };
 
-const PortfolioSection = ({ copy, projects }) => (
-  <section id="portafolio" className="py-32 md:py-40 bg-white dark:bg-stone-950">
-    <div className="container mx-auto px-4">
-      <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
-      
-      {/* COPY MAESTRO - Encima de las cards */}
-      <div className="max-w-4xl mx-auto text-center mb-4">
-        <h3 className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white mb-3">
-          Creamos sistemas que generan reservas y ventas directas por WhatsApp
-        </h3>
-        {/* MICRO DETALLE PRO */}
-        <p className="text-base md:text-lg text-stone-600 dark:text-stone-400 font-medium">
-          💥 Sin intermediarios · Respuesta rápida · Automatización inteligente
-        </p>
-      </div>
-      
-      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
-        {projects.map((project, index) => {
-          // Map portfolio items to local images
-          const imageMap = {
-            "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
-            "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
-            "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
-            "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png"
-          };
+// --- GSAP Preloader Component ---
+const GSAPPreloader = ({ onComplete }) => {
+  const preloaderRef = useRef(null);
+  const counterRef = useRef(null);
+  const progressRef = useRef(null);
 
-          return (
-            <motion.a
-              key={`${project.title}-${index}`}
-              href={project.link}
-              target="_blank"
-              rel="noreferrer noopener"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.07 }}
-              className="group rounded-[1.75rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-[0_10px_40px_-18px_rgba(0,0,0,0.25)] block no-underline"
-              whileHover={{ y: -8 }}
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img src={imageMap[project.title] || project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-              </div>
-              <div className="p-5">
-                <div className="text-xs uppercase tracking-wider text-stone-500 mb-2">{project.category}</div>
-                <h3 className="text-xl font-bold text-stone-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{project.title}</h3>
-                <p className="text-sm text-stone-500 dark:text-stone-400 mb-3">{project.location}</p>
-                <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-5">{project.description}</p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-900 dark:text-white hover:gap-3 transition-all">
-                  {copy.portfolioCta}
-                </span>
-              </div>
-            </motion.a>
-          );
-        })}
+  useEffect(() => {
+    const tl = gsap.timeline({
+      onComplete: () => {
+        if (onComplete) onComplete();
+      }
+    });
+
+    // Counter animation
+    tl.fromTo(counterRef.current, 
+      { textContent: 0 },
+      {
+        textContent: 100,
+        duration: 1.8,
+        ease: "power2.inOut",
+        snap: { textContent: 1 },
+        onUpdate: function() {
+          if (counterRef.current) {
+            counterRef.current.textContent = Math.round(this.targets()[0].textContent);
+          }
+        }
+      },
+      0
+    );
+
+    // Progress bar fill
+    tl.fromTo(progressRef.current,
+      { scaleX: 0 },
+      { scaleX: 1, duration: 1.8, ease: "power2.inOut", transformOrigin: "left" },
+      0
+    );
+
+    // Fade out preloader
+    tl.to(preloaderRef.current, {
+      yPercent: -100,
+      duration: 0.8,
+      ease: "power3.inOut",
+      delay: 0.2
+    }, 2);
+
+    return () => { tl.kill(); };
+  }, [onComplete]);
+
+  return (
+    <div ref={preloaderRef} className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center">
+      <div className="text-center mb-8">
+        <div className="flex items-center gap-3 justify-center mb-6">
+          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
+            <Zap size={28} className="fill-stone-950" strokeWidth={2.5} />
+          </div>
+          <span className="text-white font-bold text-3xl tracking-tighter">FastPagePro</span>
+        </div>
       </div>
-      
-      {/* MINI PRUEBA SOCIAL */}
-      <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-        <div className="text-center">
-          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">+15</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">proyectos creados</div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">+300%</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">aumento en reservas</div>
-        </div>
-        <div className="text-center">
-          <div className="text-3xl md:text-4xl font-bold text-stone-950 dark:text-white">Perú</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wider mt-1">clientes</div>
-        </div>
+      <div className="text-7xl md:text-8xl font-black text-white mb-6 tabular-nums">
+        <span ref={counterRef}>0</span>
+        <span className="text-yellow-400">%</span>
       </div>
+      <div className="w-64 md:w-80 h-[2px] bg-stone-800 rounded-full overflow-hidden">
+        <div ref={progressRef} className="h-full bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full" />
+      </div>
+      <p className="text-stone-500 text-sm mt-4 tracking-widest uppercase">Cargando experiencia</p>
     </div>
-  </section>
-);
+  );
+};
+
+// --- GSAP Scroll Animation Hook ---
+const useGSAPScrollReveal = (ref, options = {}) => {
+  const { y = 60, duration = 0.8, stagger = 0.15, delay = 0, trigger, start = "top 85%" } = options;
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const elements = ref.current.querySelectorAll('.gsap-reveal');
+    if (elements.length === 0) return;
+
+    gsap.set(elements, { opacity: 0, y });
+
+    const tween = gsap.to(elements, {
+      opacity: 1,
+      y: 0,
+      duration,
+      stagger,
+      delay,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: trigger || ref.current,
+        start,
+        toggleActions: "play none none none"
+      }
+    });
+
+    return () => { tween.kill(); ScrollTrigger.getAll().forEach(t => t.kill()); };
+  }, [ref, y, duration, stagger, delay, trigger, start]);
+};
+
+const PortfolioSection = ({ copy, projects, language }) => {
+  const [activeFilter, setActiveFilter] = useState("Todos");
+  const [activeFilterEn, setActiveFilterEn] = useState("All");
+  const sectionRef = useRef(null);
+
+  const categories = PORTFOLIO_CATEGORIES[language] || PORTFOLIO_CATEGORIES.es;
+  const currentFilter = language === "en" ? activeFilterEn : activeFilter;
+  const setCurrentFilter = language === "en" ? setActiveFilterEn : setActiveFilter;
+
+  const filteredProjects = projects.filter(p => {
+    if (currentFilter === "Todos" || currentFilter === "All") return true;
+    return p.category === currentFilter;
+  });
+
+  useGSAPScrollReveal(sectionRef, { y: 50, stagger: 0.1 });
+
+  // Category icon helper
+  const getCategoryIcon = (category) => {
+    if (category.includes("Web") || category.includes("Web")) return Monitor;
+    if (category.includes("Tienda") || category.includes("Store")) return ShoppingCart;
+    if (category.includes("App") || category.includes("Mobile")) return Smartphone;
+    return Code;
+  };
+
+  // Type color helper
+  const getTypeColor = (type) => {
+    const colors = {
+      web: "from-blue-500 to-cyan-400",
+      tienda: "from-emerald-500 to-green-400",
+      app: "from-purple-500 to-violet-400",
+      custom: "from-orange-500 to-amber-400"
+    };
+    return colors[type] || "from-stone-500 to-stone-400";
+  };
+
+  const getTypeBg = (type) => {
+    const bgs = {
+      web: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      tienda: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      app: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      custom: "bg-orange-500/10 text-orange-400 border-orange-500/20"
+    };
+    return bgs[type] || "bg-stone-500/10 text-stone-400 border-stone-500/20";
+  };
+
+  return (
+    <section id="portafolio" className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-400/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
+        
+        {/* Category Filter Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mb-14 gsap-reveal">
+          {categories.map((cat) => (
+            <motion.button
+              key={cat}
+              onClick={() => setCurrentFilter(cat)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 border ${
+                currentFilter === cat
+                  ? "bg-white text-stone-950 border-white shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
+                  : "bg-white/5 text-stone-400 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                {cat !== "Todos" && cat !== "All" && (() => {
+                  const Icon = getCategoryIcon(cat);
+                  return <Icon size={14} />;
+                })()}
+                {cat}
+              </span>
+            </motion.button>
+          ))}
+        </div>
+      
+        {/* Portfolio Grid */}
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
+          <AnimatePresence mode="wait">
+            {filteredProjects.map((project, index) => {
+              const imageMap = {
+                "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
+                "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
+                "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
+                "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
+                "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png"
+              };
+              const Icon = getCategoryIcon(project.category);
+              const gradientColor = getTypeColor(project.type);
+
+              return (
+                <motion.a
+                  key={`${project.title}-${activeFilter}`}
+                  href={project.link}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                  transition={{ delay: index * 0.06, duration: 0.5 }}
+                  className="group rounded-[1.75rem] overflow-hidden border border-white/10 bg-stone-900/80 backdrop-blur-sm shadow-[0_10px_40px_-18px_rgba(0,0,0,0.5)] block no-underline relative"
+                  whileHover={{ y: -8, borderColor: "rgba(255,255,255,0.2)" }}
+                >
+                  {/* Top gradient accent */}
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  
+                  <div className="aspect-[4/3] overflow-hidden relative">
+                    <img src={imageMap[project.title] || project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    {/* Overlay with icon */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
+                        <ExternalLink size={16} className="text-white" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
+                        <Icon size={12} />
+                        {project.category}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">{project.title}</h3>
+                    <p className="text-sm text-stone-500 mb-3">{project.location}</p>
+                    <p className="text-sm text-stone-400 leading-relaxed mb-4 line-clamp-4">{project.description}</p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-400 group-hover:text-yellow-400 hover:gap-3 transition-all">
+                      {copy.portfolioCta}
+                    </span>
+                  </div>
+                </motion.a>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+        
+        {/* Stats Social Proof */}
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 gsap-reveal">
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-bold text-white">+20</div>
+            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-bold text-white">+300%</div>
+            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-bold text-white">4</div>
+            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-bold text-white">100%</div>
+            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- Services Section ---
+const ServicesSection = ({ copy, language }) => {
+  const sectionRef = useRef(null);
+  useGSAPScrollReveal(sectionRef, { y: 50, stagger: 0.12 });
+
+  const services = [
+    {
+      icon: Monitor,
+      title: copy.servicesWebTitle,
+      desc: copy.servicesWebDesc,
+      gradient: "from-blue-500 to-cyan-400",
+      bgColor: "bg-blue-500/10",
+      borderColor: "border-blue-500/20",
+      textColor: "text-blue-400"
+    },
+    {
+      icon: ShoppingCart,
+      title: copy.servicesTiendaTitle,
+      desc: copy.servicesTiendaDesc,
+      gradient: "from-emerald-500 to-green-400",
+      bgColor: "bg-emerald-500/10",
+      borderColor: "border-emerald-500/20",
+      textColor: "text-emerald-400"
+    },
+    {
+      icon: Smartphone,
+      title: copy.servicesAppTitle,
+      desc: copy.servicesAppDesc,
+      gradient: "from-purple-500 to-violet-400",
+      bgColor: "bg-purple-500/10",
+      borderColor: "border-purple-500/20",
+      textColor: "text-purple-400"
+    },
+    {
+      icon: Code,
+      title: copy.servicesCustomTitle,
+      desc: copy.servicesCustomDesc,
+      gradient: "from-orange-500 to-amber-400",
+      bgColor: "bg-orange-500/10",
+      borderColor: "border-orange-500/20",
+      textColor: "text-orange-400"
+    }
+  ];
+
+  return (
+    <section id="servicios" className="py-32 md:py-40 bg-white dark:bg-stone-900 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-stone-800/30 rounded-full blur-[150px] pointer-events-none" />
+      
+      <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.servicesTitle} subtitle={copy.servicesSubtitle} badge={copy.servicesBadge} />
+        
+        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.12, duration: 0.6 }}
+                whileHover={{ y: -5, scale: 1.01 }}
+                className={`gsap-reveal group relative rounded-[2rem] p-8 md:p-10 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] overflow-hidden`}
+              >
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className="flex items-start gap-5">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                    <Icon className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
+                    <p className="text-stone-600 dark:text-stone-400 leading-relaxed text-sm md:text-base">{service.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
 
 const ROICalculator = ({ language, copy }) => {
   const [reservas, setReservas] = useState(50);
@@ -1918,6 +2308,8 @@ export default function App() {
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [loadedHeroImages, setLoadedHeroImages] = useState(() => HERO_IMAGES.map(() => false));
   const [showNotification, setShowNotification] = useState(false);
+  const [showPreloader, setShowPreloader] = useState(true);
+  const preloaderComplete = useCallback(() => setShowPreloader(false), []);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
@@ -2061,6 +2453,10 @@ export default function App() {
   };
 
   return (
+    <>
+      {/* GSAP Preloader */}
+      {showPreloader && <GSAPPreloader onComplete={preloaderComplete} />}
+    
     <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark bg-stone-950' : 'bg-stone-50'}`}>
       
       {/* Progress Bar - Silver/White */}
@@ -2387,7 +2783,10 @@ export default function App() {
         </div>
       </section>
 
-      <PortfolioSection copy={copy} projects={portfolioProjects} />
+      <PortfolioSection copy={copy} projects={portfolioProjects} language={language} />
+
+      {/* Services Section */}
+      <ServicesSection copy={copy} language={language} />
 
       {/* Gallery */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-1">
@@ -2549,6 +2948,7 @@ export default function App() {
       {/* Advanced Widget */}
       <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
     </div>
+    </>
   );
 }
 
