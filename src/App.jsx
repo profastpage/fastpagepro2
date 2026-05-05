@@ -1868,48 +1868,61 @@ const CasesSection = ({ copy, language }) => {
 // --- Tech Stack Section ---
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
-  const row1Ref = useRef(null);
-  const row2Ref = useRef(null);
 
   useLayoutEffect(() => {
     const sectionEl = sectionRef.current;
     if (!sectionEl) return;
-    const row1El = row1Ref.current;
-    const row2El = row2Ref.current;
-    if (!row1El || !row2El) return;
 
-    const row1Items = row1El.querySelectorAll('.tech-item-row1');
-    const row2Items = row2El.querySelectorAll('.tech-item-row2');
-    if (!row1Items.length || !row2Items.length) return;
+    const allItems = sectionEl.querySelectorAll('.tech-item');
+    if (!allItems.length) return;
 
     const ctx = gsap.context(() => {
-      // Hide items before paint
-      gsap.set(row1Items, { opacity: 0, x: -120, scale: 0.5, rotation: -8 });
-      gsap.set(row2Items, { opacity: 0, x: 120, scale: 0.5, rotation: 8 });
+      allItems.forEach((item) => {
+        const isRow1 = item.classList.contains('tech-row1');
+        const idx = parseInt(item.getAttribute('data-idx') || '0', 10);
+        const delay = idx * 0.12;
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionEl,
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
+        // Set initial hidden state
+        gsap.set(item, {
+          opacity: 0,
+          x: isRow1 ? -100 : 100,
+          y: 30,
+          scale: 0.6,
+          rotation: isRow1 ? -12 : 12
+        });
+
+        // Individual ScrollTrigger per item
+        gsap.to(item, {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotation: 0,
+          duration: 0.9,
+          delay: delay,
+          ease: "back.out(1.7)",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 92%",
+            toggleActions: "play none none none"
+          }
+        });
+
+        // Glow pulse after appearing
+        gsap.fromTo(item, {
+          boxShadow: "0 0 0px rgba(255,255,255,0)"
+        }, {
+          boxShadow: "0 0 25px rgba(255,255,255,0.15)",
+          duration: 0.6,
+          delay: delay + 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 92%",
+            toggleActions: "play none none none"
+          }
+        });
       });
-
-      // Row 1 - Slide from left + scale bounce + rotation WOW
-      tl.to(row1Items, {
-        opacity: 1, x: 0, scale: 1, rotation: 0,
-        duration: 0.7,
-        stagger: { amount: 0.8, from: "start" },
-        ease: "back.out(1.4)"
-      });
-
-      // Row 2 - Slide from right + scale bounce + rotation WOW
-      tl.to(row2Items, {
-        opacity: 1, x: 0, scale: 1, rotation: 0,
-        duration: 0.7,
-        stagger: { amount: 0.8, from: "end" },
-        ease: "back.out(1.4)"
-      }, "-=0.4");
     }, sectionEl);
 
     return () => ctx.revert();
@@ -1936,20 +1949,20 @@ const TechStackSection = ({ copy }) => {
     { name: "Figma", color: "#F24E1E" }
   ];
 
-  const TechItem = ({ tech, rowClass }) => (
-    <motion.div
-      whileHover={{ y: -6, scale: 1.08, rotate: [-1, 1, -1, 0] }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-      className={`${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
+  const TechItem = ({ tech, rowClass, idx }) => (
+    <div
+      className={`tech-item ${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
+      data-idx={idx}
       style={{
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)'
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+        opacity: 0
       }}
     >
       <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
         {tech.name.charAt(0)}
       </div>
       <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
-    </motion.div>
+    </div>
   );
 
   return (
@@ -1960,17 +1973,17 @@ const TechStackSection = ({ copy }) => {
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
 
         <div className="max-w-5xl mx-auto space-y-4">
-          {/* Row 1 - Animate from LEFT */}
-          <div ref={row1Ref} className="flex flex-wrap justify-center gap-2 md:gap-4">
-            {techsRow1.map((tech) => (
-              <TechItem key={tech.name} tech={tech} rowClass="tech-item-row1" />
+          {/* Row 1 - Each item animates from LEFT individually on scroll */}
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+            {techsRow1.map((tech, idx) => (
+              <TechItem key={tech.name} tech={tech} rowClass="tech-row1" idx={idx} />
             ))}
           </div>
 
-          {/* Row 2 - Animate from RIGHT */}
-          <div ref={row2Ref} className="flex flex-wrap justify-center gap-2 md:gap-4">
-            {techsRow2.map((tech) => (
-              <TechItem key={tech.name} tech={tech} rowClass="tech-item-row2" />
+          {/* Row 2 - Each item animates from RIGHT individually on scroll */}
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+            {techsRow2.map((tech, idx) => (
+              <TechItem key={tech.name} tech={tech} rowClass="tech-row2" idx={idx} />
             ))}
           </div>
         </div>
