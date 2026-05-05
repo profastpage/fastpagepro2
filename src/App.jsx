@@ -735,27 +735,24 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
       whileHover={{ y: -10, scale: 1.03 }}
       className="relative group"
     >
-      {/* Silver/White Glow instead of Gold */}
-      <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-stone-200/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="relative bg-stone-950 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-3xl p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-stone-50 to-transparent opacity-0 dark:from-white/5 dark:to-transparent group-hover:opacity-100 transition-opacity duration-500" />
 
         <motion.div
-          className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 flex items-center justify-center relative overflow-hidden border border-white/5 group-hover:border-white/20 transition-colors duration-500"
+          className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-5 md:mb-6 rounded-2xl bg-gradient-to-br from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900 flex items-center justify-center relative overflow-hidden border border-stone-200 dark:border-white/5 group-hover:border-yellow-400/30 transition-colors duration-500"
         >
-          <IconComp className="w-10 h-10 text-white/70 group-hover:text-white transition-colors duration-500 relative z-10" />
+          <IconComp className="w-8 h-8 md:w-10 md:h-10 text-stone-600 group-hover:text-yellow-600 dark:text-white/70 dark:group-hover:text-yellow-400 transition-colors duration-500 relative z-10" />
         </motion.div>
 
-        <div className="text-4xl md:text-6xl font-bold text-white mb-3 tracking-tight relative">
+        <div className="text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-2 md:mb-3 tracking-tight relative">
           <AnimatedCounter end={value} suffix={suffix} />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         </div>
 
-        <div className="text-sm text-stone-400 uppercase tracking-widest font-medium">{label}</div>
+        <div className="text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium">{label}</div>
 
-        {/* Silver accent line */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-white/20 to-white/60 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
     </motion.div>
   );
@@ -1336,14 +1333,14 @@ const SectionTitle = ({ title, subtitle, badge }) => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div ref={ref} className="mb-16 md:mb-24 text-center max-w-4xl mx-auto px-4">
+    <div ref={ref} className="mb-12 md:mb-16 text-center max-w-4xl mx-auto px-4">
       {badge && (
         <motion.span 
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="inline-block mb-6 px-5 py-2 rounded-full border border-stone-200 bg-stone-50 text-stone-600 text-xs font-semibold tracking-widest uppercase shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:text-stone-400"
+          className="inline-block mb-5 px-5 py-2 rounded-full border border-stone-200 bg-stone-100 text-stone-600 text-xs font-semibold tracking-widest uppercase shadow-sm dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300"
         >
           {badge}
         </motion.span>
@@ -1353,7 +1350,7 @@ const SectionTitle = ({ title, subtitle, badge }) => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-4xl md:text-6xl lg:text-7xl font-bold text-stone-950 tracking-tight leading-[1.1] mb-6 dark:text-white"
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1] mb-5 dark:text-white"
       >
         {title}
       </motion.h2>
@@ -1363,7 +1360,7 @@ const SectionTitle = ({ title, subtitle, badge }) => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-xl text-stone-500 font-light leading-relaxed dark:text-stone-400"
+          className="text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-400"
         >
           {subtitle}
         </motion.p>
@@ -1633,7 +1630,7 @@ const ProcessTimeline = ({ copy }) => {
   ];
 
   return (
-    <section id="proceso" className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
+    <section id="proceso" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -1642,7 +1639,7 @@ const ProcessTimeline = ({ copy }) => {
 
         <div ref={timelineRef} className="max-w-4xl mx-auto relative">
           {/* Vertical line - desktop */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2">
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-200 dark:bg-white/10 -translate-x-1/2">
             <div className="process-line-fill absolute top-0 left-0 w-full bg-gradient-to-b from-yellow-400 via-amber-500 to-orange-500" style={{ height: "100%" }} />
           </div>
 
@@ -1650,18 +1647,18 @@ const ProcessTimeline = ({ copy }) => {
             const Icon = icons[index];
             const isLeft = index % 2 === 0;
             return (
-              <div key={step.num} className={`process-step relative mb-12 md:mb-20 last:mb-0 md:flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8`}>
+              <div key={step.num} className={`process-step relative mb-10 md:mb-16 last:mb-0 md:flex ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8`}>
                 {/* Content */}
                 <div className={`md:w-1/2 ${isLeft ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
                   <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-xs font-bold text-white mb-3 tracking-wider`}>
                     PASO {step.num}
                   </div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">{step.title}</h3>
-                  <p className="text-stone-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                  <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-stone-900 mb-3 dark:text-white">{step.title}</h3>
+                  <p className="text-stone-600 leading-relaxed text-sm md:text-base dark:text-stone-400">{step.desc}</p>
                 </div>
 
                 {/* Center circle - desktop */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 items-center justify-center shadow-lg shadow-yellow-500/30 z-10 border-4 border-stone-950">
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 items-center justify-center shadow-lg shadow-yellow-500/30 z-10 border-4 border-stone-50 dark:border-stone-950">
                   <Icon className="w-6 h-6 text-stone-950" />
                 </div>
 
@@ -1671,11 +1668,11 @@ const ProcessTimeline = ({ copy }) => {
                     <Icon className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className={`inline-block px-3 py-1 rounded-full bg-white/10 text-xs font-bold text-stone-300 mb-2 tracking-wider`}>
+                    <div className="inline-block px-3 py-1 rounded-full bg-stone-200 dark:bg-white/10 text-xs font-bold text-stone-600 dark:text-stone-300 mb-2 tracking-wider">
                       PASO {step.num}
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
-                    <p className="text-stone-400 leading-relaxed text-sm">{step.desc}</p>
+                    <h3 className="text-lg font-bold text-stone-900 mb-2 dark:text-white">{step.title}</h3>
+                    <p className="text-stone-600 leading-relaxed text-sm dark:text-stone-400">{step.desc}</p>
                   </div>
                 </div>
 
@@ -1725,7 +1722,7 @@ const ContactSection = ({ copy, language }) => {
   };
 
   return (
-    <section id="contacto" className="py-32 md:py-40 bg-stone-100 dark:bg-stone-800 relative overflow-hidden">
+    <section id="contacto" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-800 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-400/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div ref={formRef} className="container mx-auto px-4 relative z-10 max-w-3xl">
@@ -1858,7 +1855,7 @@ const CasesSection = ({ copy, language }) => {
   ];
 
   return (
-    <section className="py-32 md:py-40 bg-white dark:bg-stone-950 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-white dark:bg-stone-950 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.casesTitle} subtitle={copy.casesSubtitle} badge={copy.casesBadge} />
 
@@ -1888,22 +1885,43 @@ const CasesSection = ({ copy, language }) => {
 // --- Tech Stack Section ---
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
+  const row1Ref = useRef(null);
+  const row2Ref = useRef(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
-    const items = sectionRef.current.querySelectorAll('.tech-item');
-    if (!items.length) return;
 
-    gsap.set(items, { opacity: 0, y: 30, scale: 0.9 });
+    // Row 1: slide in from LEFT with WOW stagger
+    const row1Items = row1Ref.current?.querySelectorAll('.tech-item-row1') || [];
+    // Row 2: slide in from RIGHT with WOW stagger
+    const row2Items = row2Ref.current?.querySelectorAll('.tech-item-row2') || [];
+
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: sectionRef.current, start: "top 85%", toggleActions: "play none none none" }
+      scrollTrigger: { trigger: sectionRef.current, start: "top 80%", toggleActions: "play none none none" }
     });
-    tl.to(items, { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06, ease: "power3.out" });
+
+    // Row 1 - Slide from left + scale bounce + rotation WOW
+    gsap.set(row1Items, { opacity: 0, x: -120, scale: 0.5, rotation: -8 });
+    tl.to(row1Items, {
+      opacity: 1, x: 0, scale: 1, rotation: 0,
+      duration: 0.7,
+      stagger: { amount: 0.8, from: "start" },
+      ease: "back.out(1.4)"
+    });
+
+    // Row 2 - Slide from right + scale bounce + rotation WOW
+    gsap.set(row2Items, { opacity: 0, x: 120, scale: 0.5, rotation: 8 });
+    tl.to(row2Items, {
+      opacity: 1, x: 0, scale: 1, rotation: 0,
+      duration: 0.7,
+      stagger: { amount: 0.8, from: "end" },
+      ease: "back.out(1.4)"
+    }, "-=0.4");
 
     return () => { tl.kill(); };
   }, []);
 
-  const techs = [
+  const techsRow1 = [
     { name: "React", color: "#61DAFB" },
     { name: "Next.js", color: "#000000" },
     { name: "TypeScript", color: "#3178C6" },
@@ -1911,7 +1929,10 @@ const TechStackSection = ({ copy }) => {
     { name: "Node.js", color: "#339933" },
     { name: "Vite", color: "#646CFF" },
     { name: "GSAP", color: "#88CE02" },
-    { name: "Framer Motion", color: "#0055FF" },
+    { name: "Framer Motion", color: "#0055FF" }
+  ];
+
+  const techsRow2 = [
     { name: "Vercel", color: "#000000" },
     { name: "Prisma", color: "#2D3748" },
     { name: "MongoDB", color: "#47A248" },
@@ -1921,24 +1942,43 @@ const TechStackSection = ({ copy }) => {
     { name: "Figma", color: "#F24E1E" }
   ];
 
+  const TechItem = ({ tech, rowClass }) => (
+    <motion.div
+      whileHover={{ y: -6, scale: 1.08, rotate: [-1, 1, -1, 0] }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      className={`${rowClass} group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] dark:bg-white/5 dark:border-white/10 dark:hover:border-white/30 dark:hover:bg-white/10`}
+      style={{
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)'
+      }}
+    >
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
+        {tech.name.charAt(0)}
+      </div>
+      <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors dark:text-white/80 dark:group-hover:text-white" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
+    </motion.div>
+  );
+
   return (
-    <section className="py-24 md:py-32 bg-stone-950 relative overflow-hidden">
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+
+      <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
 
-        <div ref={sectionRef} className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
-          {techs.map((tech) => (
-            <motion.div
-              key={tech.name}
-              whileHover={{ y: -5, scale: 1.05 }}
-              className="tech-item group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 cursor-default"
-            >
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
-                {tech.name.charAt(0)}
-              </div>
-              <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors">{tech.name}</span>
-            </motion.div>
-          ))}
+        <div className="max-w-5xl mx-auto space-y-4">
+          {/* Row 1 - Animate from LEFT */}
+          <div ref={row1Ref} className="flex flex-wrap justify-center gap-3 md:gap-4">
+            {techsRow1.map((tech) => (
+              <TechItem key={tech.name} tech={tech} rowClass="tech-item-row1" />
+            ))}
+          </div>
+
+          {/* Row 2 - Animate from RIGHT */}
+          <div ref={row2Ref} className="flex flex-wrap justify-center gap-3 md:gap-4">
+            {techsRow2.map((tech) => (
+              <TechItem key={tech.name} tech={tech} rowClass="tech-item-row2" />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -2091,26 +2131,26 @@ const PortfolioSection = ({ copy, projects, language }) => {
   };
 
   return (
-    <section id="portafolio" className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
+    <section id="portafolio" className="py-20 md:py-28 bg-white dark:bg-stone-950 relative overflow-hidden">
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-400/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-400/5 dark:bg-yellow-400/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
         
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-14 gsap-reveal">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 md:mb-14 gsap-reveal">
           {categories.map((cat) => (
             <motion.button
               key={cat}
               onClick={() => setCurrentFilter(cat)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-5 py-2.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 border ${
+              className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 border ${
                 currentFilter === cat
-                  ? "bg-white text-stone-950 border-white shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
-                  : "bg-white/5 text-stone-400 border-white/10 hover:bg-white/10 hover:text-white hover:border-white/20"
+                  ? "bg-stone-900 text-white border-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:bg-white dark:text-stone-950 dark:border-white dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
+                  : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200 hover:text-stone-900 hover:border-stone-300 dark:bg-white/5 dark:text-stone-400 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white/20"
               }`}
             >
               <span className="flex items-center gap-2">
@@ -2125,7 +2165,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
         </div>
       
         {/* Portfolio Grid */}
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
+        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
           <AnimatePresence mode="wait">
             {filteredProjects.map((project, index) => {
               const imageMap = {
@@ -2148,11 +2188,11 @@ const PortfolioSection = ({ copy, projects, language }) => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ delay: index * 0.06, duration: 0.5 }}
-                  className="group rounded-[1.75rem] overflow-hidden border border-white/10 bg-stone-900/80 backdrop-blur-sm shadow-[0_10px_40px_-18px_rgba(0,0,0,0.5)] block no-underline relative"
-                  whileHover={{ y: -8, borderColor: "rgba(255,255,255,0.2)" }}
+                  className="group rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative"
+                  whileHover={{ y: -6, borderColor: undefined }}
                 >
                   {/* Top gradient accent */}
-                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
                   
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img src={imageMap[project.title] || project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -2163,17 +2203,17 @@ const PortfolioSection = ({ copy, projects, language }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="p-5">
+                  <div className="p-4 md:p-5">
                     <div className="flex items-center gap-2 mb-3">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
                         <Icon size={12} />
                         {project.category}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">{project.title}</h3>
-                    <p className="text-sm text-stone-500 mb-3">{project.location}</p>
-                    <p className="text-sm text-stone-400 leading-relaxed mb-4 line-clamp-4">{project.description}</p>
-                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-stone-400 group-hover:text-yellow-400 hover:gap-3 transition-all">
+                    <h3 className="text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
+                    <p className="text-xs md:text-sm text-stone-500 mb-2 dark:text-stone-500">{project.location}</p>
+                    <p className="text-xs md:text-sm text-stone-600 leading-relaxed mb-3 line-clamp-4 dark:text-stone-400">{project.description}</p>
+                    <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-400 dark:group-hover:text-yellow-400">
                       {copy.portfolioCta}
                     </span>
                   </div>
@@ -2184,22 +2224,22 @@ const PortfolioSection = ({ copy, projects, language }) => {
         </div>
         
         {/* Stats Social Proof */}
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 gsap-reveal">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-16 gsap-reveal">
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-white">+20</div>
-            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
+            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+20</div>
+            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-white">+300%</div>
-            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
+            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+300%</div>
+            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-white">4</div>
-            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
+            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">4</div>
+            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-white">100%</div>
-            <div className="text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
+            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">100%</div>
+            <div className="text-xs md:text-sm text-stone-500 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
           </div>
         </div>
       </div>
@@ -2252,7 +2292,7 @@ const ServicesSection = ({ copy, language }) => {
   ];
 
   return (
-    <section id="servicios" className="py-32 md:py-40 bg-white dark:bg-stone-900 relative overflow-hidden">
+    <section id="servicios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-stone-800/30 rounded-full blur-[150px] pointer-events-none" />
       
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
@@ -3097,8 +3137,8 @@ export default function App() {
       <InfiniteLogoCarousel />
 
       {/* Stats */}
-      <section id="beneficios" className="py-24 md:py-32 bg-stone-950 dark:bg-stone-900 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 rounded-full blur-[100px] pointer-events-none" />
+      <section id="beneficios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <StatCard icon={Rocket} value={500} suffix="+" label={copy.stats[0]} delay={0} />
@@ -3109,27 +3149,27 @@ export default function App() {
       </section>
 
       {/* Editorial */}
-      <section id="editorial" className="py-32 md:py-40 bg-stone-950 text-white dark:bg-stone-900">
+      <section id="editorial" className="py-24 md:py-32 bg-white dark:bg-stone-900 text-white dark:text-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center">
-            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative aspect-video rounded-[2rem] overflow-hidden w-full max-w-5xl mb-16 border border-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] group">
+            <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative aspect-video rounded-[2rem] overflow-hidden w-full max-w-5xl mb-12 md:mb-16 border border-stone-200 dark:border-white/10 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.1)] dark:shadow-[0_40px_100px_-30px_rgba(0,0,0,0.6)] group">
               <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop" alt="Hotel tech experience" onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <motion.div className="absolute bottom-8 left-8 right-8 flex items-center gap-4" whileHover={{ scale: 1.05 }}>
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
-                  <Play size={28} className="text-white ml-1" />
+              <motion.div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 flex items-center gap-4" whileHover={{ scale: 1.05 }}>
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors">
+                  <Play size={26} className="text-white ml-1" />
                 </div>
-                <span className="text-white font-medium text-lg">{copy.editorialWatch}</span>
-                <ArrowRight size={20} className="text-white" />
+                <span className="text-white font-medium text-base md:text-lg">{copy.editorialWatch}</span>
+                <ArrowRight size={18} className="text-white" />
               </motion.div>
             </motion.div>
             
             <div className="max-w-3xl">
-              <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{copy.editorialTitle} <span className="text-stone-500">{copy.editorialTitleAccent}</span></h3>
-              <p className="text-xl text-stone-400 mb-8 leading-relaxed">{copy.editorialSubtitle}</p>
-              <div className="flex justify-center gap-16 pt-8 border-t border-white/10">
-                <div><div className="text-6xl font-bold">0%</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialCommissions}</div></div>
-                <div><div className="text-6xl font-bold">24/7</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialAutomation}</div></div>
+              <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-5 md:mb-6 leading-tight text-stone-900 dark:text-white">{copy.editorialTitle} <span className="text-stone-400 dark:text-stone-500">{copy.editorialTitleAccent}</span></h3>
+              <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-8 leading-relaxed">{copy.editorialSubtitle}</p>
+              <div className="flex justify-center gap-12 md:gap-16 pt-6 md:pt-8 border-t border-stone-200 dark:border-white/10">
+                <div><div className="text-4xl md:text-6xl font-bold text-stone-900 dark:text-white">0%</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialCommissions}</div></div>
+                <div><div className="text-4xl md:text-6xl font-bold text-stone-900 dark:text-white">24/7</div><div className="text-xs text-stone-500 uppercase tracking-wider mt-2">{copy.editorialAutomation}</div></div>
               </div>
             </div>
           </div>
@@ -3137,7 +3177,7 @@ export default function App() {
       </section>
 
       {/* ROI Calculator */}
-      <section className="py-32 md:py-40 bg-stone-100 dark:bg-stone-800">
+      <section className="py-24 md:py-32 bg-stone-50 dark:bg-stone-800">
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.roiTitle} subtitle={copy.roiSubtitle} badge={copy.roiBadge} />
           <div className="max-w-3xl mx-auto"><ROICalculator language={language} copy={copy} /></div>
@@ -3145,7 +3185,7 @@ export default function App() {
       </section>
 
       {/* Demo */}
-      <section id="demo-en-vivo" className="py-32 md:py-40 bg-white dark:bg-stone-950">
+      <section id="demo-en-vivo" className="py-24 md:py-32 bg-stone-50 dark:bg-stone-950">
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.demoTitle} subtitle={copy.demoSubtitle} />
           <div className="max-w-4xl mx-auto mb-14">
@@ -3256,10 +3296,10 @@ export default function App() {
       </section>
 
       {/* PRICING - Updated */}
-      <section id="planes" className="py-32 md:py-40 bg-stone-950 text-white dark:bg-stone-900">
+      <section id="planes" className="py-24 md:py-32 bg-stone-50 dark:bg-stone-900">
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto mt-12 md:mt-20">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto mt-10 md:mt-16">
             {plans.map((plan, i) => {
               const mpLinks = {
                 START: "https://mpago.la/2jScw4A",
@@ -3275,25 +3315,25 @@ export default function App() {
               return (
                 <motion.div
                   key={i}
-                  className={`relative p-8 md:p-10 rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-white text-stone-950 scale-105 shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10' : 'bg-stone-900/50 border-stone-800'}`}
+                  className={`relative p-7 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
                   whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
                 >
                   {plan.highlight && (
-                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-stone-950 text-white text-xs font-bold px-6 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-stone-950 dark:bg-yellow-400 dark:text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg">
                       {copy.popularTag}
                     </div>
                   )}
-                  <h3 className="text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
-                  <div className="text-5xl md:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
-                  <div className="text-sm opacity-40 mb-8">{plan.period}</div>
+                  <h3 className="text-base md:text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
+                  <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
+                  <div className="text-xs md:text-sm opacity-40 mb-7 md:mb-8">{plan.period}</div>
 
-                  <ul className="space-y-4 mb-10 flex-1 text-left">
+                  <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1 text-left">
                     {plan.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-3 text-sm md:text-base">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-stone-950 text-white' : 'bg-white/10 text-white'}`}>
+                      <li key={j} className="flex items-start gap-3 text-xs md:text-sm">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950 dark:bg-stone-950 dark:text-white' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
                           <Check size={12} strokeWidth={3} />
                         </div>
-                        <span className={plan.highlight ? 'text-stone-600' : 'text-stone-300'}>{f}</span>
+                        <span className="text-stone-600 dark:text-stone-300">{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -3301,7 +3341,7 @@ export default function App() {
                     href={mpLinks[plan.name]}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group ${plan.highlight ? 'bg-white text-stone-950 hover:bg-stone-100 shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]' : 'bg-transparent border border-white/30 text-white hover:bg-white/10 dark:border-white/30 dark:text-white'} px-8 py-4 md:px-10 md:py-5 text-sm md:text-base`}
+                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base ${plan.highlight ? 'bg-yellow-400 text-stone-950 hover:bg-yellow-500 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]' : 'bg-stone-900 text-white hover:bg-stone-800 dark:bg-white dark:text-stone-950 dark:hover:bg-stone-100'}`}
                   >
                     <span className="flex items-center gap-2 relative z-10">
                       {copy.selectPlan}
@@ -3309,7 +3349,7 @@ export default function App() {
                     </span>
                   </a>
                   <div className="mt-2 text-center">
-                    <p className="text-xs text-gray-500 dark:text-stone-400">💳 3 cuotas sin interés: <span className="font-semibold">S/ {cuotas[plan.name]}/mes</span></p>
+                    <p className="text-xs text-stone-400 dark:text-stone-500">3 cuotas sin interes: <span className="font-semibold text-stone-600 dark:text-stone-400">S/ {cuotas[plan.name]}/mes</span></p>
                   </div>
                 </motion.div>
               );
@@ -3319,10 +3359,10 @@ export default function App() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-32 md:py-40 bg-stone-50 dark:bg-stone-950">
+      <section id="faq" className="py-20 md:py-28 bg-white dark:bg-stone-950">
         <div className="container mx-auto px-4 max-w-5xl">
           <SectionTitle title={copy.faqTitle} subtitle={copy.faqSubtitle} />
-          <div className="mt-12">
+          <div className="mt-10 md:mt-12">
             {copy.faq.map((item, index) => (
               <FAQItem key={item.q} question={item.q} answer={item.a} index={index} />
             ))}
@@ -3334,19 +3374,19 @@ export default function App() {
       <ContactSection copy={copy} language={language} />
 
       {/* Final CTA */}
-      <section className="py-32 md:py-40 bg-white text-center dark:bg-stone-950 relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-stone-50 text-center dark:bg-stone-950 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter leading-[0.9] dark:text-white">{copy.finalTitle}</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-xl text-stone-500 mb-12 max-w-2xl mx-auto font-light dark:text-stone-400">{copy.finalSubtitle}</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] text-stone-900 dark:text-white">{copy.finalTitle}</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-400">{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
             <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
           </motion.div>
-          <div className="flex justify-center gap-8 mt-10 text-sm text-stone-400 flex-wrap">
-            <span className="flex items-center gap-2"><Shield size={16} /> {copy.tags[0]}</span>
-            <span className="flex items-center gap-2"><Calendar size={16} /> {copy.tags[1]}</span>
-            <span className="flex items-center gap-2"><Clock size={16} /> {copy.tags[2]}</span>
+          <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm text-stone-500 dark:text-stone-400 flex-wrap">
+            <span className="flex items-center gap-2"><Shield size={16} className="text-green-500" /> {copy.tags[0]}</span>
+            <span className="flex items-center gap-2"><Calendar size={16} className="text-blue-500" /> {copy.tags[1]}</span>
+            <span className="flex items-center gap-2"><Clock size={16} className="text-yellow-500" /> {copy.tags[2]}</span>
           </div>
         </div>
       </section>
