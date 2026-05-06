@@ -699,7 +699,7 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
     >
       <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-amber-400/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-6 md:p-8 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-50 to-transparent opacity-0 dark:from-white/5 dark:to-transparent group-hover:opacity-100 transition-opacity duration-500" />
 
         <motion.div
@@ -712,7 +712,7 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
           <AnimatedCounter end={value} suffix={suffix} />
         </div>
 
-        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium break-words">{label}</div>
+        <div className="text-[13px] sm:text-sm md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wide sm:tracking-widest font-medium break-words">{label}</div>
 
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
@@ -3580,7 +3580,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* HERO SECTION - Mobile First Responsive */}
-      <section id="top" className="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
+      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0 bg-black">
           {HERO_IMAGES.map((src, index) => (
             <motion.img
@@ -3641,7 +3641,7 @@ export default function App() {
             </p>
 
             {/* CTA Buttons - Same size and design */}
-            <div className="w-full max-w-sm mx-auto flex flex-col gap-3 sm:gap-4">
+            <div className="w-full max-w-sm mx-auto flex flex-col gap-[15px]">
               <a
                 href="#portafolio"
                 onClick={(e) => {
@@ -3662,7 +3662,7 @@ export default function App() {
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
-                className="w-full h-[52px] px-6 text-base font-semibold border-[2.5px] !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
+                className="w-full h-[52px] px-6 text-base font-semibold border !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
               />
             </div>
 
@@ -3699,10 +3699,10 @@ export default function App() {
       </section>
 
       {/* Stats */}
-      <section id="beneficios" className="py-16 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
+      <section id="beneficios" className="py-10 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 md:gap-6 max-w-5xl mx-auto">
             <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
             <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
             <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
@@ -3974,7 +3974,7 @@ export default function App() {
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
               <ul className="space-y-3">
-                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Portafolio" : "Portfolio"}</a></li>
+                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 bg-white/5 text-stone-300 hover:text-white hover:bg-white/10 hover:border-white/25 text-sm transition-all">{language === "es" ? "Portafolio" : "Portfolio"} <ArrowUpRight size={14} /></a></li>
                 <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
                 <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
                 <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
