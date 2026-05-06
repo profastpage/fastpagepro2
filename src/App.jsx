@@ -2139,15 +2139,15 @@ const GSAPPreloader = ({ onComplete }) => {
   const [slideOut, setSlideOut] = useState(false);
   const completedRef = useRef(false);
 
-  // Animate counter from 0 to 100
+  // Animate counter from 0 to 100 in ~400ms
   useEffect(() => {
-    const duration = 1800; // ms
+    const duration = 400; // ms — fast count for snappy feel
     const startTime = Date.now();
     let raf;
     const tick = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // ease-in-out approximation
+      // ease-in-out for smooth ramp
       const eased = progress < 0.5
         ? 2 * progress * progress
         : 1 - Math.pow(-2 * progress + 2, 2) / 2;
@@ -2155,7 +2155,7 @@ const GSAPPreloader = ({ onComplete }) => {
       if (progress < 1) {
         raf = requestAnimationFrame(tick);
       } else {
-        // Counter done, wait a moment then slide out
+        // Counter done, short pause then fade out
         setTimeout(() => {
           setSlideOut(true);
         }, 200);
@@ -2165,14 +2165,14 @@ const GSAPPreloader = ({ onComplete }) => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Safety fallback: never block more than 3 seconds
+  // Safety fallback: never block more than 1.5s
   useEffect(() => {
     const safetyTimer = setTimeout(() => {
       if (!completedRef.current) {
         completedRef.current = true;
         setSlideOut(true);
       }
-    }, 3000);
+    }, 1500);
     return () => clearTimeout(safetyTimer);
   }, []);
 
@@ -2189,8 +2189,8 @@ const GSAPPreloader = ({ onComplete }) => {
         <motion.div
           key="preloader"
           className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center"
-          exit={{ yPercent: -100 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <div className="text-center mb-8">
             <div className="flex items-center gap-3 justify-center mb-6">
