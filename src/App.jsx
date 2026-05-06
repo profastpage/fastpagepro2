@@ -989,7 +989,7 @@ Could you confirm availability?`;
               <h3 className="text-2xl font-bold text-stone-950 dark:text-white">
                 {language === "es" ? "Demo en Vivo" : "Live Demo"}
               </h3>
-              <p className="text-sm text-stone-500 dark:text-stone-400">
+              <p className="text-sm text-stone-500 dark:text-stone-300">
                 {language === "es"
                   ? "Completa el formulario y mira el mensaje en tiempo real"
                   : "Fill the form and see the message in real-time"}
@@ -1000,7 +1000,7 @@ Could you confirm availability?`;
           <div className="space-y-4">
             {/* Guest Name */}
             <div>
-              <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+              <label className="block text-sm font-medium text-stone-600 dark:text-stone-300 mb-2">
                 {language === "es" ? "👤 Nombre del huésped" : "👤 Guest name"}
               </label>
               <input
@@ -1019,7 +1019,7 @@ Could you confirm availability?`;
                 onClick={() => checkInRef.current?.showPicker()}
                 className="cursor-pointer group"
               >
-                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                <label className="block text-sm font-medium text-stone-600 dark:text-stone-300 mb-2">
                   {language === "es" ? "📅 Fecha check-in" : "📅 Check-in date"}
                 </label>
                 <div className="relative">
@@ -1039,7 +1039,7 @@ Could you confirm availability?`;
                 onClick={() => nightsRef.current?.focus()}
                 className="cursor-pointer group"
               >
-                <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+                <label className="block text-sm font-medium text-stone-600 dark:text-stone-300 mb-2">
                   {language === "es" ? "🌙 Noches" : "🌙 Nights"}
                 </label>
                 <div className="relative flex">
@@ -1077,7 +1077,7 @@ Could you confirm availability?`;
               onClick={() => guestsRef.current?.focus()}
               className="cursor-pointer group"
             >
-              <label className="block text-sm font-medium text-stone-600 dark:text-stone-400 mb-2">
+              <label className="block text-sm font-medium text-stone-600 dark:text-stone-300 mb-2">
                 {language === "es" ? "👥 Número de huéspedes" : "👥 Number of guests"}
               </label>
               <div className="relative flex">
@@ -1119,7 +1119,7 @@ Could you confirm availability?`;
                 showMessage ? "bg-green-500 animate-pulse" : "bg-stone-400"
               }`} />
               <span className={`text-sm font-medium ${
-                showMessage ? "text-green-600 dark:text-green-400" : "text-stone-500 dark:text-stone-400"
+                showMessage ? "text-green-600 dark:text-green-400" : "text-stone-500 dark:text-stone-300"
               }`}>
                 {showMessage
                   ? (language === "es" ? "✅ Mensaje listo para enviar" : "✅ Message ready to send")
@@ -1180,7 +1180,7 @@ const TestimonialCard = ({ testimonial, index }) => {
         />
         <div className="flex-1 min-w-0">
           <div className="font-bold text-stone-950 dark:text-white truncate">{testimonial.name}</div>
-          <div className="text-sm text-stone-500 dark:text-stone-400 truncate">{testimonial.hotel} • {testimonial.location}</div>
+          <div className="text-sm text-stone-500 dark:text-stone-300 truncate">{testimonial.hotel} • {testimonial.location}</div>
         </div>
       </div>
     </motion.div>
@@ -1261,7 +1261,7 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
                   />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-stone-950 dark:text-white text-sm truncate">{t.name}</div>
-                    <div className="text-xs text-stone-500 dark:text-stone-400 truncate">{t.hotel} • {t.location}</div>
+                    <div className="text-xs text-stone-500 dark:text-stone-300 truncate">{t.hotel} • {t.location}</div>
                   </div>
                 </div>
               </div>
@@ -1302,8 +1302,8 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false }) => {
     : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1] mb-5 dark:text-white";
 
   const subtitleClass = darkBg
-    ? "text-base md:text-lg text-stone-400 font-normal leading-relaxed"
-    : "text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-400";
+    ? "text-base md:text-lg text-stone-300 font-normal leading-relaxed"
+    : "text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-300";
 
   return (
     <div ref={ref} className="mb-12 md:mb-16 text-center max-w-4xl mx-auto px-4">
@@ -1364,7 +1364,7 @@ const FAQItem = ({ question, answer, index }) => {
             {question}
           </span>
           <motion.div 
-            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300 flex-shrink-0 ml-3 ${isOpen ? 'bg-stone-950 text-white' : 'bg-stone-100 text-stone-400 group-hover:bg-stone-200'} dark:bg-stone-800 dark:text-stone-400`}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300 flex-shrink-0 ml-3 ${isOpen ? 'bg-stone-950 text-white' : 'bg-stone-100 text-stone-400 group-hover:bg-stone-200'} dark:bg-stone-800 dark:text-stone-300`}
             animate={{ rotate: isOpen ? 180 : 0 }}
           >
             {isOpen ? (<><ChevronUp size={16} className="sm:hidden" /><ChevronUp size={20} className="hidden sm:block" /></>) : (<><ChevronDown size={16} className="sm:hidden" /><ChevronDown size={20} className="hidden sm:block" /></>)}
@@ -1377,7 +1377,7 @@ const FAQItem = ({ question, answer, index }) => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="pb-8 pt-6 text-stone-500 leading-relaxed max-w-2xl mx-auto text-center px-4 text-lg dark:text-stone-400"
+              className="pb-8 pt-6 text-stone-500 leading-relaxed max-w-2xl mx-auto text-center px-4 text-lg dark:text-stone-300"
             >
               {answer}
             </motion.p>
@@ -1394,7 +1394,7 @@ const QuantityField = ({ label, value, min, max, onChange }) => {
 
   return (
     <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-3">
-      <label className="text-xs text-stone-500 dark:text-stone-400">{label}</label>
+      <label className="text-xs text-stone-500 dark:text-stone-300">{label}</label>
       <div className="mt-2 flex items-center justify-between">
         <span className="text-lg font-semibold text-stone-900 dark:text-white">{value}</span>
         <div className="flex flex-col">
@@ -1469,7 +1469,7 @@ Could you please confirm availability and final rate?`;
     <div id="demo-interactiva" className="max-w-5xl mx-auto mt-12 md:mt-16 grid lg:grid-cols-2 gap-6 md:gap-8 items-stretch">
       <div className="bg-stone-100 dark:bg-stone-900 rounded-[2rem] border border-stone-200 dark:border-stone-800 p-6 md:p-8">
         <h3 className="text-3xl md:text-3xl font-bold mb-3 dark:text-white text-center lg:text-left">{copy.liveDemoTitle}</h3>
-        <p className="text-stone-500 dark:text-stone-400 mb-8 text-center lg:text-left">{copy.liveDemoSubtitle}</p>
+        <p className="text-stone-500 dark:text-stone-300 mb-8 text-center lg:text-left">{copy.liveDemoSubtitle}</p>
 
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1499,7 +1499,7 @@ Could you please confirm availability and final rate?`;
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div className="rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-950 px-4 py-2">
-              <label className="text-xs text-stone-500 dark:text-stone-400">{language === "es" ? "Fecha de ingreso" : "Check-in date"}</label>
+              <label className="text-xs text-stone-500 dark:text-stone-300">{language === "es" ? "Fecha de ingreso" : "Check-in date"}</label>
               <input
                 type="date"
                 value={checkIn}
@@ -1563,7 +1563,7 @@ Could you please confirm availability and final rate?`;
   );
 };
 
-// --- Work Process Timeline (framer-motion Animated) ---
+// --- Work Process Timeline (Redesigned Zigzag with animations) ---
 const ProcessTimeline = ({ copy, language }) => {
   const icons = [Search, Palette, Code, FlaskConical, Rocket];
   const gradients = [
@@ -1573,68 +1573,182 @@ const ProcessTimeline = ({ copy, language }) => {
     "from-orange-500 to-amber-400",
     "from-yellow-400 to-amber-500"
   ];
-
-  const ArrowDown = ({ index }) => (
-    <motion.div
-      className="flex justify-center py-2"
-      initial={{ opacity: 0, scaleY: 0 }}
-      whileInView={{ opacity: 1, scaleY: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
-      style={{ transformOrigin: "center center" }}
-    >
-      <div className="w-10 h-10 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center shadow-md">
-        <ChevronDown size={18} className="text-stone-500 dark:text-stone-400" />
-      </div>
-    </motion.div>
-  );
+  const glowColors = [
+    "rgba(59,130,246,0.4)",
+    "rgba(168,85,247,0.4)",
+    "rgba(16,185,129,0.4)",
+    "rgba(249,115,22,0.4)",
+    "rgba(250,204,21,0.4)"
+  ];
+  const stepLabel = language === "es" ? "PASO" : "STEP";
 
   return (
-    <section id="proceso" className="py-16 md:py-28 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
+    <section id="proceso" className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
 
-        <div className="max-w-3xl mx-auto">
+        {/* Desktop: Zigzag Timeline */}
+        <div className="hidden lg:block relative max-w-6xl mx-auto">
+          {/* Animated center line */}
+          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-stone-200 dark:bg-stone-800">
+            <motion.div
+              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 via-emerald-500 to-amber-500"
+              initial={{ height: "0%" }}
+              whileInView={{ height: "100%" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+            />
+          </div>
+
+          {copy.processSteps.map((step, index) => {
+            const Icon = icons[index];
+            const isLeft = index % 2 === 0;
+
+            return (
+              <div key={step.num} className={`relative flex items-center mb-12 md:mb-16 last:mb-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}>
+                {/* Content Card */}
+                <motion.div
+                  className={`w-[calc(50%-40px)] ${isLeft ? 'pr-0' : 'pl-0'}`}
+                  initial={{ opacity: 0, x: isLeft ? -80 : 80, scale: 0.9 }}
+                  whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.8, delay: index * 0.15, type: "spring", stiffness: 100, damping: 15 }}
+                >
+                  <div className={`bg-white dark:bg-stone-900 rounded-2xl p-6 md:p-8 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden ${isLeft ? 'text-right' : 'text-left'}`}>
+                    <div className={`absolute top-0 ${isLeft ? 'right-0' : 'left-0'} w-1 h-full bg-gradient-to-b ${gradients[index]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    <div className={`flex items-center gap-4 mb-4 ${isLeft ? 'flex-row-reverse' : 'flex-row'}`}>
+                      <motion.div
+                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg flex-shrink-0`}
+                        initial={{ scale: 0, rotate: -180 }}
+                        whileInView={{ scale: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: index * 0.15 + 0.2, type: "spring", stiffness: 200, damping: 15 }}
+                      >
+                        <Icon className="w-7 h-7 text-white" />
+                      </motion.div>
+                      <div>
+                        <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-1 tracking-wider`}>
+                          {stepLabel} {step.num}
+                        </div>
+                        <h3 className="text-lg md:text-xl font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                      </div>
+                    </div>
+                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                  </div>
+                </motion.div>
+
+                {/* Center dot with glow */}
+                <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
+                  <motion.div
+                    className="w-12 h-12 rounded-full bg-white dark:bg-stone-950 border-4 border-stone-200 dark:border-stone-700 flex items-center justify-center shadow-lg"
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.15 + 0.1, type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <motion.div
+                      className="w-4 h-4 rounded-full"
+                      style={{ background: gradients[index].replace('from-', '').replace(' to-', ', ') }}
+                      animate={{
+                        boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 20px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Spacer for the other side */}
+                <div className="w-[calc(50%-40px)]" />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Mobile: Vertical Timeline with enhanced animations */}
+        <div className="lg:hidden max-w-3xl mx-auto relative">
+          {/* Animated vertical line */}
+          <div className="absolute left-6 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-800">
+            <motion.div
+              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 to-amber-500"
+              initial={{ height: "0%" }}
+              whileInView={{ height: "100%" }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+            />
+          </div>
+
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
             const isLast = index === copy.processSteps.length - 1;
-            const stepLabel = language === "es" ? "PASO" : "STEP";
 
             return (
               <React.Fragment key={step.num}>
                 <motion.div
-                  className="relative flex items-start gap-4 md:gap-6"
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60, scale: 0.95 }}
+                  className="relative flex items-start gap-5 pl-2"
+                  initial={{ opacity: 0, x: -40, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.8, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.7, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  {/* Icon Circle */}
-                  <motion.div
-                    className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 z-10"
-                    initial={{ scale: 0, rotate: -180 }}
-                    whileInView={{ scale: 1, rotate: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.12 + 0.15, type: "spring", stiffness: 200, damping: 15 }}
-                  >
-                    <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 text-stone-950" />
-                  </motion.div>
+                  {/* Timeline dot */}
+                  <div className="relative flex-shrink-0 mt-1">
+                    <motion.div
+                      className="w-12 h-12 rounded-full bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700 flex items-center justify-center shadow-md z-10"
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: index * 0.12 + 0.1, type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <motion.div
+                        className="w-5 h-5 rounded-full"
+                        animate={{
+                          boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 12px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                      />
+                    </motion.div>
+                  </div>
 
                   {/* Content Card */}
-                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-5 md:p-7 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-                    <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] md:text-xs font-bold text-white mb-3 tracking-wider`}>
-                      {stepLabel} {step.num}
+                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl p-5 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group mb-0">
+                    <div className="flex items-center gap-3 mb-3">
+                      <motion.div
+                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg flex-shrink-0`}
+                        initial={{ scale: 0, rotate: -180 }}
+                        whileInView={{ scale: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: index * 0.12 + 0.15, type: "spring", stiffness: 200, damping: 15 }}
+                      >
+                        <Icon className="w-5 h-5 text-white" />
+                      </motion.div>
+                      <div>
+                        <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
+                          {stepLabel} {step.num}
+                        </div>
+                        <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                      </div>
                     </div>
-                    <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-stone-900 mb-2 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
-                    <p className="text-stone-600 leading-relaxed text-xs sm:text-sm md:text-base dark:text-stone-300">{step.desc}</p>
+                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-xs sm:text-sm">{step.desc}</p>
                   </div>
                 </motion.div>
 
-                {/* Arrow between steps */}
-                {!isLast && <ArrowDown index={index} />}
+                {!isLast && (
+                  <motion.div
+                    className="flex justify-center py-1"
+                    initial={{ opacity: 0, scaleY: 0 }}
+                    whileInView={{ opacity: 1, scaleY: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ transformOrigin: "center center" }}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center shadow-sm ml-6">
+                      <ChevronDown size={14} className="text-stone-500 dark:text-stone-300" />
+                    </div>
+                  </motion.div>
+                )}
               </React.Fragment>
             );
           })}
@@ -2086,7 +2200,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
               className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide transition-all duration-300 border ${
                 currentFilter === cat
                   ? "bg-stone-900 text-white border-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:bg-white dark:text-stone-950 dark:border-white dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
-                  : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200 hover:text-stone-900 hover:border-stone-300 dark:bg-white/5 dark:text-stone-400 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white/20"
+                  : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200 hover:text-stone-900 hover:border-stone-300 dark:bg-white/5 dark:text-stone-300 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white/20"
               }`}
             >
               <span className="flex items-center gap-2">
@@ -2116,16 +2230,26 @@ const PortfolioSection = ({ copy, projects, language }) => {
               const gradientColor = getTypeColor(project.type);
 
               return (
-                <motion.a
+                <motion.div
                   key={`${project.title}-${activeFilter}`}
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  onClick={() => {
+                    const slug = PORTFOLIO_SLUGS[project.title];
+                    if (slug) {
+                      setSelectedProject(project);
+                      try {
+                        if (typeof window !== 'undefined') {
+                          window.location.hash = `portfolio/${slug}`;
+                        }
+                      } catch {
+                        // ignore hash errors
+                      }
+                    }
+                  }}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ delay: index * 0.06, duration: 0.5 }}
-                  className="group rounded-xl sm:rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative"
+                  className="group rounded-xl sm:rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative cursor-pointer"
                   whileHover={{ y: -6, borderColor: undefined }}
                 >
                   {/* Top gradient accent */}
@@ -2148,13 +2272,13 @@ const PortfolioSection = ({ copy, projects, language }) => {
                       </span>
                     </div>
                     <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
-                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-400">{project.location}</p>
-                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-600 leading-relaxed mb-2 sm:mb-3 line-clamp-4 dark:text-stone-400">{project.description}</p>
-                    <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-400 dark:group-hover:text-yellow-400">
+                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-300">{project.location}</p>
+                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-600 leading-relaxed mb-2 sm:mb-3 line-clamp-4 dark:text-stone-300">{project.description}</p>
+                    <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-300 dark:group-hover:text-yellow-400">
                       {copy.portfolioCta}
                     </span>
                   </div>
-                </motion.a>
+                </motion.div>
               );
             })}
           </AnimatePresence>
@@ -2692,6 +2816,261 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
 
 // --- Main Application ---
 
+// Portfolio slug mapping and image mapping
+const PORTFOLIO_SLUGS = {
+  "Urban Style": "urban-style",
+  "Vuelo 78 Hotel": "vuelo-78-hotel",
+  "Amazonia Eco Stay": "amazonia-eco-stay",
+  "La Casona Gourmet": "la-casona-gourmet",
+  "Growth Consulting Perú": "growth-consulting-peru",
+  "Growth Consulting Peru": "growth-consulting-peru",
+  "Andina Shop": "andina-shop",
+  "FitLife App": "fitlife-app",
+  "TechFlow Dashboard": "techflow-dashboard",
+  "GastroMarket": "gastromarket"
+};
+
+const PORTFOLIO_MODAL_IMAGES = {
+  "Urban Style": "/images/03-portafolio/UrbanStyle.png",
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
+  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
+  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
+  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png"
+};
+
+const slugToTitle = {};
+Object.entries(PORTFOLIO_SLUGS).forEach(([title, slug]) => { slugToTitle[slug] = title; });
+
+// MacBook CSS Mockup
+const MacBookMockup = ({ imageSrc, alt }) => (
+  <div className="relative mx-auto" style={{ maxWidth: '560px' }}>
+    {/* Screen */}
+    <div className="relative rounded-xl overflow-hidden border-[6px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '16/10' }}>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-stone-800 rounded-b-lg z-10" />
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover" />
+    </div>
+    {/* Base / Bezel */}
+    <div className="relative h-5 bg-gradient-to-b from-stone-600 to-stone-700 rounded-b-xl mx-2 -mt-px">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-stone-500 rounded-full" />
+    </div>
+    {/* Bottom bar */}
+    <div className="mx-auto w-[80%] h-2 bg-gradient-to-b from-stone-500 to-stone-600 rounded-b-2xl -mt-px" />
+  </div>
+);
+
+// iPhone CSS Mockup
+const IPhoneMockup = ({ imageSrc, alt }) => (
+  <div className="relative mx-auto" style={{ maxWidth: '260px', transform: 'perspective(1000px) rotateY(-8deg) rotateX(2deg)' }}>
+    {/* Frame */}
+    <div className="relative rounded-[2.5rem] overflow-hidden border-[5px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '9/19' }}>
+      {/* Notch */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-stone-900 rounded-b-2xl z-10">
+        <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-1 bg-stone-600 rounded-full" />
+      </div>
+      {/* Screen */}
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover pt-2" />
+      {/* Home indicator */}
+      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 bg-stone-500 rounded-full" />
+    </div>
+    {/* Side button */}
+    <div className="absolute -right-[2px] top-20 w-[3px] h-8 bg-stone-600 rounded-r" />
+  </div>
+);
+
+// Portfolio Modal Component
+const PortfolioModal = ({ project, language, onClose }) => {
+  const [mockupView, setMockupView] = useState("desktop");
+  const modalRef = useRef(null);
+
+  const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
+  const liveLabel = language === "es" ? "Ver en vivo" : "See live";
+
+  useEffect(() => {
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  const getTypeBg = (type) => {
+    const bgs = {
+      web: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      tienda: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      app: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+      custom: "bg-orange-500/10 text-orange-400 border-orange-500/20"
+    };
+    return bgs[type] || "bg-stone-500/10 text-stone-400 border-stone-500/20";
+  };
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Backdrop */}
+      <motion.div
+        className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      {/* Modal Content */}
+      <motion.div
+        ref={modalRef}
+        className="relative bg-white dark:bg-stone-950 w-full sm:max-w-4xl sm:mx-4 max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl border border-white/10 shadow-2xl"
+        initial={{ y: '100%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '100%', opacity: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <motion.button
+          onClick={onClose}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-900/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white border border-white/10 hover:bg-stone-800 dark:hover:bg-white/20 transition-colors"
+          aria-label="Close modal"
+        >
+          <X size={20} />
+        </motion.button>
+
+        {/* Mobile drag indicator */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1">
+          <div className="w-10 h-1 rounded-full bg-stone-400" />
+        </div>
+
+        {/* Header */}
+        <div className="p-6 sm:p-8 md:p-10">
+          {/* Badge & Meta */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
+                {project.category}
+              </span>
+              <span className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-300">
+                <MapPin size={12} />
+                {project.location}
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 dark:text-white mb-2">{project.title}</h2>
+          </motion.div>
+
+          {/* Mockup View Toggle */}
+          <div className="flex gap-2 mb-6">
+            <button
+              onClick={() => setMockupView("desktop")}
+              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${mockupView === "desktop" ? "bg-stone-900 text-white dark:bg-white dark:text-stone-950" : "bg-stone-100 text-stone-600 dark:bg-white/5 dark:text-stone-300 border border-stone-200 dark:border-white/10"}`}
+            >
+              <span className="flex items-center gap-1.5"><Monitor size={14} /> Desktop</span>
+            </button>
+            <button
+              onClick={() => setMockupView("mobile")}
+              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${mockupView === "mobile" ? "bg-stone-900 text-white dark:bg-white dark:text-stone-950" : "bg-stone-100 text-stone-600 dark:bg-white/5 dark:text-stone-300 border border-stone-200 dark:border-white/10"}`}
+            >
+              <span className="flex items-center gap-1.5"><Smartphone size={14} /> Mobile</span>
+            </button>
+          </div>
+
+          {/* Mockups Area */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, type: "spring", stiffness: 200, damping: 20 }}
+            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl p-4 sm:p-8 md:p-12 border border-stone-200 dark:border-white/10 mb-6 overflow-hidden"
+          >
+            {/* Subtle grid background */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
+
+            <AnimatePresence mode="wait">
+              {mockupView === "desktop" ? (
+                <motion.div
+                  key="desktop"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Desktop: MacBook left, iPhone right */}
+                  <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
+                    <motion.div
+                      className="flex-1 w-full flex justify-center"
+                      initial={{ opacity: 0, x: -40 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.35, duration: 0.6 }}
+                    >
+                      <MacBookMockup imageSrc={modalImage} alt={project.title} />
+                    </motion.div>
+                    <motion.div
+                      className="flex-shrink-0"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5, duration: 0.6 }}
+                    >
+                      <IPhoneMockup imageSrc={modalImage} alt={project.title} />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="mobile"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex justify-center py-4"
+                >
+                  <IPhoneMockup imageSrc={modalImage} alt={project.title} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-6"
+          >
+            <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{project.description}</p>
+          </motion.div>
+
+          {/* CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] text-sm"
+            >
+              {liveLabel}
+              <ExternalLink size={16} />
+            </a>
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -2700,6 +3079,7 @@ export default function App() {
   const [loadedHeroImages, setLoadedHeroImages] = useState(() => HERO_IMAGES.map(() => false));
   const [showNotification, setShowNotification] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
+  const [selectedProject, setSelectedProject] = useState(null);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
@@ -2775,6 +3155,55 @@ export default function App() {
     setMobileMenu(false);
     setIsWidgetOpen(true);
   };
+
+  // Portfolio modal: close and clear hash
+  const closePortfolioModal = useCallback(() => {
+    setSelectedProject(null);
+    try {
+      if (typeof window !== 'undefined' && window.location.hash.startsWith('#portfolio/')) {
+        history.pushState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch {
+      // ignore hash manipulation errors
+    }
+  }, []);
+
+  // Open project from slug
+  const openProjectBySlug = useCallback((slug) => {
+    const title = slugToTitle[slug];
+    if (!title) return;
+    const project = portfolioProjects.find((p) => p.title === title);
+    if (project) setSelectedProject(project);
+  }, [portfolioProjects]);
+
+  // Listen for hash changes (back/forward navigation)
+  useEffect(() => {
+    const handleHash = () => {
+      try {
+        const hash = window.location.hash;
+        if (hash.startsWith('#portfolio/')) {
+          const slug = hash.replace('#portfolio/', '');
+          const title = slugToTitle[slug];
+          if (title) {
+            const project = portfolioProjects.find((p) => p.title === title);
+            if (project) {
+              setSelectedProject(project);
+            }
+          }
+        } else {
+          setSelectedProject(null);
+        }
+      } catch {
+        // ignore hash errors
+      }
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hashchange', handleHash);
+      // Check initial hash
+      handleHash();
+      return () => window.removeEventListener('hashchange', handleHash);
+    }
+  }, [portfolioProjects]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -2945,7 +3374,7 @@ export default function App() {
                 <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
                 <span className="text-xs text-green-600 dark:text-green-400 font-medium">● {language === 'es' ? 'En vivo' : 'Live'}</span>
               </div>
-              <div className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">{copy.notificationSubtitle}</div>
+              <div className="text-xs text-stone-500 dark:text-stone-300 mt-0.5">{copy.notificationSubtitle}</div>
               <div className="text-xs text-stone-400 dark:text-stone-300 mt-1">🚀 {language === 'es' ? 'Entregado en 2 días' : 'Delivered in 2 days'} • Web + WhatsApp</div>
             </div>
           </motion.div>
@@ -3210,11 +3639,11 @@ export default function App() {
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] text-stone-900 dark:text-white">{copy.finalTitle}</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-400">{copy.finalSubtitle}</motion.p>
+          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-300">{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
             <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
           </motion.div>
-          <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm text-stone-500 dark:text-stone-400 flex-wrap">
+          <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm text-stone-500 dark:text-stone-300 flex-wrap">
             <span className="flex items-center gap-2"><Shield size={16} className="text-green-500" /> {copy.tags[0]}</span>
             <span className="flex items-center gap-2"><Calendar size={16} className="text-blue-500" /> {copy.tags[1]}</span>
             <span className="flex items-center gap-2"><Clock size={16} className="text-yellow-500" /> {copy.tags[2]}</span>
@@ -3291,6 +3720,17 @@ export default function App() {
 
       {/* Advanced Widget */}
       <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
+
+      {/* Portfolio Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <PortfolioModal
+            project={selectedProject}
+            language={language}
+            onClose={closePortfolioModal}
+          />
+        )}
+      </AnimatePresence>
     </div>
     </>
   );
