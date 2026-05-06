@@ -1,21 +1,35 @@
 {
-  "name": "Fast Page Pro",
+  "name": "FastPagePro",
   "short_name": "FastPagePro",
-  "description": "Páginas web profesionales, tiendas online, aplicaciones móviles y proyectos personalizados",
+  "description": "Agencia digital - Paginas web profesionales, tiendas online, aplicaciones moviles y proyectos personalizados",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0b0b0f",
   "theme_color": "#0b0b0f",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "categories": ["business", "productivity"],
   "lang": "es",
-  "dir": "ltr"
+  "dir": "ltr",
+  "prefer_related_applications": false
 }

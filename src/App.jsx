@@ -46,7 +46,8 @@ import {
   FlaskConical,
   FileText,
   MapPin,
-  Heart
+  Heart,
+  Download
 } from 'lucide-react';
 
 const _MOTION = motion;
@@ -3079,6 +3080,8 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
@@ -3144,6 +3147,43 @@ export default function App() {
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
   };
+
+  // PWA Install Prompt
+  const handleInstallApp = useCallback(async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setIsAppInstalled(true);
+      setDeferredPrompt(null);
+    }
+  }, [deferredPrompt]);
+
+  useEffect(() => {
+    // Check if already installed
+    if (typeof window !== 'undefined') {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      if (isStandalone) setIsAppInstalled(true);
+
+      const handleBeforeInstall = (e) => {
+        e.preventDefault();
+        setDeferredPrompt(e);
+      };
+
+      const handleAppInstalled = () => {
+        setIsAppInstalled(true);
+        setDeferredPrompt(null);
+      };
+
+      window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+      window.addEventListener('appinstalled', handleAppInstalled);
+
+      return () => {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+        window.removeEventListener('appinstalled', handleAppInstalled);
+      };
+    }
+  }, []);
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === 'es' ? 'en' : 'es'));
@@ -3338,6 +3378,18 @@ export default function App() {
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
               <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" className="w-full mt-8" size="large" />
+              {!isAppInstalled && deferredPrompt && (
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  onClick={() => { handleInstallApp(); setMobileMenu(false); }}
+                  className="w-full mt-4 flex items-center justify-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5"
+                >
+                  <Download size={20} />
+                  <span>{language === 'es' ? 'Lleva FastPagePro en tu bolsillo (Instalar)' : 'Take FastPagePro with you (Install)'}</span>
+                </motion.button>
+              )}
             </div>
           </motion.div>
         )}
@@ -3401,7 +3453,7 @@ export default function App() {
               }}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
+          <div className="absolute inset-0 bg-black/65" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
         </div>
 
@@ -3431,13 +3483,13 @@ export default function App() {
             </motion.div>
 
             {/* Main Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-3 sm:mb-4 md:mb-6 leading-[1.1]">
-              {copy.heroTitleTop} <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{copy.heroTitleBottom}</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-8 md:mb-10 leading-[1.1]">
+              {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'} <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-stone-300 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
               {copy.heroSubtitle}
             </p>
 
@@ -3463,7 +3515,7 @@ export default function App() {
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
-                className="w-full h-[52px] px-6 text-base font-semibold border-2 !text-white !border-white hover:!bg-white/10 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.15)] hover:-translate-y-0.5 transition-all duration-300"
+                className="w-full h-[52px] px-6 text-base font-semibold border-[2.5px] !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
               />
             </div>
 
@@ -3474,9 +3526,9 @@ export default function App() {
               transition={{ delay: 1.2 }} 
               className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
             >
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
             </motion.div>
 
             {/* Live Booking Counter - Fixed for mobile */}
@@ -3592,17 +3644,17 @@ export default function App() {
                       {copy.popularTag}
                     </div>
                   )}
-                  <h3 className="text-base md:text-lg opacity-60 mb-2 uppercase tracking-widest">{plan.name}</h3>
-                  <div className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight">S/ {plan.price}</div>
-                  <div className="text-xs md:text-sm opacity-50 sm:opacity-40 mb-7 md:mb-8">{plan.period}</div>
+                  <h3 className={`text-base md:text-lg mb-2 uppercase tracking-widest ${plan.highlight ? 'text-white/90 dark:text-stone-950/90' : 'opacity-60'}`}>{plan.name}</h3>
+                  <div className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight ${plan.highlight ? 'text-white dark:text-stone-950' : ''}`}>S/ {plan.price}</div>
+                  <div className={`text-xs md:text-sm mb-7 md:mb-8 ${plan.highlight ? 'text-white/70 dark:text-stone-950/70' : 'opacity-50 sm:opacity-40'}`}>{plan.period}</div>
 
                   <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1 text-left">
                     {plan.features.map((f, j) => (
                       <li key={j} className="flex items-start gap-3 text-xs md:text-sm">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950 dark:bg-stone-950 dark:text-white' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950 dark:bg-yellow-400 dark:text-stone-950' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
                           <Check size={12} strokeWidth={3} />
                         </div>
-                        <span className="text-stone-600 dark:text-stone-300">{f}</span>
+                        <span className={plan.highlight ? 'text-white/90 dark:text-stone-950/90' : 'text-stone-600 dark:text-stone-300'}>{f}</span>
                       </li>
                     ))}
                   </ul>
@@ -3618,7 +3670,7 @@ export default function App() {
                     </span>
                   </a>
                   <div className="mt-2 text-center">
-                    <p className="text-xs text-stone-500 dark:text-stone-300">3 cuotas sin interes: <span className="font-semibold text-stone-700 dark:text-stone-200">S/ {cuotas[plan.name]}/mes</span></p>
+                    <p className={`text-xs ${plan.highlight ? 'text-white/60 dark:text-stone-950/60' : 'text-stone-500 dark:text-stone-300'}`}>{language === 'es' ? '3 cuotas sin interés:' : '3 interest-free installments:'} <span className={`font-semibold ${plan.highlight ? 'text-white/80 dark:text-stone-950/80' : 'text-stone-700 dark:text-stone-200'}`}>S/ {cuotas[plan.name]}/{language === 'es' ? 'mes' : 'mo'}</span></p>
                   </div>
                 </motion.div>
               );
@@ -3659,6 +3711,45 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* PWA Install CTA - Bottom of page */}
+      {!isAppInstalled && deferredPrompt && (
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="py-12 md:py-16 bg-stone-950 border-t border-white/5"
+        >
+          <div className="container mx-auto px-4 max-w-2xl text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
+                <Zap size={22} className="fill-stone-950" strokeWidth={2.5} />
+              </div>
+              <span className="text-white font-bold text-xl tracking-tight">FastPagePro</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight">
+              {language === 'es' ? 'Lleva FastPagePro en tu bolsillo' : 'Take FastPagePro with you'}
+            </h3>
+            <p className="text-stone-400 text-sm sm:text-base mb-6 max-w-md mx-auto">
+              {language === 'es'
+                ? 'Instala nuestra app y accede desde cualquier lugar en un toque. Sin tienda de apps, directo a tu pantalla.'
+                : 'Install our app and access it from anywhere in one tap. No app store needed, straight to your screen.'}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleInstallApp}
+              className="inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-4 px-8 rounded-full text-base sm:text-lg transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)]"
+            >
+              <Download size={22} />
+              <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
+            </motion.button>
+            <p className="text-stone-500 text-xs mt-4">
+              {language === 'es' ? '100% gratuito. Sin registros.' : '100% free. No sign-ups.'}
+            </p>
+          </div>
+        </motion.section>
+      )}
 
       {/* Footer */}
       <footer className="bg-stone-950 border-t border-white/5 dark:bg-stone-900 dark:border-stone-800">
