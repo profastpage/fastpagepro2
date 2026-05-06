@@ -1663,7 +1663,7 @@ const ProcessTimeline = ({ copy, language }) => {
   }, [rocketBoost]);
 
   return (
-    <section id="proceso" className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
+    <section id="proceso" className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-visible lg:overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -1763,14 +1763,14 @@ const ProcessTimeline = ({ copy, language }) => {
 
         {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden max-w-3xl mx-auto relative">
-          {/* Animated vertical line - paints yellow on scroll */}
-          <div className="absolute left-6 top-0 bottom-0 w-[3px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '2px' }}>
+          {/* Animated vertical line - paints yellow on scroll (2px, shifted left) */}
+          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '1px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
                 height: `${scrollProgress * 100}%`,
                 background: 'linear-gradient(to bottom, #FBBF24, #F59E0B, #FFC107)',
-                borderRadius: '2px'
+                borderRadius: '1px'
               }}
             />
           </div>
@@ -1784,7 +1784,7 @@ const ProcessTimeline = ({ copy, language }) => {
             return (
               <React.Fragment key={step.num}>
                 <motion.div
-                  className="relative flex items-start gap-5 pl-2"
+                  className="relative flex items-start gap-4 pl-1"
                   initial={{ opacity: 0, x: -40, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
                   viewport={{ once: true, margin: "-50px" }}
@@ -1793,14 +1793,14 @@ const ProcessTimeline = ({ copy, language }) => {
                   {/* Timeline dot */}
                   <div className="relative flex-shrink-0 mt-1">
                     <motion.div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700'}`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700'}`}
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: index * 0.12 + 0.1, type: "spring", stiffness: 300, damping: 20 }}
                     >
                       <motion.div
-                        className="w-5 h-5 rounded-full"
+                        className="w-4 h-4 rounded-full"
                         style={{ background: isActive ? '#FFC107' : solidColors[index] }}
                         animate={{
                           boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 12px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
@@ -1810,40 +1810,40 @@ const ProcessTimeline = ({ copy, language }) => {
                     </motion.div>
                   </div>
 
-                  {/* Content Card */}
-                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl p-5 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group mb-0">
-                    <div className="flex items-center gap-3 mb-3">
+                  {/* Content Card - Lighter mobile style */}
+                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl p-3.5 sm:p-4 border border-[#f0f0f0] dark:border-white/10 transition-all duration-300 group mb-0">
+                    <div className="flex items-center gap-3 mb-2.5">
                       <motion.div
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg flex-shrink-0`}
+                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center flex-shrink-0`}
                         initial={{ scale: 0, rotate: -180 }}
                         whileInView={{ scale: 1, rotate: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: index * 0.12 + 0.15, type: "spring", stiffness: 200, damping: 15 }}
                       >
-                        <Icon className="w-5 h-5 text-white" />
+                        <Icon className="w-6 h-6 text-white" />
                       </motion.div>
                       <div>
-                        <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
+                        <div className={`inline-block px-2.5 py-0.5 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-xs sm:text-sm">{step.desc}</p>
+                    <p className="text-stone-600 dark:text-stone-300 text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
                   </div>
                 </motion.div>
 
                 {!isLast && (
                   <motion.div
-                    className="flex justify-center py-1"
+                    className="flex justify-center py-0.5"
                     initial={{ opacity: 0, scaleY: 0 }}
                     whileInView={{ opacity: 1, scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
                     style={{ transformOrigin: "center center" }}
                   >
-                    <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-800 flex items-center justify-center shadow-sm ml-6">
-                      <ChevronDown size={14} className="text-stone-500 dark:text-stone-300" />
+                    <div className="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center ml-4">
+                      <ChevronDown size={12} className="text-stone-400 dark:text-stone-400" />
                     </div>
                   </motion.div>
                 )}
@@ -1852,27 +1852,27 @@ const ProcessTimeline = ({ copy, language }) => {
           })}
         </div>
 
-        {/* Rocket Launch Finale (Desktop only) */}
+        {/* Rocket Launch Finale - Desktop + Mobile */}
         <motion.div
-          className="hidden lg:flex justify-center mt-8"
+          className="flex justify-center mt-6 lg:mt-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
           <motion.div
-            className="relative"
+            className="relative z-20"
             animate={rocketBoost ? { y: [0, -20, -8, 0] } : { y: [0, -5, 0, -3, 0] }}
             transition={rocketBoost ? { duration: 0.5, ease: "easeOut" } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             {/* Rocket icon */}
             <motion.div
-              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-2xl"
+              className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center"
               style={{ boxShadow: '0 10px 30px rgba(250,204,21,0.3), 0 5px 15px rgba(250,204,21,0.2)' }}
               animate={rocketBoost ? { scale: [1, 1.15, 1] } : {}}
               transition={{ duration: 0.4 }}
             >
-              <Rocket className="w-8 h-8 text-stone-950" style={{ transform: 'rotate(-45deg)' }} />
+              <Rocket className="w-6 h-6 lg:w-8 lg:h-8 text-stone-950" style={{ transform: 'rotate(-45deg)' }} />
             </motion.div>
             {/* Fire effect below rocket */}
             <RocketFireEffect isVisible={true} />
@@ -3483,6 +3483,18 @@ export default function App() {
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
+            {!isAppInstalled && deferredPrompt && (
+              <motion.button
+                onClick={handleInstallApp}
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.94 }}
+                className="ml-1 flex items-center gap-1.5 px-3 py-2 rounded-full bg-yellow-400/15 border border-yellow-400/30 text-yellow-400 hover:bg-yellow-400/25 text-xs font-bold transition-all duration-300"
+                aria-label="Install App"
+              >
+                <Download size={14} />
+                <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
+              </motion.button>
+            )}
             <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
           </div>
           
@@ -3519,6 +3531,7 @@ export default function App() {
                   transition={{ delay: 0.6 }}
                   onClick={() => { handleInstallApp(); setMobileMenu(false); }}
                   className="w-full mt-4 flex items-center justify-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5"
+                  style={{ boxShadow: '0 0 20px rgba(250,204,21,0.2), 0 10px 40px -10px rgba(250,204,21,0.5)' }}
                 >
                   <Download size={20} />
                   <span>{language === 'es' ? 'Lleva FastPagePro en tu bolsillo (Instalar)' : 'Take FastPagePro with you (Install)'}</span>
@@ -3714,6 +3727,44 @@ export default function App() {
 
       {/* Process Timeline */}
       <ProcessTimeline copy={copy} language={language} />
+
+      {/* PWA Install Banner - After Process */}
+      {!isAppInstalled && deferredPrompt && (
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="py-10 md:py-14 bg-stone-950 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 via-transparent to-yellow-400/5 pointer-events-none" />
+          <div className="container mx-auto px-4 max-w-2xl text-center relative z-10">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Smartphone size={20} className="text-yellow-400" />
+              <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest">{language === 'es' ? 'App Oficial' : 'Official App'}</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
+              {language === 'es' ? 'Lleva tu agencia a todos lados' : 'Take your agency everywhere'}
+            </h3>
+            <p className="text-stone-400 text-sm sm:text-base mb-5 max-w-md mx-auto">
+              {language === 'es'
+                ? 'Instala nuestra App oficial para una mejor experiencia. Accede al instante desde tu pantalla de inicio.'
+                : 'Install our official App for a better experience. Access instantly from your home screen.'}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleInstallApp}
+              className="inline-flex items-center gap-2.5 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-3.5 px-7 rounded-full text-sm sm:text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)]"
+            >
+              <Download size={18} />
+              <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
+            </motion.button>
+            <p className="text-stone-600 text-[11px] mt-3">
+              {language === 'es' ? 'Sin tiendas de apps. Gratuito.' : 'No app stores needed. Free.'}
+            </p>
+          </div>
+        </motion.section>
+      )}
 
       {/* Tech Stack */}
       <TechStackSection copy={copy} />
