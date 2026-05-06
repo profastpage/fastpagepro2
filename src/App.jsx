@@ -1289,7 +1289,7 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
   );
 };
 
-const SectionTitle = ({ title, subtitle, badge, darkBg = false }) => {
+const SectionTitle = ({ title, subtitle, badge, darkBg = false, compact = false }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -1306,7 +1306,7 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false }) => {
     : "text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-300";
 
   return (
-    <div ref={ref} className="mb-12 md:mb-16 text-center max-w-4xl mx-auto px-4">
+    <div ref={ref} className={`${compact ? 'mb-6 md:mb-10' : 'mb-12 md:mb-16'} text-center max-w-4xl mx-auto px-4`}>
       {badge && (
         <motion.span 
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -2135,7 +2135,7 @@ const useGSAPScrollReveal = (ref, options = {}) => {
   }, [ref, y, stagger, delay]);
 };
 
-const PortfolioSection = ({ copy, projects, language }) => {
+const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
@@ -2181,16 +2181,16 @@ const PortfolioSection = ({ copy, projects, language }) => {
   };
 
   return (
-    <section id="portafolio" className="py-20 md:py-28 bg-white dark:bg-stone-950 relative overflow-hidden">
+    <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-28 bg-white dark:bg-stone-950 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-400/5 dark:bg-yellow-400/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
-        <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} />
+        <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} compact />
         
         {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 md:mb-14 gsap-reveal px-2">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 md:mb-10 gsap-reveal px-2">
           {categories.map((cat) => (
             <motion.button
               key={cat}
@@ -2233,17 +2233,7 @@ const PortfolioSection = ({ copy, projects, language }) => {
                 <motion.div
                   key={`${project.title}-${activeFilter}`}
                   onClick={() => {
-                    const slug = PORTFOLIO_SLUGS[project.title];
-                    if (slug) {
-                      setSelectedProject(project);
-                      try {
-                        if (typeof window !== 'undefined') {
-                          window.location.hash = `portfolio/${slug}`;
-                        }
-                      } catch {
-                        // ignore hash errors
-                      }
-                    }
+                    if (onProjectClick) onProjectClick(project);
                   }}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -2884,7 +2874,8 @@ const PortfolioModal = ({ project, language, onClose }) => {
   const modalRef = useRef(null);
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
-  const liveLabel = language === "es" ? "Ver en vivo" : "See live";
+  const liveLabel = language === "es" ? "Ver Web Profesional" : "View Live Website";
+  const descLabel = language === "es" ? "Sobre este proyecto" : "About this project";
 
   useEffect(() => {
     const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
@@ -3044,26 +3035,34 @@ const PortfolioModal = ({ project, language, onClose }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mb-6"
+            className="mb-8"
           >
+            <div className="text-xs uppercase tracking-widest text-stone-400 dark:text-stone-500 font-semibold mb-3">{descLabel}</div>
             <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{project.description}</p>
           </motion.div>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-3"
           >
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] text-sm"
+              className="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5 text-sm"
             >
               {liveLabel}
               <ExternalLink size={16} />
             </a>
+            <button
+              onClick={onClose}
+              className="inline-flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 text-stone-700 dark:text-stone-300 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 border border-stone-200 dark:border-white/10 text-sm"
+            >
+              {language === "es" ? "Volver al Portafolio" : "Back to Portfolio"}
+            </button>
           </motion.div>
         </div>
       </motion.div>
@@ -3285,12 +3284,12 @@ export default function App() {
       </motion.div>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-stone-950/90 backdrop-blur-2xl border-b border-white/10 py-3 shadow-2xl' : 'bg-transparent py-6'}`}>
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          <motion.div className="text-white font-bold text-2xl tracking-tighter cursor-pointer flex items-center gap-3" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
+      <nav className={`fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px] ${scrolled ? 'bg-stone-950/90 backdrop-blur-2xl border-b border-white/10 shadow-2xl' : 'bg-transparent'}`}>
+        <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
+          <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
             {/* Gold Logo Only Here */}
-            <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
-              <Zap size={24} className="fill-stone-950" strokeWidth={2.5} />
+            <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-lg flex items-center justify-center shadow-lg shadow-yellow-500/30">
+              <Zap size={20} className="fill-stone-950" strokeWidth={2.5} />
             </div>
             <span className="hidden sm:block">FastPagePro</span>
           </motion.div>
@@ -3313,17 +3312,17 @@ export default function App() {
             <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
           </div>
           
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-2">
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className="w-11 h-11 rounded-full border border-white/20 text-xs font-bold text-white flex items-center justify-center"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 text-xs font-bold text-white flex items-center justify-center"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
               {mobileMenu ? <X size={24} /> : <Menu size={24} />}
             </motion.button>
           </div>
@@ -3512,7 +3511,17 @@ export default function App() {
         </div>
       </section>
 
-      <PortfolioSection copy={copy} projects={portfolioProjects} language={language} />
+      <PortfolioSection copy={copy} projects={portfolioProjects} language={language} onProjectClick={(project) => {
+                    const slug = PORTFOLIO_SLUGS[project.title];
+                    if (slug) {
+                      setSelectedProject(project);
+                      try {
+                        if (typeof window !== 'undefined') {
+                          window.location.hash = `portfolio/${slug}`;
+                        }
+                      } catch {}
+                    }
+                  }} />
 
       {/* Services Section */}
       <ServicesSection copy={copy} language={language} />
