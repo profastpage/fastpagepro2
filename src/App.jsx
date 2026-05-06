@@ -412,7 +412,7 @@ const COPY = {
     heroSecondaryCta: "Cotizar Mi Proyecto",
     heroSecondaryMsg: `Hola Fast Page Pro \ud83d\udc4b\n\nQuiero *cotizar mi proyecto web* \ud83d\ude80\n\n\ud83d\udcbc *Tipo de proyecto:* Por definir\n\ud83c\udf10 *Necesito:* Web profesional / Tienda online / App\n\n\ud83d\udcc8 *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta. \u2728`,
     trustTitle: "Negocios Asociados",
-    stats: ["+45 proyectos entregados", "6+ años de experiencia", "100% satisfacción"],
+    stats: ["Proyectos entregados", "Años de experiencia", "Satisfacción garantizada"],
     portfolioTitle: "Nuestro Portafolio",
     portfolioSubtitle: "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados",
     portfolioBadge: "Portafolio",
@@ -422,13 +422,13 @@ const COPY = {
     servicesSubtitle: "Soluciones digitales completas para impulsar tu negocio al siguiente nivel",
     servicesBadge: "Lo que hacemos",
     servicesWebTitle: "Páginas Web Profesionales",
-    servicesWebDesc: "Diseñamos y desarrollamos sitios web de alto rendimiento que reflejan la identidad de tu marca. Landing pages, webs corporativas y sistemas de reservas con optimización SEO avanzada para posicionarte en Google desde el primer día.",
+    servicesWebPoints: ["Landing pages y webs corporativas de alto rendimiento", "SEO avanzado para posicionarte en Google desde el día 1", "Sistemas de reservas y formularios inteligentes"],
     servicesTiendaTitle: "Tiendas Online",
-    servicesTiendaDesc: "E-commerce completo con catálogo de productos, carrito de compras, pasarelas de pago (Yape, Plin, Izipay) y gestión de inventario integrada. Tu tienda abierta 24/7 generando ventas automáticas.",
+    servicesTiendaPoints: ["Catálogo de productos y carrito de compras integrado", "Pasarelas de pago: Yape, Plin, Izipay y tarjetas", "Inventario automatizado, tu tienda abierta 24/7"],
     servicesAppTitle: "Aplicaciones Móviles",
-    servicesAppDesc: "Apps nativas y PWA (Progressive Web Apps) con experiencia de usuario fluida, notificaciones push, modo offline y rendimiento optimizado. Transformamos tu idea en una app que tus clientes amarán usar.",
+    servicesAppPoints: ["Apps nativas y PWA instalables sin tienda de apps", "Notificaciones push y modo offline integrado", "Rendimiento optimizado para cualquier dispositivo"],
     servicesCustomTitle: "Proyectos Personalizados",
-    servicesCustomDesc: "Dashboards empresariales, sistemas de automatización, integraciones con APIs y soluciones a medida. Si lo puedes imaginar, lo podemos construir con tecnología de vanguardia.",
+    servicesCustomPoints: ["Dashboards empresariales y automatizaciones", "Integraciones con APIs y sistemas a medida", "Tecnología de vanguardia para ideas únicas"],
     processTitle: "Nuestro Proceso",
     processSubtitle: "Un flujo de trabajo probado que garantiza resultados profesionales en cada proyecto",
     processBadge: "Como Trabajamos",
@@ -520,7 +520,7 @@ const COPY = {
     heroSecondaryCta: "Get a Quote",
     heroSecondaryMsg: `Hi Fast Page Pro \ud83d\udc4b\n\nI want to *get a quote for my web project* \ud83d\ude80\n\n\ud83d\udcbc *Project type:* To be defined\n\ud83c\udf10 *I need:* Professional website / Online store / App\n\n\ud83d\udcc8 *Goal:* Boost my business online\n\nLooking forward to your response. \u2728`,
     trustTitle: "Partner Businesses",
-    stats: ["+45 projects delivered", "6+ years experience", "100% satisfaction"],
+    stats: ["Projects delivered", "Years of experience", "Satisfaction guaranteed"],
     portfolioTitle: "Our Portfolio",
     portfolioSubtitle: "We create professional websites, online stores, mobile apps and custom projects",
     portfolioBadge: "Portfolio",
@@ -530,13 +530,13 @@ const COPY = {
     servicesSubtitle: "Complete digital solutions to take your business to the next level",
     servicesBadge: "What we do",
     servicesWebTitle: "Professional Websites",
-    servicesWebDesc: "We design and develop high-performance websites that reflect your brand identity. Landing pages, corporate sites and booking systems with advanced SEO optimization to rank on Google from day one.",
+    servicesWebPoints: ["High-performance landing pages and corporate sites", "Advanced SEO to rank on Google from day one", "Booking systems and smart forms integrated"],
     servicesTiendaTitle: "Online Stores",
-    servicesTiendaDesc: "Complete e-commerce with product catalog, shopping cart, payment gateways (Yape, Plin, Izipay) and integrated inventory management. Your store open 24/7 generating automatic sales.",
+    servicesTiendaPoints: ["Product catalog and shopping cart built-in", "Payment gateways: Yape, Plin, Izipay and cards", "Automated inventory, your store open 24/7"],
     servicesAppTitle: "Mobile Applications",
-    servicesAppDesc: "Native apps and PWAs with fluid user experience, push notifications, offline mode and optimized performance. We transform your idea into an app your customers will love using.",
+    servicesAppPoints: ["Native apps and PWAs installable without app stores", "Push notifications and offline mode built-in", "Optimized performance for any device"],
     servicesCustomTitle: "Custom Projects",
-    servicesCustomDesc: "Business dashboards, automation systems, API integrations and tailored solutions. If you can imagine it, we can build it with cutting-edge technology.",
+    servicesCustomPoints: ["Business dashboards and automation systems", "API integrations and tailored solutions", "Cutting-edge technology for unique ideas"],
     processTitle: "Our Process",
     processSubtitle: "A proven workflow that guarantees professional results in every project",
     processBadge: "How We Work",
@@ -691,28 +691,28 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      initial={{ opacity: 0, y: 40, scale: 0.9 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.8, delay, type: "spring", stiffness: 100 }}
-      whileHover={{ y: -10, scale: 1.03 }}
+      whileHover={{ y: -8, scale: 1.04 }}
       className="relative group"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-stone-200/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-amber-400/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
+      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-stone-50 to-transparent opacity-0 dark:from-white/5 dark:to-transparent group-hover:opacity-100 transition-opacity duration-500" />
 
         <motion.div
-          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4 sm:mb-5 md:mb-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-stone-100 to-stone-200 dark:from-stone-800 dark:to-stone-900 flex items-center justify-center relative overflow-hidden border border-stone-200 dark:border-white/5 group-hover:border-yellow-400/30 transition-colors duration-500"
+          className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-3 sm:mb-4 md:mb-5 rounded-xl sm:rounded-2xl bg-yellow-400/10 flex items-center justify-center border border-yellow-400/20 group-hover:border-yellow-400/40 transition-colors duration-500"
         >
-          <IconComp className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-stone-600 group-hover:text-yellow-600 dark:text-white/70 dark:group-hover:text-yellow-400 transition-colors duration-500 relative z-10" />
+          <IconComp className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-yellow-500 group-hover:text-yellow-600 dark:text-yellow-400 dark:group-hover:text-yellow-300 transition-colors duration-500 relative z-10" />
         </motion.div>
 
-        <div className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-2 md:mb-3 tracking-tight relative">
+        <div className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-1 sm:mb-2 md:mb-3 tracking-tight relative">
           <AnimatedCounter end={value} suffix={suffix} />
         </div>
 
-        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-widest font-medium break-words">{label}</div>
+        <div className="text-[10px] sm:text-xs md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-widest font-medium break-words">{label}</div>
 
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
       </div>
@@ -1565,7 +1565,56 @@ Could you please confirm availability and final rate?`;
 };
 
 // --- Work Process Timeline (Redesigned Zigzag with animations) ---
+// --- Rocket Fire Animation CSS-in-JS ---
+const RocketFireEffect = ({ isVisible }) => {
+  if (!isVisible) return null;
+  return (
+    <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center">
+      {/* Main flame */}
+      <div className="relative">
+        <motion.div
+          className="w-3 h-5 rounded-full"
+          style={{
+            background: 'linear-gradient(to bottom, #FFC107, #FF6B00, transparent)',
+            boxShadow: '0 4px 12px rgba(255,107,0,0.6), 0 2px 6px rgba(255,193,7,0.4)'
+          }}
+          animate={{
+            scaleY: [1, 1.4, 0.8, 1.2, 1],
+            scaleX: [1, 0.8, 1.1, 0.9, 1],
+            opacity: [1, 0.7, 1, 0.8, 1]
+          }}
+          transition={{ duration: 0.3, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Inner bright core */}
+        <motion.div
+          className="absolute inset-x-0 top-0 h-2 rounded-full"
+          style={{
+            background: 'linear-gradient(to bottom, #FFF7CC, #FFC107)',
+            boxShadow: '0 0 8px rgba(255,247,204,0.8)'
+          }}
+          animate={{ opacity: [1, 0.6, 1] }}
+          transition={{ duration: 0.15, repeat: Infinity }}
+        />
+      </div>
+      {/* Glow */}
+      <motion.div
+        className="w-6 h-2 rounded-full -mt-1"
+        style={{
+          background: 'radial-gradient(ellipse, rgba(255,193,7,0.5), transparent)',
+          boxShadow: '0 6px 20px rgba(255,107,0,0.3)'
+        }}
+        animate={{ opacity: [0.5, 0.9, 0.5], scale: [0.9, 1.1, 0.9] }}
+        transition={{ duration: 0.4, repeat: Infinity }}
+      />
+    </div>
+  );
+};
+
 const ProcessTimeline = ({ copy, language }) => {
+  const timelineRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [rocketBoost, setRocketBoost] = useState(false);
+  const stepRefs = useRef([]);
   const icons = [Search, Palette, Code, FlaskConical, Rocket];
   const gradients = [
     "from-blue-500 to-cyan-400",
@@ -1574,49 +1623,89 @@ const ProcessTimeline = ({ copy, language }) => {
     "from-orange-500 to-amber-400",
     "from-yellow-400 to-amber-500"
   ];
+  const solidColors = [
+    "#3B82F6", "#A855F7", "#10B981", "#F97316", "#FBBF24"
+  ];
   const glowColors = [
-    "rgba(59,130,246,0.4)",
-    "rgba(168,85,247,0.4)",
-    "rgba(16,185,129,0.4)",
-    "rgba(249,115,22,0.4)",
-    "rgba(250,204,21,0.4)"
+    "rgba(59,130,246,0.5)",
+    "rgba(168,85,247,0.5)",
+    "rgba(16,185,129,0.5)",
+    "rgba(249,115,22,0.5)",
+    "rgba(250,204,21,0.5)"
   ];
   const stepLabel = language === "es" ? "PASO" : "STEP";
+
+  // Scroll-based line painting progress
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!timelineRef.current) return;
+      const rect = timelineRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+
+      // Calculate progress: 0% when section enters viewport, 100% when section leaves
+      const start = windowHeight * 0.8;
+      const end = -sectionHeight * 0.3;
+      const progress = Math.max(0, Math.min(1, (start - sectionTop) / (start - end)));
+      setScrollProgress(progress);
+
+      // Rocket boost when reaching last step
+      if (progress > 0.9 && !rocketBoost) {
+        setRocketBoost(true);
+        setTimeout(() => setRocketBoost(false), 600);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [rocketBoost]);
 
   return (
     <section id="proceso" className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div ref={timelineRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
 
         {/* Desktop: Zigzag Timeline */}
-        <div className="hidden lg:block relative max-w-6xl mx-auto">
-          {/* Animated center line */}
-          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-stone-200 dark:bg-stone-800">
-            <motion.div
-              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 via-emerald-500 to-amber-500"
-              initial={{ height: "0%" }}
-              whileInView={{ height: "100%" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+        <div className="hidden lg:block relative max-w-6xl mx-auto" style={{ minHeight: '600px' }}>
+          {/* Animated center line - thick, paints yellow on scroll */}
+          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '2px' }}>
+            <div
+              className="w-full transition-all duration-100 ease-out"
+              style={{
+                height: `${scrollProgress * 100}%`,
+                background: 'linear-gradient(to bottom, #FBBF24, #F59E0B, #FFC107)',
+                borderRadius: '2px',
+                boxShadow: scrollProgress > 0 ? '0 0 12px rgba(255,193,7,0.4)' : 'none'
+              }}
             />
           </div>
 
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
             const isLeft = index % 2 === 0;
+            const isLast = index === copy.processSteps.length - 1;
+            // Calculate if this node is "active" based on scroll progress
+            const nodeThreshold = (index + 0.5) / copy.processSteps.length;
+            const isActive = scrollProgress >= nodeThreshold;
 
             return (
-              <div key={step.num} className={`relative flex items-center mb-12 md:mb-16 last:mb-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}>
-                {/* Content Card */}
+              <div
+                key={step.num}
+                ref={(el) => { stepRefs.current[index] = el; }}
+                className={`relative flex items-center mb-12 md:mb-16 last:mb-0 ${isLeft ? 'flex-row' : 'flex-row-reverse'}`}
+              >
+                {/* Content Card with slide-in from side */}
                 <motion.div
                   className={`w-[calc(50%-40px)] ${isLeft ? 'pr-0' : 'pl-0'}`}
-                  initial={{ opacity: 0, x: isLeft ? -80 : 80, scale: 0.9 }}
+                  initial={{ opacity: 0, x: isLeft ? -80 : 80, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.8, delay: index * 0.15, type: "spring", stiffness: 100, damping: 15 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <div className={`bg-white dark:bg-stone-900 rounded-2xl p-6 md:p-8 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden ${isLeft ? 'text-right' : 'text-left'}`}>
                     <div className={`absolute top-0 ${isLeft ? 'right-0' : 'left-0'} w-1 h-full bg-gradient-to-b ${gradients[index]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -1627,6 +1716,7 @@ const ProcessTimeline = ({ copy, language }) => {
                         whileInView={{ scale: 1, rotate: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: index * 0.15 + 0.2, type: "spring", stiffness: 200, damping: 15 }}
+                        style={{ color: solidColors[index] }}
                       >
                         <Icon className="w-7 h-7 text-white" />
                       </motion.div>
@@ -1641,20 +1731,23 @@ const ProcessTimeline = ({ copy, language }) => {
                   </div>
                 </motion.div>
 
-                {/* Center dot with glow */}
+                {/* Center node - changes color when active */}
                 <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                   <motion.div
-                    className="w-12 h-12 rounded-full bg-white dark:bg-stone-950 border-4 border-stone-200 dark:border-stone-700 flex items-center justify-center shadow-lg"
+                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-4 border-stone-200 dark:border-stone-700'}`}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.15 + 0.1, type: "spring", stiffness: 300, damping: 20 }}
+                    style={isActive ? { boxShadow: `0 0 20px ${glowColors[index]}, 0 0 40px ${glowColors[index]}` } : {}}
                   >
                     <motion.div
                       className="w-4 h-4 rounded-full"
-                      style={{ background: gradients[index].replace('from-', '').replace(' to-', ', ') }}
-                      animate={{
-                        boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 20px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
+                      style={{ background: isActive ? '#FFC107' : solidColors[index] }}
+                      animate={isActive ? {
+                        boxShadow: [`0 0 4px ${glowColors[index]}`, `0 0 16px ${glowColors[index]}`, `0 0 4px ${glowColors[index]}`]
+                      } : {
+                        boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 10px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
                       }}
                       transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
                     />
@@ -1668,22 +1761,25 @@ const ProcessTimeline = ({ copy, language }) => {
           })}
         </div>
 
-        {/* Mobile: Vertical Timeline with enhanced animations */}
+        {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden max-w-3xl mx-auto relative">
-          {/* Animated vertical line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-800">
-            <motion.div
-              className="w-full bg-gradient-to-b from-blue-500 via-purple-500 to-amber-500"
-              initial={{ height: "0%" }}
-              whileInView={{ height: "100%" }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+          {/* Animated vertical line - paints yellow on scroll */}
+          <div className="absolute left-6 top-0 bottom-0 w-[3px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '2px' }}>
+            <div
+              className="w-full transition-all duration-100 ease-out"
+              style={{
+                height: `${scrollProgress * 100}%`,
+                background: 'linear-gradient(to bottom, #FBBF24, #F59E0B, #FFC107)',
+                borderRadius: '2px'
+              }}
             />
           </div>
 
           {copy.processSteps.map((step, index) => {
             const Icon = icons[index];
             const isLast = index === copy.processSteps.length - 1;
+            const nodeThreshold = (index + 0.5) / copy.processSteps.length;
+            const isActive = scrollProgress >= nodeThreshold;
 
             return (
               <React.Fragment key={step.num}>
@@ -1697,7 +1793,7 @@ const ProcessTimeline = ({ copy, language }) => {
                   {/* Timeline dot */}
                   <div className="relative flex-shrink-0 mt-1">
                     <motion.div
-                      className="w-12 h-12 rounded-full bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700 flex items-center justify-center shadow-md z-10"
+                      className={`w-12 h-12 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700'}`}
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
@@ -1705,6 +1801,7 @@ const ProcessTimeline = ({ copy, language }) => {
                     >
                       <motion.div
                         className="w-5 h-5 rounded-full"
+                        style={{ background: isActive ? '#FFC107' : solidColors[index] }}
                         animate={{
                           boxShadow: [`0 0 0px ${glowColors[index]}`, `0 0 12px ${glowColors[index]}`, `0 0 0px ${glowColors[index]}`]
                         }}
@@ -1754,6 +1851,33 @@ const ProcessTimeline = ({ copy, language }) => {
             );
           })}
         </div>
+
+        {/* Rocket Launch Finale (Desktop only) */}
+        <motion.div
+          className="hidden lg:flex justify-center mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <motion.div
+            className="relative"
+            animate={rocketBoost ? { y: [0, -20, -8, 0] } : { y: [0, -5, 0, -3, 0] }}
+            transition={rocketBoost ? { duration: 0.5, ease: "easeOut" } : { duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            {/* Rocket icon */}
+            <motion.div
+              className="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-2xl"
+              style={{ boxShadow: '0 10px 30px rgba(250,204,21,0.3), 0 5px 15px rgba(250,204,21,0.2)' }}
+              animate={rocketBoost ? { scale: [1, 1.15, 1] } : {}}
+              transition={{ duration: 0.4 }}
+            >
+              <Rocket className="w-8 h-8 text-stone-950" style={{ transform: 'rotate(-45deg)' }} />
+            </motion.div>
+            {/* Fire effect below rocket */}
+            <RocketFireEffect isVisible={true} />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
@@ -2302,75 +2426,85 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
 // --- Services Section ---
 const ServicesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
-  useGSAPScrollReveal(sectionRef, { y: 50, stagger: 0.12 });
 
   const services = [
     {
       icon: Monitor,
       title: copy.servicesWebTitle,
-      desc: copy.servicesWebDesc,
+      points: copy.servicesWebPoints,
       gradient: "from-blue-500 to-cyan-400",
       bgColor: "bg-blue-500/10",
       borderColor: "border-blue-500/20",
-      textColor: "text-blue-400"
+      textColor: "text-blue-400",
+      checkColor: "text-blue-500 dark:text-blue-400"
     },
     {
       icon: ShoppingCart,
       title: copy.servicesTiendaTitle,
-      desc: copy.servicesTiendaDesc,
+      points: copy.servicesTiendaPoints,
       gradient: "from-emerald-500 to-green-400",
       bgColor: "bg-emerald-500/10",
       borderColor: "border-emerald-500/20",
-      textColor: "text-emerald-400"
+      textColor: "text-emerald-400",
+      checkColor: "text-emerald-500 dark:text-emerald-400"
     },
     {
       icon: Smartphone,
       title: copy.servicesAppTitle,
-      desc: copy.servicesAppDesc,
+      points: copy.servicesAppPoints,
       gradient: "from-purple-500 to-violet-400",
       bgColor: "bg-purple-500/10",
       borderColor: "border-purple-500/20",
-      textColor: "text-purple-400"
+      textColor: "text-purple-400",
+      checkColor: "text-purple-500 dark:text-purple-400"
     },
     {
       icon: Code,
       title: copy.servicesCustomTitle,
-      desc: copy.servicesCustomDesc,
+      points: copy.servicesCustomPoints,
       gradient: "from-orange-500 to-amber-400",
       bgColor: "bg-orange-500/10",
       borderColor: "border-orange-500/20",
-      textColor: "text-orange-400"
+      textColor: "text-orange-400",
+      checkColor: "text-orange-500 dark:text-orange-400"
     }
   ];
 
   return (
     <section id="servicios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-stone-800/30 rounded-full blur-[150px] pointer-events-none" />
-      
+
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.servicesTitle} subtitle={copy.servicesSubtitle} badge={copy.servicesBadge} />
-        
-        <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+
+        <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-6xl mx-auto">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.12, duration: 0.6 }}
-                whileHover={{ y: -5, scale: 1.01 }}
-                className={`gsap-reveal group relative rounded-[1.5rem] sm:rounded-[2rem] p-6 sm:p-8 md:p-10 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] overflow-hidden`}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -8, scale: 1.05 }}
+                className={`group relative rounded-2xl p-6 sm:p-7 md:p-8 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden cursor-default`}
               >
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 <div className="flex items-start gap-4 sm:gap-5">
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                    <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-xl group-hover:shadow-2xl transition-shadow duration-500`}>
+                    <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white drop-shadow-md" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
-                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{service.desc}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
+                    <ul className="space-y-2 sm:space-y-2.5">
+                      {service.points && service.points.map((point, pi) => (
+                        <li key={pi} className="flex items-start gap-2.5 text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed">
+                          <Check size={16} strokeWidth={3} className={`${service.checkColor} mt-0.5 flex-shrink-0`} />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </motion.div>
@@ -3552,10 +3686,10 @@ export default function App() {
       </section>
 
       {/* Stats */}
-      <section id="beneficios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
+      <section id="beneficios" className="py-16 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+        <div className="container mx-auto px-3 sm:px-4 relative z-10">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 max-w-5xl mx-auto">
             <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
             <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
             <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
