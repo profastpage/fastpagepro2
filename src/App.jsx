@@ -618,40 +618,23 @@ const COPY = {
 };
 
 // --- Electric Bolt Logo Component ---
-const ElectricBolt = ({ size = 40 }) => {
+const ElectricBolt = ({ size = 35 }) => {
   return (
-    <motion.svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      initial="initial"
-      animate="animate"
-      whileHover="hover"
-      className="cursor-pointer"
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      whileHover={{ 
+        scale: 1.2, 
+        rotate: [0, -10, 10, 0],
+        filter: "drop-shadow(0px 0px 8px #FFD700)" 
+      }}
+      transition={{ duration: 0.5 }}
+      style={{ cursor: 'pointer' }}
     >
-      <motion.path
-        d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-        stroke="#FFD700"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        variants={{
-          initial: { pathLength: 0, fill: "rgba(255, 215, 0, 0)" },
-          animate: {
-            pathLength: 1,
-            fill: "rgba(255, 215, 0, 0.1)",
-            transition: { duration: 1.2, ease: "easeOut" }
-          },
-          hover: {
-            fill: "rgba(255, 215, 0, 1)",
-            scale: 1.1,
-            transition: { duration: 0.3 }
-          }
-        }}
-      />
-    </motion.svg>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFD700" stroke="#FFD700" strokeWidth="1" strokeLinejoin="round"/>
+      </svg>
+    </motion.div>
   );
 };
 
@@ -2402,32 +2385,34 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ delay: index * 0.06, duration: 0.5 }}
-                  className="group rounded-xl sm:rounded-2xl md:rounded-[1.75rem] overflow-hidden border border-stone-200 bg-white dark:border-white/10 dark:bg-stone-900/80 shadow-lg hover:shadow-xl block no-underline relative cursor-pointer"
-                  whileHover={{ y: -6, borderColor: undefined }}
+                  whileHover={{ y: -6 }}
+                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-2xl block no-underline"
+                  style={{ aspectRatio: '4/5' }}
                 >
+                  {/* Image with zoom-in on hover */}
+                  <motion.img 
+                    src={imageMap[project.title] || project.image} 
+                    alt={project.title} 
+                    onError={handleImageFallback}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-full h-full object-cover"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  
+                  {/* Bottom gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+
                   {/* Top gradient accent */}
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
-                  
-                  <div className="aspect-[4/3] overflow-hidden relative">
-                    <img src={imageMap[project.title] || project.image} alt={project.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                    {/* Overlay with icon */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                        <ExternalLink size={16} className="text-white" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-3 sm:p-4 md:p-5">
-                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                      <span className={`inline-flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
-                        <Icon size={11} />
-                        {project.category}
-                      </span>
-                    </div>
-                    <h3 className="text-sm sm:text-base md:text-lg font-bold text-stone-900 group-hover:text-yellow-600 transition-colors dark:text-white dark:group-hover:text-yellow-400">{project.title}</h3>
-                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-500 mb-1 sm:mb-2 dark:text-stone-300">{project.location}</p>
-                    <p className="text-[11px] sm:text-xs md:text-sm text-stone-600 leading-relaxed mb-2 sm:mb-3 line-clamp-4 dark:text-stone-300">{project.description}</p>
-                    <span className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold text-stone-500 group-hover:text-yellow-600 hover:gap-3 transition-all dark:text-stone-300 dark:group-hover:text-yellow-400">
+
+                  {/* Content overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 z-10">
+                    <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
+                    <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
+                    <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
+                    <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all hover:gap-3" style={{ color: '#FFD700' }}>
                       {copy.portfolioCta}
                     </span>
                   </div>
@@ -3501,7 +3486,7 @@ export default function App() {
           <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
             {/* Electric Bolt Animated Logo */}
             <div className="relative">
-              <ElectricBolt size={36} />
+              <ElectricBolt size={35} />
             </div>
             <span className="hidden sm:block">FastPagePro</span>
           </motion.div>
