@@ -2210,13 +2210,12 @@ const TechItem = React.memo(({ tech, globalIdx, rowIdx, isRow1, stableParams }) 
   const isInView = useInView(itemRef, { once: true, margin: "-30px" });
   const [isHovered, setIsHovered] = useState(false);
   const params = stableParams[globalIdx];
-  const isDarkLogo = tech.color === "#000000" || tech.color === "#2D3748";
 
   return (
     <motion.div
       ref={itemRef}
       variants={{
-        hidden: { opacity: 0, x: isRow1 ? -60 : 60, y: 20, scale: 0.7 },
+        hidden: { opacity: 0, x: isRow1 ? -40 : 40, y: 15, scale: 0.8 },
         visible: {
           opacity: 1,
           x: [0, params.xRange, 0],
@@ -2230,48 +2229,29 @@ const TechItem = React.memo(({ tech, globalIdx, rowIdx, isRow1, stableParams }) 
       transition={
         isInView
           ? {
-              opacity: { duration: 0.5, delay: rowIdx * 0.08 },
+              opacity: { duration: 0.4, delay: rowIdx * 0.06 },
               x: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
               y: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
-              scale: { duration: 0.7, delay: rowIdx * 0.08, type: "spring", stiffness: 200, damping: 15 },
-              rotate: { duration: 0.7, delay: rowIdx * 0.08, type: "spring", stiffness: 200, damping: 15 }
+              scale: { duration: 0.5, delay: rowIdx * 0.06, type: "spring", stiffness: 200, damping: 15 }
             }
           : {}
       }
-      whileHover={{ scale: 1.12 }}
+      whileHover={{ scale: 1.08 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl cursor-default select-none flex-shrink-0"
-      style={{
-        background: isHovered
-          ? `linear-gradient(135deg, ${tech.color}18 0%, ${tech.color}10 100%)`
-          : 'linear-gradient(135deg, var(--glass-bg) 0%, var(--glass-bg) 100%)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        border: `1px solid ${isHovered ? tech.color + '55' : 'var(--glass-border)'}`,
-        boxShadow: isHovered
-          ? `0 0 25px ${tech.color}30, 0 8px 32px rgba(0,0,0,0.3)`
-          : '0 4px 16px rgba(0,0,0,0.15)',
-        transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
-      }}
+      className="tech-item group flex items-center gap-2.5 px-3 py-2 md:px-4 md:py-2.5 rounded-xl cursor-default select-none flex-shrink-0"
     >
+      {/* Icon — subtle initial letter */}
       <div
-        className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md transition-all duration-400"
-        style={{
-          backgroundColor: isHovered ? tech.color + "35" : tech.color + "20",
-          color: isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color,
-          boxShadow: isHovered ? `0 0 18px ${tech.color}50` : 'none',
-          transition: 'background-color 0.4s ease, box-shadow 0.4s ease'
-        }}
+        className="tech-item-icon w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-black"
+        style={{ color: isHovered ? tech.color : undefined }}
       >
         {tech.name.charAt(0)}
       </div>
+      {/* Name */}
       <span
-        className="text-sm font-semibold whitespace-nowrap transition-all duration-400"
-        style={{
-          color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'var(--text-secondary)',
-          textShadow: isHovered ? `0 0 20px ${tech.color}60` : 'none'
-        }}
+        className="tech-item-name text-sm font-semibold whitespace-nowrap"
+        style={{ color: isHovered ? tech.color : undefined }}
       >
         {tech.name}
       </span>
@@ -2335,11 +2315,9 @@ const TechStackSection = ({ copy }) => {
   const row2Double = useMemo(() => [...techData.row2, ...techData.row2], [techData.row2]);
 
   return (
-    <section className="py-16 md:py-28 theme-bg relative overflow-hidden">
-      <div className="absolute inset-0 theme-grid-overlay pointer-events-none" />
-
+    <section className="py-16 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-principal)', transition: 'background-color 0.5s ease' }}>
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
-        <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} darkBg />
+        <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
 
         {/* ===== DESKTOP: Static grid with orchestrated floating items ===== */}
         <motion.div
@@ -2383,8 +2361,8 @@ const TechStackSection = ({ copy }) => {
         <div className="md:hidden space-y-3 mt-6">
           {/* Row 1 - scrolls LEFT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
@@ -2406,8 +2384,8 @@ const TechStackSection = ({ copy }) => {
 
           {/* Row 2 - scrolls RIGHT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
@@ -4141,14 +4119,10 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Stats — Hybrid Light/Dark (Apple Glassmorphism + CSS Variables) */}
+      {/* Stats — Ultra Minimalist (No Containers) */}
       <section id="beneficios" className="stats-section py-16 md:py-28 relative overflow-hidden">
-        {/* Ambient glow orbs */}
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
-        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          {/* Flexbox layout: 4 columns on desktop, 2 on tablet, 1 on mobile */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto">
             {[
               { icon: Rocket, value: 45, suffix: "+", prefix: "", label: language === "es" ? "PROYECTOS CREADOS" : "PROJECTS CREATED" },
               { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "AUMENTO EN VENTAS" : "SALES INCREASE" },
@@ -4159,38 +4133,24 @@ export default function App() {
               return (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.7, delay: i * 0.1, type: "spring", stiffness: 120, damping: 14 }}
-                  className="stat-card relative group cursor-default flex-1 min-w-[140px] sm:min-w-0 p-7 sm:p-8 md:p-10 text-center overflow-hidden"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="stat-item group cursor-default text-center py-4 px-6"
                 >
-                  {/* Inner gradient overlay */}
-                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%)' }} />
-
-                  {/* Icon */}
-                  <motion.div
-                    className="w-11 h-11 sm:w-14 sm:h-14 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center"
-                    style={{
-                      background: 'rgba(250, 204, 21, 0.08)',
-                      border: '1px solid rgba(250, 204, 21, 0.15)',
-                      boxShadow: '0 0 20px rgba(250, 204, 21, 0.05)'
-                    }}
-                    whileHover={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.2)' }}
-                  >
-                    <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-yellow-400" />
+                  {/* Icon — subtle, no container */}
+                  <motion.div className="stat-icon mb-2">
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
                   </motion.div>
 
-                  {/* Number — Big, bold, gradient (uses CSS variable for hybrid mode) */}
-                  <div className="stat-number stat-shimmer text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
-                    <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+                  {/* Number — accent color */}
+                  <div className="stat-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-1.5">
+                    {stat.prefix}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
                   </div>
 
-                  {/* Descriptive text — hybrid color via CSS variable */}
+                  {/* Label — muted uppercase */}
                   <div className="stat-desc">{stat.label}</div>
-
-                  {/* Bottom accent line */}
-                  <div className="stat-accent-line absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-1/4 group-hover:w-3/4" />
                 </motion.div>
               );
             })}
