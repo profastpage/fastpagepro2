@@ -1465,7 +1465,7 @@ const FAQItem = ({ question, answer, index }) => {
         className="w-full py-5 sm:py-8 flex flex-col items-center text-center focus:outline-none group"
       >
         <div className="flex items-center justify-between w-full max-w-3xl px-2 sm:px-4">
-          <span className="faq-item-question text-sm sm:text-base md:text-xl lg:text-2xl transition-colors duration-300" style={{ color: isOpen ? 'var(--text-main)' : 'var(--text-muted)' }}>
+          <span className="faq-item-question text-sm sm:text-base md:text-xl lg:text-2xl transition-colors duration-300" style={{ color: 'var(--text-main)' }}>
             {question}
           </span>
           <motion.div 
@@ -2020,7 +2020,7 @@ const ContactSection = ({ copy, language }) => {
 
   return (
     <section id="contacto" className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-400/5 rounded-full blur-[120px] pointer-events-none" />
+
 
       <div ref={formRef} className="container mx-auto px-4 relative z-10 max-w-3xl">
         <SectionTitle title={copy.contactTitle} subtitle={copy.contactSubtitle} badge={copy.contactBadge} />
@@ -2744,15 +2744,9 @@ const ServicesSection = ({ copy, language }) => {
                   background: 'transparent',
                   borderRadius: '16px',
                   padding: '24px',
-                  border: 'none',
+                  border: '1px solid var(--line-color)',
                   boxShadow: 'none',
                   transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.border = '1px solid var(--line-color)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.border = 'none';
                 }}
               >
                 {/* Horizontal layout: Icon left, content right */}
@@ -2814,11 +2808,7 @@ const ServicesSection = ({ copy, language }) => {
                   </div>
                 </div>
 
-                {/* Subtle top accent line */}
-                <div
-                  className="absolute top-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: `linear-gradient(90deg, transparent, ${service.color}66, transparent)` }}
-                />
+
               </motion.div>
             );
           })}
@@ -4334,7 +4324,7 @@ export default function App() {
 
       {/* Final CTA */}
       <section className="py-24 md:py-32 text-center relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
+
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9]" style={{ color: 'var(--text-main)' }}>{copy.finalTitle}</motion.h2>
