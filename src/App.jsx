@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform } from 'framer-motion';
 import {
   Check,
   MessageCircle,
@@ -1776,7 +1776,7 @@ const ProcessTimeline = ({ copy, language }) => {
   }, [rocketBoost]);
 
   return (
-    <section id="proceso" className="py-20 md:py-32 bg-stone-950 relative overflow-visible lg:overflow-hidden">
+    <section id="proceso" className="py-20 md:py-32 theme-bg-alt relative overflow-visible lg:overflow-hidden">
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.04] rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
@@ -1786,7 +1786,7 @@ const ProcessTimeline = ({ copy, language }) => {
         {/* Desktop: Zigzag Timeline */}
         <div className="hidden lg:block relative max-w-6xl mx-auto" style={{ minHeight: '600px' }}>
           {/* Animated center line - thick, paints yellow on scroll */}
-          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-white/[0.06]" style={{ borderRadius: '2px' }}>
+          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-[var(--border-subtle)]" style={{ borderRadius: '2px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1823,15 +1823,15 @@ const ProcessTimeline = ({ copy, language }) => {
                   <div
                     className="rounded-[24px] p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden"
                     style={{
-                      background: 'rgba(255, 255, 255, 0.02)',
+                      background: 'var(--glass-bg)',
                       backdropFilter: 'blur(20px)',
                       WebkitBackdropFilter: 'blur(20px)',
                       border: isActive
                         ? '1px solid ' + solidColors[index] + '40'
-                        : '1px solid rgba(255,255,255,0.08)',
+                        : '1px solid var(--glass-border)',
                       boxShadow: isActive
                         ? '0 0 30px ' + glowColors[index] + ', 0 20px 40px rgba(0,0,0,0.2)'
-                        : '0 20px 40px rgba(0,0,0,0.15)'
+                        : 'var(--glass-shadow)'
                     }}
                   >
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -1850,17 +1850,17 @@ const ProcessTimeline = ({ copy, language }) => {
                         <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-1 tracking-wider`}>
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="text-lg md:text-xl font-bold text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-white/60 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                    <p className="text-[var(--text-secondary)] leading-relaxed text-sm md:text-base">{step.desc}</p>
                   </div>
                 </motion.div>
 
                 {/* Center node - changes color when active */}
                 <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                   <motion.div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-4' : 'bg-stone-950 border-4 border-white/10'}`}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-4' : 'bg-[var(--bg-secondary)] border-4 border-[var(--glass-border)]'}`}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
@@ -1890,7 +1890,7 @@ const ProcessTimeline = ({ copy, language }) => {
         {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden max-w-3xl mx-auto relative">
           {/* Animated vertical line - paints yellow on scroll (2px, shifted left) */}
-          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-white/[0.06]" style={{ borderRadius: '1px' }}>
+          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-[var(--border-subtle)]" style={{ borderRadius: '1px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1919,7 +1919,7 @@ const ProcessTimeline = ({ copy, language }) => {
                   {/* Timeline dot */}
                   <div className="relative flex-shrink-0 mt-1">
                     <motion.div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-2' : 'bg-stone-950 border-2 border-white/10'}`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-2' : 'bg-[var(--bg-secondary)] border-2 border-[var(--glass-border)]'}`}
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
@@ -1942,10 +1942,10 @@ const ProcessTimeline = ({ copy, language }) => {
                     style={{
                       background: isActive
                         ? `linear-gradient(135deg, ${solidColors[index]}10, ${solidColors[index]}05)`
-                        : 'rgba(255, 255, 255, 0.02)',
+                        : 'var(--glass-bg)',
                       backdropFilter: 'blur(20px)',
                       WebkitBackdropFilter: 'blur(20px)',
-                      border: `1px solid ${isActive ? solidColors[index] + '35' : 'rgba(255, 255, 255, 0.06)'}`,
+                      border: `1px solid ${isActive ? solidColors[index] + '35' : 'var(--glass-border)'}`,
                       boxShadow: isActive
                         ? `0 0 20px ${glowColors[index]}`
                         : 'none'
@@ -1965,10 +1965,10 @@ const ProcessTimeline = ({ copy, language }) => {
                         <div className={`inline-block px-2.5 py-0.5 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="text-sm sm:text-base font-bold text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-white/60 text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
+                    <p className="text-[var(--text-secondary)] text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -2162,7 +2162,7 @@ const CasesSection = ({ copy, language }) => {
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+    <section className="py-20 md:py-28 theme-bg relative overflow-hidden">
       {/* Ambient glow */}
       <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
@@ -2176,15 +2176,11 @@ const CasesSection = ({ copy, language }) => {
               key={i}
               className="case-card group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
               style={{
-                background: 'rgba(255, 255, 255, 0.02)',
                 backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)'
+                WebkitBackdropFilter: 'blur(20px)'
               }}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              whileHover={{ boxShadow: '0 30px 60px rgba(0,0,0,0.3)' }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -2196,8 +2192,8 @@ const CasesSection = ({ copy, language }) => {
                   <div className={`inline-block self-start px-4 py-1.5 rounded-full bg-gradient-to-r ${c.color} text-xs font-bold text-white mb-4 tracking-wider`}>
                     {c.metric}
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{c.title}</h3>
-                  <p className="text-white/60 leading-relaxed text-sm md:text-base">{c.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-3">{c.title}</h3>
+                  <p className="text-[var(--text-secondary)] leading-relaxed text-sm md:text-base">{c.desc}</p>
                 </div>
               </div>
             </motion.div>
@@ -2249,10 +2245,10 @@ const TechItem = React.memo(({ tech, globalIdx, rowIdx, isRow1, stableParams }) 
       style={{
         background: isHovered
           ? `linear-gradient(135deg, ${tech.color}18 0%, ${tech.color}10 100%)`
-          : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+          : 'linear-gradient(135deg, var(--glass-bg) 0%, var(--glass-bg) 100%)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        border: `1px solid ${isHovered ? tech.color + '55' : 'rgba(255,255,255,0.1)'}`,
+        border: `1px solid ${isHovered ? tech.color + '55' : 'var(--glass-border)'}`,
         boxShadow: isHovered
           ? `0 0 25px ${tech.color}30, 0 8px 32px rgba(0,0,0,0.3)`
           : '0 4px 16px rgba(0,0,0,0.15)',
@@ -2273,7 +2269,7 @@ const TechItem = React.memo(({ tech, globalIdx, rowIdx, isRow1, stableParams }) 
       <span
         className="text-sm font-semibold whitespace-nowrap transition-all duration-400"
         style={{
-          color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'rgba(255,255,255,0.75)',
+          color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'var(--text-secondary)',
           textShadow: isHovered ? `0 0 20px ${tech.color}60` : 'none'
         }}
       >
@@ -2287,6 +2283,11 @@ TechItem.displayName = 'TechItem';
 // --- Tech Stack Section (Stabilized: useMemo + Container Variants + No Flicker) ---
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
+
+  // Parallax on scroll
+  const { scrollY } = useScroll();
+  const row1Y = useTransform(scrollY, [0, 1000], [0, -30]);
+  const row2Y = useTransform(scrollY, [0, 1000], [0, 30]);
 
   // useMemo: stable tech data — computed ONCE, never regenerates on re-render
   const techData = useMemo(() => {
@@ -2329,13 +2330,13 @@ const TechStackSection = ({ copy }) => {
     }
   }), []);
 
-  // Triple arrays for seamless infinite mobile carousel
-  const row1Triple = useMemo(() => [...techData.row1, ...techData.row1, ...techData.row1], [techData.row1]);
-  const row2Triple = useMemo(() => [...techData.row2, ...techData.row2, ...techData.row2], [techData.row2]);
+  // Triple arrays for seamless infinite mobile carousel (lazy: double instead of triple)
+  const row1Double = useMemo(() => [...techData.row1, ...techData.row1], [techData.row1]);
+  const row2Double = useMemo(() => [...techData.row2, ...techData.row2], [techData.row2]);
 
   return (
-    <section className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+    <section className="py-16 md:py-28 theme-bg relative overflow-hidden">
+      <div className="absolute inset-0 theme-grid-overlay pointer-events-none" />
 
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} darkBg />
@@ -2348,7 +2349,9 @@ const TechStackSection = ({ copy }) => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+          <motion.div
+            style={{ y: row1Y }}
+            className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techData.row1.map((tech, idx) => (
               <TechItem
                 key={tech.name}
@@ -2359,8 +2362,10 @@ const TechStackSection = ({ copy }) => {
                 stableParams={techData.params}
               />
             ))}
-          </div>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+          </motion.div>
+          <motion.div
+            style={{ y: row2Y }}
+            className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techData.row2.map((tech, idx) => (
               <TechItem
                 key={tech.name}
@@ -2371,22 +2376,22 @@ const TechStackSection = ({ copy }) => {
                 stableParams={techData.params}
               />
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* ===== MOBILE: Infinite carousel (2 rows, opposite directions) ===== */}
         <div className="md:hidden space-y-3 mt-6">
           {/* Row 1 - scrolls LEFT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
-              animate={{ x: ['0%', '-33.333%'] }}
+              animate={{ x: ['0%', '-50%'] }}
               transition={{ x: { duration: 25, repeat: Infinity, ease: "linear" } }}
             >
-              {row1Triple.map((tech, idx) => (
+              {row1Double.map((tech, idx) => (
                 <TechItem
                   key={`r1-${tech.name}-${idx}`}
                   tech={tech}
@@ -2401,15 +2406,15 @@ const TechStackSection = ({ copy }) => {
 
           {/* Row 2 - scrolls RIGHT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-secondary)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
-              animate={{ x: ['-33.333%', '0%'] }}
+              animate={{ x: ['-50%', '0%'] }}
               transition={{ x: { duration: 30, repeat: Infinity, ease: "linear" } }}
             >
-              {row2Triple.map((tech, idx) => (
+              {row2Double.map((tech, idx) => (
                 <TechItem
                   key={`r2-${tech.name}-${idx}`}
                   tech={tech}
@@ -2775,7 +2780,7 @@ const ServicesSection = ({ copy, language }) => {
   ];
 
   return (
-    <section id="servicios" className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+    <section id="servicios" className="py-20 md:py-28 theme-bg relative overflow-hidden">
       {/* Ambient glow orbs */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(59, 130, 246, 0.08)' }} />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'rgba(139, 92, 246, 0.06)' }} />
@@ -2802,13 +2807,13 @@ const ServicesSection = ({ copy, language }) => {
                 whileHover={{ scale: 1.02 }}
                 className="group relative cursor-default"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'var(--glass-bg)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)',
                   borderRadius: '24px',
                   padding: '24px',
                   border: `1px solid rgba(${service.colorRgb}, 0.15)`,
-                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.15)',
+                  boxShadow: 'var(--glass-shadow)',
                   transition: 'box-shadow 0.5s ease, border-color 0.5s ease'
                 }}
                 onMouseEnter={(e) => {
@@ -2851,7 +2856,7 @@ const ServicesSection = ({ copy, language }) => {
                   <div className="flex-1 min-w-0">
                     <h3
                       className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
-                      style={{ color: '#FFFFFF' }}
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       {service.title}
                     </h3>
@@ -2864,7 +2869,7 @@ const ServicesSection = ({ copy, language }) => {
                           viewport={{ once: true }}
                           transition={{ delay: index * 0.12 + pi * 0.08, duration: 0.5 }}
                           className="flex items-start gap-2.5 text-sm sm:text-base leading-relaxed"
-                          style={{ color: 'rgba(255,255,255,0.8)' }}
+                          style={{ color: 'var(--text-secondary)' }}
                         >
                           <span
                             className="mt-0.5 flex-shrink-0 font-black text-sm"
@@ -3907,7 +3912,7 @@ export default function App() {
       </motion.div>
 
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px] ${scrolled ? 'bg-stone-950/90 backdrop-blur-2xl border-b border-white/10 shadow-2xl' : 'bg-transparent'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px] ${scrolled ? 'bg-[var(--bg-secondary)]/90 backdrop-blur-2xl border-b border-[var(--border-subtle)] shadow-2xl' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
           <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
             {/* Electric Bolt Animated Logo */}
@@ -3967,7 +3972,7 @@ export default function App() {
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenu && (
-          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 bg-stone-950 pt-24 px-6 md:hidden">
+          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 bg-[var(--bg-secondary)] pt-24 px-6 md:hidden">
             <div className="flex flex-col gap-4">
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
@@ -4150,8 +4155,8 @@ export default function App() {
       {/* Stats — Hybrid Light/Dark (Apple Glassmorphism + CSS Variables) */}
       <section id="beneficios" className="stats-section py-16 md:py-28 relative overflow-hidden">
         {/* Ambient glow orbs */}
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'var(--stats-glow)' }} />
-        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--stats-glow)' }} />
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
+        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
           {/* Flexbox layout: 4 columns on desktop, 2 on tablet, 1 on mobile */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
@@ -4188,7 +4193,7 @@ export default function App() {
                   </motion.div>
 
                   {/* Number — Big, bold, gradient (uses CSS variable for hybrid mode) */}
-                  <div className="stat-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
+                  <div className="stat-number stat-shimmer text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
                     <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
                   </div>
 
@@ -4228,7 +4233,7 @@ export default function App() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="py-10 md:py-14 bg-stone-950 relative overflow-hidden"
+          className="py-10 md:py-14 theme-bg-alt relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 via-transparent to-yellow-400/5 pointer-events-none" />
           <div className="container mx-auto px-4 max-w-2xl text-center relative z-10">
@@ -4236,10 +4241,10 @@ export default function App() {
               <Smartphone size={20} className="text-yellow-400" />
               <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest">{language === 'es' ? 'App Oficial' : 'Official App'}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-2 tracking-tight">
               {language === 'es' ? 'Lleva tu agencia a todos lados' : 'Take your agency everywhere'}
             </h3>
-            <p className="text-stone-400 text-sm sm:text-base mb-5 max-w-md mx-auto">
+            <p className="text-[var(--text-muted)] text-sm sm:text-base mb-5 max-w-md mx-auto">
               {language === 'es'
                 ? 'Instala nuestra App oficial para una mejor experiencia. Accede al instante desde tu pantalla de inicio.'
                 : 'Install our official App for a better experience. Access instantly from your home screen.'}
@@ -4253,7 +4258,7 @@ export default function App() {
               <Download size={18} />
               <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
             </motion.button>
-            <p className="text-stone-600 text-[11px] mt-3">
+            <p className="text-[var(--text-muted)] text-[11px] mt-3">
               {language === 'es' ? 'Sin tiendas de apps. Gratuito.' : 'No app stores needed. Free.'}
             </p>
           </div>
@@ -4397,19 +4402,19 @@ export default function App() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="py-12 md:py-16 bg-stone-950 border-t border-white/5"
+          className="py-12 md:py-16 theme-bg-alt border-t border-[var(--border-subtle)]"
         >
           <div className="container mx-auto px-4 max-w-2xl text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
                 <Zap size={22} className="fill-stone-950" strokeWidth={2.5} />
               </div>
-              <span className="text-white font-bold text-xl tracking-tight">FastPagePro</span>
+              <span className="text-[var(--text-primary)] font-bold text-xl tracking-tight">FastPagePro</span>
             </div>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-3 tracking-tight">
               {language === 'es' ? 'Lleva FastPagePro en tu bolsillo' : 'Take FastPagePro with you'}
             </h3>
-            <p className="text-stone-400 text-sm sm:text-base mb-6 max-w-md mx-auto">
+            <p className="text-[var(--text-muted)] text-sm sm:text-base mb-6 max-w-md mx-auto">
               {language === 'es'
                 ? 'Instala nuestra app y accede desde cualquier lugar en un toque. Sin tienda de apps, directo a tu pantalla.'
                 : 'Install our app and access it from anywhere in one tap. No app store needed, straight to your screen.'}
@@ -4423,7 +4428,7 @@ export default function App() {
               <Download size={22} />
               <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
             </motion.button>
-            <p className="text-stone-500 text-xs mt-4">
+            <p className="text-[var(--text-muted)] text-xs mt-4">
               {language === 'es' ? '100% gratuito. Sin registros.' : '100% free. No sign-ups.'}
             </p>
           </div>
@@ -4431,7 +4436,7 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="bg-stone-950 border-t border-white/5 dark:bg-stone-900 dark:border-stone-800">
+      <footer className="bg-[var(--bg-footer)] border-t border-[var(--border-subtle)]">
         <div className="container mx-auto px-4 py-16">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             {/* Brand */}
@@ -4440,55 +4445,55 @@ export default function App() {
                 <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30">
                   <Zap size={24} className="fill-stone-950" strokeWidth={2.5} />
                 </div>
-                <span className="text-white font-bold text-xl tracking-tight">FastPagePro</span>
+                <span className="text-[var(--text-primary)] font-bold text-xl tracking-tight">FastPagePro</span>
               </div>
-              <p className="text-stone-400 text-sm leading-relaxed mb-6">
+              <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6">
                 {language === "es"
                   ? "Creamos páginas webs profesionales, tiendas online, aplicaciones móviles y proyectos personalizados que impulsan tu negocio."
                   : "We create professional websites, online stores, mobile apps and custom projects that drive your business forward."}
               </p>
               <div className="flex gap-3">
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><Globe size={18} /></motion.a>
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><MessageCircle size={18} /></motion.a>
-                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-stone-400 hover:text-white hover:bg-white/10 transition-all"><Star size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all"><Globe size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all"><MessageCircle size={18} /></motion.a>
+                <motion.a href="#" whileHover={{ scale: 1.15, y: -2 }} className="w-10 h-10 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all"><Star size={18} /></motion.a>
               </div>
             </div>
 
             {/* Links */}
             <div>
-              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Servicios" : "Services"}</h4>
+              <h4 className="text-[var(--text-primary)] font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Servicios" : "Services"}</h4>
               <ul className="space-y-3">
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Páginas Web" : "Websites"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Tiendas Online" : "Online Stores"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Apps Móviles" : "Mobile Apps"}</a></li>
-                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Proyectos Custom" : "Custom Projects"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Páginas Web" : "Websites"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Tiendas Online" : "Online Stores"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Apps Móviles" : "Mobile Apps"}</a></li>
+                <li><a href="#servicios" onClick={(e) => scrollToSection(e, 'servicios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Proyectos Custom" : "Custom Projects"}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
+              <h4 className="text-[var(--text-primary)] font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
               <ul className="space-y-3">
-                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/15 bg-white/5 text-stone-300 hover:text-white hover:bg-white/10 hover:border-white/25 text-sm transition-all">{language === "es" ? "Portafolio" : "Portfolio"} <ArrowUpRight size={14} /></a></li>
-                <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
-                <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
-                <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-stone-400 hover:text-white text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
+                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] hover:border-[var(--glass-border)] text-sm transition-all">{language === "es" ? "Portafolio" : "Portfolio"} <ArrowUpRight size={14} /></a></li>
+                <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
+                <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
+                <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Contacto" : "Contact"}</h4>
+              <h4 className="text-[var(--text-primary)] font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Contacto" : "Contact"}</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-stone-400 text-sm"><Phone size={14} /> +51 933 667 414</li>
-                <li className="flex items-center gap-2 text-stone-400 text-sm"><Send size={14} /> profastpage@gmail.com</li>
-                <li className="flex items-center gap-2 text-stone-400 text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
+                <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><Phone size={14} /> +51 933 667 414</li>
+                <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><Send size={14} /> profastpage@gmail.com</li>
+                <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
               </ul>
             </div>
           </div>
 
           {/* Bottom bar */}
-          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-stone-400 text-xs">© 2026 FastPagePro - Fabio Herrera, Fundador. {language === "es" ? "Todos los derechos reservados." : "All rights reserved."}</div>
-            <div className="flex items-center gap-2 text-stone-400 text-xs">
+          <div className="border-t border-[var(--border-subtle)] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-[var(--text-muted)] text-xs">© 2026 FastPagePro - Fabio Herrera, Fundador. {language === "es" ? "Todos los derechos reservados." : "All rights reserved."}</div>
+            <div className="flex items-center gap-2 text-[var(--text-muted)] text-xs">
               <span>{language === "es" ? "Hecho con" : "Made with"}</span>
               <Heart size={12} className="text-red-500" />
               <span>{language === "es" ? "y tecnología de vanguardia" : "and cutting-edge technology"}</span>

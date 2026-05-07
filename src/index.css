@@ -107,43 +107,133 @@ body {
   }
 }
 
-/* ===== Hybrid Stats Section — CSS Variables (Light/Dark) ===== */
+/* ===== MASTER THEME SYSTEM — Global CSS Variables ===== */
 :root {
-  --stats-bg: #ffffff;
-  --stats-card-bg: rgba(0, 0, 0, 0.02);
+  /* Page backgrounds */
+  --bg-principal: #FFFFFF;
+  --bg-secondary: #F7F7F8;
+  --bg-tertiary: #F0F0F2;
+  --bg-footer: #1A1A1C;
+
+  /* Text hierarchy */
+  --text-primary: #111111;
+  --text-secondary: #444444;
+  --text-muted: #888888;
+  --text-on-glass: rgba(0, 0, 0, 0.85);
+
+  /* Borders */
+  --border-subtle: #E5E5E7;
+  --border-card: rgba(0, 0, 0, 0.06);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(0, 0, 0, 0.02);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  --glass-blur: blur(20px);
+
+  /* Accent (Gold) */
+  --accent-color: #D4AC0D;
+  --accent-glow: rgba(212, 172, 13, 0.08);
+
+  /* Grid pattern overlay */
+  --grid-color: rgba(0, 0, 0, 0.04);
+
+  /* Stats-specific overrides */
+  --stats-bg: #F7F7F8;
+  --stats-card-bg: rgba(255, 255, 255, 0.8);
   --stats-card-border: rgba(0, 0, 0, 0.06);
-  --stats-number-color: #D4AC0D;
   --stats-number-gradient-1: #D4AC0D;
   --stats-number-gradient-2: #B8860B;
   --stats-text-desc: #555555;
-  --stats-glow: rgba(212, 172, 13, 0.08);
 }
 
-.dark,
-[data-theme="dark"] {
+.dark {
+  /* Page backgrounds */
+  --bg-principal: #0A0A0A;
+  --bg-secondary: #0F0F0F;
+  --bg-tertiary: #141414;
+  --bg-footer: #050505;
+
+  /* Text hierarchy */
+  --text-primary: #FFFFFF;
+  --text-secondary: #CCCCCC;
+  --text-muted: #888888;
+  --text-on-glass: rgba(255, 255, 255, 0.85);
+
+  /* Borders */
+  --border-subtle: #1E1E1E;
+  --border-card: rgba(255, 255, 255, 0.08);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  --glass-blur: blur(20px);
+
+  /* Accent (Gold) */
+  --accent-color: #FFD700;
+  --accent-glow: rgba(255, 215, 0, 0.06);
+
+  /* Grid pattern overlay */
+  --grid-color: rgba(255, 255, 255, 0.015);
+
+  /* Stats-specific overrides */
   --stats-bg: #0a0a0a;
   --stats-card-bg: rgba(255, 255, 255, 0.02);
   --stats-card-border: rgba(255, 255, 255, 0.08);
-  --stats-number-color: #FFD700;
   --stats-number-gradient-1: #FFD700;
   --stats-number-gradient-2: #FFA500;
   --stats-text-desc: #cccccc;
-  --stats-glow: rgba(255, 215, 0, 0.06);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not(.light) {
-    --stats-bg: #0a0a0a;
-    --stats-card-bg: rgba(255, 255, 255, 0.02);
-    --stats-card-border: rgba(255, 255, 255, 0.08);
-    --stats-number-color: #FFD700;
-    --stats-number-gradient-1: #FFD700;
-    --stats-number-gradient-2: #FFA500;
-    --stats-text-desc: #cccccc;
-    --stats-glow: rgba(255, 215, 0, 0.06);
-  }
+/* ===== Utility Classes Using Theme Variables ===== */
+.theme-bg {
+  background-color: var(--bg-secondary);
+  transition: background-color 0.5s ease;
 }
 
+.theme-bg-alt {
+  background-color: var(--bg-tertiary);
+  transition: background-color 0.5s ease;
+}
+
+.theme-text {
+  color: var(--text-primary);
+  transition: color 0.5s ease;
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+  transition: color 0.5s ease;
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+  transition: color 0.5s ease;
+}
+
+.theme-border {
+  border-color: var(--border-subtle);
+  transition: border-color 0.5s ease;
+}
+
+.theme-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition: all 0.5s ease;
+}
+
+.theme-grid-overlay {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===== Stats Section ===== */
 .stats-section {
   background-color: var(--stats-bg);
   transition: background-color 0.5s ease;
@@ -161,7 +251,7 @@ body {
 
 .stat-card:hover {
   transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 0 30px var(--stats-glow), 0 30px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 30px var(--accent-glow), 0 30px 60px rgba(0, 0, 0, 0.12);
 }
 
 .stat-number {
@@ -169,6 +259,17 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Shimmer animation on stat numbers */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.stat-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 .stat-desc {
@@ -180,11 +281,41 @@ body {
 }
 
 .stat-accent-line {
-  background: linear-gradient(90deg, transparent, var(--stats-number-color), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
   opacity: 0.3;
   transition: opacity 0.5s ease, width 0.5s ease;
 }
 
 .stat-card:hover .stat-accent-line {
   opacity: 0.6;
+}
+
+/* ===== Case Card (Success Story) ===== */
+.case-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition: all 0.5s ease;
+}
+
+.case-card:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.dark .case-card:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Scrollbar theme-aware ===== */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--glass-bg);
+  border-radius: 3px;
+}
+
+/* ===== Smooth section transitions ===== */
+section {
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
