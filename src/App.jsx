@@ -1407,18 +1407,6 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false, compact = false 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const badgeClass = darkBg
-    ? "inline-block mb-5 px-5 py-2 rounded-full border border-stone-700 bg-stone-800 text-stone-300 text-xs font-semibold tracking-widest uppercase shadow-sm"
-    : "inline-block mb-5 px-5 py-2 rounded-full border border-stone-200 bg-stone-100 text-stone-600 text-xs font-semibold tracking-widest uppercase shadow-sm dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300";
-
-  const titleClass = darkBg
-    ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-5"
-    : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1] mb-5 dark:text-white";
-
-  const subtitleClass = darkBg
-    ? "text-base md:text-lg text-stone-300 font-normal leading-relaxed"
-    : "text-base md:text-lg text-stone-600 font-normal leading-relaxed dark:text-stone-300";
-
   return (
     <div ref={ref} className={`${compact ? 'mb-6 md:mb-10' : 'mb-12 md:mb-16'} text-center max-w-4xl mx-auto px-4`}>
       {badge && (
@@ -1427,7 +1415,8 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false, compact = false 
           animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className={badgeClass}
+          className="inline-block mb-5 px-5 py-2 rounded-full text-xs font-semibold tracking-widest uppercase"
+          style={{ color: 'var(--text-muted)', borderColor: 'var(--line-color)', background: 'transparent', border: '1px solid var(--line-color)' }}
         >
           {badge}
         </motion.span>
@@ -1437,7 +1426,8 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false, compact = false 
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className={titleClass}
+        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-5"
+        style={{ color: 'var(--text-main)' }}
       >
         {title}
       </motion.h2>
@@ -1447,7 +1437,8 @@ const SectionTitle = ({ title, subtitle, badge, darkBg = false, compact = false 
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className={subtitleClass}
+          className="text-base md:text-lg font-normal leading-relaxed"
+          style={{ color: 'var(--text-muted)' }}
         >
           {subtitle}
         </motion.p>
@@ -1467,21 +1458,22 @@ const FAQItem = ({ question, answer, index }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.1 }}
-      className="border-b border-stone-200 last:border-0 dark:border-stone-800"
+      className="faq-clean-item"
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-full py-5 sm:py-8 flex flex-col items-center text-center focus:outline-none group"
       >
         <div className="flex items-center justify-between w-full max-w-3xl px-2 sm:px-4">
-          <span className={`text-sm sm:text-base md:text-xl lg:text-2xl font-medium transition-colors duration-300 ${isOpen ? 'text-stone-950' : 'text-stone-600 group-hover:text-stone-900'} dark:text-stone-300 dark:group-hover:text-white`}>
+          <span className="faq-item-question text-sm sm:text-base md:text-xl lg:text-2xl transition-colors duration-300" style={{ color: isOpen ? 'var(--text-main)' : 'var(--text-muted)' }}>
             {question}
           </span>
           <motion.div 
-            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300 flex-shrink-0 ml-3 ${isOpen ? 'bg-stone-950 text-white' : 'bg-stone-100 text-stone-400 group-hover:bg-stone-200'} dark:bg-stone-800 dark:text-stone-300`}
+            className="faq-item-toggle"
             animate={{ rotate: isOpen ? 180 : 0 }}
+            style={{ color: isOpen ? 'var(--accent)' : 'var(--text-muted)' }}
           >
-            {isOpen ? (<><ChevronUp size={16} className="sm:hidden" /><ChevronUp size={20} className="hidden sm:block" /></>) : (<><ChevronDown size={16} className="sm:hidden" /><ChevronDown size={20} className="hidden sm:block" /></>)}
+            {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </motion.div>
         </div>
         <AnimatePresence>
@@ -1491,7 +1483,7 @@ const FAQItem = ({ question, answer, index }) => {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="pb-8 pt-6 text-stone-500 leading-relaxed max-w-2xl mx-auto text-center px-4 text-lg dark:text-stone-300"
+              className="faq-item-answer pb-8 pt-6 max-w-2xl mx-auto text-center px-4 text-lg"
             >
               {answer}
             </motion.p>
@@ -1776,17 +1768,14 @@ const ProcessTimeline = ({ copy, language }) => {
   }, [rocketBoost]);
 
   return (
-    <section id="proceso" className="py-20 md:py-32 theme-bg-alt relative overflow-visible lg:overflow-hidden">
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.04] rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
-
+    <section id="proceso" className="py-20 md:py-32 relative overflow-visible lg:overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
       <div ref={timelineRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
 
         {/* Desktop: Zigzag Timeline */}
         <div className="hidden lg:block relative max-w-6xl mx-auto" style={{ minHeight: '600px' }}>
           {/* Animated center line - thick, paints yellow on scroll */}
-          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-[var(--border-subtle)]" style={{ borderRadius: '2px' }}>
+          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] process-line-bg" style={{ borderRadius: '2px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1821,20 +1810,13 @@ const ProcessTimeline = ({ copy, language }) => {
                   transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <div
-                    className="rounded-[24px] p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden"
+                    className="rounded-[24px] p-6 md:p-8 transition-all duration-500 group relative"
                     style={{
-                      background: 'var(--glass-bg)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      border: isActive
-                        ? '1px solid ' + solidColors[index] + '40'
-                        : '1px solid var(--glass-border)',
-                      boxShadow: isActive
-                        ? '0 0 30px ' + glowColors[index] + ', 0 20px 40px rgba(0,0,0,0.2)'
-                        : 'var(--glass-shadow)'
+                      background: 'transparent',
+                      border: 'none',
+                      boxShadow: 'none'
                     }}
                   >
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className={`flex items-center gap-4 mb-4 ${isLeft ? 'flex-row-reverse' : 'flex-row'}`}>
                       <motion.div
                         className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg flex-shrink-0`}
@@ -1847,13 +1829,13 @@ const ProcessTimeline = ({ copy, language }) => {
                         <Icon className="w-7 h-7 text-white" />
                       </motion.div>
                       <div>
-                        <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-1 tracking-wider`}>
+                        <div className="process-step-number mb-1">
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-lg md:text-xl font-bold text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="process-step-title text-lg md:text-xl group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-[var(--text-secondary)] leading-relaxed text-sm md:text-base">{step.desc}</p>
+                    <p className="process-step-desc text-sm md:text-base">{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -1890,7 +1872,7 @@ const ProcessTimeline = ({ copy, language }) => {
         {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden max-w-3xl mx-auto relative">
           {/* Animated vertical line - paints yellow on scroll (2px, shifted left) */}
-          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-[var(--border-subtle)]" style={{ borderRadius: '1px' }}>
+          <div className="absolute left-4 top-0 bottom-0 w-[2px] process-line-bg" style={{ borderRadius: '1px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1936,19 +1918,13 @@ const ProcessTimeline = ({ copy, language }) => {
                     </motion.div>
                   </div>
 
-                  {/* Content Card — Apple Glassmorphism (mobile) */}
+                  {/* Content Card — transparent (mobile) */}
                   <div
                     className="flex-1 rounded-2xl p-3.5 sm:p-4 transition-all duration-500 group mb-0"
                     style={{
-                      background: isActive
-                        ? `linear-gradient(135deg, ${solidColors[index]}10, ${solidColors[index]}05)`
-                        : 'var(--glass-bg)',
-                      backdropFilter: 'blur(20px)',
-                      WebkitBackdropFilter: 'blur(20px)',
-                      border: `1px solid ${isActive ? solidColors[index] + '35' : 'var(--glass-border)'}`,
-                      boxShadow: isActive
-                        ? `0 0 20px ${glowColors[index]}`
-                        : 'none'
+                      background: 'transparent',
+                      border: 'none',
+                      boxShadow: 'none'
                     }}
                   >
                     <div className="flex items-center gap-3 mb-2.5">
@@ -1962,13 +1938,13 @@ const ProcessTimeline = ({ copy, language }) => {
                         <Icon className="w-6 h-6 text-white" />
                       </motion.div>
                       <div>
-                        <div className={`inline-block px-2.5 py-0.5 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
+                        <div className="process-step-number mb-0.5">
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-sm sm:text-base font-bold text-[var(--text-primary)] group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="process-step-title text-sm sm:text-base group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-[var(--text-secondary)] text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
+                    <p className="process-step-desc text-[11px] sm:text-sm">{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -2043,7 +2019,7 @@ const ContactSection = ({ copy, language }) => {
   };
 
   return (
-    <section id="contacto" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-800 relative overflow-hidden">
+    <section id="contacto" className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-400/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div ref={formRef} className="container mx-auto px-4 relative z-10 max-w-3xl">
@@ -2315,7 +2291,7 @@ const TechStackSection = ({ copy }) => {
   const row2Double = useMemo(() => [...techData.row2, ...techData.row2], [techData.row2]);
 
   return (
-    <section className="py-16 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-principal)', transition: 'background-color 0.5s ease' }}>
+    <section className="py-16 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} />
 
@@ -2361,8 +2337,8 @@ const TechStackSection = ({ copy }) => {
         <div className="md:hidden space-y-3 mt-6">
           {/* Row 1 - scrolls LEFT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-global)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-global)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
@@ -2384,8 +2360,8 @@ const TechStackSection = ({ copy }) => {
 
           {/* Row 2 - scrolls RIGHT */}
           <div className="overflow-hidden relative">
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-principal)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-global)] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-global)] to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
@@ -2583,7 +2559,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   };
 
   return (
-    <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', transition: 'background-color 0.5s ease' }}>
+    <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
       {/* Background decorative elements */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -2744,11 +2720,6 @@ const ServicesSection = ({ copy, language }) => {
 
   return (
     <section id="servicios" className="py-20 md:py-28 theme-bg relative overflow-hidden">
-      {/* Ambient glow orbs */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(59, 130, 246, 0.08)' }} />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'rgba(139, 92, 246, 0.06)' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-[200px] pointer-events-none" style={{ background: 'rgba(245, 158, 11, 0.04)' }} />
-
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.servicesTitle} subtitle={copy.servicesSubtitle} badge={copy.servicesBadge} />
 
@@ -2770,22 +2741,18 @@ const ServicesSection = ({ copy, language }) => {
                 whileHover={{ scale: 1.02 }}
                 className="group relative cursor-default"
                 style={{
-                  background: 'var(--glass-bg)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  borderRadius: '24px',
+                  background: 'transparent',
+                  borderRadius: '16px',
                   padding: '24px',
-                  border: `1px solid rgba(${service.colorRgb}, 0.15)`,
-                  boxShadow: 'var(--glass-shadow)',
-                  transition: 'box-shadow 0.5s ease, border-color 0.5s ease'
+                  border: 'none',
+                  boxShadow: 'none',
+                  transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `0px 10px 40px rgba(${service.colorRgb}, 0.2)`;
-                  e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.35)`;
+                  e.currentTarget.style.border = '1px solid var(--line-color)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
-                  e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.15)`;
+                  e.currentTarget.style.border = 'none';
                 }}
               >
                 {/* Horizontal layout: Icon left, content right */}
@@ -4259,7 +4226,7 @@ export default function App() {
       <CasesSection copy={copy} language={language} />
 
       {/* TESTIMONIALS - Carousel on Mobile, Horizontal Scroll on Desktop */}
-      <section id="testimonios" className="py-16 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-hidden">
+      <section id="testimonios" className="py-16 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4 relative z-10">
           <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
 
@@ -4281,14 +4248,14 @@ export default function App() {
             </motion.div>
 
             {/* Gradient Fade Edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-stone-50 to-transparent dark:from-stone-950 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-stone-50 to-transparent dark:from-stone-950 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-global)] to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-global)] to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
 
       {/* PRICING - Updated */}
-      <section id="planes" className="py-24 md:py-32 bg-stone-50 dark:bg-stone-900">
+      <section id="planes" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
           <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto mt-10 md:mt-16">
@@ -4351,7 +4318,7 @@ export default function App() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20 md:py-28 bg-white dark:bg-stone-950">
+      <section id="faq" className="py-20 md:py-28 relative" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4 max-w-5xl">
           <SectionTitle title={copy.faqTitle} subtitle={copy.faqSubtitle} />
           <div className="mt-10 md:mt-12">
@@ -4366,16 +4333,16 @@ export default function App() {
       <ContactSection copy={copy} language={language} />
 
       {/* Final CTA */}
-      <section className="py-24 md:py-32 bg-stone-50 text-center dark:bg-stone-950 relative overflow-hidden">
+      <section className="py-24 md:py-32 text-center relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-stone-200/50 dark:bg-stone-800/50 rounded-full blur-[120px] -z-10" />
         
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] text-stone-900 dark:text-white">{copy.finalTitle}</motion.h2>
-          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl text-stone-600 mb-10 md:mb-12 max-w-2xl mx-auto font-normal dark:text-stone-300">{copy.finalSubtitle}</motion.p>
+          <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9]" style={{ color: 'var(--text-main)' }}>{copy.finalTitle}</motion.h2>
+          <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl mb-10 md:mb-12 max-w-2xl mx-auto font-normal" style={{ color: 'var(--text-muted)' }}>{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
             <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
           </motion.div>
-          <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm text-stone-500 dark:text-stone-300 flex-wrap">
+          <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm flex-wrap" style={{ color: 'var(--text-muted)' }}>
             <span className="flex items-center gap-2"><Shield size={16} className="text-green-500" /> {copy.tags[0]}</span>
             <span className="flex items-center gap-2"><Calendar size={16} className="text-blue-500" /> {copy.tags[1]}</span>
             <span className="flex items-center gap-2"><Clock size={16} className="text-yellow-500" /> {copy.tags[2]}</span>

@@ -25,7 +25,7 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-principal);
+  background-color: var(--bg-global);
   color: var(--text-primary);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
@@ -36,7 +36,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-global);
   transition: background-color 0.5s ease;
 }
 
@@ -115,6 +115,13 @@ body {
 
 /* ===== MASTER THEME SYSTEM — Global CSS Variables ===== */
 :root {
+  /* Global fluid design system */
+  --bg-global: #FFFFFF;
+  --text-main: #1A1A1A;
+  --text-muted: #666666;
+  --accent: #D4AC0D;
+  --line-color: #EEEEEE;
+
   /* Page backgrounds */
   --bg-principal: #FFFFFF;
   --bg-secondary: #F7F7F8;
@@ -172,6 +179,13 @@ body {
 }
 
 .dark {
+  /* Global fluid design system */
+  --bg-global: #0A0A0A;
+  --text-main: #FFFFFF;
+  --text-muted: #A0A0A0;
+  --accent: #FFD700;
+  --line-color: #222222;
+
   /* Page backgrounds */
   --bg-principal: #0A0A0A;
   --bg-secondary: #0F0F0F;
@@ -230,12 +244,12 @@ body {
 
 /* ===== Utility Classes Using Theme Variables ===== */
 .theme-bg {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-global);
   transition: background-color 0.5s ease;
 }
 
 .theme-bg-alt {
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-global);
   transition: background-color 0.5s ease;
 }
 
@@ -277,7 +291,7 @@ body {
 
 /* ===== Stats Bar — Horizontal Achievement Bar ===== */
 .stats-bar-section {
-  background-color: var(--bg-principal);
+  background-color: var(--bg-global);
   transition: background-color 0.5s ease;
 }
 
@@ -313,11 +327,11 @@ body {
 
 /* Marquee fade edges */
 .stats-bar-fade-left {
-  background: linear-gradient(to right, var(--bg-principal), transparent);
+  background: linear-gradient(to right, var(--bg-global), transparent);
 }
 
 .stats-bar-fade-right {
-  background: linear-gradient(to left, var(--bg-principal), transparent);
+  background: linear-gradient(to left, var(--bg-global), transparent);
 }
 
 /* ===== Navbar Icon Buttons — Pure (No Containers) ===== */
@@ -526,4 +540,63 @@ section {
 
 .dark .portfolio-stat-glass:hover {
   box-shadow: 0 0 20px var(--accent-glow), 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* FAQ — Clean list with minimal dividers */
+.faq-clean-item {
+  border-bottom: 1px solid var(--line-color);
+}
+.faq-clean-item:last-child {
+  border-bottom: none;
+}
+.faq-item-question {
+  color: var(--text-main);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.faq-item-answer {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.faq-item-toggle {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.faq-item-toggle:hover {
+  color: var(--accent);
+}
+.faq-item-toggle.open {
+  color: var(--text-main);
+  transform: rotate(180deg);
+}
+
+/* Process Timeline — Minimalist, no boxes */
+.process-step-number {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.process-step-title {
+  color: var(--text-main);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+.process-step-desc {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.process-line-bg {
+  background: var(--line-color);
 }
