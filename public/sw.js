@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fastpagepro-v3';
+const CACHE_NAME = 'fastpagepro-v5';
 
 // Critical assets to pre-cache during install
 const STATIC_ASSETS = [
@@ -62,10 +62,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets (CSS, JS, fonts, images): stale-while-revalidate
+  // Static assets (JS, CSS): network-first (always fetch latest, fallback to cache)
   if (
-    url.pathname.endsWith('.css') ||
     url.pathname.endsWith('.js') ||
+    url.pathname.endsWith('.css')
+  ) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Fonts and images: stale-while-revalidate (performance-critical, cache ok)
+  if (
     url.pathname.endsWith('.woff') ||
     url.pathname.endsWith('.woff2') ||
     url.pathname.endsWith('.ttf') ||
