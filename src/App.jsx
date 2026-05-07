@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView } from 'framer-motion';
 import {
   Check,
@@ -2208,118 +2208,130 @@ const CasesSection = ({ copy, language }) => {
   );
 };
 
-// --- Tech Stack Section (Orbital Particles + Infinite Carousel) ---
+// --- TechItem (Standalone — prevents nested-component re-render flicker) ---
+const TechItem = React.memo(({ tech, globalIdx, rowIdx, isRow1, stableParams }) => {
+  const itemRef = useRef(null);
+  const isInView = useInView(itemRef, { once: true, margin: "-30px" });
+  const [isHovered, setIsHovered] = useState(false);
+  const params = stableParams[globalIdx];
+  const isDarkLogo = tech.color === "#000000" || tech.color === "#2D3748";
+
+  return (
+    <motion.div
+      ref={itemRef}
+      variants={{
+        hidden: { opacity: 0, x: isRow1 ? -60 : 60, y: 20, scale: 0.7 },
+        visible: {
+          opacity: 1,
+          x: [0, params.xRange, 0],
+          y: [0, -params.yRange, 0],
+          scale: 1,
+          rotate: 0
+        }
+      }}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={
+        isInView
+          ? {
+              opacity: { duration: 0.5, delay: rowIdx * 0.08 },
+              x: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
+              y: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
+              scale: { duration: 0.7, delay: rowIdx * 0.08, type: "spring", stiffness: 200, damping: 15 },
+              rotate: { duration: 0.7, delay: rowIdx * 0.08, type: "spring", stiffness: 200, damping: 15 }
+            }
+          : {}
+      }
+      whileHover={{ scale: 1.12 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      className="group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl cursor-default select-none flex-shrink-0"
+      style={{
+        background: isHovered
+          ? `linear-gradient(135deg, ${tech.color}18 0%, ${tech.color}10 100%)`
+          : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        border: `1px solid ${isHovered ? tech.color + '55' : 'rgba(255,255,255,0.1)'}`,
+        boxShadow: isHovered
+          ? `0 0 25px ${tech.color}30, 0 8px 32px rgba(0,0,0,0.3)`
+          : '0 4px 16px rgba(0,0,0,0.15)',
+        transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
+      }}
+    >
+      <div
+        className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md transition-all duration-400"
+        style={{
+          backgroundColor: isHovered ? tech.color + "35" : tech.color + "20",
+          color: isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color,
+          boxShadow: isHovered ? `0 0 18px ${tech.color}50` : 'none',
+          transition: 'background-color 0.4s ease, box-shadow 0.4s ease'
+        }}
+      >
+        {tech.name.charAt(0)}
+      </div>
+      <span
+        className="text-sm font-semibold whitespace-nowrap transition-all duration-400"
+        style={{
+          color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'rgba(255,255,255,0.75)',
+          textShadow: isHovered ? `0 0 20px ${tech.color}60` : 'none'
+        }}
+      >
+        {tech.name}
+      </span>
+    </motion.div>
+  );
+});
+TechItem.displayName = 'TechItem';
+
+// --- Tech Stack Section (Stabilized: useMemo + Container Variants + No Flicker) ---
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
 
-  const techsRow1 = [
-    { name: "React", color: "#61DAFB" },
-    { name: "Next.js", color: "#FFFFFF" },
-    { name: "TypeScript", color: "#3178C6" },
-    { name: "Tailwind CSS", color: "#06B6D4" },
-    { name: "Node.js", color: "#339933" },
-    { name: "Vite", color: "#646CFF" },
-    { name: "GSAP", color: "#88CE02" },
-    { name: "Framer Motion", color: "#0055FF" }
-  ];
+  // useMemo: stable tech data — computed ONCE, never regenerates on re-render
+  const techData = useMemo(() => {
+    const row1 = [
+      { name: "React", color: "#61DAFB" },
+      { name: "Next.js", color: "#FFFFFF" },
+      { name: "TypeScript", color: "#3178C6" },
+      { name: "Tailwind CSS", color: "#06B6D4" },
+      { name: "Node.js", color: "#339933" },
+      { name: "Vite", color: "#646CFF" },
+      { name: "GSAP", color: "#88CE02" },
+      { name: "Framer Motion", color: "#0055FF" }
+    ];
+    const row2 = [
+      { name: "Vercel", color: "#FFFFFF" },
+      { name: "Prisma", color: "#2D3748" },
+      { name: "MongoDB", color: "#47A248" },
+      { name: "PostgreSQL", color: "#4169E1" },
+      { name: "Firebase", color: "#FFCA28" },
+      { name: "Stripe", color: "#635BFF" },
+      { name: "Figma", color: "#F24E1E" }
+    ];
 
-  const techsRow2 = [
-    { name: "Vercel", color: "#FFFFFF" },
-    { name: "Prisma", color: "#2D3748" },
-    { name: "MongoDB", color: "#47A248" },
-    { name: "PostgreSQL", color: "#4169E1" },
-    { name: "Firebase", color: "#FFCA28" },
-    { name: "Stripe", color: "#635BFF" },
-    { name: "Figma", color: "#F24E1E" }
-  ];
-
-  // Pre-compute stable random durations and delays so they don't change on re-render
-  const stableParams = useRef(
-    [...techsRow1, ...techsRow2].map(() => ({
+    // Pre-compute stable random animation params — never change after mount
+    const params = [...row1, ...row2].map(() => ({
       duration: 3 + Math.random() * 2,
       delay: Math.random() * 2,
       xRange: 3 + Math.random() * 5,
       yRange: 6 + Math.random() * 5
-    }))
-  );
+    }));
 
-  const TechItem = ({ tech, globalIdx, rowIdx, isRow1 }) => {
-    const itemRef = useRef(null);
-    const isInView = useInView(itemRef, { once: true, margin: "-30px" });
-    const [isHovered, setIsHovered] = useState(false);
-    const params = stableParams.current[globalIdx];
-    const isDarkLogo = tech.color === "#000000" || tech.color === "#2D3748";
+    return { row1, row2, params };
+  }, []); // Empty deps = computed once on mount
 
-    return (
-      <motion.div
-        ref={itemRef}
-        initial={{ opacity: 0, x: isRow1 ? -80 : 80, y: 25, scale: 0.6, rotate: isRow1 ? -8 : 8 }}
-        animate={
-          isInView
-            ? {
-                opacity: 1,
-                x: [0, params.xRange, 0],
-                y: [0, -params.yRange, 0],
-                scale: 1,
-                rotate: 0
-              }
-            : { opacity: 0, x: isRow1 ? -80 : 80, y: 25, scale: 0.6, rotate: isRow1 ? -8 : 8 }
-        }
-        transition={
-          isInView
-            ? {
-                opacity: { duration: 0.6, delay: rowIdx * 0.12 },
-                x: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
-                y: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
-                scale: { duration: 0.9, delay: rowIdx * 0.12, type: "spring", stiffness: 180, damping: 12 },
-                rotate: { duration: 0.9, delay: rowIdx * 0.12, type: "spring", stiffness: 180, damping: 12 }
-              }
-            : {}
-        }
-        whileHover={{ scale: 1.12 }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        className="group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl cursor-default select-none flex-shrink-0"
-        style={{
-          background: isHovered
-            ? `linear-gradient(135deg, ${tech.color}18 0%, ${tech.color}10 100%)`
-            : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          border: `1px solid ${isHovered ? tech.color + '55' : 'rgba(255,255,255,0.1)'}`,
-          boxShadow: isHovered
-            ? `0 0 25px ${tech.color}30, 0 8px 32px rgba(0,0,0,0.3)`
-            : '0 4px 16px rgba(0,0,0,0.15)',
-          transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
-        }}
-      >
-        <div
-          className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md transition-all duration-400"
-          style={{
-            backgroundColor: isHovered ? tech.color + "35" : tech.color + "20",
-            color: isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color,
-            boxShadow: isHovered ? `0 0 18px ${tech.color}50` : 'none',
-            transition: 'background-color 0.4s ease, box-shadow 0.4s ease'
-          }}
-        >
-          {tech.name.charAt(0)}
-        </div>
-        <span
-          className="text-sm font-semibold whitespace-nowrap transition-all duration-400"
-          style={{
-            color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'rgba(255,255,255,0.75)',
-            textShadow: isHovered ? `0 0 20px ${tech.color}60` : 'none'
-          }}
-        >
-          {tech.name}
-        </span>
-      </motion.div>
-    );
-  };
+  // Container variants for orchestrated stagger entry
+  const containerVariants = useMemo(() => ({
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.06 }
+    }
+  }), []);
 
-  // Duplicate items for seamless infinite scroll
-  const row1Triple = [...techsRow1, ...techsRow1, ...techsRow1];
-  const row2Triple = [...techsRow2, ...techsRow2, ...techsRow2];
+  // Triple arrays for seamless infinite mobile carousel
+  const row1Triple = useMemo(() => [...techData.row1, ...techData.row1, ...techData.row1], [techData.row1]);
+  const row2Triple = useMemo(() => [...techData.row2, ...techData.row2, ...techData.row2], [techData.row2]);
 
   return (
     <section className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
@@ -2328,41 +2340,61 @@ const TechStackSection = ({ copy }) => {
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} darkBg />
 
-        {/* ===== DESKTOP: Static grid with floating items ===== */}
-        <div className="max-w-5xl mx-auto space-y-4 hidden md:block">
+        {/* ===== DESKTOP: Static grid with orchestrated floating items ===== */}
+        <motion.div
+          className="max-w-5xl mx-auto space-y-4 hidden md:block"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-            {techsRow1.map((tech, idx) => (
-              <TechItem key={tech.name} tech={tech} globalIdx={idx} rowIdx={idx} isRow1 />
+            {techData.row1.map((tech, idx) => (
+              <TechItem
+                key={tech.name}
+                tech={tech}
+                globalIdx={idx}
+                rowIdx={idx}
+                isRow1
+                stableParams={techData.params}
+              />
             ))}
           </div>
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-            {techsRow2.map((tech, idx) => (
-              <TechItem key={tech.name} tech={tech} globalIdx={techsRow1.length + idx} rowIdx={idx} isRow1={false} />
+            {techData.row2.map((tech, idx) => (
+              <TechItem
+                key={tech.name}
+                tech={tech}
+                globalIdx={techData.row1.length + idx}
+                rowIdx={idx}
+                isRow1={false}
+                stableParams={techData.params}
+              />
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* ===== MOBILE: Infinite carousel (2 rows, opposite directions) ===== */}
         <div className="md:hidden space-y-3 mt-6">
           {/* Row 1 - scrolls LEFT */}
           <div className="overflow-hidden relative">
-            {/* Fade edges */}
             <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
 
             <motion.div
               className="flex gap-3 w-max"
               animate={{ x: ['0%', '-33.333%'] }}
-              transition={{
-                x: {
-                  duration: 25,
-                  repeat: Infinity,
-                  ease: "linear"
-                }
-              }}
+              transition={{ x: { duration: 25, repeat: Infinity, ease: "linear" } }}
             >
               {row1Triple.map((tech, idx) => (
-                <TechItem key={`r1-${tech.name}-${idx}`} tech={tech} globalIdx={idx % techsRow1.length} rowIdx={idx % techsRow1.length} isRow1 />
+                <TechItem
+                  key={`r1-${tech.name}-${idx}`}
+                  tech={tech}
+                  globalIdx={idx % techData.row1.length}
+                  rowIdx={idx % techData.row1.length}
+                  isRow1
+                  stableParams={techData.params}
+                />
               ))}
             </motion.div>
           </div>
@@ -2375,16 +2407,17 @@ const TechStackSection = ({ copy }) => {
             <motion.div
               className="flex gap-3 w-max"
               animate={{ x: ['-33.333%', '0%'] }}
-              transition={{
-                x: {
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear"
-                }
-              }}
+              transition={{ x: { duration: 30, repeat: Infinity, ease: "linear" } }}
             >
               {row2Triple.map((tech, idx) => (
-                <TechItem key={`r2-${tech.name}-${idx}`} tech={tech} globalIdx={techsRow1.length + (idx % techsRow2.length)} rowIdx={idx % techsRow2.length} isRow1={false} />
+                <TechItem
+                  key={`r2-${tech.name}-${idx}`}
+                  tech={tech}
+                  globalIdx={techData.row1.length + (idx % techData.row2.length)}
+                  rowIdx={idx % techData.row2.length}
+                  isRow1={false}
+                  stableParams={techData.params}
+                />
               ))}
             </motion.div>
           </div>
@@ -4114,16 +4147,59 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Stats — Apple Design System */}
-      <section id="beneficios" className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
+      {/* Stats — Hybrid Light/Dark (Apple Glassmorphism + CSS Variables) */}
+      <section id="beneficios" className="stats-section py-16 md:py-28 relative overflow-hidden">
         {/* Ambient glow orbs */}
-        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-yellow-400/[0.03] rounded-full blur-[180px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-amber-500/[0.04] rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'var(--stats-glow)' }} />
+        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--stats-glow)' }} />
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
-            <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
-            <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
-            <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
+          {/* Flexbox layout: 4 columns on desktop, 2 on tablet, 1 on mobile */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-5 md:gap-6 max-w-6xl mx-auto">
+            {[
+              { icon: Rocket, value: 45, suffix: "+", prefix: "", label: language === "es" ? "PROYECTOS CREADOS" : "PROJECTS CREATED" },
+              { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "AUMENTO EN VENTAS" : "SALES INCREASE" },
+              { icon: Globe, value: 4, suffix: "", prefix: "", label: language === "es" ? "PAÍSES" : "COUNTRIES" },
+              { icon: Zap, value: 100, suffix: "%", prefix: "", label: language === "es" ? "SATISFACCIÓN" : "SATISFACTION" }
+            ].map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.7, delay: i * 0.1, type: "spring", stiffness: 120, damping: 14 }}
+                  className="stat-card relative group cursor-default flex-1 min-w-[140px] sm:min-w-0 p-7 sm:p-8 md:p-10 text-center overflow-hidden"
+                >
+                  {/* Inner gradient overlay */}
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%)' }} />
+
+                  {/* Icon */}
+                  <motion.div
+                    className="w-11 h-11 sm:w-14 sm:h-14 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center"
+                    style={{
+                      background: 'rgba(250, 204, 21, 0.08)',
+                      border: '1px solid rgba(250, 204, 21, 0.15)',
+                      boxShadow: '0 0 20px rgba(250, 204, 21, 0.05)'
+                    }}
+                    whileHover={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.2)' }}
+                  >
+                    <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-yellow-400" />
+                  </motion.div>
+
+                  {/* Number — Big, bold, gradient (uses CSS variable for hybrid mode) */}
+                  <div className="stat-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2">
+                    <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+                  </div>
+
+                  {/* Descriptive text — hybrid color via CSS variable */}
+                  <div className="stat-desc">{stat.label}</div>
+
+                  {/* Bottom accent line */}
+                  <div className="stat-accent-line absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-1/4 group-hover:w-3/4" />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

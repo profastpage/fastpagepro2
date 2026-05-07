@@ -106,3 +106,85 @@ body {
     min-height: 100vh;
   }
 }
+
+/* ===== Hybrid Stats Section — CSS Variables (Light/Dark) ===== */
+:root {
+  --stats-bg: #ffffff;
+  --stats-card-bg: rgba(0, 0, 0, 0.02);
+  --stats-card-border: rgba(0, 0, 0, 0.06);
+  --stats-number-color: #D4AC0D;
+  --stats-number-gradient-1: #D4AC0D;
+  --stats-number-gradient-2: #B8860B;
+  --stats-text-desc: #555555;
+  --stats-glow: rgba(212, 172, 13, 0.08);
+}
+
+.dark,
+[data-theme="dark"] {
+  --stats-bg: #0a0a0a;
+  --stats-card-bg: rgba(255, 255, 255, 0.02);
+  --stats-card-border: rgba(255, 255, 255, 0.08);
+  --stats-number-color: #FFD700;
+  --stats-number-gradient-1: #FFD700;
+  --stats-number-gradient-2: #FFA500;
+  --stats-text-desc: #cccccc;
+  --stats-glow: rgba(255, 215, 0, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not(.light) {
+    --stats-bg: #0a0a0a;
+    --stats-card-bg: rgba(255, 255, 255, 0.02);
+    --stats-card-border: rgba(255, 255, 255, 0.08);
+    --stats-number-color: #FFD700;
+    --stats-number-gradient-1: #FFD700;
+    --stats-number-gradient-2: #FFA500;
+    --stats-text-desc: #cccccc;
+    --stats-glow: rgba(255, 215, 0, 0.06);
+  }
+}
+
+.stats-section {
+  background-color: var(--stats-bg);
+  transition: background-color 0.5s ease;
+}
+
+.stat-card {
+  background: var(--stats-card-bg);
+  border: 1px solid var(--stats-card-border);
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.4s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 0 30px var(--stats-glow), 0 30px 60px rgba(0, 0, 0, 0.12);
+}
+
+.stat-number {
+  background: linear-gradient(135deg, var(--stats-number-gradient-1) 0%, var(--stats-number-gradient-2) 50%, var(--stats-number-gradient-1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-desc {
+  color: var(--stats-text-desc);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.stat-accent-line {
+  background: linear-gradient(90deg, transparent, var(--stats-number-color), transparent);
+  opacity: 0.3;
+  transition: opacity 0.5s ease, width 0.5s ease;
+}
+
+.stat-card:hover .stat-accent-line {
+  opacity: 0.6;
+}
