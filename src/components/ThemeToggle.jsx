@@ -7,7 +7,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
     onClick={toggleTheme} 
     whileHover={{ scale: 1.1, rotate: 15 }}
     whileTap={{ scale: 0.9 }}
-    className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-700 shadow-lg"
+    className="nav-icon-btn p-2 text-white/60 hover:text-[#FFD700] transition-colors"
     aria-label="Toggle theme"
   >
     <AnimatePresence mode="wait">

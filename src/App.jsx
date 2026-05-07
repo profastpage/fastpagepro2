@@ -2913,7 +2913,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
     onClick={toggleTheme} 
     whileHover={{ scale: 1.1, rotate: 15 }}
     whileTap={{ scale: 0.9 }}
-    className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-700 shadow-lg"
+    className="nav-icon-btn p-2 text-white/60 hover:text-[#FFD700] transition-colors"
     aria-label="Toggle theme"
   >
     <AnimatePresence mode="wait">
@@ -3878,8 +3878,14 @@ export default function App() {
         <motion.div className="h-full" style={{ background: 'var(--accent-color)', backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
       </motion.div>
 
-      {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px] ${scrolled ? 'bg-[var(--bg-secondary)]/90 backdrop-blur-2xl border-b border-[var(--border-subtle)] shadow-2xl' : 'bg-transparent'}`}>
+      {/* Navigation — Universal Dark Glassmorphism */}
+      <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
+        background: scrolled ? 'rgba(0, 0, 0, 0.7)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 4px 30px rgba(0, 0, 0, 0.3)' : 'none'
+      }}>
         <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
           <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
             {/* Electric Bolt Animated Logo */}
@@ -3889,16 +3895,18 @@ export default function App() {
             <span className="hidden sm:block">FastPagePro</span>
           </motion.div>
           
-          <div className="hidden md:flex gap-2 items-center">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-1 items-center">
             {navItems.map((item) => (
-              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className="text-sm font-medium text-white/70 hover:text-white transition-colors px-4 py-2 rounded-full hover:bg-white/10">{item.label}</motion.a>
+              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className="nav-link text-sm font-medium text-white/60 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-white/10">{item.label}</motion.a>
             ))}
-            <div className="w-px h-6 bg-white/20 mx-2" />
+            <div className="w-px h-5 bg-white/15 mx-2" />
+            {/* Language Toggle — No container */}
             <motion.button
               onClick={toggleLanguage}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.94 }}
-              className="w-8 h-8 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10 flex items-center justify-center"
+              className="nav-icon-btn px-3 py-2 text-xs font-bold text-white/60 hover:text-[#FFD700] transition-colors rounded-lg"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
@@ -3919,27 +3927,28 @@ export default function App() {
             <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
           </div>
           
-          <div className="md:hidden flex items-center gap-3">
+          {/* Mobile Controls */}
+          <div className="md:hidden flex items-center gap-2">
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className="w-8 h-8 min-w-[32px] min-h-[32px] rounded-full border border-white/20 text-[10px] font-bold text-white flex items-center justify-center"
+              className="nav-icon-btn px-2.5 py-2 text-[10px] font-bold text-white/60 hover:text-[#FFD700] transition-colors rounded-lg"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-8 h-8 min-w-[32px] min-h-[32px] rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-              {mobileMenu ? <X size={18} /> : <Menu size={18} />}
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="nav-icon-btn text-white/70 hover:text-white w-9 h-9 flex items-center justify-center rounded-lg transition-colors">
+              {mobileMenu ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — Always dark */}
       <AnimatePresence>
         {mobileMenu && (
-          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 bg-[var(--bg-secondary)] pt-24 px-6 md:hidden">
+          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 pt-24 px-6 md:hidden" style={{ background: 'rgba(0, 0, 0, 0.95)', backdropFilter: 'blur(20px)' }}>
             <div className="flex flex-col gap-4">
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
@@ -4119,42 +4128,71 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Stats — Ultra Minimalist (No Containers) */}
-      <section id="beneficios" className="stats-section py-16 md:py-28 relative overflow-hidden">
-        <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-8 sm:gap-12 md:gap-16 max-w-5xl mx-auto">
-            {[
-              { icon: Rocket, value: 45, suffix: "+", prefix: "", label: language === "es" ? "PROYECTOS CREADOS" : "PROJECTS CREATED" },
-              { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "AUMENTO EN VENTAS" : "SALES INCREASE" },
-              { icon: Globe, value: 4, suffix: "", prefix: "", label: language === "es" ? "PAÍSES" : "COUNTRIES" },
-              { icon: Zap, value: 100, suffix: "%", prefix: "", label: language === "es" ? "SATISFACCIÓN" : "SATISFACTION" }
-            ].map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="stat-item group cursor-default text-center py-4 px-6"
-                >
-                  {/* Icon — subtle, no container */}
-                  <motion.div className="stat-icon mb-2">
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
+      {/* Stats — Horizontal Achievement Bar (Minimalist) */}
+      <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
+        {/* Desktop: static horizontal row */}
+        <div className="hidden md:block">
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="flex justify-center items-center gap-10 lg:gap-16 xl:gap-20">
+              {[
+                { icon: Rocket, value: 45, suffix: "+", prefix: "", label: language === "es" ? "proyectos creados" : "projects created" },
+                { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "aumento en ventas" : "sales increase" },
+                { icon: Globe, value: 4, suffix: "", prefix: "", label: language === "es" ? "países" : "countries" },
+                { icon: Zap, value: 100, suffix: "%", prefix: "", label: language === "es" ? "satisfacción" : "satisfaction" }
+              ].map((stat, i) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.12 }}
+                    className="stats-bar-item group flex flex-col items-center cursor-default"
+                  >
+                    <Icon className="stats-bar-icon w-5 h-5 mb-2" strokeWidth={1.5} />
+                    <div className="stats-bar-number text-2xl lg:text-3xl xl:text-4xl font-extrabold tracking-tight leading-none mb-1">
+                      {stat.prefix}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+                    </div>
+                    <div className="stats-bar-label">{stat.label}</div>
                   </motion.div>
-
-                  {/* Number — accent color */}
-                  <div className="stat-number text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-1.5">
-                    {stat.prefix}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
-                  </div>
-
-                  {/* Label — muted uppercase */}
-                  <div className="stat-desc">{stat.label}</div>
-                </motion.div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
+        </div>
+
+        {/* Mobile: infinite horizontal marquee */}
+        <div className="md:hidden overflow-hidden relative">
+          <div className="absolute left-0 top-0 bottom-0 w-10 z-10 pointer-events-none stats-bar-fade-left" />
+          <div className="absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none stats-bar-fade-right" />
+          <motion.div
+            className="flex gap-10 w-max"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ x: { duration: 18, repeat: Infinity, ease: "linear" } }}
+          >
+            {[0, 1].map((loop) => (
+              <div key={loop} className="flex gap-10">
+                {[
+                  { icon: Rocket, value: 45, suffix: "+", prefix: "", label: language === "es" ? "proyectos creados" : "projects created" },
+                  { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "aumento en ventas" : "sales increase" },
+                  { icon: Globe, value: 4, suffix: "", prefix: "", label: language === "es" ? "países" : "countries" },
+                  { icon: Zap, value: 100, suffix: "%", prefix: "", label: language === "es" ? "satisfacción" : "satisfaction" }
+                ].map((stat, i) => {
+                  const Icon = stat.icon;
+                  return (
+                    <div key={`${loop}-${i}`} className="stats-bar-item group flex flex-col items-center cursor-default min-w-[90px]">
+                      <Icon className="stats-bar-icon w-4 h-4 mb-1.5" strokeWidth={1.5} />
+                      <div className="stats-bar-number text-xl font-extrabold tracking-tight leading-none mb-0.5">
+                        {stat.prefix}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+                      </div>
+                      <div className="stats-bar-label">{stat.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 

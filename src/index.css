@@ -275,50 +275,67 @@ body {
   background-size: 60px 60px;
 }
 
-/* ===== Stats Section — Ultra Minimalist (No Containers) ===== */
-.stats-section {
+/* ===== Stats Bar — Horizontal Achievement Bar ===== */
+.stats-bar-section {
   background-color: var(--bg-principal);
   transition: background-color 0.5s ease;
 }
 
-/* Stat item — no background, no border, no shadow */
-.stat-item {
+.stats-bar-item {
   background: none;
   border: none;
   box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  transition: none;
+  padding: 0;
 }
 
-.stat-item:hover {
-  transform: none;
-}
-
-/* Number uses accent color directly */
-.stat-number {
-  color: var(--accent-color);
-  transition: color 0.5s ease;
-}
-
-/* Descriptive label */
-.stat-desc {
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  transition: color 0.5s ease;
-}
-
-/* Stat icon — subtle, no container box */
-.stat-icon {
+.stats-bar-icon {
   color: var(--text-muted);
   transition: color 0.3s ease;
 }
 
-.stat-item:hover .stat-icon {
+.stats-bar-item:hover .stats-bar-icon {
   color: var(--accent-color);
+}
+
+.stats-bar-number {
+  color: var(--accent-color);
+  transition: color 0.5s ease;
+}
+
+.stats-bar-label {
+  font-size: 8px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+  transition: color 0.5s ease;
+}
+
+/* Marquee fade edges */
+.stats-bar-fade-left {
+  background: linear-gradient(to right, var(--bg-principal), transparent);
+}
+
+.stats-bar-fade-right {
+  background: linear-gradient(to left, var(--bg-principal), transparent);
+}
+
+/* ===== Navbar Icon Buttons — Pure (No Containers) ===== */
+.nav-icon-btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon-btn:focus-visible {
+  outline: 2px solid rgba(255, 215, 0, 0.5);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 /* ===== Tech Stack — Ultra Minimalist (No Containers) ===== */
