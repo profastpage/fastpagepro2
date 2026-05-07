@@ -2185,7 +2185,7 @@ const CasesSection = ({ copy, language }) => {
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="grid md:grid-cols-5 gap-0">
-                <div className="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
+                <div className="case-card-image-wrapper md:col-span-2 aspect-[4/3] md:aspect-auto">
                   <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="md:col-span-3 p-6 md:p-10 flex flex-col justify-center">
@@ -3904,11 +3904,11 @@ export default function App() {
       {/* GSAP Preloader */}
       {showPreloader && <GSAPPreloader onComplete={preloaderComplete} />}
     
-    <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark bg-stone-950' : 'bg-stone-50'}`}>
+    <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark' : ''}`}>
       
       {/* Progress Bar */}
-      <motion.div className="fixed top-0 left-0 right-0 h-1.5 bg-stone-200 dark:bg-stone-800 z-[60]" style={{ scaleX }}>
-        <motion.div className="h-full bg-gradient-to-r from-stone-400 via-stone-900 to-stone-400 dark:from-stone-600 dark:via-white dark:to-stone-600" style={{ backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
+      <motion.div className="fixed top-0 left-0 right-0 h-1.5 z-[60]" style={{ scaleX, background: 'var(--border-subtle)' }}>
+        <motion.div className="h-full" style={{ background: 'var(--accent-color)', backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
       </motion.div>
 
       {/* Navigation */}
@@ -4054,8 +4054,8 @@ export default function App() {
               }}
             />
           ))}
-          <div className="absolute inset-0 bg-black/65" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px]" />
+          <div className="absolute inset-0 hero-overlay" />
+          <div className="absolute inset-0 hero-grid" />
         </div>
 
         <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
