@@ -2092,13 +2092,13 @@ const CasesSection = ({ copy, language }) => {
   );
 };
 
-// --- Tech Stack Section ---
+// --- Tech Stack Section (Orbital Particles + Infinite Carousel) ---
 const TechStackSection = ({ copy }) => {
   const sectionRef = useRef(null);
 
   const techsRow1 = [
     { name: "React", color: "#61DAFB" },
-    { name: "Next.js", color: "#000000" },
+    { name: "Next.js", color: "#FFFFFF" },
     { name: "TypeScript", color: "#3178C6" },
     { name: "Tailwind CSS", color: "#06B6D4" },
     { name: "Node.js", color: "#339933" },
@@ -2108,7 +2108,7 @@ const TechStackSection = ({ copy }) => {
   ];
 
   const techsRow2 = [
-    { name: "Vercel", color: "#000000" },
+    { name: "Vercel", color: "#FFFFFF" },
     { name: "Prisma", color: "#2D3748" },
     { name: "MongoDB", color: "#47A248" },
     { name: "PostgreSQL", color: "#4169E1" },
@@ -2117,36 +2117,93 @@ const TechStackSection = ({ copy }) => {
     { name: "Figma", color: "#F24E1E" }
   ];
 
-  const TechItem = ({ tech, rowClass, idx }) => {
-    const isRow1 = rowClass === 'tech-row1';
+  // Pre-compute stable random durations and delays so they don't change on re-render
+  const stableParams = useRef(
+    [...techsRow1, ...techsRow2].map(() => ({
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+      xRange: 3 + Math.random() * 5,
+      yRange: 6 + Math.random() * 5
+    }))
+  );
+
+  const TechItem = ({ tech, globalIdx, rowIdx, isRow1 }) => {
     const itemRef = useRef(null);
     const isInView = useInView(itemRef, { once: true, margin: "-30px" });
+    const [isHovered, setIsHovered] = useState(false);
+    const params = stableParams.current[globalIdx];
+    const isDarkLogo = tech.color === "#000000" || tech.color === "#2D3748";
 
     return (
       <motion.div
         ref={itemRef}
-        initial={{ opacity: 0, x: isRow1 ? -100 : 100, y: 30, scale: 0.6, rotate: isRow1 ? -12 : 12 }}
-        animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 } : { opacity: 0, x: isRow1 ? -100 : 100, y: 30, scale: 0.6, rotate: isRow1 ? -12 : 12 }}
-        transition={{
-          duration: 0.9,
-          delay: idx * 0.12,
-          type: "spring",
-          stiffness: 180,
-          damping: 12
-        }}
-        className={`tech-item ${rowClass} group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]`}
-        data-idx={idx}
+        initial={{ opacity: 0, x: isRow1 ? -80 : 80, y: 25, scale: 0.6, rotate: isRow1 ? -8 : 8 }}
+        animate={
+          isInView
+            ? {
+                opacity: 1,
+                x: [0, params.xRange, 0],
+                y: [0, -params.yRange, 0],
+                scale: 1,
+                rotate: 0
+              }
+            : { opacity: 0, x: isRow1 ? -80 : 80, y: 25, scale: 0.6, rotate: isRow1 ? -8 : 8 }
+        }
+        transition={
+          isInView
+            ? {
+                opacity: { duration: 0.6, delay: rowIdx * 0.12 },
+                x: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
+                y: { duration: params.duration, repeat: Infinity, ease: "easeInOut", delay: params.delay },
+                scale: { duration: 0.9, delay: rowIdx * 0.12, type: "spring", stiffness: 180, damping: 12 },
+                rotate: { duration: 0.9, delay: rowIdx * 0.12, type: "spring", stiffness: 180, damping: 12 }
+              }
+            : {}
+        }
+        whileHover={{ scale: 1.12 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        className="group flex items-center gap-3 px-4 py-2.5 md:px-5 md:py-3 rounded-2xl cursor-default select-none flex-shrink-0"
         style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+          background: isHovered
+            ? `linear-gradient(135deg, ${tech.color}18 0%, ${tech.color}10 100%)`
+            : 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.08) 100%)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          border: `1px solid ${isHovered ? tech.color + '55' : 'rgba(255,255,255,0.1)'}`,
+          boxShadow: isHovered
+            ? `0 0 25px ${tech.color}30, 0 8px 32px rgba(0,0,0,0.3)`
+            : '0 4px 16px rgba(0,0,0,0.15)',
+          transition: 'background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease'
         }}
       >
-        <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md" style={{ backgroundColor: tech.color + "20", color: tech.color === "#000000" ? "#ffffff" : tech.color }}>
+        <div
+          className="w-8 h-8 md:w-9 md:h-9 rounded-xl flex items-center justify-center text-xs font-black shadow-md transition-all duration-400"
+          style={{
+            backgroundColor: isHovered ? tech.color + "35" : tech.color + "20",
+            color: isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color,
+            boxShadow: isHovered ? `0 0 18px ${tech.color}50` : 'none',
+            transition: 'background-color 0.4s ease, box-shadow 0.4s ease'
+          }}
+        >
           {tech.name.charAt(0)}
         </div>
-        <span className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors" style={{ textShadow: '0 0 20px rgba(255,255,255,0.1)' }}>{tech.name}</span>
+        <span
+          className="text-sm font-semibold whitespace-nowrap transition-all duration-400"
+          style={{
+            color: isHovered ? (isDarkLogo || tech.color === "#FFFFFF" ? "#ffffff" : tech.color) : 'rgba(255,255,255,0.75)',
+            textShadow: isHovered ? `0 0 20px ${tech.color}60` : 'none'
+          }}
+        >
+          {tech.name}
+        </span>
       </motion.div>
     );
   };
+
+  // Duplicate items for seamless infinite scroll
+  const row1Triple = [...techsRow1, ...techsRow1, ...techsRow1];
+  const row2Triple = [...techsRow2, ...techsRow2, ...techsRow2];
 
   return (
     <section className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
@@ -2155,19 +2212,65 @@ const TechStackSection = ({ copy }) => {
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.techTitle} subtitle={copy.techSubtitle} badge={copy.techBadge} darkBg />
 
-        <div className="max-w-5xl mx-auto space-y-4">
-          {/* Row 1 - Each item animates from LEFT on scroll */}
+        {/* ===== DESKTOP: Static grid with floating items ===== */}
+        <div className="max-w-5xl mx-auto space-y-4 hidden md:block">
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow1.map((tech, idx) => (
-              <TechItem key={tech.name} tech={tech} rowClass="tech-row1" idx={idx} />
+              <TechItem key={tech.name} tech={tech} globalIdx={idx} rowIdx={idx} isRow1 />
             ))}
           </div>
-
-          {/* Row 2 - Each item animates from RIGHT on scroll */}
           <div className="flex flex-wrap justify-center gap-2 md:gap-4">
             {techsRow2.map((tech, idx) => (
-              <TechItem key={tech.name} tech={tech} rowClass="tech-row2" idx={idx} />
+              <TechItem key={tech.name} tech={tech} globalIdx={techsRow1.length + idx} rowIdx={idx} isRow1={false} />
             ))}
+          </div>
+        </div>
+
+        {/* ===== MOBILE: Infinite carousel (2 rows, opposite directions) ===== */}
+        <div className="md:hidden space-y-3 mt-6">
+          {/* Row 1 - scrolls LEFT */}
+          <div className="overflow-hidden relative">
+            {/* Fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+
+            <motion.div
+              className="flex gap-3 w-max"
+              animate={{ x: ['0%', '-33.333%'] }}
+              transition={{
+                x: {
+                  duration: 25,
+                  repeat: Infinity,
+                  ease: "linear"
+                }
+              }}
+            >
+              {row1Triple.map((tech, idx) => (
+                <TechItem key={`r1-${tech.name}-${idx}`} tech={tech} globalIdx={idx % techsRow1.length} rowIdx={idx % techsRow1.length} isRow1 />
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Row 2 - scrolls RIGHT */}
+          <div className="overflow-hidden relative">
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-stone-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-stone-950 to-transparent z-10 pointer-events-none" />
+
+            <motion.div
+              className="flex gap-3 w-max"
+              animate={{ x: ['-33.333%', '0%'] }}
+              transition={{
+                x: {
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear"
+                }
+              }}
+            >
+              {row2Triple.map((tech, idx) => (
+                <TechItem key={`r2-${tech.name}-${idx}`} tech={tech} globalIdx={techsRow1.length + (idx % techsRow2.length)} rowIdx={idx % techsRow2.length} isRow1={false} />
+              ))}
+            </motion.div>
           </div>
         </div>
       </div>
