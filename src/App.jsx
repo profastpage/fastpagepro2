@@ -617,6 +617,44 @@ const COPY = {
   }
 };
 
+// --- Electric Bolt Logo Component ---
+const ElectricBolt = ({ size = 40 }) => {
+  return (
+    <motion.svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      initial="initial"
+      animate="animate"
+      whileHover="hover"
+      className="cursor-pointer"
+    >
+      <motion.path
+        d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
+        stroke="#FFD700"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={{
+          initial: { pathLength: 0, fill: "rgba(255, 215, 0, 0)" },
+          animate: {
+            pathLength: 1,
+            fill: "rgba(255, 215, 0, 0.1)",
+            transition: { duration: 1.2, ease: "easeOut" }
+          },
+          hover: {
+            fill: "rgba(255, 215, 0, 1)",
+            scale: 1.1,
+            transition: { duration: 0.3 }
+          }
+        }}
+      />
+    </motion.svg>
+  );
+};
+
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
@@ -2568,7 +2606,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
     onClick={toggleTheme} 
     whileHover={{ scale: 1.1, rotate: 15 }}
     whileTap={{ scale: 0.9 }}
-    className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-700 shadow-lg"
+    className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-700 shadow-lg"
     aria-label="Toggle theme"
   >
     <AnimatePresence mode="wait">
@@ -2579,7 +2617,7 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
         exit={{ rotate: 90, opacity: 0, scale: 0 }}
         transition={{ duration: 0.3, type: "spring" }}
       >
-        {isDark ? <Sun size={22} /> : <Moon size={22} />}
+        {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </motion.div>
     </AnimatePresence>
   </motion.button>
@@ -3461,9 +3499,9 @@ export default function App() {
       <nav className={`fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px] ${scrolled ? 'bg-stone-950/90 backdrop-blur-2xl border-b border-white/10 shadow-2xl' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
           <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
-            {/* Gold Logo Only Here */}
-            <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 rounded-lg flex items-center justify-center shadow-lg shadow-yellow-500/30">
-              <Zap size={20} className="fill-stone-950" strokeWidth={2.5} />
+            {/* Electric Bolt Animated Logo */}
+            <div className="relative">
+              <ElectricBolt size={36} />
             </div>
             <span className="hidden sm:block">FastPagePro</span>
           </motion.div>
@@ -3477,7 +3515,7 @@ export default function App() {
               onClick={toggleLanguage}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.94 }}
-              className="w-11 h-11 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10 flex items-center justify-center"
+              className="w-8 h-8 rounded-full border border-white/20 text-xs font-bold text-white/90 hover:bg-white/10 flex items-center justify-center"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
@@ -3498,18 +3536,18 @@ export default function App() {
             <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
           </div>
           
-          <div className="md:hidden flex items-center gap-2">
+          <div className="md:hidden flex items-center gap-3">
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 text-xs font-bold text-white flex items-center justify-center"
+              className="w-8 h-8 min-w-[32px] min-h-[32px] rounded-full border border-white/20 text-[10px] font-bold text-white flex items-center justify-center"
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
-              {mobileMenu ? <X size={24} /> : <Menu size={24} />}
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="text-white w-8 h-8 min-w-[32px] min-h-[32px] rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center">
+              {mobileMenu ? <X size={18} /> : <Menu size={18} />}
             </motion.button>
           </div>
         </div>
