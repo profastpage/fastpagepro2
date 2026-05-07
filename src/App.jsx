@@ -68,6 +68,34 @@ const WA_EMOJI = {
   guests: "👥",
   chat: "💬"
 };
+
+// --- Context-Aware WhatsApp Messages ---
+const getWhatsAppLink = (contexto, extra = {}) => {
+  const base = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
+
+  const mensajes = {
+    servicios: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero *cotizar mi proyecto web* 🚀%0A%0A◈ *Tipo de proyecto:* Por definir%0A◈ *Necesito:* Web profesional / Tienda online / App%0A◈ *Objetivo:* Impulsar mi negocio online%0A%0AQuedo atento a su respuesta. ✨`,
+
+    portafolio: `*¡Hola! Vi su proyecto ${extra.nombre || ""}* ⚡%0A%0AMe gustaría implementar un sistema similar para mi negocio.%0A%0A◈ *Interés:* Reservas por WhatsApp / Diseño de alto impacto%0A◈ *Sector:* ${extra.sector || "Por definir"}%0A%0A¿Podrían brindarme más información? 😊`,
+
+    precios: `*¡Hola! Estoy listo para empezar* 💎%0A%0AQuiero contratar el *Plan ${extra.plan || "Pro"}*.%0A%0A◈ *Servicio:* Diseño Web Pro%0A◈ *Tiempo:* Listo en 2-3 días%0A%0A¿Cuáles son los siguientes pasos? ✅`,
+
+    proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀%0A%0AHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.%0A%0A◈ *Nombre:* ${extra.nombre || "Por completar"}%0A◈ *Negocio:* ${extra.negocio || "Por definir"}%0A%0A¿Tienen disponibilidad esta semana? 📅`,
+
+    contacto: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero información sobre sus servicios.%0A%0A◈ *Consulta general*%0A%0AQuedo atento a su respuesta. ✨`,
+
+    demo: (mensaje) => encodeURIComponent(mensaje || "").replace(/%20/g, ' '),
+
+    default: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero información sobre *webs y sistemas de reservas por WhatsApp*.%0A%0A${WA_EMOJI.check} *Objetivo:* Agendar una demo%0A${WA_EMOJI.hotel} *Tipo de negocio:* Por definir%0A%0AQuedo atento.`
+  };
+
+  if (contexto === "demo" && typeof mensajes.demo === "function") {
+    return base + mensajes.demo(extra.mensaje);
+  }
+
+  return base + (mensajes[contexto] || mensajes.default);
+};
+
 const IMAGE_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop stop-color='%230b0b0f'/><stop offset='1' stop-color='%23181a24'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%23f8fafc' font-family='Arial, sans-serif' font-size='56' font-weight='700'>Fast Page Pro</text><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial, sans-serif' font-size='26'>Webs y reservas por WhatsApp</text></svg>";
 const handleImageFallback = (event) => {
   if (event.currentTarget.src !== IMAGE_FALLBACK) {
@@ -661,9 +689,12 @@ const ElectricBolt = ({ size = 35 }) => {
 
 // --- Helper Components ---
 
-const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
+const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal", waContext, waExtra }) => {
   const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Tipo de negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
+  // Use context-aware link if waContext is provided, otherwise fall back to message/href/default
+  const url = waContext
+    ? getWhatsAppLink(waContext, waExtra)
+    : `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
   
@@ -700,7 +731,7 @@ const WhatsAppButton = ({ text, message, href, variant = "primary", className = 
   );
 };
 
-// Enhanced Animated Counter
+// Enhanced Animated Counter (Apple-style spring physics)
 const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -725,6 +756,7 @@ const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => 
   return <span ref={ref} className="tabular-nums">{count.toFixed(decimals)}{suffix}</span>;
 };
 
+// Apple Design System StatCard
 const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -733,30 +765,69 @@ const StatCard = ({ icon: Icon, value, label, suffix, delay = 0 }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.8, delay, type: "spring", stiffness: 100 }}
-      whileHover={{ y: -8, scale: 1.04 }}
-      className="relative group"
+      transition={{ duration: 0.8, delay, type: "spring", stiffness: 100, damping: 14 }}
+      whileHover={{ y: -10, scale: 1.04 }}
+      className="relative group cursor-default"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 to-amber-400/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Glow backdrop on hover */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/10 to-amber-400/10 rounded-[32px] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-      <div className="relative bg-white dark:bg-stone-950 backdrop-blur-xl border border-stone-200 dark:border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-6 md:p-8 text-center shadow-[0_20px_60px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-stone-50 to-transparent opacity-0 dark:from-white/5 dark:to-transparent group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Main card — Apple glassmorphism */}
+      <div
+        className="relative rounded-[30px] p-8 md:p-10 text-center overflow-hidden"
+        style={{
+          background: 'rgba(255, 255, 255, 0.02)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)'
+        }}
+      >
+        {/* Subtle inner gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
 
+        {/* Icon */}
         <motion.div
-          className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 mx-auto mb-3 sm:mb-4 md:mb-5 rounded-xl sm:rounded-2xl bg-yellow-400/10 flex items-center justify-center border border-yellow-400/20 group-hover:border-yellow-400/40 transition-colors duration-500"
+          className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-5 rounded-2xl flex items-center justify-center"
+          style={{
+            background: 'rgba(250, 204, 21, 0.08)',
+            border: '1px solid rgba(250, 204, 21, 0.15)',
+            boxShadow: '0 0 20px rgba(250, 204, 21, 0.05)'
+          }}
+          whileHover={{ boxShadow: '0 0 30px rgba(250, 204, 21, 0.15)' }}
         >
-          <IconComp className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-yellow-500 group-hover:text-yellow-600 dark:text-yellow-400 dark:group-hover:text-yellow-300 transition-colors duration-500 relative z-10" />
+          <IconComp className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
         </motion.div>
 
-        <div className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 dark:text-white mb-1 sm:mb-2 md:mb-3 tracking-tight relative">
-          <AnimatedCounter end={value} suffix={suffix} />
+        {/* Number — Big, bold, gradient */}
+        <div
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-2 md:mb-3"
+          style={{
+            background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
+        >
+          <AnimatedCounter end={value} suffix={suffix} duration={2.5} />
         </div>
 
-        <div className="text-[13px] sm:text-sm md:text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wide sm:tracking-widest font-medium break-words">{label}</div>
+        {/* Label */}
+        <div className="text-xs sm:text-sm md:text-base uppercase tracking-widest font-medium"
+          style={{ color: 'rgba(255, 255, 255, 0.45)' }}
+        >
+          {label}
+        </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+        {/* Bottom accent line */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px transition-all duration-500 group-hover:w-3/4 w-1/4"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(250, 204, 21, 0.4), transparent)'
+          }}
+        />
       </div>
     </motion.div>
   );
@@ -1171,7 +1242,7 @@ Could you confirm availability?`;
             </div>
 
             <motion.a
-              href={showMessage ? `https://wa.me/51933667414?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
+              href={showMessage ? getWhatsAppLink("demo", { mensaje: demoMessage }) : "#"}
               target="_blank"
               rel="noreferrer noopener"
               whileHover={showMessage ? { scale: 1.02 } : {}}
@@ -1705,9 +1776,9 @@ const ProcessTimeline = ({ copy, language }) => {
   }, [rocketBoost]);
 
   return (
-    <section id="proceso" className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 relative overflow-visible lg:overflow-hidden">
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="proceso" className="py-20 md:py-32 bg-stone-950 relative overflow-visible lg:overflow-hidden">
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.04] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-purple-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
       <div ref={timelineRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.processTitle} subtitle={copy.processSubtitle} badge={copy.processBadge} />
@@ -1715,7 +1786,7 @@ const ProcessTimeline = ({ copy, language }) => {
         {/* Desktop: Zigzag Timeline */}
         <div className="hidden lg:block relative max-w-6xl mx-auto" style={{ minHeight: '600px' }}>
           {/* Animated center line - thick, paints yellow on scroll */}
-          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '2px' }}>
+          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-white/[0.06]" style={{ borderRadius: '2px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1749,8 +1820,21 @@ const ProcessTimeline = ({ copy, language }) => {
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <div className={`bg-white dark:bg-stone-900 rounded-2xl p-6 md:p-8 border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden ${isLeft ? 'text-right' : 'text-left'}`}>
-                    <div className={`absolute top-0 ${isLeft ? 'right-0' : 'left-0'} w-1 h-full bg-gradient-to-b ${gradients[index]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div
+                    className="rounded-[24px] p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative overflow-hidden"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.02)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: isActive
+                        ? '1px solid ' + solidColors[index] + '40'
+                        : '1px solid rgba(255,255,255,0.08)',
+                      boxShadow: isActive
+                        ? '0 0 30px ' + glowColors[index] + ', 0 20px 40px rgba(0,0,0,0.2)'
+                        : '0 20px 40px rgba(0,0,0,0.15)'
+                    }}
+                  >
+                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className={`flex items-center gap-4 mb-4 ${isLeft ? 'flex-row-reverse' : 'flex-row'}`}>
                       <motion.div
                         className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg flex-shrink-0`}
@@ -1766,17 +1850,17 @@ const ProcessTimeline = ({ copy, language }) => {
                         <div className={`inline-block px-3 py-1 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-1 tracking-wider`}>
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-lg md:text-xl font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                    <p className="text-white/60 leading-relaxed text-sm md:text-base">{step.desc}</p>
                   </div>
                 </motion.div>
 
                 {/* Center node - changes color when active */}
                 <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-10">
                   <motion.div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-4 border-stone-200 dark:border-stone-700'}`}
+                    className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-4' : 'bg-stone-950 border-4 border-white/10'}`}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
@@ -1806,7 +1890,7 @@ const ProcessTimeline = ({ copy, language }) => {
         {/* Mobile: Vertical Timeline */}
         <div className="lg:hidden max-w-3xl mx-auto relative">
           {/* Animated vertical line - paints yellow on scroll (2px, shifted left) */}
-          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-stone-200 dark:bg-stone-800" style={{ borderRadius: '1px' }}>
+          <div className="absolute left-4 top-0 bottom-0 w-[2px] bg-white/[0.06]" style={{ borderRadius: '1px' }}>
             <div
               className="w-full transition-all duration-100 ease-out"
               style={{
@@ -1835,7 +1919,7 @@ const ProcessTimeline = ({ copy, language }) => {
                   {/* Timeline dot */}
                   <div className="relative flex-shrink-0 mt-1">
                     <motion.div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 dark:border-yellow-500' : 'bg-white dark:bg-stone-950 border-2 border-stone-200 dark:border-stone-700'}`}
+                      className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${isActive ? 'bg-yellow-400 border-yellow-300 border-2' : 'bg-stone-950 border-2 border-white/10'}`}
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       viewport={{ once: true }}
@@ -1852,8 +1936,21 @@ const ProcessTimeline = ({ copy, language }) => {
                     </motion.div>
                   </div>
 
-                  {/* Content Card - Lighter mobile style */}
-                  <div className="flex-1 bg-white dark:bg-stone-900 rounded-2xl p-3.5 sm:p-4 border border-[#f0f0f0] dark:border-white/10 transition-all duration-300 group mb-0">
+                  {/* Content Card — Apple Glassmorphism (mobile) */}
+                  <div
+                    className="flex-1 rounded-2xl p-3.5 sm:p-4 transition-all duration-500 group mb-0"
+                    style={{
+                      background: isActive
+                        ? `linear-gradient(135deg, ${solidColors[index]}10, ${solidColors[index]}05)`
+                        : 'rgba(255, 255, 255, 0.02)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: `1px solid ${isActive ? solidColors[index] + '35' : 'rgba(255, 255, 255, 0.06)'}`,
+                      boxShadow: isActive
+                        ? `0 0 20px ${glowColors[index]}`
+                        : 'none'
+                    }}
+                  >
                     <div className="flex items-center gap-3 mb-2.5">
                       <motion.div
                         className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center flex-shrink-0`}
@@ -1868,10 +1965,10 @@ const ProcessTimeline = ({ copy, language }) => {
                         <div className={`inline-block px-2.5 py-0.5 rounded-full bg-gradient-to-r ${gradients[index]} text-[10px] font-bold text-white mb-0.5 tracking-wider`}>
                           {stepLabel} {step.num}
                         </div>
-                        <h3 className="text-sm sm:text-base font-bold text-stone-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                        <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-yellow-400 transition-colors">{step.title}</h3>
                       </div>
                     </div>
-                    <p className="text-stone-600 dark:text-stone-300 text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
+                    <p className="text-white/60 text-[11px] sm:text-sm" style={{ lineHeight: '1.5' }}>{step.desc}</p>
                   </div>
                 </motion.div>
 
@@ -1884,7 +1981,7 @@ const ProcessTimeline = ({ copy, language }) => {
                     transition={{ duration: 0.4, delay: index * 0.12 + 0.3, ease: [0.16, 1, 0.3, 1] }}
                     style={{ transformOrigin: "center center" }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center ml-4">
+                    <div className="w-6 h-6 rounded-full bg-white/[0.04] flex items-center justify-center ml-4">
                       <ChevronDown size={12} className="text-stone-400 dark:text-stone-400" />
                     </div>
                   </motion.div>
@@ -2065,13 +2162,32 @@ const CasesSection = ({ copy, language }) => {
   ];
 
   return (
-    <section className="py-20 md:py-28 bg-white dark:bg-stone-950 relative overflow-hidden">
+    <section className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
+
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.casesTitle} subtitle={copy.casesSubtitle} badge={copy.casesBadge} />
 
         <div ref={sectionRef} className="space-y-8 max-w-5xl mx-auto">
           {cases.map((c, i) => (
-            <motion.div key={i} className="case-card group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)] transition-all duration-500" initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div
+              key={i}
+              className="case-card group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)'
+              }}
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              whileHover={{ boxShadow: '0 30px 60px rgba(0,0,0,0.3)' }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="grid md:grid-cols-5 gap-0">
                 <div className="md:col-span-2 aspect-[4/3] md:aspect-auto overflow-hidden">
                   <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -2080,8 +2196,8 @@ const CasesSection = ({ copy, language }) => {
                   <div className={`inline-block self-start px-4 py-1.5 rounded-full bg-gradient-to-r ${c.color} text-xs font-bold text-white mb-4 tracking-wider`}>
                     {c.metric}
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{c.title}</h3>
-                  <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{c.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{c.title}</h3>
+                  <p className="text-white/60 leading-relaxed text-sm md:text-base">{c.desc}</p>
                 </div>
               </div>
             </motion.div>
@@ -2546,24 +2662,44 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
           </AnimatePresence>
         </div>
         
-        {/* Stats Social Proof */}
-        <div className="flex flex-wrap justify-center gap-6 md:gap-16 gsap-reveal">
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+45</div>
-            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "proyectos creados" : "projects created"}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">+300%</div>
-            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "aumento en ventas" : "sales increase"}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">4</div>
-            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "países" : "countries"}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white">100%</div>
-            <div className="text-xs md:text-sm text-stone-500 dark:text-stone-300 uppercase tracking-wider mt-1">{language === "es" ? "satisfacción" : "satisfaction"}</div>
-          </div>
+        {/* Stats Social Proof — Apple Glassmorphism */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+          {[
+            { value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created" },
+            { value: 300, suffix: "%", label: language === "es" ? "aumento en ventas" : "sales increase", prefix: "+" },
+            { value: 4, suffix: "", label: language === "es" ? "países" : "countries" },
+            { value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction" }
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="text-center px-5 py-3 rounded-2xl"
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255, 255, 255, 0.06)'
+              }}
+            >
+              <div
+                className="text-2xl md:text-3xl font-extrabold tracking-tight"
+                style={{
+                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                {stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+              </div>
+              <div className="text-[11px] md:text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -3978,11 +4114,13 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Stats */}
-      <section id="beneficios" className="py-10 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-white/5 rounded-full blur-[100px] pointer-events-none" />
+      {/* Stats — Apple Design System */}
+      <section id="beneficios" className="py-16 md:py-28 bg-stone-950 relative overflow-hidden">
+        {/* Ambient glow orbs */}
+        <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-yellow-400/[0.03] rounded-full blur-[180px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-amber-500/[0.04] rounded-full blur-[150px] pointer-events-none" />
         <div className="container mx-auto px-3 sm:px-4 relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 md:gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
             <StatCard icon={Rocket} value={45} suffix="+" label={copy.stats[0]} delay={0} />
             <StatCard icon={Award} value={6} suffix="+" label={copy.stats[1]} delay={0.2} />
             <StatCard icon={Zap} value={100} suffix="%" label={copy.stats[2]} delay={0.4} />
