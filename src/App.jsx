@@ -2467,7 +2467,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   );
 };
 
-// --- Services Section (Premium Glassmorphism) ---
+// --- Services Section (Premium Glassmorphism + Floating Icons) ---
 const ServicesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
 
@@ -2518,20 +2518,25 @@ const ServicesSection = ({ copy, language }) => {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -6 }}
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 12,
+                  delay: index * 0.12
+                }}
+                whileHover={{ scale: 1.02 }}
                 className="group relative cursor-default"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.03)',
+                  background: 'rgba(255, 255, 255, 0.05)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)',
                   borderRadius: '24px',
-                  padding: '30px',
+                  padding: '24px',
                   border: `1px solid rgba(${service.colorRgb}, 0.15)`,
-                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.15)',
                   transition: 'box-shadow 0.5s ease, border-color 0.5s ease'
                 }}
                 onMouseEnter={(e) => {
@@ -2539,49 +2544,68 @@ const ServicesSection = ({ copy, language }) => {
                   e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.35)`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
                   e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.15)`;
                 }}
               >
-                {/* Icon with glow */}
-                <div
-                  className="mb-5 flex items-center justify-center"
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '16px',
-                    background: `linear-gradient(135deg, ${service.color}, ${service.color}99)`,
-                    boxShadow: `0px 0px 25px rgba(${service.colorRgb}, 0.4)`,
-                    transition: 'box-shadow 0.5s ease'
-                  }}
-                >
-                  <Icon className="w-7 h-7 text-white drop-shadow-md" />
-                </div>
+                {/* Horizontal layout: Icon left, content right */}
+                <div className="flex items-start gap-5">
+                  {/* Floating icon with glow */}
+                  <motion.div
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{
+                      repeat: Infinity,
+                      duration: 3,
+                      ease: "easeInOut",
+                      delay: index * 0.5
+                    }}
+                    className="flex-shrink-0"
+                    style={{
+                      width: '50px',
+                      height: '50px',
+                      borderRadius: '12px',
+                      background: `linear-gradient(135deg, ${service.color}, ${service.color}99)`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: `0px 0px 20px rgba(${service.colorRgb}, 0.5)`,
+                      transition: 'box-shadow 0.5s ease'
+                    }}
+                  >
+                    <Icon className="w-6 h-6 text-white drop-shadow-md" />
+                  </motion.div>
 
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-4 tracking-tight">{service.title}</h3>
-
-                {/* Feature list */}
-                <ul className="space-y-3">
-                  {service.points && service.points.map((point, pi) => (
-                    <motion.li
-                      key={pi}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.15 + pi * 0.08, duration: 0.5 }}
-                      className="flex items-start gap-3 text-sm sm:text-base text-stone-300 leading-relaxed"
+                  {/* Content - forced white text */}
+                  <div className="flex-1 min-w-0">
+                    <h3
+                      className="text-lg sm:text-xl font-bold mb-3 tracking-tight"
+                      style={{ color: '#FFFFFF' }}
                     >
-                      <span
-                        className="mt-0.5 flex-shrink-0 font-black text-base"
-                        style={{ color: service.color }}
-                      >
-                        ✓
-                      </span>
-                      <span>{point}</span>
-                    </motion.li>
-                  ))}
-                </ul>
+                      {service.title}
+                    </h3>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 0 }} className="space-y-2.5">
+                      {service.points && service.points.map((point, pi) => (
+                        <motion.li
+                          key={pi}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: index * 0.12 + pi * 0.08, duration: 0.5 }}
+                          className="flex items-start gap-2.5 text-sm sm:text-base leading-relaxed"
+                          style={{ color: 'rgba(255,255,255,0.8)' }}
+                        >
+                          <span
+                            className="mt-0.5 flex-shrink-0 font-black text-sm"
+                            style={{ color: service.color }}
+                          >
+                            ✓
+                          </span>
+                          <span>{point}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
 
                 {/* Subtle top accent line */}
                 <div
