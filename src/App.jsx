@@ -2446,7 +2446,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   );
 };
 
-// --- Services Section ---
+// --- Services Section (Premium Glassmorphism) ---
 const ServicesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
 
@@ -2455,47 +2455,38 @@ const ServicesSection = ({ copy, language }) => {
       icon: Monitor,
       title: copy.servicesWebTitle,
       points: copy.servicesWebPoints,
-      gradient: "from-blue-500 to-cyan-400",
-      bgColor: "bg-blue-500/10",
-      borderColor: "border-blue-500/20",
-      textColor: "text-blue-400",
-      checkColor: "text-blue-500 dark:text-blue-400"
+      color: "#3B82F6",
+      colorRgb: "59, 130, 246"
     },
     {
       icon: ShoppingCart,
       title: copy.servicesTiendaTitle,
       points: copy.servicesTiendaPoints,
-      gradient: "from-emerald-500 to-green-400",
-      bgColor: "bg-emerald-500/10",
-      borderColor: "border-emerald-500/20",
-      textColor: "text-emerald-400",
-      checkColor: "text-emerald-500 dark:text-emerald-400"
+      color: "#10B981",
+      colorRgb: "16, 185, 129"
     },
     {
       icon: Smartphone,
       title: copy.servicesAppTitle,
       points: copy.servicesAppPoints,
-      gradient: "from-purple-500 to-violet-400",
-      bgColor: "bg-purple-500/10",
-      borderColor: "border-purple-500/20",
-      textColor: "text-purple-400",
-      checkColor: "text-purple-500 dark:text-purple-400"
+      color: "#8B5CF6",
+      colorRgb: "139, 92, 246"
     },
     {
       icon: Code,
       title: copy.servicesCustomTitle,
       points: copy.servicesCustomPoints,
-      gradient: "from-orange-500 to-amber-400",
-      bgColor: "bg-orange-500/10",
-      borderColor: "border-orange-500/20",
-      textColor: "text-orange-400",
-      checkColor: "text-orange-500 dark:text-orange-400"
+      color: "#F59E0B",
+      colorRgb: "245, 158, 11"
     }
   ];
 
   return (
-    <section id="servicios" className="py-20 md:py-28 bg-stone-50 dark:bg-stone-900 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-stone-200/50 dark:bg-stone-800/30 rounded-full blur-[150px] pointer-events-none" />
+    <section id="servicios" className="py-20 md:py-28 bg-stone-950 relative overflow-hidden">
+      {/* Ambient glow orbs */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full blur-[180px] pointer-events-none" style={{ background: 'rgba(59, 130, 246, 0.08)' }} />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'rgba(139, 92, 246, 0.06)' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full blur-[200px] pointer-events-none" style={{ background: 'rgba(245, 158, 11, 0.04)' }} />
 
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.servicesTitle} subtitle={copy.servicesSubtitle} badge={copy.servicesBadge} />
@@ -2506,30 +2497,76 @@ const ServicesSection = ({ copy, language }) => {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -8, scale: 1.05 }}
-                className={`group relative rounded-2xl p-6 sm:p-7 md:p-8 border ${service.borderColor} ${service.bgColor} backdrop-blur-sm transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden cursor-default`}
+                whileHover={{ y: -6 }}
+                className="group relative cursor-default"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  borderRadius: '24px',
+                  padding: '30px',
+                  border: `1px solid rgba(${service.colorRgb}, 0.15)`,
+                  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                  transition: 'box-shadow 0.5s ease, border-color 0.5s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0px 10px 40px rgba(${service.colorRgb}, 0.2)`;
+                  e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.35)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.borderColor = `rgba(${service.colorRgb}, 0.15)`;
+                }}
               >
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                <div className="flex items-start gap-4 sm:gap-5">
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center flex-shrink-0 shadow-xl group-hover:shadow-2xl transition-shadow duration-500`}>
-                    <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white drop-shadow-md" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-stone-950 dark:text-white mb-3">{service.title}</h3>
-                    <ul className="space-y-2 sm:space-y-2.5">
-                      {service.points && service.points.map((point, pi) => (
-                        <li key={pi} className="flex items-start gap-2.5 text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed">
-                          <Check size={16} strokeWidth={3} className={`${service.checkColor} mt-0.5 flex-shrink-0`} />
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                {/* Icon with glow */}
+                <div
+                  className="mb-5 flex items-center justify-center"
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                    borderRadius: '16px',
+                    background: `linear-gradient(135deg, ${service.color}, ${service.color}99)`,
+                    boxShadow: `0px 0px 25px rgba(${service.colorRgb}, 0.4)`,
+                    transition: 'box-shadow 0.5s ease'
+                  }}
+                >
+                  <Icon className="w-7 h-7 text-white drop-shadow-md" />
                 </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-4 tracking-tight">{service.title}</h3>
+
+                {/* Feature list */}
+                <ul className="space-y-3">
+                  {service.points && service.points.map((point, pi) => (
+                    <motion.li
+                      key={pi}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.15 + pi * 0.08, duration: 0.5 }}
+                      className="flex items-start gap-3 text-sm sm:text-base text-stone-300 leading-relaxed"
+                    >
+                      <span
+                        className="mt-0.5 flex-shrink-0 font-black text-base"
+                        style={{ color: service.color }}
+                      >
+                        ✓
+                      </span>
+                      <span>{point}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                {/* Subtle top accent line */}
+                <div
+                  className="absolute top-0 left-6 right-6 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: `linear-gradient(90deg, transparent, ${service.color}66, transparent)` }}
+                />
               </motion.div>
             );
           })}
