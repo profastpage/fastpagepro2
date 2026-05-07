@@ -152,7 +152,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
-      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/vuelo78hotel.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -161,7 +161,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
-      image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
       link: "https://amazonia-eco-stay.vercel.app/"
     },
     {
@@ -170,7 +170,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -179,7 +179,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de captación de clientes y agendamiento automático por WhatsApp enfocado en generar leads calificados.",
-      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/GrowthConsultingPerú.png",
       link: "https://growth-consulting-peru.vercel.app/"
     },
     {
@@ -188,7 +188,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "E-commerce completo con catálogo de productos artesanales, carrito de compras y pasarela de pagos integrada.",
-      image: "https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/AndinaShop.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -197,7 +197,7 @@ const PORTFOLIO_BY_LANG = {
       category: "App Móvil",
       type: "app",
       description: "Aplicación móvil de seguimiento de entrenamiento con planes personalizados, progreso en tiempo real y notificaciones push.",
-      image: "https://images.pexels.com/photos/4668548/pexels-photo-4668548.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/FitLifeApp.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -206,7 +206,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "Panel de control empresarial con métricas en tiempo real, reportes automatizados y gestión de equipos integrada.",
-      image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/TechFlowDashboard.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -215,7 +215,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "Plataforma de delivery gastronómico con menús interactivos, tracking de pedidos y pasarela Yape/Plin integrada.",
-      image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/GastroMarket.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     }
   ],
@@ -235,7 +235,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
-      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/vuelo78hotel.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -244,7 +244,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
-      image: "https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
       link: "https://amazonia-eco-stay.vercel.app/"
     },
     {
@@ -253,7 +253,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -262,7 +262,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Client acquisition and automatic scheduling system via WhatsApp focused on generating qualified leads.",
-      image: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/GrowthConsultingPerú.png",
       link: "https://growth-consulting-peru.vercel.app/"
     },
     {
@@ -271,7 +271,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Complete e-commerce with artisan product catalog, shopping cart and integrated payment gateway.",
-      image: "https://images.pexels.com/photos/5632399/pexels-photo-5632399.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/AndinaShop.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -280,7 +280,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Mobile App",
       type: "app",
       description: "Mobile fitness tracking app with personalized plans, real-time progress and push notifications.",
-      image: "https://images.pexels.com/photos/4668548/pexels-photo-4668548.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/FitLifeApp.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -289,7 +289,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Business control panel with real-time metrics, automated reports and integrated team management.",
-      image: "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/TechFlowDashboard.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
@@ -298,7 +298,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Gastronomic delivery platform with interactive menus, order tracking and Yape/Plin payment integration.",
-      image: "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      image: "/images/03-portafolio/GastroMarket.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
     }
   ]
@@ -2605,51 +2605,41 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   };
 
   return (
-    <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-28 bg-white dark:bg-stone-950 relative overflow-hidden">
+    <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-secondary)', transition: 'background-color 0.5s ease' }}>
       {/* Background decorative elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-yellow-400/5 dark:bg-yellow-400/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none" style={{ background: 'var(--accent-glow)' }} />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} compact />
         
-        {/* Category Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 md:mb-10 gsap-reveal px-2">
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              onClick={() => setCurrentFilter(cat)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide transition-all duration-300 border ${
-                currentFilter === cat
-                  ? "bg-stone-900 text-white border-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] dark:bg-white dark:text-stone-950 dark:border-white dark:shadow-[0_10px_40px_-10px_rgba(255,255,255,0.3)]"
-                  : "bg-stone-100 text-stone-600 border-stone-200 hover:bg-stone-200 hover:text-stone-900 hover:border-stone-300 dark:bg-white/5 dark:text-stone-300 dark:border-white/10 dark:hover:bg-white/10 dark:hover:text-white dark:hover:border-white/20"
-              }`}
-            >
-              <span className="flex items-center gap-2">
-                {cat !== "Todos" && cat !== "All" && (() => {
-                  const Icon = getCategoryIcon(cat);
-                  return <Icon size={14} />;
-                })()}
-                {cat}
-              </span>
-            </motion.button>
-          ))}
+        {/* Category Filter — Glassmorphism floating pill */}
+        <div className="flex justify-center mb-8 md:mb-12 gsap-reveal">
+          <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full">
+            {categories.map((cat) => (
+              <motion.button
+                key={cat}
+                onClick={() => setCurrentFilter(cat)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`portfolio-filter-btn ${currentFilter === cat ? 'active' : ''} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide`}
+              >
+                <span className="flex items-center gap-1.5 sm:gap-2">
+                  {cat !== "Todos" && cat !== "All" && (() => {
+                    const Icon = getCategoryIcon(cat);
+                    return <Icon size={13} />;
+                  })()}
+                  {cat}
+                </span>
+              </motion.button>
+            ))}
+          </div>
         </div>
       
         {/* Portfolio Grid */}
         <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
           <AnimatePresence mode="wait">
             {filteredProjects.map((project, index) => {
-              const imageMap = {
-                "Urban Style": "/images/03-portafolio/UrbanStyle.png",
-                "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
-                "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
-                "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
-                "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
-                "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png"
-              };
               const Icon = getCategoryIcon(project.category);
               const gradientColor = getTypeColor(project.type);
 
@@ -2663,34 +2653,35 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ delay: index * 0.06, duration: 0.5 }}
-                  whileHover={{ y: -6 }}
-                  className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer border border-stone-200 dark:border-white/10 shadow-lg hover:shadow-2xl block no-underline"
+                  whileHover={{ y: -8 }}
+                  className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
                   style={{ aspectRatio: '4/5' }}
                 >
                   {/* Image with zoom-in on hover */}
                   <motion.img 
-                    src={imageMap[project.title] || project.image} 
+                    src={project.image} 
                     alt={project.title} 
                     onError={handleImageFallback}
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.6 }}
                     className="w-full h-full object-cover"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="lazy"
                   />
                   
-                  {/* Bottom gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+                  {/* Bottom gradient overlay — always dark for text legibility */}
+                  <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
 
-                  {/* Top gradient accent */}
+                  {/* Top gradient accent bar */}
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
 
                   {/* Content overlay at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '30px 25px 40px 25px' }}>
+                  <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
                     <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
                     <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
                     <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
                     <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
-                    <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all hover:gap-3" style={{ color: '#FFD700' }}>
+                    <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
                       {language === 'es' ? 'Ver Proyecto Pro ↗' : 'View Pro Project ↗'}
                     </span>
                   </div>
@@ -2700,7 +2691,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
           </AnimatePresence>
         </div>
         
-        {/* Stats Social Proof — Apple Glassmorphism */}
+        {/* Stats Social Proof — Theme-aware Glassmorphism */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-6">
           {[
             { value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created" },
@@ -2714,18 +2705,12 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="text-center px-5 py-3 rounded-2xl"
-              style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.06)'
-              }}
+              className="portfolio-stat-glass text-center px-5 py-3.5 rounded-2xl"
             >
               <div
                 className="text-2xl md:text-3xl font-extrabold tracking-tight"
                 style={{
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                  background: `linear-gradient(135deg, var(--stats-number-gradient-1) 0%, var(--stats-number-gradient-2) 100%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text'
@@ -2733,7 +2718,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
               >
                 {stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
               </div>
-              <div className="text-[11px] md:text-xs uppercase tracking-wider mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <div className="text-[11px] md:text-xs uppercase tracking-wider mt-1" style={{ color: 'var(--stats-text-desc)' }}>
                 {stat.label}
               </div>
             </motion.div>
@@ -3415,7 +3400,11 @@ const PORTFOLIO_MODAL_IMAGES = {
   "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png"
+  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
+  "Andina Shop": "/images/03-portafolio/AndinaShop.png",
+  "FitLife App": "/images/03-portafolio/FitLifeApp.png",
+  "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
+  "GastroMarket": "/images/03-portafolio/GastroMarket.png"
 };
 
 const slugToTitle = {};
