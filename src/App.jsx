@@ -3351,45 +3351,43 @@ const PORTFOLIO_MODAL_MOBILE_IMAGES = {
 const slugToTitle = {};
 Object.entries(PORTFOLIO_SLUGS).forEach(([title, slug]) => { slugToTitle[slug] = title; });
 
-// MacBook CSS Mockup
+// MacBook CSS Mockup — Thin modern bezels
 const MacBookMockup = ({ imageSrc, alt }) => (
-  <div className="relative mx-auto" style={{ maxWidth: '560px' }}>
-    {/* Screen */}
-    <div className="relative rounded-xl overflow-hidden border-[6px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '16/10' }}>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-stone-800 rounded-b-lg z-10" />
+  <div className="relative mx-auto" style={{ maxWidth: '580px' }}>
+    {/* Screen — thin 4px bezels, rounded corners */}
+    <div className="relative rounded-xl overflow-hidden border-[4px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '16/10' }}>
+      {/* Camera notch */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-stone-800 rounded-b-lg z-10" />
       <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover" />
     </div>
-    {/* Base / Bezel */}
-    <div className="relative h-5 bg-gradient-to-b from-stone-600 to-stone-700 rounded-b-xl mx-2 -mt-px">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-stone-500 rounded-full" />
+    {/* Base — slim and modern */}
+    <div className="relative h-4 bg-gradient-to-b from-stone-600 to-stone-700 rounded-b-xl mx-3 -mt-px">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[2px] bg-stone-500 rounded-full" />
     </div>
-    {/* Bottom bar */}
-    <div className="mx-auto w-[80%] h-2 bg-gradient-to-b from-stone-500 to-stone-600 rounded-b-2xl -mt-px" />
+    {/* Bottom hinge — thin */}
+    <div className="mx-auto w-[70%] h-[6px] bg-gradient-to-b from-stone-500 to-stone-600 rounded-b-2xl -mt-px" />
   </div>
 );
 
-// iPhone CSS Mockup
-const IPhoneMockup = ({ imageSrc, alt }) => (
-  <div className="relative mx-auto" style={{ maxWidth: '260px', transform: 'perspective(1000px) rotateY(-8deg) rotateX(2deg)' }}>
-    {/* Frame */}
-    <div className="relative rounded-[2.5rem] overflow-hidden border-[5px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '9/19' }}>
-      {/* Notch */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-5 bg-stone-900 rounded-b-2xl z-10">
-        <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-1 bg-stone-600 rounded-full" />
-      </div>
+// iPhone CSS Mockup — Straight, no tilt
+const IPhoneMockup = ({ imageSrc, alt, compact = false }) => (
+  <div className="relative mx-auto" style={{ maxWidth: compact ? '200px' : '280px' }}>
+    {/* Frame — thin bezels */}
+    <div className="relative rounded-[2rem] overflow-hidden border-[4px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '9/19' }}>
+      {/* Dynamic Island */}
+      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-stone-900 rounded-full z-10" />
       {/* Screen */}
-      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover pt-2" />
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover" />
       {/* Home indicator */}
-      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-1 bg-stone-500 rounded-full" />
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-stone-500 rounded-full" />
     </div>
     {/* Side button */}
-    <div className="absolute -right-[2px] top-20 w-[3px] h-8 bg-stone-600 rounded-r" />
+    <div className="absolute -right-[2px] top-24 w-[3px] h-10 bg-stone-600 rounded-r" />
   </div>
 );
 
 // Portfolio Modal Component
 const PortfolioModal = ({ project, language, onClose }) => {
-  const [mockupView, setMockupView] = useState("desktop");
   const modalRef = useRef(null);
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
@@ -3480,74 +3478,37 @@ const PortfolioModal = ({ project, language, onClose }) => {
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 dark:text-white mb-2">{project.title}</h2>
           </motion.div>
 
-          {/* Mockup View Toggle */}
-          <div className="flex gap-2 mb-6">
-            <button
-              onClick={() => setMockupView("desktop")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${mockupView === "desktop" ? "bg-stone-900 text-white dark:bg-white dark:text-stone-950" : "bg-stone-100 text-stone-600 dark:bg-white/5 dark:text-stone-300 border border-stone-200 dark:border-white/10"}`}
-            >
-              <span className="flex items-center gap-1.5"><Monitor size={14} /> Desktop</span>
-            </button>
-            <button
-              onClick={() => setMockupView("mobile")}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${mockupView === "mobile" ? "bg-stone-900 text-white dark:bg-white dark:text-stone-950" : "bg-stone-100 text-stone-600 dark:bg-white/5 dark:text-stone-300 border border-stone-200 dark:border-white/10"}`}
-            >
-              <span className="flex items-center gap-1.5"><Smartphone size={14} /> Mobile</span>
-            </button>
-          </div>
 
-          {/* Mockups Area */}
+
+          {/* Mockups Area — Responsive: Desktop shows Laptop, Mobile shows Smartphone */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, type: "spring", stiffness: 200, damping: 20 }}
-            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl p-4 sm:p-8 md:p-12 border border-stone-200 dark:border-white/10 mb-6 overflow-hidden"
+            transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
+            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl px-3 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 border border-stone-200 dark:border-white/10 mb-6 overflow-hidden"
           >
             {/* Subtle grid background */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
 
-            <AnimatePresence mode="wait">
-              {mockupView === "desktop" ? (
-                <motion.div
-                  key="desktop"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {/* Desktop: MacBook left, iPhone right */}
-                  <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
-                    <motion.div
-                      className="flex-1 w-full flex justify-center"
-                      initial={{ opacity: 0, x: -40 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.35, duration: 0.6 }}
-                    >
-                      <MacBookMockup imageSrc={modalImage} alt={project.title} />
-                    </motion.div>
-                    <motion.div
-                      className="flex-shrink-0"
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.5, duration: 0.6 }}
-                    >
-                      <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="mobile"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex justify-center py-4"
-                >
-                  <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Mobile viewport → Smartphone only */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="flex md:hidden justify-center"
+            >
+              <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+            </motion.div>
+
+            {/* Desktop viewport → Laptop only */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="hidden md:flex justify-center"
+            >
+              <MacBookMockup imageSrc={modalImage} alt={project.title} />
+            </motion.div>
           </motion.div>
 
           {/* Description */}
