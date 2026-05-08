@@ -110,6 +110,20 @@ const HERO_IMAGES = [
   "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=2070&auto=format&fit=crop"
 ];
 
+// Cloudinary video URLs — f_auto,q_auto for maximum optimization
+const CLOUDINARY_CLOUD = "profastpage";
+const CLOUDINARY_VIDEO_ID = "hero-showreel";
+const HERO_VIDEO_CLOUDINARY = {
+  webm: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,vc_auto/${CLOUDINARY_VIDEO_ID}.webm`,
+  mp4: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,vc_auto/${CLOUDINARY_VIDEO_ID}.mp4`,
+  poster: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,so_0,du_1/${CLOUDINARY_VIDEO_ID}.jpg`
+};
+const HERO_VIDEO_LOCAL = {
+  webm: "/hero-showreel.webm",
+  mp4: "/hero-showreel.mp4",
+  poster: "/hero-poster.jpg"
+};
+
 const NAV_ITEMS = [
   { id: "portafolio", es: "Portafolio", en: "Portfolio" },
   { id: "servicios", es: "Servicios", en: "Services" },
@@ -3986,7 +4000,7 @@ export default function App() {
 
       {/* HERO SECTION - Mobile First Responsive with Video Showreel */}
       <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
-        {/* Video Background */}
+        {/* Video Background — Cloudinary optimized (f_auto,q_auto) with local fallback */}
         <div className="absolute inset-0 z-0 bg-black">
           <video
             autoPlay
@@ -3995,9 +4009,14 @@ export default function App() {
             playsInline
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
-            poster={HERO_IMAGES[0]}
+            poster={HERO_VIDEO_LOCAL.poster}
           >
-            <source src="/hero-showreel.mp4" type="video/mp4" />
+            {/* Cloudinary sources — auto-optimized format & quality */}
+            <source src={HERO_VIDEO_CLOUDINARY.webm} type="video/webm" />
+            <source src={HERO_VIDEO_CLOUDINARY.mp4} type="video/mp4" />
+            {/* Local fallback sources */}
+            <source src={HERO_VIDEO_LOCAL.webm} type="video/webm" />
+            <source src={HERO_VIDEO_LOCAL.mp4} type="video/mp4" />
           </video>
           {/* Image slideshow fallback (hidden when video plays) */}
           {HERO_IMAGES.map((src, index) => (
