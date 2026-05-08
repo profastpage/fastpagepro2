@@ -2619,7 +2619,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.6 }}
                     className="w-full h-full object-cover"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
                     loading="lazy"
                   />
                   
