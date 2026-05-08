@@ -3345,6 +3345,9 @@ const PORTFOLIO_MODAL_IMAGES = {
 };
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
+  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-mobile.png",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
   "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
 
