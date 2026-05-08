@@ -183,13 +183,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://atlas-9mv.pages.dev/"
     },
     {
-      title: "Andina Shop",
-      location: "Cusco, Perú",
-      category: "Tienda Online",
-      type: "tienda",
-      description: "E-commerce completo con catálogo de productos artesanales, carrito de compras y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/AndinaShop.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
+      title: "Cotizador Pro",
+      location: "Remoto, Global",
+      category: "Proyecto Personalizado",
+      type: "custom",
+      description: "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
+      image: "/images/03-portafolio/CotizadorPro.png",
+      link: "https://cotizador-pro.pages.dev/"
     },
     {
       title: "FitLife App",
@@ -275,13 +275,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://atlas-9mv.pages.dev/"
     },
     {
-      title: "Andina Shop",
-      location: "Cusco, Peru",
-      category: "Online Store",
-      type: "tienda",
-      description: "Complete e-commerce with artisan product catalog, shopping cart and integrated payment gateway.",
-      image: "/images/03-portafolio/AndinaShop.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
+      title: "Cotizador Pro",
+      location: "Remote, Global",
+      category: "Custom Project",
+      type: "custom",
+      description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
+      image: "/images/03-portafolio/CotizadorPro.png",
+      link: "https://cotizador-pro.pages.dev/"
     },
     {
       title: "FitLife App",
@@ -324,7 +324,7 @@ const PORTFOLIO_BY_LANG = {
 
 const TESTIMONIALS_BY_LANG = {
   es: [
-    { name: "Carlos Mendoza", hotel: "E-commerce Andina Shop", location: "Cusco", text: "La tienda online que nos crearon es increíble. Las ventas aumentaron 200% en el primer mes. Totalmente recomendados." },
+    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", text: "El sistema de cotización multi-tenant que desarrollaron transformó nuestra operación comercial. La automatización de plantillas nos ahorra horas semanales. Totalmente recomendados." },
     { name: "María Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "Profesionales de verdad. La landing page la tuvieron lista en 48 horas y el diseño superó todas nuestras expectativas." },
     { name: "Roberto Sánchez", hotel: "App FitLife", location: "Lima", text: "La app móvil que desarrollaron funciona perfectamente. El equipo entiende de tecnología y de negocio." },
     { name: "Ana García", hotel: "Web Corporativa TechFlow", location: "Remoto", text: "El dashboard empresarial que nos crearon transformó nuestra gestión interna. Código limpio y muy bien documentado." },
@@ -332,7 +332,7 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Lucía Fernández", hotel: "Web La Casona Gourmet", location: "Lima", text: "El sistema de pedidos por WhatsApp que implementaron nos ahorra horas de trabajo diario. Excelente soporte." }
   ],
   en: [
-    { name: "Carlos Mendoza", hotel: "E-commerce Andina Shop", location: "Cusco", text: "The online store they built is incredible. Sales increased 200% in the first month. Highly recommended." },
+    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", text: "The multi-tenant quotation system they built transformed our commercial operations. Template automation saves us hours every week. Highly recommended." },
     { name: "Maria Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "True professionals. The landing page was ready in 48 hours and the design exceeded all our expectations." },
     { name: "Roberto Sanchez", hotel: "App FitLife", location: "Lima", text: "The mobile app they developed works perfectly. The team understands both technology and business." },
     { name: "Ana Garcia", hotel: "Corporate Website TechFlow", location: "Remote", text: "The business dashboard they created transformed our internal management. Clean code and well documented." },
@@ -448,7 +448,7 @@ const COPY = {
   es: {
     navCta: "Agendar Demo",
     notificationTitle: "Nuevo proyecto entregado!",
-    notificationSubtitle: "Tienda Online Andina Shop - hace 2 minutos",
+    notificationSubtitle: "Cotizador Pro SaaS - hace 2 minutos",
     heroBadge: "Listo en 2-3 dias",
     heroTitleTop: "Paginas web profesionales",
     heroTitleBottom: "listas en 2-3 dias.",
@@ -556,7 +556,7 @@ const COPY = {
   en: {
     navCta: "Book Demo",
     notificationTitle: "New project delivered!",
-    notificationSubtitle: "Online Store Andina Shop - 2 minutes ago",
+    notificationSubtitle: "Cotizador Pro SaaS - 2 minutes ago",
     heroBadge: "Ready in 2-3 Days",
     heroTitleTop: "Professional Websites",
     heroTitleBottom: "delivered in 2-3 days.",
@@ -3341,7 +3341,7 @@ const PORTFOLIO_SLUGS = {
   "La Casona Gourmet": "la-casona-gourmet",
   "Growth Consulting Perú": "growth-consulting-peru",
   "Growth Consulting Peru": "growth-consulting-peru",
-  "Andina Shop": "andina-shop",
+  "Cotizador Pro": "cotizador-pro",
   "FitLife App": "fitlife-app",
   "TechFlow Dashboard": "techflow-dashboard",
   "GastroMarket": "gastromarket",
@@ -3355,7 +3355,7 @@ const PORTFOLIO_MODAL_IMAGES = {
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "Andina Shop": "/images/03-portafolio/AndinaShop.png",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
   "FitLife App": "/images/03-portafolio/FitLifeApp.png",
   "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
   "GastroMarket": "/images/03-portafolio/GastroMarket.png",
@@ -3366,6 +3366,7 @@ const PORTFOLIO_MODAL_MOBILE_IMAGES = {
   "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
   "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-mobile.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
   "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
 
