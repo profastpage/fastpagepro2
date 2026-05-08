@@ -3332,9 +3332,9 @@ const PORTFOLIO_SLUGS = {
 
 const PORTFOLIO_MODAL_IMAGES = {
   "Urban Style": "/images/03-portafolio/UrbanStyle.png",
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel.png",
-  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay.png",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet.png",
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
+  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-modal.png",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Andina Shop": "/images/03-portafolio/AndinaShop.png",
