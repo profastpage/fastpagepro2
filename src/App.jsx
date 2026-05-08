@@ -3968,16 +3968,30 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION - Mobile First Responsive */}
+      {/* HERO SECTION - Mobile First Responsive with Video Showreel */}
       <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
+        {/* Video Background */}
         <div className="absolute inset-0 z-0 bg-black">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover"
+            poster={HERO_IMAGES[0]}
+          >
+            <source src="/hero-showreel.mp4" type="video/mp4" />
+          </video>
+          {/* Image slideshow fallback (hidden when video plays) */}
           {HERO_IMAGES.map((src, index) => (
             <motion.img
               key={src}
               src={src}
-              alt="Mockup de sistema de reservas"
+              alt="Proyecto Fast Page Pro"
               onError={handleImageFallback}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover hero-fallback-img"
+              style={{ opacity: 0 }}
               initial={false}
               animate={{
                 opacity: index === currentHeroImage ? 1 : 0,
@@ -3989,7 +4003,10 @@ export default function App() {
               }}
             />
           ))}
-          <div className="absolute inset-0 hero-overlay" />
+          {/* Dark gradient overlay for text legibility */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.75) 100%)' }} />
+          {/* Subtle side vignette */}
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
           <div className="absolute inset-0 hero-grid" />
         </div>
 
@@ -4040,9 +4057,11 @@ export default function App() {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
                 }}
-                className="block w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)] hover:-translate-y-0.5"
+                className="block w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 hover:scale-[1.03] relative overflow-hidden group"
               >
-                <span className="flex items-center justify-center gap-2">
+                {/* Shine effect on hover */}
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <span className="relative flex items-center justify-center gap-2">
                   {copy.heroPrimaryCta}
                   <ArrowRight size={18} />
                 </span>
@@ -4075,12 +4094,14 @@ export default function App() {
               className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 max-w-full"
             >
               <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
               />
-              <span className="text-xs sm:text-sm text-stone-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                <span className="font-bold text-white">{todayBookings}</span> {language === 'es' ? 'proyectos activos' : 'active projects'}
+              <span className="text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
+                <span style={{ color: 'rgba(255,255,255,0.85)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
               </span>
             </motion.div>
           </motion.div>
