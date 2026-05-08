@@ -167,8 +167,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "La Casona Gourmet",
       location: "Lima, Perú",
-      category: "Tienda Online",
-      type: "tienda",
+      category: "Web Profesional",
+      type: "web",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
       image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
@@ -259,8 +259,8 @@ const PORTFOLIO_BY_LANG = {
     {
       title: "La Casona Gourmet",
       location: "Lima, Peru",
-      category: "Online Store",
-      type: "tienda",
+      category: "Professional Web",
+      type: "web",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
       image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
@@ -3413,7 +3413,9 @@ const PortfolioModal = ({ project, language, onClose }) => {
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
   const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || modalImage;
-  const liveLabel = language === "es" ? "Ver Web Profesional" : "View Live Website";
+  const liveLabel = language === "es"
+    ? ({ tienda: "Ver Tienda Profesional", web: "Ver Web Profesional", app: "Ver App en Vivo", custom: "Ver Proyecto" })[project.type] || "Ver Proyecto"
+    : ({ tienda: "View Live Store", web: "View Live Website", app: "View Live App", custom: "View Project" })[project.type] || "View Project";
   const descLabel = language === "es" ? "Sobre este proyecto" : "About this project";
 
   useEffect(() => {
