@@ -167,7 +167,7 @@ const PORTFOLIO_BY_LANG = {
       type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
       image: "/images/03-portafolio/vuelo78hotel.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
+      link: "https://www.vuelo78hotel.com"
     },
     {
       title: "E-commerce Builder Pro",
@@ -260,7 +260,7 @@ const PORTFOLIO_BY_LANG = {
       type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
       image: "/images/03-portafolio/vuelo78hotel.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
+      link: "https://www.vuelo78hotel.com"
     },
     {
       title: "E-commerce Builder Pro",
