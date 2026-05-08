@@ -3490,25 +3490,35 @@ const PortfolioModal = ({ project, language, onClose }) => {
             {/* Subtle grid background */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
 
-            {/* Mobile viewport → Smartphone only */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="flex md:hidden justify-center"
-            >
-              <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-            </motion.div>
+            {/* Mobile viewport → Smartphone only (priority) */}
+            <div className="flex md:hidden justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+              </motion.div>
+            </div>
 
-            {/* Desktop viewport → Laptop only */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="hidden md:flex justify-center"
-            >
-              <MacBookMockup imageSrc={modalImage} alt={project.title} />
-            </motion.div>
+            {/* Desktop viewport → Laptop + Smartphone side by side */}
+            <div className="hidden md:flex items-center justify-center gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="flex-1 flex justify-center"
+              >
+                <MacBookMockup imageSrc={modalImage} alt={project.title} />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
+              >
+                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Description */}
