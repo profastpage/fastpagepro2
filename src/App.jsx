@@ -156,13 +156,14 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "",
-      location: "",
-      category: "",
-      type: "web",
-      description: "",
-      image: "",
-      link: ""
+      title: "E-commerce Builder Pro",
+      location: "Remoto, Global",
+      category: "Proyecto Personalizado",
+      type: "custom",
+      description: "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
+      link: "https://tienda-online-oficial.vercel.app/",
+      demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
     {
       title: "La Casona Gourmet",
@@ -248,13 +249,14 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "",
-      location: "",
-      category: "",
-      type: "web",
-      description: "",
-      image: "",
-      link: ""
+      title: "E-commerce Builder Pro",
+      location: "Remote, Global",
+      category: "Custom Project",
+      type: "custom",
+      description: "Multi-tenant platform for mass creation of online stores. Allows entrepreneurs to launch their ecommerce in minutes with independent admin panels and a centralized Super Admin for full ecosystem control.",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
+      link: "https://tienda-online-oficial.vercel.app/",
+      demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
     {
       title: "La Casona Gourmet",
@@ -3341,6 +3343,7 @@ const PORTFOLIO_SLUGS = {
   "La Casona Gourmet": "la-casona-gourmet",
   "Growth Consulting Perú": "growth-consulting-peru",
   "Growth Consulting Peru": "growth-consulting-peru",
+  "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "FitLife App": "fitlife-app",
   "TechFlow Dashboard": "techflow-dashboard",
@@ -3355,6 +3358,7 @@ const PORTFOLIO_MODAL_IMAGES = {
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
   "FitLife App": "/images/03-portafolio/FitLifeApp.png",
   "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
@@ -3366,6 +3370,7 @@ const PORTFOLIO_MODAL_MOBILE_IMAGES = {
   "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
   "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-mobile.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
   "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
@@ -3572,6 +3577,17 @@ const PortfolioModal = ({ project, language, onClose }) => {
               {liveLabel}
               <ExternalLink size={16} />
             </a>
+            {project.demoLink && (
+              <a
+                href={project.demoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(59,130,246,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.5)] hover:-translate-y-0.5 text-sm"
+              >
+                {language === "es" ? "Probar Demo" : "Try Demo"}
+                <ExternalLink size={16} />
+              </a>
+            )}
             <button
               onClick={onClose}
               className="inline-flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 text-stone-700 dark:text-stone-300 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 border border-stone-200 dark:border-white/10 text-sm"
