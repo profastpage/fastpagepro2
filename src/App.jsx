@@ -174,13 +174,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
-      title: "Growth Consulting Perú",
+      title: "Atlas",
       location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Sistema de captación de clientes y agendamiento automático por WhatsApp enfocado en generar leads calificados.",
-      image: "/images/03-portafolio/GrowthConsultingPerú.png",
-      link: "https://growth-consulting-peru.vercel.app/"
+      category: "App Móvil",
+      type: "app",
+      description: "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
+      image: "/images/03-portafolio/AtlasHero.png",
+      link: "https://atlas-9mv.pages.dev/"
     },
     {
       title: "Andina Shop",
@@ -257,13 +257,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
-      title: "Growth Consulting Peru",
+      title: "Atlas",
       location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Client acquisition and automatic scheduling system via WhatsApp focused on generating qualified leads.",
-      image: "/images/03-portafolio/GrowthConsultingPerú.png",
-      link: "https://growth-consulting-peru.vercel.app/"
+      category: "Mobile App",
+      type: "app",
+      description: "AI-powered strategic business consultant. Intelligent assistant that analyzes your business, suggests growth strategies and creates personalized weekly action plans via conversational chat.",
+      image: "/images/03-portafolio/AtlasHero.png",
+      link: "https://atlas-9mv.pages.dev/"
     },
     {
       title: "Andina Shop",
@@ -3326,7 +3326,8 @@ const PORTFOLIO_SLUGS = {
   "Andina Shop": "andina-shop",
   "FitLife App": "fitlife-app",
   "TechFlow Dashboard": "techflow-dashboard",
-  "GastroMarket": "gastromarket"
+  "GastroMarket": "gastromarket",
+  "Atlas": "atlas"
 };
 
 const PORTFOLIO_MODAL_IMAGES = {
@@ -3339,7 +3340,12 @@ const PORTFOLIO_MODAL_IMAGES = {
   "Andina Shop": "/images/03-portafolio/AndinaShop.png",
   "FitLife App": "/images/03-portafolio/FitLifeApp.png",
   "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
-  "GastroMarket": "/images/03-portafolio/GastroMarket.png"
+  "GastroMarket": "/images/03-portafolio/GastroMarket.png",
+  "Atlas": "/images/03-portafolio/AtlasDesktop.png"
+};
+
+const PORTFOLIO_MODAL_MOBILE_IMAGES = {
+  "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
 
 const slugToTitle = {};
@@ -3387,6 +3393,7 @@ const PortfolioModal = ({ project, language, onClose }) => {
   const modalRef = useRef(null);
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
+  const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || modalImage;
   const liveLabel = language === "es" ? "Ver Web Profesional" : "View Live Website";
   const descLabel = language === "es" ? "Sobre este proyecto" : "About this project";
 
@@ -3524,7 +3531,7 @@ const PortfolioModal = ({ project, language, onClose }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.5, duration: 0.6 }}
                     >
-                      <IPhoneMockup imageSrc={modalImage} alt={project.title} />
+                      <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
                     </motion.div>
                   </div>
                 </motion.div>
@@ -3537,7 +3544,7 @@ const PortfolioModal = ({ project, language, onClose }) => {
                   transition={{ duration: 0.4 }}
                   className="flex justify-center py-4"
                 >
-                  <IPhoneMockup imageSrc={modalImage} alt={project.title} />
+                  <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
                 </motion.div>
               )}
             </AnimatePresence>
