@@ -156,13 +156,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Perú",
-      category: "Web Profesional",
+      title: "",
+      location: "",
+      category: "",
       type: "web",
-      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      description: "",
+      image: "",
+      link: ""
     },
     {
       title: "La Casona Gourmet",
@@ -217,6 +217,15 @@ const PORTFOLIO_BY_LANG = {
       description: "Plataforma de delivery gastronómico con menús interactivos, tracking de pedidos y pasarela Yape/Plin integrada.",
       image: "/images/03-portafolio/GastroMarket.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "Amazonia Eco Stay",
+      location: "Iquitos, Perú",
+      category: "Web Profesional",
+      type: "web",
+      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
+      link: "https://amazonia-eco-stay.vercel.app/"
     }
   ],
   en: [
@@ -239,13 +248,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Peru",
-      category: "Professional Web",
+      title: "",
+      location: "",
+      category: "",
       type: "web",
-      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      description: "",
+      image: "",
+      link: ""
     },
     {
       title: "La Casona Gourmet",
@@ -300,6 +309,15 @@ const PORTFOLIO_BY_LANG = {
       description: "Gastronomic delivery platform with interactive menus, order tracking and Yape/Plin payment integration.",
       image: "/images/03-portafolio/GastroMarket.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "Amazonia Eco Stay",
+      location: "Iquitos, Peru",
+      category: "Professional Web",
+      type: "web",
+      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
+      link: "https://amazonia-eco-stay.vercel.app/"
     }
   ]
 };
@@ -4134,7 +4152,7 @@ export default function App() {
         </div>
       </section>
 
-      <PortfolioSection copy={copy} projects={portfolioProjects} language={language} onProjectClick={(project) => {
+      <PortfolioSection copy={copy} projects={portfolioProjects.filter(p => p.title)} language={language} onProjectClick={(project) => {
                     const slug = PORTFOLIO_SLUGS[project.title];
                     if (slug) {
                       setSelectedProject(project);
