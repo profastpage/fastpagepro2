@@ -207,33 +207,6 @@ const PORTFOLIO_BY_LANG = {
       link: "https://www.modadigitalpro.com/"
     },
     {
-      title: "FitLife App",
-      location: "Lima, Perú",
-      category: "App Móvil",
-      type: "app",
-      description: "Aplicación móvil de seguimiento de entrenamiento con planes personalizados, progreso en tiempo real y notificaciones push.",
-      image: "/images/03-portafolio/FitLifeApp.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
-    },
-    {
-      title: "TechFlow Dashboard",
-      location: "Remoto, Latam",
-      category: "Proyecto Personalizado",
-      type: "custom",
-      description: "Panel de control empresarial con métricas en tiempo real, reportes automatizados y gestión de equipos integrada.",
-      image: "/images/03-portafolio/TechFlowDashboard.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
-    },
-    {
-      title: "GastroMarket",
-      location: "Arequipa, Perú",
-      category: "Tienda Online",
-      type: "tienda",
-      description: "Plataforma de delivery gastronómico con menús interactivos, tracking de pedidos y pasarela Yape/Plin integrada.",
-      image: "/images/03-portafolio/GastroMarket.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
-    },
-    {
       title: "La Casona Gourmet",
       location: "Lima, Perú",
       category: "Web Profesional",
@@ -307,33 +280,6 @@ const PORTFOLIO_BY_LANG = {
       description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
       image: "/images/03-portafolio/ModaDigitalPro.png",
       link: "https://www.modadigitalpro.com/"
-    },
-    {
-      title: "FitLife App",
-      location: "Lima, Peru",
-      category: "Mobile App",
-      type: "app",
-      description: "Mobile fitness tracking app with personalized plans, real-time progress and push notifications.",
-      image: "/images/03-portafolio/FitLifeApp.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
-    },
-    {
-      title: "TechFlow Dashboard",
-      location: "Remote, Latam",
-      category: "Custom Project",
-      type: "custom",
-      description: "Business control panel with real-time metrics, automated reports and integrated team management.",
-      image: "/images/03-portafolio/TechFlowDashboard.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
-    },
-    {
-      title: "GastroMarket",
-      location: "Arequipa, Peru",
-      category: "Online Store",
-      type: "tienda",
-      description: "Gastronomic delivery platform with interactive menus, order tracking and Yape/Plin payment integration.",
-      image: "/images/03-portafolio/GastroMarket.png",
-      link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
       title: "La Casona Gourmet",
@@ -3378,9 +3324,6 @@ const PORTFOLIO_SLUGS = {
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "Moda Digital Pro": "moda-digital-pro",
-  "FitLife App": "fitlife-app",
-  "TechFlow Dashboard": "techflow-dashboard",
-  "GastroMarket": "gastromarket",
   "Atlas": "atlas"
 };
 
@@ -3394,9 +3337,6 @@ const PORTFOLIO_MODAL_IMAGES = {
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
   "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
-  "FitLife App": "/images/03-portafolio/FitLifeApp.png",
-  "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
-  "GastroMarket": "/images/03-portafolio/GastroMarket.png",
   "Atlas": "/images/03-portafolio/AtlasDesktop.png"
 };
 
