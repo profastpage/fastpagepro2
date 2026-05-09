@@ -180,15 +180,6 @@ const PORTFOLIO_BY_LANG = {
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
     {
-      title: "La Casona Gourmet",
-      location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
-      link: "https://la-casa-gourmet.vercel.app/"
-    },
-    {
       title: "Atlas",
       location: "Lima, Perú",
       category: "App Móvil",
@@ -234,6 +225,15 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
+      title: "La Casona Gourmet",
+      location: "Lima, Perú",
+      category: "Web Profesional",
+      type: "web",
+      description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      link: "https://la-casa-gourmet.vercel.app/"
+    },
+    {
       title: "Amazonia Eco Stay",
       location: "Iquitos, Perú",
       category: "Web Profesional",
@@ -271,15 +271,6 @@ const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/EcommerceBuilder.png",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
-    },
-    {
-      title: "La Casona Gourmet",
-      location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
-      link: "https://la-casa-gourmet.vercel.app/"
     },
     {
       title: "Atlas",
@@ -325,6 +316,15 @@ const PORTFOLIO_BY_LANG = {
       description: "Gastronomic delivery platform with interactive menus, order tracking and Yape/Plin payment integration.",
       image: "/images/03-portafolio/GastroMarket.png",
       link: "https://vuelo78hotel-demo.netlify.app/"
+    },
+    {
+      title: "La Casona Gourmet",
+      location: "Lima, Peru",
+      category: "Professional Web",
+      type: "web",
+      description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      link: "https://la-casa-gourmet.vercel.app/"
     },
     {
       title: "Amazonia Eco Stay",
