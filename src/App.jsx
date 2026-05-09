@@ -198,6 +198,15 @@ const PORTFOLIO_BY_LANG = {
       link: "https://cotizador-pro.pages.dev/"
     },
     {
+      title: "Moda Digital Pro",
+      location: "Lima, Perú",
+      category: "Web Profesional",
+      type: "web",
+      description: "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, navegación estilo app con menú superior e inferior. Catálogo de equipos, servicios de impresión digital y sublimación, FAQ interactivo y formulario de contacto.",
+      image: "/images/03-portafolio/ModaDigitalPro.png",
+      link: "https://www.modadigitalpro.com/"
+    },
+    {
       title: "FitLife App",
       location: "Lima, Perú",
       category: "App Móvil",
@@ -289,6 +298,15 @@ const PORTFOLIO_BY_LANG = {
       description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
       image: "/images/03-portafolio/CotizadorPro.png",
       link: "https://cotizador-pro.pages.dev/"
+    },
+    {
+      title: "Moda Digital Pro",
+      location: "Lima, Peru",
+      category: "Professional Web",
+      type: "web",
+      description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
+      image: "/images/03-portafolio/ModaDigitalPro.png",
+      link: "https://www.modadigitalpro.com/"
     },
     {
       title: "FitLife App",
@@ -3359,6 +3377,7 @@ const PORTFOLIO_SLUGS = {
   "Growth Consulting Peru": "growth-consulting-peru",
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
+  "Moda Digital Pro": "moda-digital-pro",
   "FitLife App": "fitlife-app",
   "TechFlow Dashboard": "techflow-dashboard",
   "GastroMarket": "gastromarket",
@@ -3374,6 +3393,7 @@ const PORTFOLIO_MODAL_IMAGES = {
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
   "FitLife App": "/images/03-portafolio/FitLifeApp.png",
   "TechFlow Dashboard": "/images/03-portafolio/TechFlowDashboard.png",
   "GastroMarket": "/images/03-portafolio/GastroMarket.png",
@@ -3386,6 +3406,7 @@ const PORTFOLIO_MODAL_MOBILE_IMAGES = {
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.png",
   "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
 
