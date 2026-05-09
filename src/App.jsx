@@ -180,13 +180,13 @@ const PORTFOLIO_BY_LANG = {
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
     {
-      title: "La Casona Gourmet",
-      location: "Lima, Perú",
+      title: "Amazonia Eco Stay",
+      location: "Iquitos, Perú",
       category: "Web Profesional",
       type: "web",
-      description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
-      link: "https://la-casa-gourmet.vercel.app/"
+      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
+      link: "https://amazonia-eco-stay.vercel.app/"
     },
     {
       title: "Atlas",
@@ -234,13 +234,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Perú",
-      category: "Web Profesional",
+      title: "",
+      location: "",
+      category: "",
       type: "web",
-      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      description: "",
+      image: "",
+      link: ""
     }
   ],
   en: [
@@ -273,13 +273,13 @@ const PORTFOLIO_BY_LANG = {
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
     {
-      title: "La Casona Gourmet",
-      location: "Lima, Peru",
+      title: "Amazonia Eco Stay",
+      location: "Iquitos, Peru",
       category: "Professional Web",
       type: "web",
-      description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
-      link: "https://la-casa-gourmet.vercel.app/"
+      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
+      image: "/images/03-portafolio/AmazoniaEcoStay.png",
+      link: "https://amazonia-eco-stay.vercel.app/"
     },
     {
       title: "Atlas",
@@ -327,13 +327,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://vuelo78hotel-demo.netlify.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Peru",
-      category: "Professional Web",
+      title: "",
+      location: "",
+      category: "",
       type: "web",
-      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      description: "",
+      image: "",
+      link: ""
     }
   ]
 };
