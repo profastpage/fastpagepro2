@@ -47,7 +47,8 @@ import {
   FileText,
   MapPin,
   Heart,
-  Download
+  Download,
+  Maximize2
 } from 'lucide-react';
 
 const _MOTION = motion;
@@ -2511,7 +2512,7 @@ const useGSAPScrollReveal = (ref, options = {}) => {
   }, [ref, y, stagger, delay]);
 };
 
-const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
+const PortfolioSection = ({ copy, projects, language, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
@@ -2601,6 +2602,8 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
                   onClick={() => {
                     if (onProjectClick) onProjectClick(project);
                   }}
+                  onmouseenter={() => { if (onProjectHover) onProjectHover(project); }}
+                  onmouseleave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -3388,9 +3391,10 @@ const IPhoneMockup = ({ imageSrc, alt, compact = false }) => (
   </div>
 );
 
-// Portfolio Modal Component
+// Portfolio Modal Component — Redesigned: description first, expandable images, new tab links
 const PortfolioModal = ({ project, language, onClose }) => {
   const modalRef = useRef(null);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
   const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || modalImage;
@@ -3398,16 +3402,20 @@ const PortfolioModal = ({ project, language, onClose }) => {
     ? ({ tienda: "Ver Tienda Profesional", web: "Ver Web Profesional", app: "Ver App en Vivo", custom: "Ver Proyecto" })[project.type] || "Ver Proyecto"
     : ({ tienda: "View Live Store", web: "View Live Website", app: "View Live App", custom: "View Project" })[project.type] || "View Project";
   const descLabel = language === "es" ? "Sobre este proyecto" : "About this project";
+  const tapLabel = language === "es" ? "Toca la imagen para ampliar" : "Tap image to expand";
 
   useEffect(() => {
-    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    const handleEsc = (e) => {
+      if (expandedImage) { setExpandedImage(null); return; }
+      if (e.key === 'Escape') onClose();
+    };
     document.addEventListener('keydown', handleEsc);
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', handleEsc);
       document.body.style.overflow = '';
     };
-  }, [onClose]);
+  }, [onClose, expandedImage]);
 
   const getTypeBg = (type) => {
     const bgs = {
@@ -3430,11 +3438,46 @@ const PortfolioModal = ({ project, language, onClose }) => {
       {/* Backdrop */}
       <motion.div
         className="absolute inset-0 bg-black/80 backdrop-blur-xl"
-        onClick={onClose}
+        onClick={() => { if (expandedImage) setExpandedImage(null); else onClose(); }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />
+
+      {/* Expanded Image Overlay */}
+      <AnimatePresence>
+        {expandedImage && (
+          <motion.div
+            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-black/95"
+              onClick={() => setExpandedImage(null)}
+            />
+            <motion.img
+              src={expandedImage}
+              alt={project.title}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="relative z-10 max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl cursor-pointer"
+              onClick={() => setExpandedImage(null)}
+            />
+            <motion.button
+              onClick={() => setExpandedImage(null)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="absolute top-4 right-4 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white border border-white/20 hover:bg-white/20 transition-colors"
+            >
+              <X size={24} />
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Modal Content */}
       <motion.div
@@ -3462,13 +3505,13 @@ const PortfolioModal = ({ project, language, onClose }) => {
           <div className="w-10 h-1 rounded-full bg-stone-400" />
         </div>
 
-        {/* Header */}
+        {/* Header + Description + CTAs — FOCUS FIRST */}
         <div className="p-6 sm:p-8 md:p-10">
           {/* Badge & Meta */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.1 }}
           >
             <div className="flex flex-wrap items-center gap-2 mb-4">
               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
@@ -3479,69 +3522,26 @@ const PortfolioModal = ({ project, language, onClose }) => {
                 {project.location}
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 dark:text-white mb-2">{project.title}</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 dark:text-white mb-4">{project.title}</h2>
           </motion.div>
 
-
-
-          {/* Mockups Area — Responsive: Desktop shows Laptop, Mobile shows Smartphone */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
-            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl px-3 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 border border-stone-200 dark:border-white/10 mb-6 overflow-hidden"
-          >
-            {/* Subtle grid background */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
-
-            {/* Mobile viewport → Smartphone only (priority) */}
-            <div className="flex md:hidden justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-              </motion.div>
-            </div>
-
-            {/* Desktop viewport → Laptop + Smartphone side by side */}
-            <div className="hidden md:flex items-center justify-center gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="flex-1 flex justify-center"
-              >
-                <MacBookMockup imageSrc={modalImage} alt={project.title} />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.45, duration: 0.5 }}
-              >
-                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Description */}
+          {/* Description — SHOWN FIRST */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8"
+            transition={{ delay: 0.15 }}
+            className="mb-6"
           >
             <div className="text-xs uppercase tracking-widest text-stone-400 dark:text-stone-500 font-semibold mb-3">{descLabel}</div>
             <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{project.description}</p>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons — SHOWN FIRST */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-3"
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-3 mb-8"
           >
             <a
               href={project.link}
@@ -3570,6 +3570,59 @@ const PortfolioModal = ({ project, language, onClose }) => {
               {language === "es" ? "Volver al Portafolio" : "Back to Portfolio"}
             </button>
           </motion.div>
+
+          {/* Mockups Area — Clickable to expand */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 20 }}
+            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl px-3 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 border border-stone-200 dark:border-white/10 overflow-hidden"
+          >
+            {/* Expand hint */}
+            <div className="text-center mb-3">
+              <span className="text-[10px] sm:text-xs text-stone-400 dark:text-stone-500 flex items-center justify-center gap-1.5">
+                <Maximize2 size={12} /> {tapLabel}
+              </span>
+            </div>
+
+            {/* Subtle grid background */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
+
+            {/* Mobile viewport → Smartphone only */}
+            <div className="flex md:hidden justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+                className="cursor-pointer"
+                onClick={() => setExpandedImage(modalMobileImage)}
+              >
+                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+              </motion.div>
+            </div>
+
+            {/* Desktop viewport → Laptop + Smartphone side by side, both clickable */}
+            <div className="hidden md:flex items-center justify-center gap-8">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+                className="flex-1 flex justify-center cursor-pointer"
+                onClick={() => setExpandedImage(modalImage)}
+              >
+                <MacBookMockup imageSrc={modalImage} alt={project.title} />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
+                className="cursor-pointer"
+                onClick={() => setExpandedImage(modalMobileImage)}
+              >
+                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </motion.div>
@@ -3585,6 +3638,8 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const hoverTimeoutRef = useRef(null);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -4176,12 +4231,21 @@ export default function App() {
                     const slug = PORTFOLIO_SLUGS[project.title];
                     if (slug) {
                       setSelectedProject(project);
+                      setHoveredProject(null);
                       try {
                         if (typeof window !== 'undefined') {
                           window.location.hash = `portfolio/${slug}`;
                         }
                       } catch {}
                     }
+                  }} onProjectHover={(project) => {
+                    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                    hoverTimeoutRef.current = setTimeout(() => {
+                      setHoveredProject(project);
+                    }, 400);
+                  }} onProjectHoverEnd={() => {
+                    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+                    setHoveredProject(null);
                   }} />
 
       {/* Services Section */}
@@ -4476,6 +4540,45 @@ export default function App() {
             language={language}
             onClose={closePortfolioModal}
           />
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Hover Preview — shows on mouseover, desktop only */}
+      <AnimatePresence>
+        {hoveredProject && !selectedProject && (
+          <div className="hidden lg:block fixed z-[90] pointer-events-none" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative w-[420px] bg-white dark:bg-stone-950 rounded-2xl border border-stone-200 dark:border-white/10 shadow-2xl overflow-hidden pointer-events-auto"
+            >
+              {/* Header */}
+              <div className="px-4 py-3 border-b border-stone-100 dark:border-white/10 flex items-center gap-2">
+                <span className="text-[10px] font-bold tracking-wide uppercase text-yellow-500">{hoveredProject.category}</span>
+                <span className="text-stone-300 dark:text-stone-600">•</span>
+                <span className="text-[11px] text-stone-400 dark:text-stone-400">{hoveredProject.location}</span>
+              </div>
+              {/* Preview Image */}
+              <div className="aspect-video bg-stone-100 dark:bg-stone-900">
+                <img
+                  src={PORTFOLIO_MODAL_IMAGES[hoveredProject.title] || hoveredProject.image}
+                  alt={hoveredProject.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Info */}
+              <div className="px-4 py-3">
+                <h3 className="text-sm font-bold text-stone-900 dark:text-white mb-1">{hoveredProject.title}</h3>
+                <p className="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-2 leading-relaxed">{hoveredProject.description}</p>
+                <div className="mt-2 flex items-center gap-1 text-[10px] font-semibold text-yellow-500">
+                  <ExternalLink size={10} />
+                  <span>{language === 'es' ? 'Clic para ver proyecto' : 'Click to view project'}</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
