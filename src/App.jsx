@@ -3646,10 +3646,10 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return saved === 'dark' || (!saved && prefersDark);
+      // Always dark by default. Only light if user explicitly chose 'light' (persisted)
+      return saved !== 'light';
     } catch {
-      return false;
+      return true; // Dark fallback
     }
   });
   const [language, setLanguage] = useState(() => {
