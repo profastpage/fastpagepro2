@@ -4242,10 +4242,12 @@ export default function App() {
                     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
                     hoverTimeoutRef.current = setTimeout(() => {
                       setHoveredProject(project);
-                    }, 400);
+                    }, 120);
                   }} onProjectHoverEnd={() => {
                     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-                    setHoveredProject(null);
+                    hoverTimeoutRef.current = setTimeout(() => {
+                      setHoveredProject(null);
+                    }, 80);
                   }} />
 
       {/* Services Section */}
@@ -4543,44 +4545,54 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Desktop Hover Preview — shows on mouseover, desktop only */}
-      <AnimatePresence>
-        {hoveredProject && !selectedProject && (
-          <div className="hidden lg:block fixed z-[90] pointer-events-none" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+      {/* Desktop Hover Preview — shows on mouseover, desktop only (lg+) */}
+      <div className="hidden lg:flex fixed inset-0 z-[90] pointer-events-none items-center justify-center">
+        <AnimatePresence>
+          {hoveredProject && !selectedProject && (
             <motion.div
+              key={hoveredProject.title}
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="relative w-[420px] bg-white dark:bg-stone-950 rounded-2xl border border-stone-200 dark:border-white/10 shadow-2xl overflow-hidden pointer-events-auto"
+              exit={{ opacity: 0, scale: 0.92, y: 10 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="will-change-transform"
             >
-              {/* Header */}
-              <div className="px-4 py-3 border-b border-stone-100 dark:border-white/10 flex items-center gap-2">
-                <span className="text-[10px] font-bold tracking-wide uppercase text-yellow-500">{hoveredProject.category}</span>
-                <span className="text-stone-300 dark:text-stone-600">•</span>
-                <span className="text-[11px] text-stone-400 dark:text-stone-400">{hoveredProject.location}</span>
-              </div>
-              {/* Preview Image */}
-              <div className="aspect-video bg-stone-100 dark:bg-stone-900">
-                <img
-                  src={PORTFOLIO_MODAL_IMAGES[hoveredProject.title] || hoveredProject.image}
-                  alt={hoveredProject.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Info */}
-              <div className="px-4 py-3">
-                <h3 className="text-sm font-bold text-stone-900 dark:text-white mb-1">{hoveredProject.title}</h3>
-                <p className="text-[11px] text-stone-500 dark:text-stone-400 line-clamp-2 leading-relaxed">{hoveredProject.description}</p>
-                <div className="mt-2 flex items-center gap-1 text-[10px] font-semibold text-yellow-500">
-                  <ExternalLink size={10} />
-                  <span>{language === 'es' ? 'Clic para ver proyecto' : 'Click to view project'}</span>
+              {/* Frosted glass card */}
+              <div className="relative w-[480px] rounded-2xl border border-white/[0.12] shadow-[0_40px_80px_-16px_rgba(0,0,0,0.7)] overflow-hidden backdrop-blur-2xl bg-stone-950/90">
+                {/* Top shine line */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent z-20" />
+                
+                {/* Preview Image */}
+                <div className="relative aspect-video bg-stone-900 overflow-hidden">
+                  <img
+                    src={PORTFOLIO_MODAL_IMAGES[hoveredProject.title] || hoveredProject.image}
+                    alt={hoveredProject.title}
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                  />
+                  {/* Bottom gradient fade into info */}
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-stone-950 to-transparent" />
+                </div>
+
+                {/* Info section */}
+                <div className="px-5 pt-1 pb-5 relative z-10">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-yellow-400">{hoveredProject.category}</span>
+                    <span className="text-stone-700">•</span>
+                    <span className="text-[11px] text-stone-500">{hoveredProject.location}</span>
+                  </div>
+                  <h3 className="text-[15px] font-bold text-white mb-1.5 leading-tight">{hoveredProject.title}</h3>
+                  <p className="text-[12px] text-stone-400 leading-relaxed line-clamp-2">{hoveredProject.description}</p>
+                  <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-yellow-400/90">
+                    <ExternalLink size={11} />
+                    <span>{language === 'es' ? 'Clic para ver proyecto completo' : 'Click to view full project'}</span>
+                  </div>
                 </div>
               </div>
             </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
     </>
   );
