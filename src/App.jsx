@@ -427,7 +427,7 @@ const PLANS_BY_LANG = {
 
 const COPY = {
   es: {
-    navCta: "Agendar Demo",
+    navCta: "Empezar Mi Proyecto",
     notificationTitle: "Nuevo proyecto entregado!",
     notificationSubtitle: "Cotizador Pro SaaS - hace 2 minutos",
     heroBadge: "Listo en 2-3 dias",
@@ -535,7 +535,7 @@ const COPY = {
     }
   },
   en: {
-    navCta: "Book Demo",
+    navCta: "Start My Project",
     notificationTitle: "New project delivered!",
     notificationSubtitle: "Cotizador Pro SaaS - 2 minutes ago",
     heroBadge: "Ready in 2-3 Days",
@@ -3940,7 +3940,7 @@ export default function App() {
                 <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
               </motion.button>
             )}
-            <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" size="small" className="ml-2" />
+            <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => scrollToSection(e, 'contacto')} variant="primary" size="small" className="ml-2" />
           </div>
           
           {/* Mobile Controls */}
@@ -3969,7 +3969,7 @@ export default function App() {
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
-              <WhatsAppButton text={copy.navCta} href="#" onClick={openAgendaWidget} variant="primary" className="w-full mt-8" size="large" />
+              <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => { scrollToSection(e, 'contacto'); setMobileMenu(false); }} variant="primary" className="w-full mt-8" size="large" />
               {!isAppInstalled && deferredPrompt && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
