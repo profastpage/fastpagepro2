@@ -2646,38 +2646,53 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick, onProjectH
           </AnimatePresence>
         </div>
         
-        {/* Stats Social Proof — Theme-aware Glassmorphism */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+        {/* Stats Social Proof — Immersive floating style, no card background */}
+        <div className="flex flex-wrap justify-center gap-8 md:gap-14">
           {[
-            { value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created" },
-            { value: 300, suffix: "%", label: language === "es" ? "aumento en ventas" : "sales increase", prefix: "+" },
-            { value: 4, suffix: "", label: language === "es" ? "países" : "countries" },
-            { value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction" }
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5 }}
-              className="portfolio-stat-glass text-center px-5 py-3.5 rounded-2xl"
-            >
-              <div
-                className="text-2xl md:text-3xl font-extrabold tracking-tight"
-                style={{
-                  background: `linear-gradient(135deg, var(--stats-number-gradient-1) 0%, var(--stats-number-gradient-2) 100%)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
+            { value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created", icon: Rocket },
+            { value: 300, suffix: "%", label: language === "es" ? "aumento en ventas" : "sales increase", prefix: "+", icon: TrendingUp },
+            { value: 4, suffix: "", label: language === "es" ? "países" : "countries", icon: Globe },
+            { value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction", icon: Zap }
+          ].map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                whileHover={{ y: -4 }}
+                className="text-center group"
               >
-                {stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
-              </div>
-              <div className="text-[11px] md:text-xs uppercase tracking-wider mt-1" style={{ color: 'var(--stats-text-desc)' }}>
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
+                <motion.div
+                  whileHover={{ scale: 1.15, rotate: -5 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="inline-flex items-center justify-center mb-3"
+                >
+                  <Icon
+                    size={20}
+                    className="text-yellow-400/60 group-hover:text-yellow-400 transition-colors duration-300"
+                    strokeWidth={1.5}
+                  />
+                </motion.div>
+                <div
+                  className="text-3xl md:text-4xl font-extrabold tracking-tight"
+                  style={{
+                    background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
+                  {stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
+                </div>
+                <div className="text-[11px] md:text-xs uppercase tracking-widest mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>
+                  {stat.label}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
