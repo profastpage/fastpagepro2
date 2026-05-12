@@ -3543,25 +3543,21 @@ const PortfolioModal = ({ project, language, onClose }) => {
             transition={{ delay: 0.2 }}
             className="flex flex-col sm:flex-row gap-3 mb-8"
           >
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5 text-sm"
+            <button
+              onClick={() => { try { window.open(project.link, '_blank', 'noopener,noreferrer'); } catch { window.location.href = project.link; } }}
+              className="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5 text-sm cursor-pointer"
             >
               {liveLabel}
               <ExternalLink size={16} />
-            </a>
+            </button>
             {project.demoLink && (
-              <a
-                href={project.demoLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(59,130,246,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.5)] hover:-translate-y-0.5 text-sm"
+              <button
+                onClick={() => { try { window.open(project.demoLink, '_blank', 'noopener,noreferrer'); } catch { window.location.href = project.demoLink; } }}
+                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(59,130,246,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.5)] hover:-translate-y-0.5 text-sm cursor-pointer"
               >
                 {language === "es" ? "Probar Demo" : "Try Demo"}
                 <ExternalLink size={16} />
-              </a>
+              </button>
             )}
             <button
               onClick={onClose}
