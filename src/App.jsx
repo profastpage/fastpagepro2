@@ -153,15 +153,6 @@ const PORTFOLIO_CATEGORIES = {
 const PORTFOLIO_BY_LANG = {
   es: [
     {
-      title: "Urban Style",
-      location: "Lima, Perú",
-      category: "Tienda Online",
-      type: "tienda",
-      description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/UrbanStyle.png",
-      link: "https://tienda-online-oficial.vercel.app/demo"
-    },
-    {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Perú",
       category: "Web Profesional",
@@ -217,25 +208,16 @@ const PORTFOLIO_BY_LANG = {
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Landing de alta conversión con experiencia visual inmersiva y sistema de reservas rápidas por WhatsApp.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      title: "Urban Style",
+      location: "Lima, Perú",
+      category: "Tienda Online",
+      type: "tienda",
+      description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
+      image: "/images/03-portafolio/UrbanStyle.png",
+      link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ],
   en: [
-    {
-      title: "Urban Style",
-      location: "Lima, Peru",
-      category: "Online Store",
-      type: "tienda",
-      description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
-      image: "/images/03-portafolio/UrbanStyle.png",
-      link: "https://tienda-online-oficial.vercel.app/demo"
-    },
     {
       title: "Vuelo 78 Hotel",
       location: "Tarapoto, Peru",
@@ -292,13 +274,13 @@ const PORTFOLIO_BY_LANG = {
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
-      title: "Amazonia Eco Stay",
-      location: "Iquitos, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "High-conversion landing page with immersive visual experience and fast WhatsApp booking system.",
-      image: "/images/03-portafolio/AmazoniaEcoStay.png",
-      link: "https://amazonia-eco-stay.vercel.app/"
+      title: "Urban Style",
+      location: "Lima, Peru",
+      category: "Online Store",
+      type: "tienda",
+      description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
+      image: "/images/03-portafolio/UrbanStyle.png",
+      link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ]
 };
@@ -3335,7 +3317,6 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
 const PORTFOLIO_SLUGS = {
   "Urban Style": "urban-style",
   "Vuelo 78 Hotel": "vuelo-78-hotel",
-  "Amazonia Eco Stay": "amazonia-eco-stay",
   "La Casona Gourmet": "la-casona-gourmet",
   "Growth Consulting Perú": "growth-consulting-peru",
   "Growth Consulting Peru": "growth-consulting-peru",
@@ -3348,7 +3329,6 @@ const PORTFOLIO_SLUGS = {
 const PORTFOLIO_MODAL_IMAGES = {
   "Urban Style": "/images/03-portafolio/UrbanStyle.png",
   "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
-  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-modal.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
@@ -3360,7 +3340,6 @@ const PORTFOLIO_MODAL_IMAGES = {
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
   "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
-  "Amazonia Eco Stay": "/images/03-portafolio/AmazoniaEcoStay-mobile.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
