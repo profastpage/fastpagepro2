@@ -138,6 +138,10 @@ body {
   --border-subtle: #E5E5E7;
   --border-card: rgba(0, 0, 0, 0.06);
 
+  /* Card styling (immersive) */
+  --card-bg: rgba(0, 0, 0, 0.03);
+  --card-border: rgba(0, 0, 0, 0.08);
+
   /* Glassmorphism */
   --glass-bg: rgba(0, 0, 0, 0.02);
   --glass-border: rgba(0, 0, 0, 0.08);
@@ -201,6 +205,10 @@ body {
   /* Borders */
   --border-subtle: #1E1E1E;
   --border-card: rgba(255, 255, 255, 0.08);
+
+  /* Card styling (immersive) */
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --card-border: rgba(255, 255, 255, 0.08);
 
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.03);
@@ -604,4 +612,13 @@ section {
 /* Infinite Scroll Testimonials — Pause on hover */
 .animate-infinite-scroll:hover {
   animation-play-state: paused;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

@@ -1245,12 +1245,19 @@ Could you confirm availability?`;
 // Updated Testimonial Card (No Quote Icon)
 const TestimonialCard = ({ testimonial, index }) => {
   return (
-    <div className="w-[340px] md:w-[360px] flex-shrink-0 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:border-zinc-700" style={{ backgroundColor: 'var(--card-bg, rgba(0,0,0,0.4))', border: '1px solid var(--card-border, rgba(255,255,255,0.06))' }}>
+    <div className="w-[320px] md:w-[360px] flex-shrink-0 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:border-zinc-500/30"
+      style={{
+        backgroundColor: 'var(--card-bg)',
+        border: '1px solid var(--card-border)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        boxShadow: 'none'
+      }}>
       <div>
         {/* Stars */}
         <div className="flex gap-1 mb-4">
           {[...Array(testimonial.stars || 5)].map((_, i) => (
-            <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
+            <Star key={i} size={16} className="text-yellow-500 fill-yellow-500" />
           ))}
         </div>
         {/* Quote */}
@@ -1259,8 +1266,8 @@ const TestimonialCard = ({ testimonial, index }) => {
         </p>
       </div>
       {/* Author */}
-      <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid var(--card-border, rgba(255,255,255,0.06))' }}>
-        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid var(--card-border, rgba(255,255,255,0.1))' }}>
+      <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid var(--card-border)' }}>
+        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid var(--card-border)' }}>
           <img src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]} alt={testimonial.name} onError={handleImageFallback} className="w-full h-full object-cover" loading="lazy" />
         </div>
         <div>
@@ -2117,55 +2124,11 @@ const CasesSection = ({ copy, language }) => {
         : "Multi-tenant platform for fast and efficient mass creation of online stores. Allows entrepreneurs to launch their own virtual catalog automatically with independent panels and centralized Super Admin.",
       image: "/images/03-portafolio/EcommerceBuilder.png",
       color: "from-orange-500 to-amber-400"
-    },
-    {
-      category: language === "es" ? "APP MÓVIL" : "MOBILE APP",
-      title: "Atlas",
-      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
-      metric: language === "es" ? "Asistente IA" : "AI Assistant",
-      desc: language === "es"
-        ? "Asistente inteligente que analiza tu negocio en tiempo real. Sugiere estrategias de optimización comercial y crea planes de acción semanales personalizados mediante chat conversacional."
-        : "Intelligent assistant that analyzes your business in real time. Suggests commercial optimization strategies and creates personalized weekly action plans via conversational chat.",
-      image: "/images/03-portafolio/AtlasHero.png",
-      color: "from-purple-500 to-violet-400"
-    },
-    {
-      category: language === "es" ? "PROYECTO PERSONALIZADO" : "CUSTOM PROJECT",
-      title: "Cotizador Pro",
-      location: language === "es" ? "Remoto, Global" : "Remote, Global",
-      metric: language === "es" ? "SaaS Enterprise" : "SaaS Enterprise",
-      desc: language === "es"
-        ? "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema integrado de créditos y automatización de procesos financieros complejos."
-        : "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, integrated credit system and automation of complex financial processes.",
-      image: "/images/03-portafolio/CotizadorPro.png",
-      color: "from-orange-500 to-amber-400"
-    },
-    {
-      category: language === "es" ? "WEB PROFESIONAL" : "PROFESSIONAL WEB",
-      title: "Moda Digital Pro",
-      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
-      metric: language === "es" ? "Web Corporativa" : "Corporate Web",
-      desc: language === "es"
-        ? "Plataforma web premium para empresa de plotters textiles y equipos de confección de alta gama. Incluye video hero profesional orientado al sector B2B con navegación estilo app y modo claro/oscuro."
-        : "Premium web platform for high-end textile plotter and confection equipment company. Includes professional video hero targeted at the B2B sector with app-style navigation and dark/light mode.",
-      image: "/images/03-portafolio/ModaDigitalPro.png",
-      color: "from-blue-500 to-cyan-400"
-    },
-    {
-      category: language === "es" ? "TIENDA ONLINE" : "ONLINE STORE",
-      title: "Urban Style",
-      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
-      metric: language === "es" ? "E-commerce" : "E-commerce",
-      desc: language === "es"
-        ? "Tienda online completa con carrito de compras integrado, sistema avanzado de favoritos, panel de administrador intuitivo y panel de clientes optimizado con notificaciones push en tiempo real."
-        : "Complete online store with integrated shopping cart, advanced favorites system, intuitive admin panel and optimized customer panel with real-time push notifications.",
-      image: "/images/03-portafolio/UrbanStyle.png",
-      color: "from-emerald-500 to-green-400"
     }
   ];
 
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
+    <section className="py-20 md:py-28 relative overflow-hidden bg-transparent">
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.casesTitle} subtitle={copy.casesSubtitle} badge={copy.casesBadge} />
 
@@ -2175,10 +2138,11 @@ const CasesSection = ({ copy, language }) => {
               key={c.title}
               className="group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
               style={{
-                backgroundColor: 'var(--card-bg, rgba(0,0,0,0.4))',
-                border: '1px solid var(--card-border, rgba(255,255,255,0.06))',
+                backgroundColor: 'var(--card-bg)',
+                border: '1px solid var(--card-border)',
                 backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)'
+                WebkitBackdropFilter: 'blur(20px)',
+                boxShadow: 'none'
               }}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -2204,7 +2168,7 @@ const CasesSection = ({ copy, language }) => {
                 <div className="md:col-span-3 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
                   {/* Category + Metric badges */}
                   <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-yellow-400">{c.category}</span>
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-yellow-500">{c.category}</span>
                     <span className="inline-block px-3 py-1 rounded-full bg-blue-500/15 text-blue-400 text-[11px] font-semibold border border-blue-500/20">
                       {c.metric}
                     </span>
@@ -4350,15 +4314,24 @@ export default function App() {
       {/* Success Cases */}
       <CasesSection copy={copy} language={language} />
 
-      {/* TESTIMONIALS — Infinite Scroll Carousel */}
-      <section id="testimonios" className="py-16 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
+      {/* TESTIMONIALS — Hybrid Carousel (Auto Scroll + Manual Swipe) */}
+      <section id="testimonios" className="py-16 md:py-28 relative overflow-hidden bg-transparent">
         <div className="container mx-auto px-4 relative z-10">
           <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
         </div>
 
-        {/* Infinite Scroll Track — Desktop + Mobile */}
-        <div className="relative w-full mt-8" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)' }}>
-          <div className="flex gap-5 py-4 animate-infinite-scroll" style={{ width: 'max-content' }}>
+        {/* Hybrid Carousel — CSS Infinite Scroll + Native Scroll/Swipe */}
+        <div
+          className="relative w-full mt-8"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)'
+          }}
+        >
+          <div
+            className="flex gap-5 py-4 scrollbar-hide cursor-grab active:cursor-grabbing animate-infinite-scroll"
+            style={{ width: 'max-content', WebkitOverflowScrolling: 'touch' }}
+          >
             {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
               <TestimonialCard key={`t-${i}`} testimonial={t} index={i % testimonials.length} />
             ))}
