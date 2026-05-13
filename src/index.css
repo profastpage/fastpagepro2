@@ -138,9 +138,9 @@ body {
   --border-subtle: #E5E5E7;
   --border-card: rgba(0, 0, 0, 0.06);
 
-  /* Card styling (immersive) */
-  --card-bg: rgba(0, 0, 0, 0.03);
-  --card-border: rgba(0, 0, 0, 0.08);
+  /* Card styling (immersive — near-invisible) */
+  --card-bg: transparent;
+  --card-border: rgba(0, 0, 0, 0.07);
 
   /* Glassmorphism */
   --glass-bg: rgba(0, 0, 0, 0.02);
@@ -206,9 +206,9 @@ body {
   --border-subtle: #1E1E1E;
   --border-card: rgba(255, 255, 255, 0.08);
 
-  /* Card styling (immersive) */
-  --card-bg: rgba(255, 255, 255, 0.04);
-  --card-border: rgba(255, 255, 255, 0.08);
+  /* Card styling (immersive — near-invisible) */
+  --card-bg: transparent;
+  --card-border: rgba(255, 255, 255, 0.07);
 
   /* Glassmorphism */
   --glass-bg: rgba(255, 255, 255, 0.03);
@@ -610,8 +610,21 @@ section {
 }
 
 /* Infinite Scroll Testimonials — Pause on hover */
-.animate-infinite-scroll:hover {
+.testimonial-track {
+  animation: testimonial-scroll 40s linear infinite;
+}
+.testimonial-track:hover,
+.testimonial-track.is-paused {
   animation-play-state: paused;
+}
+@keyframes testimonial-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+/* Manual scroll override — when user drags, disable animation */
+.testimonial-track.manual-scroll {
+  animation: none !important;
 }
 
 /* Scrollbar hide utility */

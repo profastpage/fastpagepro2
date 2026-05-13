@@ -1245,13 +1245,13 @@ Could you confirm availability?`;
 // Updated Testimonial Card (No Quote Icon)
 const TestimonialCard = ({ testimonial, index }) => {
   return (
-    <div className="w-[320px] md:w-[360px] flex-shrink-0 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:border-zinc-500/30"
+    <div className="w-[320px] md:w-[360px] flex-shrink-0 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300"
       style={{
-        backgroundColor: 'var(--card-bg)',
-        border: '1px solid var(--card-border)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        boxShadow: 'none'
+        backgroundColor: 'transparent',
+        border: '1px solid rgba(0,0,0,0.05)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        boxShadow: '0 1px 12px rgba(0,0,0,0.03)'
       }}>
       <div>
         {/* Stars */}
@@ -1266,8 +1266,8 @@ const TestimonialCard = ({ testimonial, index }) => {
         </p>
       </div>
       {/* Author */}
-      <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid var(--card-border)' }}>
-        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid var(--card-border)' }}>
+      <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}>
+        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
           <img src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]} alt={testimonial.name} onError={handleImageFallback} className="w-full h-full object-cover" loading="lazy" />
         </div>
         <div>
@@ -2087,6 +2087,147 @@ const ContactSection = ({ copy, language }) => {
   );
 };
 
+// --- Testimonial Carousel (Hybrid: CSS Auto-Scroll + Native Manual Scroll/Swipe) ---
+const TestimonialCarousel = ({ testimonials, copy }) => {
+  const scrollRef = useRef(null);
+  const animFrameRef = useRef(null);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  const interactionTimeoutRef = useRef(null);
+  const lastScrollLeft = useRef(0);
+  const velocityRef = useRef(0.6); // px per frame
+  const resumeTimerRef = useRef(null);
+
+  // Triple the array for seamless infinite loop
+  const tripled = [...testimonials, ...testimonials, ...testimonials];
+
+  // Auto-scroll via JS (requestAnimationFrame)
+  useEffect(() => {
+    const track = scrollRef.current;
+    if (!track) return;
+
+    const singleSetWidth = () => {
+      // Calculate width of one full set of testimonials
+      const cards = track.children;
+      if (cards.length === 0) return 0;
+      const oneCardWidth = cards[0].offsetWidth + 20; // card width + gap
+      return oneCardWidth * testimonials.length;
+    };
+
+    const step = () => {
+      if (!isUserInteracting && track) {
+        track.scrollLeft += velocityRef.current;
+        const maxScroll = singleSetWidth();
+        // Reset position when we've scrolled past one full set
+        if (track.scrollLeft >= maxScroll) {
+          track.scrollLeft -= maxScroll;
+        }
+        // Also handle negative scroll (user scrolled left past start)
+        if (track.scrollLeft <= 0) {
+          track.scrollLeft += maxScroll;
+        }
+      }
+      animFrameRef.current = requestAnimationFrame(step);
+    };
+
+    animFrameRef.current = requestAnimationFrame(step);
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, [isUserInteracting, testimonials.length]);
+
+  // Pause on interaction
+  const pauseAutoScroll = () => {
+    setIsUserInteracting(true);
+    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+  };
+
+  // Resume with delay after interaction ends
+  const scheduleResume = () => {
+    if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+    interactionTimeoutRef.current = setTimeout(() => {
+      // Smoothly re-sync: snap to nearest set boundary
+      const track = scrollRef.current;
+      if (!track) { setIsUserInteracting(false); return; }
+      
+      const cards = track.children;
+      if (cards.length === 0) { setIsUserInteracting(false); return; }
+      const oneCardWidth = cards[0].offsetWidth + 20;
+      const maxScroll = oneCardWidth * testimonials.length;
+      
+      // Find the closest valid position within the first set range
+      const normalized = track.scrollLeft % maxScroll;
+      track.scrollTo({ left: normalized, behavior: 'smooth' });
+      
+      // Resume after smooth scroll completes
+      resumeTimerRef.current = setTimeout(() => {
+        setIsUserInteracting(false);
+        lastScrollLeft.current = track.scrollLeft;
+      }, 500);
+    }, 1500);
+  };
+
+  // Mouse events
+  const handleMouseDown = () => pauseAutoScroll();
+  const handleMouseUp = () => scheduleResume();
+
+  // Touch events
+  const handleTouchStart = () => pauseAutoScroll();
+  const handleTouchEnd = () => scheduleResume();
+
+  // Scroll detection (mouse wheel / trackpad)
+  const handleWheel = () => {
+    pauseAutoScroll();
+    scheduleResume();
+  };
+
+  // Hover pause/resume
+  const handleMouseEnter = () => pauseAutoScroll();
+  const handleMouseLeave = () => scheduleResume();
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (interactionTimeoutRef.current) clearTimeout(interactionTimeoutRef.current);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
+  return (
+    <section id="testimonios" className="py-16 md:py-28 relative overflow-hidden bg-transparent">
+      <div className="container mx-auto px-4 relative z-10">
+        <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
+      </div>
+
+      {/* Hybrid Carousel Track */}
+      <div
+        className="relative w-full mt-8"
+        style={{
+          maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)'
+        }}
+      >
+        <div
+          ref={scrollRef}
+          className="flex gap-5 py-4 scrollbar-hide cursor-grab active:cursor-grabbing overflow-x-auto scroll-smooth"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          onMouseEnter={handleMouseEnter}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onWheel={handleWheel}
+        >
+          {tripled.map((t, i) => (
+            <TestimonialCard key={`t-${i}`} testimonial={t} index={i % testimonials.length} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // --- Success Cases Section ---
 const CasesSection = ({ copy, language }) => {
   const sectionRef = useRef(null);
@@ -2138,11 +2279,13 @@ const CasesSection = ({ copy, language }) => {
               key={c.title}
               className="group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
               style={{
-                backgroundColor: 'var(--card-bg)',
-                border: '1px solid var(--card-border)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                boxShadow: 'none'
+                backgroundColor: 'transparent',
+                border: '1px solid rgba(0,0,0,0.05)',
+                boxShadow: '0 2px 20px rgba(0,0,0,0.04)'
+              }}
+              whileHover={{
+                boxShadow: '0 4px 30px rgba(0,0,0,0.08)',
+                borderColor: 'rgba(0,0,0,0.1)'
               }}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -4314,30 +4457,8 @@ export default function App() {
       {/* Success Cases */}
       <CasesSection copy={copy} language={language} />
 
-      {/* TESTIMONIALS — Hybrid Carousel (Auto Scroll + Manual Swipe) */}
-      <section id="testimonios" className="py-16 md:py-28 relative overflow-hidden bg-transparent">
-        <div className="container mx-auto px-4 relative z-10">
-          <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
-        </div>
-
-        {/* Hybrid Carousel — CSS Infinite Scroll + Native Scroll/Swipe */}
-        <div
-          className="relative w-full mt-8"
-          style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)'
-          }}
-        >
-          <div
-            className="flex gap-5 py-4 scrollbar-hide cursor-grab active:cursor-grabbing animate-infinite-scroll"
-            style={{ width: 'max-content', WebkitOverflowScrolling: 'touch' }}
-          >
-            {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
-              <TestimonialCard key={`t-${i}`} testimonial={t} index={i % testimonials.length} />
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* TESTIMONIALS — Hybrid Carousel (Auto + Manual) */}
+      <TestimonialCarousel testimonials={testimonials} copy={copy} />
 
       {/* PRICING - Updated */}
       <section id="planes" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
