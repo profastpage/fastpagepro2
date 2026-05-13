@@ -600,3 +600,8 @@ section {
 .process-line-bg {
   background: var(--line-color);
 }
+
+/* Infinite Scroll Testimonials — Pause on hover */
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}

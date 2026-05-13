@@ -287,20 +287,18 @@ const PORTFOLIO_BY_LANG = {
 
 const TESTIMONIALS_BY_LANG = {
   es: [
-    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", text: "El sistema de cotización multi-tenant que desarrollaron transformó nuestra operación comercial. La automatización de plantillas nos ahorra horas semanales. Totalmente recomendados." },
-    { name: "María Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "Profesionales de verdad. La landing page la tuvieron lista en 48 horas y el diseño superó todas nuestras expectativas." },
-    { name: "Roberto Sánchez", hotel: "App FitLife", location: "Lima", text: "La app móvil que desarrollaron funciona perfectamente. El equipo entiende de tecnología y de negocio." },
-    { name: "Ana García", hotel: "Web Corporativa TechFlow", location: "Remoto", text: "El dashboard empresarial que nos crearon transformó nuestra gestión interna. Código limpio y muy bien documentado." },
-    { name: "Jorge Paredes", hotel: "Tienda GastroMarket", location: "Arequipa", text: "La integración con Yape y Plin fue impecable. Nuestros clientes ahora pagan con un solo clic." },
-    { name: "Lucía Fernández", hotel: "Web La Casona Gourmet", location: "Lima", text: "El sistema de pedidos por WhatsApp que implementaron nos ahorra horas de trabajo diario. Excelente soporte." }
+    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", stars: 5, text: "El sistema de cotización multi-tenant que desarrollaron transformó nuestra operación comercial. La automatización de plantillas y cálculo de créditos nos ahorra decenas de horas semanales. Totalmente recomendados." },
+    { name: "María Torres", hotel: "Landing Page Growth Consulting", location: "Lima", stars: 5, text: "Profesionales de verdad. La landing page de captación para Growth Consulting la tuvieron lista en 48 horas. El embudo duplicó la conversión de leads calificados en solo un mes. Superó las expectativas." },
+    { name: "Roberto Sánchez", hotel: "App FitLife", location: "Lima", stars: 5, text: "La app móvil que desarrollaron funciona perfectamente en iOS y Android. El equipo entiende de tecnología y de negocio, logrando un panel administrativo impecable para el seguimiento de usuarios." },
+    { name: "Ana García", hotel: "Web Corporativa TechFlow", location: "Remoto", stars: 5, text: "El dashboard empresarial que nos crearon transformó nuestra gestión interna. Código limpio, arquitectura escalable y muy bien documentado. Facilitó la integración con nuestras APIs existentes." },
+    { name: "Jorge Luis", hotel: "La Casona Gourmet", location: "Lima", stars: 5, text: "La integración del menú visual interactivo y el bot de WhatsApp para nuestro restaurante fue impecable. Los clientes realizan sus pedidos de forma autónoma y el flujo en cocina mejoró radicalmente." }
   ],
   en: [
-    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", text: "The multi-tenant quotation system they built transformed our commercial operations. Template automation saves us hours every week. Highly recommended." },
-    { name: "Maria Torres", hotel: "Landing Page Growth Consulting", location: "Lima", text: "True professionals. The landing page was ready in 48 hours and the design exceeded all our expectations." },
-    { name: "Roberto Sanchez", hotel: "App FitLife", location: "Lima", text: "The mobile app they developed works perfectly. The team understands both technology and business." },
-    { name: "Ana Garcia", hotel: "Corporate Website TechFlow", location: "Remote", text: "The business dashboard they created transformed our internal management. Clean code and well documented." },
-    { name: "Jorge Paredes", hotel: "GastroMarket Store", location: "Arequipa", text: "The Yape and Plin integration was flawless. Our customers now pay with a single click." },
-    { name: "Lucia Fernandez", hotel: "Web La Casona Gourmet", location: "Lima", text: "The WhatsApp ordering system they implemented saves us hours of work daily. Excellent support." }
+    { name: "Carlos Mendoza", hotel: "SaaS Cotizador Pro", location: "Global", stars: 5, text: "The multi-tenant quotation system they built transformed our commercial operations. Template automation and credit calculation saves us dozens of hours every week. Highly recommended." },
+    { name: "Maria Torres", hotel: "Landing Page Growth Consulting", location: "Lima", stars: 5, text: "True professionals. The landing page for Growth Consulting was ready in 48 hours. The funnel doubled qualified lead conversion in just one month. Exceeded all expectations." },
+    { name: "Roberto Sanchez", hotel: "App FitLife", location: "Lima", stars: 5, text: "The mobile app they developed works perfectly on iOS and Android. The team understands both technology and business, delivering an impeccable admin panel for user tracking." },
+    { name: "Ana Garcia", hotel: "Corporate Website TechFlow", location: "Remote", stars: 5, text: "The business dashboard they created transformed our internal management. Clean code, scalable architecture and very well documented. It facilitated integration with our existing APIs." },
+    { name: "Jorge Luis", hotel: "La Casona Gourmet", location: "Lima", stars: 5, text: "The integration of the interactive visual menu and WhatsApp bot for our restaurant was flawless. Customers place orders autonomously and the kitchen workflow improved radically." }
   ]
 };
 
@@ -1247,38 +1245,30 @@ Could you confirm availability?`;
 // Updated Testimonial Card (No Quote Icon)
 const TestimonialCard = ({ testimonial, index }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="bg-white dark:bg-stone-900 rounded-3xl p-6 md:p-8 shadow-lg border border-stone-100 dark:border-stone-800 flex flex-col h-auto min-h-[280px]"
-    >
-      <div className="flex-1">
-        <div className="flex gap-1 mb-6">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} size={18} className="text-stone-900 dark:text-white fill-stone-900 dark:fill-white" />
+    <div className="w-[340px] md:w-[360px] flex-shrink-0 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:border-zinc-700" style={{ backgroundColor: 'var(--card-bg, rgba(0,0,0,0.4))', border: '1px solid var(--card-border, rgba(255,255,255,0.06))' }}>
+      <div>
+        {/* Stars */}
+        <div className="flex gap-1 mb-4">
+          {[...Array(testimonial.stars || 5)].map((_, i) => (
+            <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
           ))}
         </div>
-        <p className="text-stone-700 dark:text-stone-300 text-base md:text-lg leading-relaxed mb-6">
-          "{testimonial.text}"
+        {/* Quote */}
+        <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-6">
+          &ldquo;{testimonial.text}&rdquo;
         </p>
       </div>
-
-      <div className="flex items-center gap-4 pt-6 border-t border-stone-100 dark:border-stone-800">
-        <img
-          src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]}
-          alt={testimonial.name}
-          onError={handleImageFallback}
-          className="w-12 h-12 rounded-full object-cover border border-stone-200 dark:border-stone-700 flex-shrink-0"
-          loading="lazy"
-        />
-        <div className="flex-1 min-w-0">
-          <div className="font-bold text-stone-950 dark:text-white truncate">{testimonial.name}</div>
-          <div className="text-sm text-stone-500 dark:text-stone-300 truncate">{testimonial.hotel} • {testimonial.location}</div>
+      {/* Author */}
+      <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid var(--card-border, rgba(255,255,255,0.06))' }}>
+        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid var(--card-border, rgba(255,255,255,0.1))' }}>
+          <img src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]} alt={testimonial.name} onError={handleImageFallback} className="w-full h-full object-cover" loading="lazy" />
+        </div>
+        <div>
+          <h4 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{testimonial.name}</h4>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{testimonial.hotel} &bull; {testimonial.location}</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -2096,60 +2086,130 @@ const CasesSection = ({ copy, language }) => {
 
   const cases = [
     {
-      title: language === "es" ? "Vuelo 78 Hotel: +180% reservas en 3 meses" : "Vuelo 78 Hotel: +180% bookings in 3 months",
+      category: language === "es" ? "WEB PROFESIONAL" : "PROFESSIONAL WEB",
+      title: "Vuelo 78 Hotel",
+      location: language === "es" ? "Tarapoto, Perú" : "Tarapoto, Peru",
       metric: language === "es" ? "+180% reservas" : "+180% bookings",
-      desc: language === "es" ? "Tras implementar el sistema de reservas directas por WhatsApp, Vuelo 78 Hotel en Tarapoto pasó de 15 a 42 reservas mensuales. La automatización eliminó el 90% del trabajo manual en recepción." : "After implementing direct WhatsApp booking, Vuelo 78 Hotel in Tarapoto went from 15 to 42 monthly bookings. Automation eliminated 90% of manual reception work.",
+      desc: language === "es"
+        ? "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel. Tras implementar el sistema, las reservas mensuales pasaron de 15 a 42, eliminando el 90% del trabajo manual en recepción."
+        : "Direct booking system via WhatsApp with date-based availability and automated hotel response. After implementation, monthly bookings went from 15 to 42, eliminating 90% of manual reception work.",
       image: "/images/03-portafolio/vuelo78hotel.png",
       color: "from-blue-500 to-cyan-400"
     },
     {
-      title: language === "es" ? "Growth Consulting: 3x más leads calificados" : "Growth Consulting: 3x more qualified leads",
-      metric: language === "es" ? "3x leads" : "3x leads",
-      desc: language === "es" ? "La plataforma de captación generó un sistema automático que triplicó la cantidad de leads calificados. El tiempo de respuesta se redujo de horas a segundos con el bot de WhatsApp." : "The capture platform generated an automatic system that tripled qualified leads. Response time went from hours to seconds with the WhatsApp bot.",
-      image: "/images/03-portafolio/GrowthConsultingPerú.png",
+      category: language === "es" ? "TIENDA ONLINE" : "ONLINE STORE",
+      title: "La Casona Gourmet",
+      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
+      metric: language === "es" ? "+95% pedidos" : "+95% orders",
+      desc: language === "es"
+        ? "Menú visual interactivo y sistema de reservas y pedidos directos por WhatsApp optimizado para aumentar ventas. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono."
+        : "Interactive visual menu and direct reservation/ordering system via WhatsApp optimized to increase sales. Customers now order in under 2 minutes without needing to call.",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      color: "from-emerald-500 to-green-400"
+    },
+    {
+      category: language === "es" ? "PROYECTO PERSONALIZADO" : "CUSTOM PROJECT",
+      title: "E-commerce Builder Pro",
+      location: language === "es" ? "Remoto, Global" : "Remote, Global",
+      metric: language === "es" ? "SaaS Multi-tenant" : "Multi-tenant SaaS",
+      desc: language === "es"
+        ? "Plataforma Multi-tenant para la creación masiva de tiendas online rápida y eficiente. Permite a emprendedores lanzar su propio catálogo virtual de manera automatizada con paneles independientes y Super Admin centralizado."
+        : "Multi-tenant platform for fast and efficient mass creation of online stores. Allows entrepreneurs to launch their own virtual catalog automatically with independent panels and centralized Super Admin.",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
+      color: "from-orange-500 to-amber-400"
+    },
+    {
+      category: language === "es" ? "APP MÓVIL" : "MOBILE APP",
+      title: "Atlas",
+      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
+      metric: language === "es" ? "Asistente IA" : "AI Assistant",
+      desc: language === "es"
+        ? "Asistente inteligente que analiza tu negocio en tiempo real. Sugiere estrategias de optimización comercial y crea planes de acción semanales personalizados mediante chat conversacional."
+        : "Intelligent assistant that analyzes your business in real time. Suggests commercial optimization strategies and creates personalized weekly action plans via conversational chat.",
+      image: "/images/03-portafolio/AtlasHero.png",
       color: "from-purple-500 to-violet-400"
     },
     {
-      title: language === "es" ? "La Casona Gourmet: +95% pedidos online" : "La Casona Gourmet: +95% online orders",
-      metric: language === "es" ? "+95% pedidos" : "+95% orders",
-      desc: language === "es" ? "El menú visual interactivo por WhatsApp transformó la experiencia de pedido. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono." : "The interactive visual menu via WhatsApp transformed the ordering experience. Customers now order in under 2 minutes without needing to call.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      category: language === "es" ? "PROYECTO PERSONALIZADO" : "CUSTOM PROJECT",
+      title: "Cotizador Pro",
+      location: language === "es" ? "Remoto, Global" : "Remote, Global",
+      metric: language === "es" ? "SaaS Enterprise" : "SaaS Enterprise",
+      desc: language === "es"
+        ? "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema integrado de créditos y automatización de procesos financieros complejos."
+        : "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, integrated credit system and automation of complex financial processes.",
+      image: "/images/03-portafolio/CotizadorPro.png",
+      color: "from-orange-500 to-amber-400"
+    },
+    {
+      category: language === "es" ? "WEB PROFESIONAL" : "PROFESSIONAL WEB",
+      title: "Moda Digital Pro",
+      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
+      metric: language === "es" ? "Web Corporativa" : "Corporate Web",
+      desc: language === "es"
+        ? "Plataforma web premium para empresa de plotters textiles y equipos de confección de alta gama. Incluye video hero profesional orientado al sector B2B con navegación estilo app y modo claro/oscuro."
+        : "Premium web platform for high-end textile plotter and confection equipment company. Includes professional video hero targeted at the B2B sector with app-style navigation and dark/light mode.",
+      image: "/images/03-portafolio/ModaDigitalPro.png",
+      color: "from-blue-500 to-cyan-400"
+    },
+    {
+      category: language === "es" ? "TIENDA ONLINE" : "ONLINE STORE",
+      title: "Urban Style",
+      location: language === "es" ? "Lima, Perú" : "Lima, Peru",
+      metric: language === "es" ? "E-commerce" : "E-commerce",
+      desc: language === "es"
+        ? "Tienda online completa con carrito de compras integrado, sistema avanzado de favoritos, panel de administrador intuitivo y panel de clientes optimizado con notificaciones push en tiempo real."
+        : "Complete online store with integrated shopping cart, advanced favorites system, intuitive admin panel and optimized customer panel with real-time push notifications.",
+      image: "/images/03-portafolio/UrbanStyle.png",
       color: "from-emerald-500 to-green-400"
     }
   ];
 
   return (
-    <section className="py-20 md:py-28 theme-bg relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-500/[0.03] rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/[0.03] rounded-full blur-[150px] pointer-events-none" />
-
+    <section className="py-20 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
       <div className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.casesTitle} subtitle={copy.casesSubtitle} badge={copy.casesBadge} />
 
-        <div ref={sectionRef} className="space-y-8 max-w-5xl mx-auto">
+        <div ref={sectionRef} className="space-y-6 md:space-y-8 max-w-5xl mx-auto">
           {cases.map((c, i) => (
             <motion.div
-              key={i}
-              className="case-card group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
+              key={c.title}
+              className="group relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden transition-all duration-500"
               style={{
+                backgroundColor: 'var(--card-bg, rgba(0,0,0,0.4))',
+                border: '1px solid var(--card-border, rgba(255,255,255,0.06))',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)'
               }}
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="grid md:grid-cols-5 gap-0">
-                <div className="case-card-image-wrapper md:col-span-2 aspect-[4/3] md:aspect-auto">
-                  <img src={c.image} alt={c.title} onError={handleImageFallback} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                {/* Image — left side on desktop */}
+                <div className="md:col-span-2 relative aspect-[4/3] md:aspect-auto overflow-hidden">
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    onError={handleImageFallback}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    loading="lazy"
+                  />
+                  {/* Dark gradient fade into text area */}
+                  <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[var(--bg-global)]" />
+                  <div className="md:hidden absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.8)] via-transparent to-transparent" />
                 </div>
-                <div className="md:col-span-3 p-6 md:p-10 flex flex-col justify-center">
-                  <div className={`inline-block self-start px-4 py-1.5 rounded-full bg-gradient-to-r ${c.color} text-xs font-bold text-white mb-4 tracking-wider`}>
-                    {c.metric}
+
+                {/* Content — right side on desktop */}
+                <div className="md:col-span-3 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+                  {/* Category + Metric badges */}
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-yellow-400">{c.category}</span>
+                    <span className="inline-block px-3 py-1 rounded-full bg-blue-500/15 text-blue-400 text-[11px] font-semibold border border-blue-500/20">
+                      {c.metric}
+                    </span>
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-3">{c.title}</h3>
+                  <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-3 leading-tight">{c.title}</h3>
                   <p className="text-[var(--text-secondary)] leading-relaxed text-sm md:text-base">{c.desc}</p>
                 </div>
               </div>
@@ -4290,31 +4350,18 @@ export default function App() {
       {/* Success Cases */}
       <CasesSection copy={copy} language={language} />
 
-      {/* TESTIMONIALS - Carousel on Mobile, Horizontal Scroll on Desktop */}
-      <section id="testimonios" className="py-16 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
+      {/* TESTIMONIALS — Infinite Scroll Carousel */}
+      <section id="testimonios" className="py-16 md:py-28 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4 relative z-10">
           <SectionTitle title={copy.testimonialsTitle} subtitle={copy.testimonialsSubtitle} badge={copy.testimonialsBadge} />
+        </div>
 
-          {/* Mobile: Carousel with arrows */}
-          <MobileTestimonialCarousel testimonials={testimonials} />
-
-          {/* Desktop: Horizontal Scroll */}
-          <div className="hidden md:block relative w-full overflow-hidden pb-8">
-            <motion.div
-              className="flex gap-6"
-              drag="x"
-              dragConstraints={{ left: -((testimonials.length * 420) - window.innerWidth), right: 0 }}
-              dragElastic={0.1}
-              dragTransition={{ power: 0.5, timeConstant: 300 }}
-            >
-              {testimonials.map((t, i) => (
-                <TestimonialCard key={i} testimonial={t} index={i} />
-              ))}
-            </motion.div>
-
-            {/* Gradient Fade Edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[var(--bg-global)] to-transparent pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[var(--bg-global)] to-transparent pointer-events-none" />
+        {/* Infinite Scroll Track — Desktop + Mobile */}
+        <div className="relative w-full mt-8" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)' }}>
+          <div className="flex gap-5 py-4 animate-infinite-scroll" style={{ width: 'max-content' }}>
+            {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+              <TestimonialCard key={`t-${i}`} testimonial={t} index={i % testimonials.length} />
+            ))}
           </div>
         </div>
       </section>
