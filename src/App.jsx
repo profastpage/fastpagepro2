@@ -162,6 +162,15 @@ const PORTFOLIO_BY_LANG = {
       link: "https://www.vuelo78hotel.com"
     },
     {
+      title: "CMC LATAM",
+      location: "Perú",
+      category: "Web Profesional",
+      type: "web",
+      description: "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados, galería de proyectos, secciones de servicios e interiores, y navegación fluida y profesional.",
+      image: "/images/03-portafolio/CMCLATAM.png",
+      link: "https://cmc-latam-2.vercel.app/"
+    },
+    {
       title: "E-commerce Builder Pro",
       location: "Remoto, Global",
       category: "Proyecto Personalizado",
@@ -228,6 +237,15 @@ const PORTFOLIO_BY_LANG = {
       link: "https://www.vuelo78hotel.com"
     },
     {
+      title: "CMC LATAM",
+      location: "Peru",
+      category: "Professional Web",
+      type: "web",
+      description: "Bilingual web platform for coastal architecture and construction firm. Features dark/light mode, dynamic WhatsApp with custom CTAs, project gallery, services and interiors sections, with fluid professional navigation.",
+      image: "/images/03-portafolio/CMCLATAM.png",
+      link: "https://cmc-latam-2.vercel.app/"
+    },
+    {
       title: "E-commerce Builder Pro",
       location: "Remote, Global",
       category: "Custom Project",
@@ -288,6 +306,7 @@ const PORTFOLIO_BY_LANG = {
 const TESTIMONIALS_BY_LANG = {
   es: [
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Perú", stars: 5, text: "Desde que implementaron el sistema de reservas por WhatsApp, nuestras reservas mensuales pasaron de 15 a 42. La respuesta automatizada del hotel nos permite atender consultas a cualquier hora sin personal adicional. El mejor impacto que hemos tenido." },
+    { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Perú", stars: 5, text: "Necesitábamos una web que reflejara la calidad de nuestros proyectos de arquitectura costera. El resultado fue una plataforma bilingüe con modo claro/oscuro, galería de proyectos y WhatsApp integrado. Nuestros clientes internacionales quedan impresionados desde el primer contacto." },
     { name: "María Torres", hotel: "E-commerce Builder Pro", location: "Remoto, Global", stars: 5, text: "Como emprendedora, necesitaba lanzar mi tienda online sin complicaciones. La plataforma multi-tenant me permitió tener mi catálogo virtual funcionando en menos de una semana. El panel de administración es intuitivo y el soporte técnico excelente." },
     { name: "Roberto Sánchez", hotel: "Atlas", location: "Lima, Perú", stars: 5, text: "El asistente de IA que desarrollaron analiza mi negocio en tiempo real y me sugiere estrategias de crecimiento semanales. Ha sido como tener un consultor estratégico disponible 24/7. Las recomendaciones son precisas y accionables." },
     { name: "Ana García", hotel: "Cotizador Pro", location: "Remoto, Global", stars: 5, text: "El SaaS multi-tenant que construyeron nos ahorró decenas de horas semanales en la generación de cotizaciones. La automatización de plantillas, el sistema de créditos y la autenticación Google funcionan de manera impecable." },
@@ -297,6 +316,7 @@ const TESTIMONIALS_BY_LANG = {
   ],
   en: [
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Peru", stars: 5, text: "Since they implemented the WhatsApp booking system, our monthly reservations went from 15 to 42. The hotel's automated response lets us handle inquiries 24/7 without extra staff. The best impact we've ever had." },
+    { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Peru", stars: 5, text: "We needed a website that reflected the quality of our coastal architecture projects. The result was a bilingual platform with dark/light mode, project gallery and integrated WhatsApp. Our international clients are impressed from the very first contact." },
     { name: "Maria Torres", hotel: "E-commerce Builder Pro", location: "Remote, Global", stars: 5, text: "As an entrepreneur, I needed to launch my online store without complications. The multi-tenant platform let me have my virtual catalog running in less than a week. The admin panel is intuitive and the tech support is excellent." },
     { name: "Roberto Sanchez", hotel: "Atlas", location: "Lima, Peru", stars: 5, text: "The AI assistant they developed analyzes my business in real time and suggests weekly growth strategies. It's been like having a strategic consultant available 24/7. The recommendations are precise and actionable." },
     { name: "Ana Garcia", hotel: "Cotizador Pro", location: "Remote, Global", stars: 5, text: "The multi-tenant SaaS they built saves us dozens of hours every week on quote generation. Template automation, the credit system and Google authentication work flawlessly." },
@@ -3488,6 +3508,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
 const PORTFOLIO_SLUGS = {
   "Urban Style": "urban-style",
   "Vuelo 78 Hotel": "vuelo-78-hotel",
+  "CMC LATAM": "cmc-latam",
   "La Casona Gourmet": "la-casona-gourmet",
   "Growth Consulting Perú": "growth-consulting-peru",
   "Growth Consulting Peru": "growth-consulting-peru",
@@ -3500,6 +3521,7 @@ const PORTFOLIO_SLUGS = {
 const PORTFOLIO_MODAL_IMAGES = {
   "Urban Style": "/images/03-portafolio/UrbanStyle.png",
   "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
+  "CMC LATAM": "/images/03-portafolio/CMCLATAM.png",
   "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
   "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
   "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
