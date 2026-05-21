@@ -4128,34 +4128,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
-  // Listen for hash changes to handle #portafolio navigation
-  useEffect(() => {
-    const handleHash = () => {
-      try {
-        const hash = window.location.hash;
-        if (hash === '#portafolio') {
-          setCurrentView('portfolio');
-        } else if (hash.startsWith('#portfolio/')) {
-          setCurrentView('portfolio');
-          const slug = hash.replace('#portfolio/', '');
-          const title = slugToTitle[slug];
-          if (title) {
-            const project = portfolioProjects.find((p) => p.title === title);
-            if (project) setSelectedProject(project);
-          }
-        } else {
-          setCurrentView('landing');
-          setSelectedProject(null);
-        }
-      } catch {}
-    };
-    if (typeof window !== 'undefined') {
-      window.addEventListener('hashchange', handleHash);
-      handleHash();
-      return () => window.removeEventListener('hashchange', handleHash);
-    }
-  }, [portfolioProjects]);
-
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
@@ -4197,6 +4169,34 @@ export default function App() {
   const plans = PLANS_BY_LANG[language];
   const portfolioProjects = PORTFOLIO_BY_LANG[language];
   const navItems = NAV_ITEMS.map((item) => ({ id: item.id, label: item[language] }));
+
+  // Listen for hash changes to handle #portafolio navigation
+  useEffect(() => {
+    const handleHash = () => {
+      try {
+        const hash = window.location.hash;
+        if (hash === '#portafolio') {
+          setCurrentView('portfolio');
+        } else if (hash.startsWith('#portfolio/')) {
+          setCurrentView('portfolio');
+          const slug = hash.replace('#portfolio/', '');
+          const title = slugToTitle[slug];
+          if (title) {
+            const project = portfolioProjects.find((p) => p.title === title);
+            if (project) setSelectedProject(project);
+          }
+        } else {
+          setCurrentView('landing');
+          setSelectedProject(null);
+        }
+      } catch {}
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hashchange', handleHash);
+      handleHash();
+      return () => window.removeEventListener('hashchange', handleHash);
+    }
+  }, [portfolioProjects]);
 
   useEffect(() => {
     try {
