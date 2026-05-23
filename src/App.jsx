@@ -2709,7 +2709,7 @@ const useGSAPScrollReveal = (ref, options = {}) => {
 };
 
 // --- Featured Portfolio Section (Landing — 3 Projects + CTA) ---
-const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll }) => {
+const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
   const sectionRef = useRef(null);
   const featured = projects.slice(0, 3);
 
@@ -2739,12 +2739,9 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll }) => {
                 whileHover={{ y: -8 }}
                 className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block"
                 style={{ aspectRatio: '4/5' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (project.link) {
-                    window.open(project.link, '_blank', 'noopener,noreferrer');
-                  }
-                }}
+                onClick={() => { if (onProjectClick) onProjectClick(project); }}
+                onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
+                onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
               >
                 <motion.img
                   src={project.image} alt={project.title} onError={handleImageFallback}
@@ -2789,7 +2786,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll }) => {
 };
 
 // --- Full Portfolio Page (Dedicated /portafolio route) ---
-const FullPortfolioPage = ({ copy, projects, language, onBack }) => {
+const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
@@ -2817,60 +2814,25 @@ const FullPortfolioPage = ({ copy, projects, language, onBack }) => {
 
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
-      {/* Compact Header — No Hero */}
-      <div className="pt-28 pb-6 md:pt-32 md:pb-8 px-4">
-        <div className="container mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            {/* Back Button */}
-            <motion.button
-              onClick={onBack}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 hover:gap-3 shrink-0"
-              style={{ color: 'var(--text-muted)', border: '1px solid var(--card-border)', backgroundColor: 'var(--card-bg)' }}
-            >
-              <ArrowLeft size={15} />
-              {language === 'es' ? 'Volver' : 'Back'}
-            </motion.button>
-
+      {/* Section Title + Filters — No Hero */}
+      <div className="pt-28 pb-4 md:pt-32 md:pb-6 px-4">
+        <div className="container mx-auto">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
             <div>
-              <motion.h1
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-2xl md:text-3xl font-extrabold leading-tight"
-                style={{ color: 'var(--text-main)' }}
-              >
-                {copy.portfolioTitle}
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-sm md:text-base max-w-xl"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                {copy.portfolioSubtitle}
-              </motion.p>
+              <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} compact />
             </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shrink-0"
+              style={{ background: 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.1))', color: 'var(--accent)' }}
+            >
+              <Briefcase size={15} />
+              {projects.length} {language === 'es' ? 'proyectos' : 'projects'}
+            </motion.div>
           </div>
 
-          {/* Project count badge */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shrink-0"
-            style={{ background: 'linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.1))', color: 'var(--accent)' }}
-          >
-            <Briefcase size={15} />
-            {projects.length} {language === 'es' ? 'proyectos' : 'projects'}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Category Filters */}
-      <div className="px-4 mb-10 md:mb-14">
-        <div className="container mx-auto">
+          {/* Category Filters */}
           <div className="flex justify-center">
             <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full">
               {categories.map((cat) => (
@@ -2902,12 +2864,9 @@ const FullPortfolioPage = ({ copy, projects, language, onBack }) => {
                 return (
                   <motion.div
                     key={`${project.title}-${currentFilter}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (project.link) {
-                        window.open(project.link, '_blank', 'noopener,noreferrer');
-                      }
-                    }}
+                    onClick={() => { if (onProjectClick) onProjectClick(project); }}
+                    onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
+                    onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -4748,6 +4707,30 @@ export default function App() {
           projects={portfolioProjects.filter(p => p.title)}
           language={language}
           onViewAll={navigateToPortfolio}
+          onProjectClick={(project) => {
+            const slug = PORTFOLIO_SLUGS[project.title];
+            if (slug) {
+              setSelectedProject(project);
+              setHoveredProject(null);
+              try {
+                if (typeof window !== 'undefined') {
+                  window.location.hash = `portfolio/${slug}`;
+                }
+              } catch {}
+            }
+          }}
+          onProjectHover={(project) => {
+            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+            hoverTimeoutRef.current = setTimeout(() => {
+              setHoveredProject(project);
+            }, 120);
+          }}
+          onProjectHoverEnd={() => {
+            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+            hoverTimeoutRef.current = setTimeout(() => {
+              setHoveredProject(null);
+            }, 80);
+          }}
         />
       ) : (
         <FullPortfolioPage
@@ -4755,6 +4738,30 @@ export default function App() {
           projects={portfolioProjects.filter(p => p.title)}
           language={language}
           onBack={navigateToLanding}
+          onProjectClick={(project) => {
+            const slug = PORTFOLIO_SLUGS[project.title];
+            if (slug) {
+              setSelectedProject(project);
+              setHoveredProject(null);
+              try {
+                if (typeof window !== 'undefined') {
+                  window.location.hash = `portfolio/${slug}`;
+                }
+              } catch {}
+            }
+          }}
+          onProjectHover={(project) => {
+            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+            hoverTimeoutRef.current = setTimeout(() => {
+              setHoveredProject(project);
+            }, 120);
+          }}
+          onProjectHoverEnd={() => {
+            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
+            hoverTimeoutRef.current = setTimeout(() => {
+              setHoveredProject(null);
+            }, 80);
+          }}
         />
       )}
 
