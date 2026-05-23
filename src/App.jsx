@@ -2582,6 +2582,177 @@ const TechStackSection = ({ copy }) => {
 };
 
 // --- Preloader Component (framer-motion, no GSAP) ---
+// --- 21st.dev Inspired: Mouse Spotlight Effect ---
+const MouseSpotlight = ({ children }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const handleMove = (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      el.style.setProperty('--spotlight-x', `${x}px`);
+      el.style.setProperty('--spotlight-y', `${y}px`);
+    };
+    el.addEventListener('mousemove', handleMove);
+    return () => el.removeEventListener('mousemove', handleMove);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <div
+        className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300"
+        style={{
+          background: 'radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(255,215,0,0.06), transparent 40%)',
+          mixBlendMode: 'screen'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+      />
+      {/* Make the parent trigger spotlight visibility */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          background: 'radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(255,215,0,0.06), transparent 40%)',
+          mixBlendMode: 'screen'
+        }}
+      />
+      {children}
+    </div>
+  );
+};
+
+// --- 21st.dev Inspired: Animated Text Reveal (word-by-word) ---
+const AnimatedTextReveal = ({ text, className = '', delay = 0 }) => {
+  const words = text.split(' ');
+  return (
+    <span className={className}>
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{
+            duration: 0.5,
+            delay: delay + i * 0.06,
+            ease: [0.25, 0.4, 0.25, 1]
+          }}
+          className="inline-block mr-[0.3em]"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
+
+// --- 21st.dev Inspired: Aurora Gradient Background ---
+const AuroraGradient = () => {
+  return (
+    <div className="absolute inset-0 z-[1] overflow-hidden">
+      {/* Animated aurora mesh - multiple gradient blobs */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: [
+            'radial-gradient(ellipse 80% 50% at 20% 40%, rgba(255,215,0,0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59,130,246,0.06) 0%, transparent 50%), radial-gradient(ellipse 50% 60% at 50% 20%, rgba(168,85,247,0.05) 0%, transparent 50%)',
+            'radial-gradient(ellipse 60% 40% at 70% 30%, rgba(255,215,0,0.08) 0%, transparent 50%), radial-gradient(ellipse 80% 50% at 30% 70%, rgba(59,130,246,0.06) 0%, transparent 50%), radial-gradient(ellipse 50% 60% at 60% 50%, rgba(168,85,247,0.05) 0%, transparent 50%)',
+            'radial-gradient(ellipse 50% 60% at 40% 60%, rgba(255,215,0,0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 60% 30%, rgba(59,130,246,0.06) 0%, transparent 50%), radial-gradient(ellipse 80% 50% at 20% 50%, rgba(168,85,247,0.05) 0%, transparent 50%)',
+            'radial-gradient(ellipse 80% 50% at 20% 40%, rgba(255,215,0,0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 60%, rgba(59,130,246,0.06) 0%, transparent 50%), radial-gradient(ellipse 50% 60% at 50% 20%, rgba(168,85,247,0.05) 0%, transparent 50%)',
+          ]
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      {/* Floating orbs */}
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(255,215,0,0.12) 0%, transparent 70%)', top: '10%', left: '-5%' }}
+        animate={{ x: [0, 50, -20, 0], y: [0, -30, 20, 0], scale: [1, 1.1, 0.9, 1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute w-[300px] h-[300px] rounded-full"
+        style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)', bottom: '10%', right: '-5%' }}
+        animate={{ x: [0, -40, 30, 0], y: [0, 25, -15, 0], scale: [1, 0.9, 1.1, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+};
+
+// --- 21st.dev Inspired: Animated CTA Button Glow ---
+const AnimatedGlowButton = ({ children, className = '', ...props }) => {
+  return (
+    <motion.a
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      className={`relative group overflow-hidden rounded-full ${className}`}
+      {...props}
+    >
+      {/* Animated glow border */}
+      <motion.div
+        className="absolute -inset-[2px] rounded-full"
+        style={{ background: 'conic-gradient(from 0deg, #FFD700, #FF8C00, #FFD700, #FF6B00, #FFD700)' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+      />
+      {/* Inner button */}
+      <div className="relative bg-yellow-400 hover:bg-yellow-500 rounded-full transition-all duration-300 m-[2px]">
+        {/* Shine sweep on hover */}
+        <span className="absolute inset-0 rounded-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <span className="relative flex items-center justify-center gap-2">
+          {children}
+        </span>
+      </div>
+    </motion.a>
+  );
+};
+
+// --- 21st.dev Inspired: Floating Particles ---
+const FloatingParticles = () => {
+  const particles = useMemo(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 10 + 15,
+      delay: Math.random() * 5,
+      opacity: Math.random() * 0.3 + 0.1,
+    })), []);
+
+  return (
+    <div className="absolute inset-0 z-[2] overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: 'rgba(255,215,0,0.6)',
+            boxShadow: `0 0 ${p.size * 3}px rgba(255,215,0,0.3)`,
+          }}
+          animate={{
+            y: [-20, 20, -20],
+            x: [-10, 10, -10],
+            opacity: [p.opacity * 0.5, p.opacity, p.opacity * 0.5],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const GSAPPreloader = ({ onComplete }) => {
   const [count, setCount] = useState(0);
   const [slideOut, setSlideOut] = useState(false);
@@ -4532,6 +4703,10 @@ export default function App() {
           {/* Subtle side vignette */}
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
           <div className="absolute inset-0 hero-grid" />
+          {/* 21st.dev: Aurora Gradient Background */}
+          <AuroraGradient />
+          {/* 21st.dev: Floating Particles */}
+          <FloatingParticles />
         </div>
 
         <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
@@ -4559,10 +4734,17 @@ export default function App() {
               </span>
             </motion.div>
 
-            {/* Main Title */}
+            {/* Main Title — 21st.dev Animated Text Reveal */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-8 md:mb-10 leading-[1.1]">
-              {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'} <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30">{language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}</span>
+              <AnimatedTextReveal
+                text={language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
+                delay={0.3}
+              /> <br/>
+              <AnimatedTextReveal
+                text={language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
+                delay={0.7}
+                className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30"
+              />
             </h1>
 
             {/* Subtitle */}
@@ -4570,26 +4752,19 @@ export default function App() {
               {copy.heroSubtitle}
             </p>
 
-            {/* CTA Buttons - Same size and design */}
+            {/* CTA Buttons — 21st.dev Glow Effect */}
             <div className="w-full max-w-sm mx-auto flex flex-col gap-[15px]">
-              <a
+              <AnimatedGlowButton
                 href="#portafolio"
                 onClick={(e) => {
                   e.preventDefault();
-                  const target = document.getElementById('portafolio');
-                  if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  }
+                  navigateToPortfolio();
                 }}
-                className="block w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 hover:scale-[1.03] relative overflow-hidden group"
+                className="block w-full font-semibold py-4 px-6 rounded-full text-base text-black shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 transition-all duration-300"
               >
-                {/* Shine effect on hover */}
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <span className="relative flex items-center justify-center gap-2">
-                  {copy.heroPrimaryCta}
-                  <ArrowRight size={18} />
-                </span>
-              </a>
+                {copy.heroPrimaryCta}
+                <ArrowRight size={18} />
+              </AnimatedGlowButton>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
