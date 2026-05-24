@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform } from 'framer-motion';
 import {
   Check,
@@ -53,6 +53,10 @@ import {
   Download,
   Maximize2
 } from 'lucide-react';
+
+// 21st.dev: Spline 3D Scene + Spotlight
+import { SplineScene } from './components/SplineScene';
+import { Spotlight } from './components/Spotlight';
 
 const _MOTION = motion;
 
@@ -4660,153 +4664,137 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION - Mobile First Responsive with Video Showreel */}
-      {currentView === 'landing' && <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
-        {/* Video Background — Cloudinary optimized (f_auto,q_auto) with local fallback */}
-        <div className="absolute inset-0 z-0 bg-black">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover"
-            poster={HERO_VIDEO_LOCAL.poster}
-          >
-            {/* Cloudinary sources — auto-optimized format & quality */}
-            <source src={HERO_VIDEO_CLOUDINARY.webm} type="video/webm" />
-            <source src={HERO_VIDEO_CLOUDINARY.mp4} type="video/mp4" />
-            {/* Local fallback sources */}
-            <source src={HERO_VIDEO_LOCAL.webm} type="video/webm" />
-            <source src={HERO_VIDEO_LOCAL.mp4} type="video/mp4" />
-          </video>
-          {/* Image slideshow fallback (hidden when video plays) */}
-          {HERO_IMAGES.map((src, index) => (
-            <motion.img
-              key={src}
-              src={src}
-              alt="Proyecto Fast Page Pro"
-              onError={handleImageFallback}
-              className="absolute inset-0 w-full h-full object-cover hero-fallback-img"
-              style={{ opacity: 0 }}
-              initial={false}
-              animate={{
-                opacity: index === currentHeroImage ? 1 : 0,
-                scale: index === currentHeroImage ? 1 : 1.04
-              }}
-              transition={{
-                opacity: { duration: 0.9, ease: "easeInOut" },
-                scale: { duration: 6, ease: "easeOut" }
-              }}
-            />
-          ))}
-          {/* Dark gradient overlay for text legibility */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.75) 100%)' }} />
-          {/* Subtle side vignette */}
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
-          <div className="absolute inset-0 hero-grid" />
-          {/* 21st.dev: Aurora Gradient Background */}
-          <AuroraGradient />
-          {/* 21st.dev: Floating Particles */}
-          <FloatingParticles />
-        </div>
+      {/* HERO SECTION - Spline 3D Interactive Hero (21st.dev) */}
+      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden flex items-center bg-black/[0.96]">
+        {/* Spotlight Effect */}
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+        <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 60 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 1, delay: 0.2 }} 
-            className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
-          >
-            {/* Badge - Fixed for mobile */}
-            <motion.div 
-              className="inline-block mb-5 sm:mb-6 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" 
-              whileHover={{ scale: 1.05 }}
+        {/* Main Content — Left/Right Split */}
+        <div className="relative z-10 flex flex-col md:flex-row w-full h-full min-h-screen">
+          {/* Left Content — Text & CTAs */}
+          <div className="flex-1 flex flex-col justify-center p-6 sm:p-8 md:p-10 lg:p-14 xl:p-20 text-white">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="w-full max-w-xl"
             >
-              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
+                whileHover={{ scale: 1.05 }}
+              >
                 <motion.div
                   animate={{
                     boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
-                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
+                  className="w-2 h-2 rounded-full bg-yellow-400"
                 />
                 <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-                <span className="hidden xs:inline">🚀</span> {copy.heroBadge}
-              </span>
-            </motion.div>
+                <span className="text-xs font-semibold tracking-widest uppercase">{copy.heroBadge}</span>
+              </motion.div>
 
-            {/* Main Title — 21st.dev Animated Text Reveal */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-8 md:mb-10 leading-[1.1]">
-              <AnimatedTextReveal
-                text={language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
-                delay={0.3}
-              /> <br/>
-              <AnimatedTextReveal
-                text={language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
-                delay={0.7}
-                className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30"
-              />
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
-              {copy.heroSubtitle}
-            </p>
-
-            {/* CTA Buttons — 21st.dev Glow Effect */}
-            <div className="w-full max-w-sm mx-auto flex flex-col gap-[15px]">
-              <AnimatedGlowButton
-                href="#portafolio"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateToPortfolio();
-                }}
-                className="block w-full font-semibold py-4 px-6 rounded-full text-base text-black shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 transition-all duration-300"
+              {/* Main Heading */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter mb-4 leading-[1.1]"
               >
-                {copy.heroPrimaryCta}
-                <ArrowRight size={18} />
-              </AnimatedGlowButton>
-              <WhatsAppButton
-                text={copy.heroSecondaryCta}
-                message={copy.heroSecondaryMsg}
-                variant="outline"
-                className="w-full h-[52px] px-6 text-base font-semibold border !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
-              />
-            </div>
+                <span className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
+                  {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
+                </span>
+                <br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600">
+                  {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
+                </span>
+              </motion.h1>
 
-            {/* Trust Badges */}
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 1.2 }} 
-              className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
-            >
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
-            </motion.div>
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.8 }}
+                className="text-sm sm:text-base md:text-lg text-neutral-400 mb-8 max-w-md leading-relaxed"
+              >
+                {copy.heroSubtitle}
+              </motion.p>
 
-            {/* Live Booking Counter - Fixed for mobile */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8 }}
-              className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 max-w-full"
-            >
+              {/* CTA Buttons */}
               <motion.div
-                animate={{ scale: [1, 1.4, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
-              />
-              <span className="text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-                <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
-                <span style={{ color: 'rgba(255,255,255,0.85)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
-              </span>
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="flex flex-col sm:flex-row gap-3 max-w-md"
+              >
+                <AnimatedGlowButton
+                  href="#portafolio"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateToPortfolio();
+                  }}
+                  className="font-semibold py-3.5 px-7 rounded-full text-sm text-black shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 transition-all duration-300 text-center"
+                >
+                  {copy.heroPrimaryCta}
+                  <ArrowRight size={18} />
+                </AnimatedGlowButton>
+                <WhatsAppButton
+                  text={copy.heroSecondaryCta}
+                  message={copy.heroSecondaryMsg}
+                  variant="outline"
+                  className="h-[52px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300 text-center"
+                />
+              </motion.div>
+
+              {/* Trust Badges */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.3 }}
+                className="mt-8 flex items-center gap-4 flex-wrap"
+              >
+                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
+              </motion.div>
+
+              {/* Live Counter */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 }}
+                className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.4, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
+                />
+                <span className="text-xs whitespace-nowrap">
+                  <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
+                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
+                </span>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </motion.div>
+          </div>
+
+          {/* Right Content — 3D Spline Scene */}
+          <div className="flex-1 relative min-h-[50vh] md:min-h-screen">
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+
+        {/* Mobile: subtle gradient at bottom for readability */}
+        <div className="md:hidden absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-20" />
       </section>}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
