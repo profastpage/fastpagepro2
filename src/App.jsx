@@ -4315,8 +4315,10 @@ export default function App() {
         const hash = window.location.hash;
         if (hash === '#portafolio') {
           setCurrentView('portfolio');
+          window.scrollTo({ top: 0, behavior: 'instant' });
         } else if (hash.startsWith('#portfolio/')) {
           setCurrentView('portfolio');
+          window.scrollTo({ top: 0, behavior: 'instant' });
           const slug = hash.replace('#portfolio/', '');
           const title = slugToTitle[slug];
           if (title) {
@@ -4659,7 +4661,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* HERO SECTION - Mobile First Responsive with Video Showreel */}
-      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
+      {currentView === 'landing' && <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center">
         {/* Video Background — Cloudinary optimized (f_auto,q_auto) with local fallback */}
         <div className="absolute inset-0 z-0 bg-black">
           <video
@@ -4805,10 +4807,10 @@ export default function App() {
             </motion.div>
           </motion.div>
         </motion.div>
-      </section>
+      </section>}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
-      <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
+      {currentView === 'landing' && <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
         {/* Desktop: static horizontal row */}
         <div className="hidden md:block">
           <div className="container mx-auto px-4 relative z-10">
@@ -4873,7 +4875,7 @@ export default function App() {
             ))}
           </motion.div>
         </div>
-      </section>
+      </section>}
 
       {/* Portfolio — Featured (Landing) or Full Page */}
       {currentView === 'landing' ? (
