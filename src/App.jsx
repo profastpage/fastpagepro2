@@ -766,25 +766,35 @@ const WhatsAppButton = ({ text, message, href, variant = "primary", className = 
 const AnimatedCounter = ({ end, suffix = "", duration = 2.5, decimals = 0 }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !hasAnimated.current) {
+      hasAnimated.current = true;
       const startTime = Date.now();
       const animate = () => {
         const elapsed = (Date.now() - startTime) / 1000;
         const progress = Math.min(elapsed / duration, 1);
         const easeOut = 1 - Math.pow(1 - progress, 3);
         const current = end * easeOut;
-        setCount(current);
+        setCount(decimals === 0 ? Math.round(current) : current);
         if (progress < 1) requestAnimationFrame(animate);
         else setCount(end);
       };
       requestAnimationFrame(animate);
     }
-  }, [isInView, end, duration]);
+    // Safety: if element is already in viewport on mount, trigger after 300ms
+    const safetyTimer = setTimeout(() => {
+      if (!hasAnimated.current) {
+        hasAnimated.current = true;
+        setCount(end);
+      }
+    }, 300);
+    return () => clearTimeout(safetyTimer);
+  }, [isInView, end, duration, decimals]);
 
-  return <span ref={ref} className="tabular-nums">{count.toFixed(decimals)}{suffix}</span>;
+  return <span ref={ref} className="tabular-nums">{(decimals === 0 ? Math.round(count) : count).toFixed(decimals)}{suffix}</span>;
 };
 
 // Apple Design System StatCard
@@ -2890,7 +2900,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
                 <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
                   <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white group-hover:text-yellow-400 mb-1 leading-tight transition-colors duration-300">{project.title}</h3>
                   <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
                   <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
                 </div>
@@ -2983,7 +2993,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
               const Icon = stat.icon;
               return (
                 <React.Fragment key={i}>
-                  {i > 0 && <div className="w-px h-4 bg-white/10" />}
+                  {i > 0 && <div className="w-px h-4 bg-[var(--border-subtle)]" />}
                   <div className="flex items-center gap-2">
                     <Icon size={15} className="text-yellow-400/70 shrink-0" strokeWidth={1.5} />
                     <span className="text-base font-extrabold" style={{ color: '#facc15' }}>{stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} /></span>
@@ -3067,7 +3077,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
                     <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
                     <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
                       <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-white group-hover:text-yellow-400 mb-1 leading-tight transition-colors duration-300">{project.title}</h3>
                       <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
                       <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
                       <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
@@ -3209,7 +3219,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick, onProjectH
                   {/* Content overlay at bottom */}
                   <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
                     <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-white group-hover:text-yellow-400 mb-1 leading-tight transition-colors duration-300">{project.title}</h3>
                     <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
                     <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
                     <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
