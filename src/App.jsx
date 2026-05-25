@@ -4252,40 +4252,44 @@ export default function App() {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
 
-  // --- Robot interactive states ---
-  const [robotState, setRobotState] = useState('idle'); // idle | scanning | greeting | success
+  // --- Robot parallax + bionic eyes ---
+  const robotContainerRef = useRef(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
+  const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
+  const heroParticles = useMemo(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2.5 + 1,
+      duration: Math.random() * 10 + 12,
+      delay: Math.random() * 8,
+      opacity: Math.random() * 0.35 + 0.15,
+    })), []);
+
+  const [robotState, setRobotState] = useState('idle');
   const robotClickTimer = useRef(null);
 
   const handleRobotClick = useCallback(() => {
     if (robotState !== 'idle') return;
     clearTimeout(robotClickTimer.current);
-
-    // Phase 1: Scan (bright glow + eyes white)
     setRobotState('scanning');
-    const scanGlow = document.getElementById('robot-scan-glow');
     const eyeL = document.getElementById('bionic-eye-left');
     const eyeR = document.getElementById('bionic-eye-right');
-    if (scanGlow) scanGlow.style.background = 'radial-gradient(circle, rgba(250,204,21,0.3) 0%, transparent 70%)';
     if (eyeL) { eyeL.style.background = '#ffffff'; eyeL.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
     if (eyeR) { eyeR.style.background = '#ffffff'; eyeR.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
-
-    // Phase 2: Greet (tilt effect via CSS + eyes amber)
     robotClickTimer.current = setTimeout(() => {
       setRobotState('greeting');
-      if (scanGlow) scanGlow.style.background = 'transparent';
       if (eyeL) { eyeL.style.background = '#f59e0b'; eyeL.style.boxShadow = '0 0 16px #f59e0b'; }
       if (eyeR) { eyeR.style.background = '#f59e0b'; eyeR.style.boxShadow = '0 0 16px #f59e0b'; }
-      // Tilt the robot container
       const robotDiv = document.querySelector('[data-robot-wrapper]');
       if (robotDiv) robotDiv.style.transform = 'rotate(-5deg) scale(1.03)';
-
-      // Phase 3: Success (eyes green + tooltip)
       robotClickTimer.current = setTimeout(() => {
         setRobotState('success');
         if (eyeL) { eyeL.style.background = '#00FF88'; eyeL.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
         if (eyeR) { eyeR.style.background = '#00FF88'; eyeR.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
-
-        // Phase 4: Reset to idle after 2s
         robotClickTimer.current = setTimeout(() => {
           setRobotState('idle');
           if (eyeL) { eyeL.style.background = '#facc15'; eyeL.style.boxShadow = '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)'; }
@@ -4296,70 +4300,37 @@ export default function App() {
     }, 800);
   }, [robotState]);
 
-  // --- Random eye blinking every ~5 seconds ---
   useEffect(() => {
     const blink = () => {
       const eyeL = document.getElementById('bionic-eye-left');
       const eyeR = document.getElementById('bionic-eye-right');
       if (eyeL && eyeR && robotState === 'idle') {
-        eyeL.style.opacity = '0';
-        eyeR.style.opacity = '0';
-        setTimeout(() => {
-          eyeL.style.opacity = '0.9';
-          eyeR.style.opacity = '0.9';
-        }, 150);
+        eyeL.style.opacity = '0'; eyeR.style.opacity = '0';
+        setTimeout(() => { eyeL.style.opacity = '0.9'; eyeR.style.opacity = '0.9'; }, 150);
       }
-      // Schedule next blink: 4-6 seconds random
-      const next = 4000 + Math.random() * 2000;
-      robotClickTimer.current = setTimeout(blink, next);
+      robotClickTimer.current = setTimeout(blink, 4000 + Math.random() * 2000);
     };
     const timer = setTimeout(blink, 5000);
     return () => { clearTimeout(timer); clearTimeout(robotClickTimer.current); };
   }, [robotState]);
 
-  // --- Parallax: Robot follows mouse/touch ---
-  const robotOffsetX = useMotionValue(0);
-  const robotOffsetY = useMotionValue(0);
-  const springX = useSpring(robotOffsetX, { stiffness: 80, damping: 20, restDelta: 0.001 });
-  const springY = useSpring(robotOffsetY, { stiffness: 80, damping: 20, restDelta: 0.001 });
-
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const nx = (e.clientX / vw - 0.5) * 2; // -1 to 1
-      const ny = (e.clientY / vh - 0.5) * 2; // -1 to 1
-      robotOffsetX.set(nx * -25); // inverted, max 25px
-      robotOffsetY.set(ny * -25);
+    const handleMouse = (e) => {
+      try {
+        const hero = robotContainerRef.current;
+        if (!hero) return;
+        const rect = hero.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        mouseX.set(Math.max(-20, Math.min(20, -(e.clientX - cx) * 0.03)));
+        mouseY.set(Math.max(-20, Math.min(20, -(e.clientY - cy) * 0.03)));
+      } catch {}
     };
-
-    const handleTouchMove = (e) => {
-      if (!e.touches || !e.touches[0]) return;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const nx = (e.touches[0].clientX / vw - 0.5) * 2;
-      const ny = (e.touches[0].clientY / vh - 0.5) * 2;
-      robotOffsetX.set(nx * -30); // mobile: slightly larger
-      robotOffsetY.set(ny * -30);
-    };
-
-    const handleReset = () => {
-      robotOffsetX.set(0);
-      robotOffsetY.set(0);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('mouseleave', handleReset, { passive: true });
-    window.addEventListener('touchend', handleReset, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('mouseleave', handleReset);
-      window.removeEventListener('touchend', handleReset);
-    };
-  }, [robotOffsetX, robotOffsetY]);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouse, { passive: true });
+      return () => window.removeEventListener('mousemove', handleMouse);
+    }
+  }, [mouseX, mouseY]);
 
   // Navigation: Landing ↔ Portfolio
   const navigateToPortfolio = useCallback(() => {
@@ -4770,35 +4741,27 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION — FastPagePro Identity: Robot + Left Text */}
-      {currentView === 'landing' && (
-      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden bg-black">
-        {/* Layer 0: Subtle spotlights (no grid, no lines) */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #facc15 0%, transparent 70%)' }} />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
-        </div>
+      {/* HERO SECTION — Professional Bionic Robot Hero */}
+      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
 
-        {/* Layer 1: Robot — center-right, follows mouse, interactive */}
-        <motion.div
-          className="absolute inset-0 z-[10] flex items-center justify-center md:justify-end pointer-events-none"
-          style={{
-            x: springX,
-            y: springY,
-            willChange: 'transform',
-          }}
+        {/* Layer 0: Spotlight Effects */}
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+        <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
+
+        {/* Layer 1: Robot — Absolute Immersive Background */}
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          ref={robotContainerRef}
+          style={{ willChange: 'transform' }}
         >
-          <div className="w-[90%] md:w-[55%] h-full relative" data-robot-wrapper>
-            {/* Scan glow overlay — activated on click */}
-            <div
-              className="absolute inset-0 z-20 pointer-events-none transition-all duration-500"
-              id="robot-scan-glow"
-              style={{ background: 'transparent' }}
-            />
+          <motion.div
+            className="w-full h-full"
+            style={{ x: robotX, y: robotY }}
+          >
             <SplineScene
-              scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
-              style={{ width: '100%', height: '100%' }}
+              style={{ objectFit: 'contain' }}
             />
             {/* Bionic Eyes Overlay */}
             <div className="absolute inset-0 z-[15] pointer-events-none">
@@ -4806,95 +4769,124 @@ export default function App() {
                 id="bionic-eye-left"
                 className="absolute rounded-full transition-all duration-200"
                 style={{
-                  top: '38%', left: '58%', width: '14px', height: '14px',
+                  top: '42%', left: '52%', width: '12px', height: '12px',
                   background: '#facc15',
                   boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
                   opacity: 0.9,
                   filter: 'blur(0.5px)',
+                  animation: 'bionic-pulse 2s ease-in-out infinite',
                 }}
               />
               <div
                 id="bionic-eye-right"
                 className="absolute rounded-full transition-all duration-200"
                 style={{
-                  top: '38%', left: '64%', width: '14px', height: '14px',
+                  top: '42%', left: '58%', width: '12px', height: '12px',
                   background: '#facc15',
                   boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
                   opacity: 0.9,
                   filter: 'blur(0.5px)',
+                  animation: 'bionic-pulse 2s ease-in-out infinite',
                 }}
               />
             </div>
-            {/* Click interaction zone (transparent, captures clicks) */}
-            <div
-              className="absolute inset-0 z-[25] cursor-pointer"
-              onClick={handleRobotClick}
-            />
-            {/* Success tooltip */}
-            <AnimatePresence>
-              {robotState === 'success' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute bottom-[15%] left-1/2 -translate-x-1/2 z-[30] px-5 py-2.5 rounded-full text-sm font-semibold text-black whitespace-nowrap"
-                  style={{ background: '#00FF88', boxShadow: '0 0 20px rgba(0,255,136,0.5)' }}
-                >
-                  Sistemas Listos
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-
-        {/* Layer 2: Left gradient for text legibility */}
-        <div className="absolute inset-0 z-[11] pointer-events-none">
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.15) 70%, transparent 100%)' }} />
-          <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)' }} />
+          </motion.div>
+          {/* Click interaction zone */}
+          <div
+            className="absolute inset-0 z-[20] cursor-pointer"
+            data-robot-wrapper
+            onClick={handleRobotClick}
+          />
+          {/* Success tooltip */}
+          <AnimatePresence>
+            {robotState === 'success' && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-[30] px-5 py-2.5 rounded-full text-sm font-semibold text-black whitespace-nowrap"
+                style={{ background: '#00FF88', boxShadow: '0 0 20px rgba(0,255,136,0.5)' }}
+              >
+                Sistemas Listos
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Layer 3: Golden floating particles */}
-        <FloatingParticles />
+        {/* Layer 1.5: Dark gradient overlays for text readability */}
+        <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)' }} />
+        <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
 
-        {/* Layer 20: Text content — LEFT ALIGNED */}
-        <motion.div className="relative z-20 w-full min-h-[85vh] md:min-h-screen flex items-center px-5 sm:px-8 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
-          <div className="w-full max-w-xl">
+        {/* Layer 2: Golden Particles */}
+        <div className="absolute inset-0 z-[3] pointer-events-none overflow-hidden">
+          {heroParticles.map((p) => (
+            <div
+              key={p.id}
+              className="absolute rounded-full golden-particle"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                background: 'radial-gradient(circle, rgba(250,204,21,0.8) 0%, rgba(250,204,21,0.2) 50%, transparent 100%)',
+                boxShadow: '0 0 6px rgba(250,204,21,0.4)',
+                opacity: p.opacity,
+                '--duration': `${p.duration}s`,
+                '--delay': `${p.delay}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Layer 3: Main Content (Text + CTAs) — LEFT ALIGNED */}
+        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
+          <div className="w-full max-w-2xl">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
+              whileHover={{ scale: 1.05 }}
             >
               <motion.div
-                animate={{
-                  boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
-                }}
+                animate={{ boxShadow: ["0 0 0 0 rgba(251,191,36,0.4)", "0 0 0 10px rgba(251,191,36,0)", "0 0 0 0 rgba(251,191,36,0)"] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
+                className="w-2 h-2 rounded-full bg-yellow-400"
               />
               <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase text-white">{copy.heroBadge}</span>
+              <span className="text-xs font-semibold tracking-widest uppercase text-white/90">{copy.heroBadge}</span>
             </motion.div>
 
-            {/* Main Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-6 md:mb-8 leading-[1.1] text-left">
-              <AnimatedTextReveal
-                text={language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
-                delay={0.3}
-              /> <br/>
-              <AnimatedTextReveal
-                text={language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
-                delay={0.7}
-                className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30"
-              />
-            </h1>
+            {/* Main Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-4 sm:mb-5 leading-[1.05] text-left"
+              style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 4px 40px rgba(0,0,0,0.3)' }}
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-400">
+                {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
+              </span>
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600" style={{ textShadow: '0 0 40px rgba(250,204,21,0.3)' }}>
+                {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
+              </span>
+            </motion.h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 mb-8 sm:mb-10 max-w-md text-left leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.8 }}
+              className="text-sm sm:text-base md:text-lg text-neutral-300 mb-8 sm:mb-10 max-w-lg leading-relaxed text-left"
+              style={{ textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}
+            >
               {copy.heroSubtitle}
-            </p>
+            </motion.p>
 
             {/* CTA Buttons — Glassmorphism */}
             <motion.div
@@ -4949,15 +4941,14 @@ export default function App() {
                 className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                 style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
               />
-              <span className="text-xs sm:text-sm whitespace-nowrap">
+              <span className="text-xs whitespace-nowrap">
                 <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
                 <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
               </span>
             </motion.div>
           </div>
         </motion.div>
-      </section>
-      )}
+      </section>}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
       <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
