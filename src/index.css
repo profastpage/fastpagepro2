@@ -636,18 +636,28 @@ section {
   display: none;
 }
 
-/* Spotlight animation for Spline hero */
+/* Spotlight animation for immersive hero */
 @keyframes spotlight {
-  0% {
-    opacity: 0;
-    transform: translate(-72%, -62%) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -40%) scale(1);
-  }
+  0% { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
 }
-
 .animate-spotlight {
   animation: spotlight 2s ease 0.75s 1 forwards;
+}
+
+/* Bionic eye glow pulse */
+@keyframes bionic-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Golden particle float */
+@keyframes particle-drift {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-12px) translateX(6px); }
+  50% { transform: translateY(-4px) translateX(-8px); }
+  75% { transform: translateY(-18px) translateX(4px); }
+}
+.golden-particle {
+  animation: particle-drift var(--duration, 12s) ease-in-out var(--delay, 0s) infinite;
 }

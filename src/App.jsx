@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue } from 'framer-motion';
 import {
   Check,
   MessageCircle,
@@ -4249,6 +4249,43 @@ export default function App() {
     return 'landing';
   });
   const hoverTimeoutRef = useRef(null);
+
+  // --- Hero: Parallax Mouse Tracking + Golden Particles ---
+  const robotContainerRef = useRef(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
+  const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
+  const heroParticles = useMemo(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2.5 + 1,
+      duration: Math.random() * 10 + 12,
+      delay: Math.random() * 8,
+      opacity: Math.random() * 0.35 + 0.15,
+    })), []);
+  useEffect(() => {
+    const handleMouse = (e) => {
+      try {
+        const hero = robotContainerRef.current;
+        if (!hero) return;
+        const rect = hero.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        // Inverted axes: robot moves opposite to mouse (5% range, max 20px)
+        const dx = -(e.clientX - cx) * 0.03;
+        const dy = -(e.clientY - cy) * 0.03;
+        mouseX.set(Math.max(-20, Math.min(20, dx)));
+        mouseY.set(Math.max(-20, Math.min(20, dy)));
+      } catch {}
+    };
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      window.addEventListener('mousemove', handleMouse, { passive: true });
+      return () => window.removeEventListener('mousemove', handleMouse);
+    }
+  }, [mouseX, mouseY]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -4664,137 +4701,171 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION - Spline 3D Interactive Hero (21st.dev) */}
-      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden flex items-center bg-black/[0.96]">
-        {/* Spotlight Effect */}
+      {/* HERO SECTION — Immersive 3D Spline Hero (21st.dev) */}
+      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
+
+        {/* Layer 0: Spotlight Effects */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        {/* Main Content — Left/Right Split */}
-        <div className="relative z-10 flex flex-col md:flex-row w-full h-full min-h-screen">
-          {/* Left Content — Text & CTAs */}
-          <div className="flex-1 flex flex-col justify-center p-6 sm:p-8 md:p-10 lg:p-14 xl:p-20 text-white">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="w-full max-w-xl"
-            >
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
-                whileHover={{ scale: 1.05 }}
-              >
-                <motion.div
-                  animate={{
-                    boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-2 h-2 rounded-full bg-yellow-400"
-                />
-                <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-                <span className="text-xs font-semibold tracking-widest uppercase">{copy.heroBadge}</span>
-              </motion.div>
-
-              {/* Main Heading */}
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter mb-4 leading-[1.1]"
-              >
-                <span className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-                  {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
-                </span>
-                <br />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600">
-                  {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
-                </span>
-              </motion.h1>
-
-              {/* Subtitle */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.8 }}
-                className="text-sm sm:text-base md:text-lg text-neutral-400 mb-8 max-w-md leading-relaxed"
-              >
-                {copy.heroSubtitle}
-              </motion.p>
-
-              {/* CTA Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
-                className="flex flex-col sm:flex-row gap-3 max-w-md"
-              >
-                <AnimatedGlowButton
-                  href="#portafolio"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigateToPortfolio();
-                  }}
-                  className="font-semibold py-3.5 px-7 rounded-full text-sm text-black shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.7)] hover:-translate-y-1 transition-all duration-300 text-center"
-                >
-                  {copy.heroPrimaryCta}
-                  <ArrowRight size={18} />
-                </AnimatedGlowButton>
-                <WhatsAppButton
-                  text={copy.heroSecondaryCta}
-                  message={copy.heroSecondaryMsg}
-                  variant="outline"
-                  className="h-[52px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300 text-center"
-                />
-              </motion.div>
-
-              {/* Trust Badges */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.3 }}
-                className="mt-8 flex items-center gap-4 flex-wrap"
-              >
-                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
-                <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
-              </motion.div>
-
-              {/* Live Counter */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.6 }}
-                className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.4, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
-                />
-                <span className="text-xs whitespace-nowrap">
-                  <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
-                  <span style={{ color: 'rgba(255,255,255,0.6)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
-                </span>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Right Content — 3D Spline Scene */}
-          <div className="flex-1 relative min-h-[50vh] md:min-h-screen">
+        {/* Layer 1: Robot — Absolute Immersive Background */}
+        <div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          ref={robotContainerRef}
+          style={{ willChange: 'transform' }}
+        >
+          <motion.div
+            className="w-full h-full"
+            style={{ x: robotX, y: robotY }}
+          >
             <SplineScene
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
+              style={{ objectFit: 'contain' }}
             />
-          </div>
+          </motion.div>
         </div>
 
-        {/* Mobile: subtle gradient at bottom for readability */}
-        <div className="md:hidden absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-20" />
+        {/* Layer 1.5: Dark gradient overlays for text readability */}
+        <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)' }} />
+        <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
+
+        {/* Layer 2: Golden Particles */}
+        <div className="absolute inset-0 z-[3] pointer-events-none overflow-hidden">
+          {heroParticles.map((p) => (
+            <div
+              key={p.id}
+              className="absolute rounded-full golden-particle"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                background: 'radial-gradient(circle, rgba(250,204,21,0.8) 0%, rgba(250,204,21,0.2) 50%, transparent 100%)',
+                boxShadow: '0 0 6px rgba(250,204,21,0.4)',
+                opacity: p.opacity,
+                '--duration': `${p.duration}s`,
+                '--delay': `${p.delay}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Layer 3: Main Content (Text + CTAs) */}
+        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
+          <div className="w-full max-w-2xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
+              whileHover={{ scale: 1.05 }}
+            >
+              <motion.div
+                animate={{ boxShadow: ["0 0 0 0 rgba(251,191,36,0.4)", "0 0 0 10px rgba(251,191,36,0)", "0 0 0 0 rgba(251,191,36,0)"] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-2 h-2 rounded-full bg-yellow-400"
+              />
+              <Zap size={12} className="text-yellow-400 fill-yellow-400" />
+              <span className="text-xs font-semibold tracking-widest uppercase text-white/90">{copy.heroBadge}</span>
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-4 sm:mb-5 leading-[1.05]"
+              style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 4px 40px rgba(0,0,0,0.3)' }}
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-400">
+                {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
+              </span>
+              <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600" style={{ textShadow: '0 0 40px rgba(250,204,21,0.3)' }}>
+                {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
+              </span>
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.8 }}
+              className="text-sm sm:text-base md:text-lg text-neutral-300 mb-8 sm:mb-10 max-w-lg leading-relaxed"
+              style={{ textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}
+            >
+              {copy.heroSubtitle}
+            </motion.p>
+
+            {/* CTA Buttons — Glass Cyber-Premium */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="flex flex-col sm:flex-row gap-3 max-w-md"
+            >
+              {/* Ver Portafolio — Glass Glow CTA */}
+              <motion.a
+                href="#portafolio"
+                onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
+                className="group relative flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
+                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
+              >
+                {/* Shine sweep on hover */}
+                <span className="absolute inset-0 rounded-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <span className="relative flex items-center gap-2">
+                  {copy.heroPrimaryCta}
+                  <motion.span className="inline-block" whileHover={{ x: 4 }}>
+                    <ArrowRight size={16} />
+                  </motion.span>
+                </span>
+              </motion.a>
+              {/* Cotizar Proyecto — WhatsApp */}
+              <WhatsAppButton
+                text={copy.heroSecondaryCta}
+                message={copy.heroSecondaryMsg}
+                variant="outline"
+                className="h-[48px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
+              />
+            </motion.div>
+
+            {/* Trust Badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3 }}
+              className="mt-8 sm:mt-10 flex items-center gap-4 sm:gap-6 flex-wrap"
+            >
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
+            </motion.div>
+
+            {/* Live Counter */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.6 }}
+              className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+            >
+              <motion.div
+                animate={{ scale: [1, 1.4, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
+              />
+              <span className="text-xs whitespace-nowrap">
+                <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
+                <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
+              </span>
+            </motion.div>
+          </div>
+        </motion.div>
       </section>}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
