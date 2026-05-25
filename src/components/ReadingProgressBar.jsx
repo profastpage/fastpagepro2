@@ -69,7 +69,7 @@ export function ReadingProgressBar() {
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none" style={{ height: '3px' }}>
       {/* Track (subtle) */}
-      <div className="absolute inset-0 bg-white/[0.03]" />
+      <div className="absolute inset-0 bg-black/[0.03] dark:bg-white/[0.03]" />
 
       {/* Progress bar with neon glow */}
       <div

@@ -3884,7 +3884,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
           onClick={toggleWidget}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-[0_10px_40px_-10px_rgba(251,191,36,0.6)] flex items-center justify-center text-stone-900 z-50"
+          className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center z-50 transition-all duration-500 bg-white text-[#25D366] shadow-[0_8px_30px_-6px_rgba(0,0,0,0.15)] border border-zinc-200 dark:bg-gradient-to-br dark:from-yellow-400 dark:to-amber-500 dark:text-stone-900 dark:shadow-[0_10px_40px_-10px_rgba(251,191,36,0.6)] dark:border-none"
         >
           <AnimatePresence mode="wait">
             {isOpen ? (
@@ -4811,16 +4811,26 @@ export default function App() {
       {/* Electric Thunder Progress Bar — fixed top, z-100 */}
       <ReadingProgressBar />
 
-      {/* Navigation — Universal Dark Glassmorphism */}
-      <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
-        background: scrolled ? 'rgba(0, 0, 0, 0.7)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid transparent',
-        boxShadow: scrolled ? '0 4px 30px rgba(0, 0, 0, 0.3)' : 'none'
+      {/* Navigation — Glassmorphism (Light/Dark adaptive) */}
+      <nav className="fixed w-full z-50 transition-all duration-700 h-[60px] sm:h-[64px]" style={{
+        background: scrolled
+          ? (isDarkMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.65)')
+          : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled
+          ? (isDarkMode ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.06)')
+          : '1px solid transparent',
+        boxShadow: scrolled
+          ? (isDarkMode ? '0 4px 30px rgba(0, 0, 0, 0.3)' : '0 4px 30px rgba(0, 0, 0, 0.08)')
+          : 'none'
       }}>
         <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
-          <motion.div className="text-white font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5" onClick={(e) => scrollToSection(e, 'top')} whileHover={{ scale: 1.05 }}>
+          <motion.div
+            className={`font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5 transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}
+            onClick={(e) => scrollToSection(e, 'top')}
+            whileHover={{ scale: 1.05 }}
+          >
             {/* Electric Bolt Animated Logo */}
             <div className="relative">
               <ElectricBolt size={35} />
@@ -4831,15 +4841,15 @@ export default function App() {
           {/* Desktop Nav */}
           <div className="hidden md:flex gap-1 items-center">
             {navItems.map((item) => (
-              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className="nav-link text-sm font-medium text-white/60 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-white/10">{item.label}</motion.a>
+              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className={`nav-link text-sm font-medium transition-colors px-4 py-2 rounded-lg ${isDarkMode ? 'text-white/60 hover:text-white hover:bg-white/10' : 'text-zinc-600 hover:text-zinc-900 hover:bg-black/5'}`}>{item.label}</motion.a>
             ))}
-            <div className="w-px h-5 bg-white/15 mx-2" />
-            {/* Language Toggle — No container */}
+            <div className={`w-px h-5 mx-2 ${isDarkMode ? 'bg-white/15' : 'bg-black/10'}`} />
+            {/* Language Toggle */}
             <motion.button
               onClick={toggleLanguage}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.94 }}
-              className="nav-icon-btn px-3 py-2 text-xs font-bold text-white/60 hover:text-[#FFD700] transition-colors rounded-lg"
+              className={`nav-icon-btn px-3 py-2 text-xs font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-500 hover:text-amber-600'}`}
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
@@ -4865,13 +4875,13 @@ export default function App() {
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className="nav-icon-btn px-2.5 py-2 text-[10px] font-bold text-white/60 hover:text-[#FFD700] transition-colors rounded-lg"
+              className={`nav-icon-btn px-2.5 py-2 text-[10px] font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-500 hover:text-amber-600'}`}
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className="nav-icon-btn text-white/70 hover:text-white w-9 h-9 flex items-center justify-center rounded-lg transition-colors">
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className={`nav-icon-btn w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${isDarkMode ? 'text-white/70 hover:text-white' : 'text-zinc-500 hover:text-zinc-900'}`}>
               {mobileMenu ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
           </div>
@@ -4967,7 +4977,13 @@ export default function App() {
         >
           <motion.div
             className="w-full h-full"
-            style={{ x: robotX, y: robotY }}
+            style={{
+              x: robotX, y: robotY,
+              filter: isDarkMode
+                ? 'none'
+                : 'invert(0.93) brightness(1.05) contrast(0.9)',
+              transition: 'filter 0.7s ease',
+            }}
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
