@@ -4287,6 +4287,25 @@ export default function App() {
     }
   }, []);
 
+  // Interactive spotlight — follows mouse/touch within hero
+  useEffect(() => {
+    const el = spotlightRef.current;
+    if (!el || typeof window === 'undefined') return;
+    const handleMove = (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) - rect.left;
+      const y = (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) - rect.top;
+      el.style.setProperty('--spot-x', `${x}px`);
+      el.style.setProperty('--spot-y', `${y}px`);
+    };
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    window.addEventListener('touchmove', handleMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('touchmove', handleMove);
+    };
+  }, []);
+
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
@@ -4359,6 +4378,7 @@ export default function App() {
 
   const [robotState, setRobotState] = useState('intro');
   const introTimerRef = useRef(null);
+  const spotlightRef = useRef(null);
   const [speechText, setSpeechText] = useState('');
   const [displayedChars, setDisplayedChars] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
@@ -4954,9 +4974,28 @@ export default function App() {
         }}
       >
 
-        {/* Layer 0: Spotlight Effects */}
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-        <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
+        {/* Layer 0: Interactive Mouse Spotlight — golden radial glow follows cursor */}
+        <div
+          ref={spotlightRef}
+          className="absolute inset-0 z-[0] pointer-events-none"
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(600px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(250,204,21,0.07), transparent 40%)',
+              mixBlendMode: 'screen',
+              transition: 'background 0.1s ease',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255,255,255,0.04), transparent 40%)',
+              mixBlendMode: 'screen',
+              transition: 'background 0.1s ease',
+            }}
+          />
+        </div>
 
         {/* Layer 1: Robot — Absolute Immersive Background — shifted right on desktop */}
         <div
