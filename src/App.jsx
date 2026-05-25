@@ -4250,12 +4250,12 @@ export default function App() {
   });
   const hoverTimeoutRef = useRef(null);
 
-  // --- Hero: Parallax Mouse Tracking + Golden Particles ---
+  // --- Hero: Parallax Tracking (Mouse + Touch) + Golden Particles ---
   const robotContainerRef = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
-  const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
+  const robotX = useSpring(mouseX, { stiffness: 35, damping: 28, mass: 1.2 });
+  const robotY = useSpring(mouseY, { stiffness: 35, damping: 28, mass: 1.2 });
   const heroParticles = useMemo(() =>
     Array.from({ length: 20 }, (_, i) => ({
       id: i,
@@ -4266,26 +4266,58 @@ export default function App() {
       delay: Math.random() * 8,
       opacity: Math.random() * 0.35 + 0.15,
     })), []);
-  useEffect(() => {
-    const handleMouse = (e) => {
-      try {
-        const hero = robotContainerRef.current;
-        if (!hero) return;
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        // Inverted axes: robot moves opposite to mouse (5% range, max 20px)
-        const dx = -(e.clientX - cx) * 0.03;
-        const dy = -(e.clientY - cy) * 0.03;
-        mouseX.set(Math.max(-20, Math.min(20, dx)));
-        mouseY.set(Math.max(-20, Math.min(20, dy)));
-      } catch {}
-    };
-    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-      window.addEventListener('mousemove', handleMouse, { passive: true });
-      return () => window.removeEventListener('mousemove', handleMouse);
-    }
+
+  // Shared position calculator
+  const updateRobotPosition = useCallback((clientX, clientY) => {
+    try {
+      const hero = robotContainerRef.current;
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      // Inverted axes: robot moves opposite to input (desktop 4%, mobile 6%)
+      const isMobile = window.innerWidth < 768;
+      const factor = isMobile ? 0.06 : 0.04;
+      const maxPx = isMobile ? 30 : 25;
+      const dx = -(clientX - cx) * factor;
+      const dy = -(clientY - cy) * factor;
+      mouseX.set(Math.max(-maxPx, Math.min(maxPx, dx)));
+      mouseY.set(Math.max(-maxPx, Math.min(maxPx, dy)));
+    } catch {}
   }, [mouseX, mouseY]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Desktop: mouse tracking
+    const handleMouseMove = (e) => updateRobotPosition(e.clientX, e.clientY);
+
+    // Mobile: touch tracking
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updateRobotPosition(touch.clientX, touch.clientY);
+      }
+    };
+
+    // Reset on touch end / mouse leave
+    const handleReset = () => {
+      mouseX.set(0);
+      mouseY.set(0);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleReset, { passive: true });
+    window.addEventListener('mouseleave', handleReset, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleReset);
+      window.removeEventListener('mouseleave', handleReset);
+    };
+  }, [updateRobotPosition, mouseX, mouseY]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
