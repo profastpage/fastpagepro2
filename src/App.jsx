@@ -56,6 +56,7 @@ import {
 
 import { SplineScene } from './components/SplineScene';
 import { Spotlight } from './components/Spotlight';
+import { ReadingProgressBar } from './components/ReadingProgressBar';
 // Spotlight is now the interactive 21st.dev-inspired component (framer-motion springs)
 
 const _MOTION = motion;
@@ -2950,10 +2951,10 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
 
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
-      {/* Section Title + Filters — No Hero */}
-      <div className="pt-28 pb-4 md:pt-32 md:pb-6 px-4">
+      {/* Section Title + Filters — Compact: close to navbar */}
+      <div className="pt-[76px] pb-2 md:pt-[84px] md:pb-3 px-4">
         <div className="container mx-auto">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4 md:mb-5">
             <div>
               <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} compact />
             </div>
@@ -2968,18 +2969,18 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
             </motion.div>
           </div>
 
-          {/* Category Filters */}
+          {/* Category Filters — Compact */}
           <div className="flex justify-center">
-            <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full">
+            <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full">
               {categories.map((cat) => (
                 <motion.button
                   key={cat}
                   onClick={() => setCurrentFilter(cat)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`portfolio-filter-btn ${currentFilter === cat ? 'active' : ''} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide`}
+                  className={`portfolio-filter-btn ${currentFilter === cat ? 'active' : ''} px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide`}
                 >
-                  <span className="flex items-center gap-1.5 sm:gap-2">
+                  <span className="flex items-center gap-1 sm:gap-1.5">
                     {cat !== "Todos" && cat !== "All" && (() => { const Icon = getCategoryIcon(cat); return <Icon size={13} />; })()}
                     {cat}
                   </span>
@@ -4555,8 +4556,7 @@ export default function App() {
   });
 
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  // scrollYProgress/scaleX removed — replaced by ReadingProgressBar component
   const copy = COPY[language];
   const testimonials = TESTIMONIALS_BY_LANG[language];
   const plans = PLANS_BY_LANG[language];
@@ -4777,10 +4777,8 @@ export default function App() {
     
     <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark' : ''}`}>
       
-      {/* Progress Bar */}
-      <motion.div className="fixed top-0 left-0 right-0 h-1.5 z-[60]" style={{ scaleX, background: 'var(--border-subtle)' }}>
-        <motion.div className="h-full" style={{ background: 'var(--accent-color)', backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
-      </motion.div>
+      {/* Electric Thunder Progress Bar — fixed top, z-100 */}
+      <ReadingProgressBar />
 
       {/* Navigation — Universal Dark Glassmorphism */}
       <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
