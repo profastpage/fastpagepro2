@@ -4547,7 +4547,7 @@ export default function App() {
     };
 
     // PC: follow cursor continuously
-    const handleMouse = (e) => gazeAt(e.clientX, e.clientY, 0.03, 20);
+    const handleMouse = (e) => gazeAt(e.clientX, e.clientY, 0.025, 15);
 
     // Mobile: look at tap/click point immediately
     const handleTouchStart = (e) => {
@@ -4958,9 +4958,9 @@ export default function App() {
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        {/* Layer 1: Robot — Absolute Immersive Background */}
+        {/* Layer 1: Robot — Absolute Immersive Background — shifted right on desktop */}
         <div
-          className="absolute inset-0 z-[1] pointer-events-none"
+          className="absolute inset-0 z-[1] pointer-events-none md:left-[15%] md:right-0"
           ref={robotContainerRef}
           style={{ willChange: 'transform' }}
         >
@@ -5092,9 +5092,9 @@ export default function App() {
           ))}
         </div>
 
-        {/* Layer 3: Main Content (Text + CTAs) — LEFT ALIGNED */}
-        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
-          <div className="w-full max-w-2xl">
+        {/* Layer 3: Main Content (Text + CTAs) — LEFT ALIGNED, more centered on desktop */}
+        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-16 xl:px-24 py-20 md:py-0">
+          <div className="w-full max-w-2xl lg:max-w-3xl">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
