@@ -4494,45 +4494,38 @@ export default function App() {
   }, [robotState]);
 
   useEffect(() => {
-    const handleMouse = (e) => {
+    // Gaze helper — compute offset from screen center
+    const gazeAt = (clientX, clientY, scale = 0.03, maxOffset = 20) => {
       try {
-        const hero = robotContainerRef.current;
-        if (!hero) return;
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        mouseX.set(Math.max(-20, Math.min(20, -(e.clientX - cx) * 0.03)));
-        mouseY.set(Math.max(-20, Math.min(20, -(e.clientY - cy) * 0.03)));
+        const cx = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+        const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
+        mouseX.set(Math.max(-maxOffset, Math.min(maxOffset, -(clientX - cx) * scale)));
+        mouseY.set(Math.max(-maxOffset, Math.min(maxOffset, -(clientY - cy) * scale)));
       } catch {}
     };
 
-    // Mobile: touch parallax gaze — only move on touchmove, reset on touchend
-    const handleTouch = (e) => {
-      try {
-        const hero = robotContainerRef.current;
-        if (!hero || !e.touches[0]) return;
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const tx = e.touches[0].clientX;
-        const ty = e.touches[0].clientY;
-        mouseX.set(Math.max(-25, Math.min(25, -(tx - cx) * 0.04)));
-        mouseY.set(Math.max(-25, Math.min(25, -(ty - cy) * 0.04)));
-      } catch {}
+    // PC: follow cursor continuously
+    const handleMouse = (e) => gazeAt(e.clientX, e.clientY, 0.03, 20);
+
+    // Mobile: look at tap/click point immediately
+    const handleTouchStart = (e) => {
+      if (e.touches[0]) gazeAt(e.touches[0].clientX, e.touches[0].clientY, 0.04, 25);
     };
-    const handleTouchEnd = () => {
-      mouseX.set(0);
-      mouseY.set(0);
+
+    // Mobile: follow finger while dragging
+    const handleTouch = (e) => {
+      if (e.touches[0]) gazeAt(e.touches[0].clientX, e.touches[0].clientY, 0.04, 25);
     };
 
     if (typeof window !== 'undefined') {
       window.addEventListener('mousemove', handleMouse, { passive: true });
+      window.addEventListener('touchstart', handleTouchStart, { passive: true });
       window.addEventListener('touchmove', handleTouch, { passive: true });
-      window.addEventListener('touchend', handleTouchEnd, { passive: true });
+      // NOTE: no touchend reset — robot keeps looking at last tap position
       return () => {
         window.removeEventListener('mousemove', handleMouse);
+        window.removeEventListener('touchstart', handleTouchStart);
         window.removeEventListener('touchmove', handleTouch);
-        window.removeEventListener('touchend', handleTouchEnd);
       };
     }
   }, [mouseX, mouseY]);
