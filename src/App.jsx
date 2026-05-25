@@ -4742,7 +4742,12 @@ export default function App() {
       </AnimatePresence>
 
       {/* HERO SECTION — Professional Bionic Robot Hero */}
-      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
+      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent 0px, black 12px, black calc(100% - 12px), transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0px, black 12px, black calc(100% - 12px), transparent 100%)',
+        }}
+      >
 
         {/* Layer 0: Spotlight Effects */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
@@ -4949,6 +4954,38 @@ export default function App() {
           </div>
         </motion.div>
       </section>}
+
+      {/* ===== PRO FADE BRIDGES (outside masked hero) ===== */}
+      {/* Top Fade — Misty Header Transition: Header floats over dark mist */}
+      <div
+        className="fixed top-0 left-0 right-0 z-[49] pointer-events-none"
+        style={{
+          height: '60px',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 100%)',
+        }}
+      />
+
+      {/* Bottom Fade Bridge — Hero → Next Section: seamless color blend */}
+      {currentView === 'landing' && <div
+        className="relative w-full pointer-events-none"
+        style={{
+          height: '60px',
+          marginTop: '-60px',
+          marginBottom: '-60px',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.96) 0%, var(--bg-global) 100%)',
+          zIndex: 40,
+        }}
+      >
+        {/* Subtle golden glow at the meeting point */}
+        <div
+          className="absolute left-0 right-0 pointer-events-none"
+          style={{
+            height: '1px',
+            bottom: '0',
+            background: 'linear-gradient(to right, transparent 5%, rgba(250,204,21,0.06) 25%, rgba(250,204,21,0.12) 50%, rgba(250,204,21,0.06) 75%, transparent 95%)',
+          }}
+        />
+      </div>}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
       <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
