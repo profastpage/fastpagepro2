@@ -56,6 +56,7 @@ import {
 
 import { SplineScene } from './components/SplineScene';
 import { Spotlight } from './components/Spotlight';
+// Spotlight is now the interactive 21st.dev-inspired component (framer-motion springs)
 
 const _MOTION = motion;
 
@@ -2585,46 +2586,7 @@ const TechStackSection = ({ copy }) => {
 };
 
 // --- Preloader Component (framer-motion, no GSAP) ---
-// --- 21st.dev Inspired: Mouse Spotlight Effect ---
-const MouseSpotlight = ({ children }) => {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const handleMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      el.style.setProperty('--spotlight-x', `${x}px`);
-      el.style.setProperty('--spotlight-y', `${y}px`);
-    };
-    el.addEventListener('mousemove', handleMove);
-    return () => el.removeEventListener('mousemove', handleMove);
-  }, []);
-
-  return (
-    <div ref={containerRef} className="relative">
-      <div
-        className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300"
-        style={{
-          background: 'radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(255,215,0,0.06), transparent 40%)',
-          mixBlendMode: 'screen'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-      />
-      {/* Make the parent trigger spotlight visibility */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{
-          background: 'radial-gradient(600px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%), rgba(255,215,0,0.06), transparent 40%)',
-          mixBlendMode: 'screen'
-        }}
-      />
-      {children}
-    </div>
-  );
-};
+// MouseSpotlight removed — replaced by interactive Spotlight component (21st.dev inspired, framer-motion)
 
 // --- 21st.dev Inspired: Animated Text Reveal (word-by-word) ---
 const AnimatedTextReveal = ({ text, className = '', delay = 0 }) => {
@@ -4287,24 +4249,8 @@ export default function App() {
     }
   }, []);
 
-  // Interactive spotlight — follows mouse/touch within hero
-  useEffect(() => {
-    const el = spotlightRef.current;
-    if (!el || typeof window === 'undefined') return;
-    const handleMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const x = (e.clientX || (e.touches && e.touches[0]?.clientX) || 0) - rect.left;
-      const y = (e.clientY || (e.touches && e.touches[0]?.clientY) || 0) - rect.top;
-      el.style.setProperty('--spot-x', `${x}px`);
-      el.style.setProperty('--spot-y', `${y}px`);
-    };
-    window.addEventListener('mousemove', handleMove, { passive: true });
-    window.addEventListener('touchmove', handleMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('touchmove', handleMove);
-    };
-  }, []);
+  // Interactive spotlight is now handled by the 21st.dev-inspired Spotlight component (framer-motion)
+  // No CSS-variable spotlight needed — Spotlight component attaches to parent automatically.
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
     try {
@@ -4378,7 +4324,7 @@ export default function App() {
 
   const [robotState, setRobotState] = useState('intro');
   const introTimerRef = useRef(null);
-  const spotlightRef = useRef(null);
+  // spotlightRef removed — 21st.dev Spotlight component manages its own tracking
   const [speechText, setSpeechText] = useState('');
   const [displayedChars, setDisplayedChars] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
@@ -4974,28 +4920,13 @@ export default function App() {
         }}
       >
 
-        {/* Layer 0: Interactive Mouse Spotlight — golden radial glow follows cursor */}
-        <div
-          ref={spotlightRef}
-          className="absolute inset-0 z-[0] pointer-events-none"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'radial-gradient(600px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(250,204,21,0.07), transparent 40%)',
-              mixBlendMode: 'screen',
-              transition: 'background 0.1s ease',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'radial-gradient(400px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255,255,255,0.04), transparent 40%)',
-              mixBlendMode: 'screen',
-              transition: 'background 0.1s ease',
-            }}
-          />
-        </div>
+        {/* Layer 0: Interactive Mouse Spotlight — 21st.dev inspired (framer-motion springs) */}
+        <Spotlight
+          size={600}
+          color="rgba(250,204,21,0.07)"
+          color2="rgba(255,255,255,0.04)"
+          springConfig={{ bounce: 0, stiffness: 120, damping: 28 }}
+        />
 
         {/* Layer 1: Robot — Absolute Immersive Background — shifted right on desktop */}
         <div
