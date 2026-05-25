@@ -4339,7 +4339,8 @@ export default function App() {
     ],
   }), []);
 
-  const [robotState, setRobotState] = useState('idle');
+  const [robotState, setRobotState] = useState('intro');
+  const introTimerRef = useRef(null);
   const [speechText, setSpeechText] = useState('');
   const [displayedChars, setDisplayedChars] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
@@ -4372,9 +4373,27 @@ export default function App() {
     } catch {}
   }, []);
 
+  // --- Intro greeting: wave animation for 2s, then activate idle ---
+  useEffect(() => {
+    if (robotState !== 'intro') return;
+    const robotLayer = document.querySelector('[data-robot-wrapper]');
+    if (robotLayer) robotLayer.classList.add('robot-intro-wave');
+    introTimerRef.current = setTimeout(() => {
+      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+      setRobotState('idle');
+    }, 2000);
+    return () => { clearTimeout(introTimerRef.current); };
+  }, [robotState]);
+
   // --- Desktop click: Scan → Greeting → Speech → Success ---
   const handleDesktopClick = useCallback(() => {
-    if (robotState !== 'idle') return;
+    if (robotState === 'intro') {
+      // Skip intro, go straight to scan
+      clearTimeout(introTimerRef.current);
+      const robotLayer = document.querySelector('[data-robot-wrapper]');
+      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+    }
+    if (robotState !== 'idle' && robotState !== 'intro') return;
     clearTimeout(robotClickTimer.current);
     setRobotState('scanning');
 
@@ -4423,7 +4442,12 @@ export default function App() {
 
   // --- Mobile tap: Red Scan → Speech Tooltip → Green Success ---
   const handleMobileClick = useCallback(() => {
-    if (robotState !== 'idle') return;
+    if (robotState === 'intro') {
+      clearTimeout(introTimerRef.current);
+      const robotLayer = document.querySelector('[data-robot-wrapper]');
+      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+    }
+    if (robotState !== 'idle' && robotState !== 'intro') return;
     clearTimeout(robotClickTimer.current);
     setRobotState('scanning');
 
@@ -4925,6 +4949,9 @@ export default function App() {
           <motion.div
             className="w-full h-full"
             style={{ x: robotX, y: robotY }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
           >
             <SplineScene
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
