@@ -15,8 +15,8 @@ import { motion, useSpring, useTransform } from 'framer-motion';
 export function Spotlight({
   className = '',
   size = 600,
-  color = 'rgba(250,204,21,0.07)',
-  color2 = 'rgba(255,255,255,0.04)',
+  color = 'rgba(255,255,255,0.12)',
+  color2 = 'rgba(250,204,21,0.10)',
   springConfig = { bounce: 0, stiffness: 150, damping: 25 },
 }) {
   const containerRef = useRef(null);
@@ -90,9 +90,9 @@ export function Spotlight({
           height: size,
           left: spotlightLeft,
           top: spotlightTop,
-          background: `radial-gradient(circle at center, ${color}, transparent 70%)`,
+          background: `radial-gradient(circle at center, ${color}, ${color} 30%, transparent 70%)`,
           mixBlendMode: 'screen',
-          filter: 'blur(40px)',
+          filter: 'blur(20px)',
         }}
       />
       {/* Secondary white spotlight — smaller, tighter */}
@@ -103,9 +103,9 @@ export function Spotlight({
           height: size2,
           left: spot2Left,
           top: spot2Top,
-          background: `radial-gradient(circle at center, ${color2}, transparent 70%)`,
+          background: `radial-gradient(circle at center, ${color2}, ${color2} 30%, transparent 60%)`,
           mixBlendMode: 'screen',
-          filter: 'blur(20px)',
+          filter: 'blur(8px)',
         }}
       />
     </>

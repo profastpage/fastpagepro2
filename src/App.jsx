@@ -4360,10 +4360,11 @@ export default function App() {
   // --- Intro greeting: wave animation for 2s, then activate idle ---
   useEffect(() => {
     if (robotState !== 'intro') return;
-    const robotLayer = document.querySelector('[data-robot-wrapper]');
-    if (robotLayer) robotLayer.classList.add('robot-intro-wave');
+    // Apply wave to the robot container (visual), not the click zone
+    const robotVisual = document.querySelector('[data-robot-container]');
+    if (robotVisual) robotVisual.classList.add('robot-intro-wave');
     introTimerRef.current = setTimeout(() => {
-      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+      if (robotVisual) robotVisual.classList.remove('robot-intro-wave');
       setRobotState('idle');
     }, 2000);
     return () => { clearTimeout(introTimerRef.current); };
@@ -4374,8 +4375,8 @@ export default function App() {
     if (robotState === 'intro') {
       // Skip intro, go straight to scan
       clearTimeout(introTimerRef.current);
-      const robotLayer = document.querySelector('[data-robot-wrapper]');
-      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+      const robotVisual = document.querySelector('[data-robot-container]');
+      if (robotVisual) robotVisual.classList.remove('robot-intro-wave');
     }
     if (robotState !== 'idle' && robotState !== 'intro') return;
     clearTimeout(robotClickTimer.current);
@@ -4428,8 +4429,8 @@ export default function App() {
   const handleMobileClick = useCallback(() => {
     if (robotState === 'intro') {
       clearTimeout(introTimerRef.current);
-      const robotLayer = document.querySelector('[data-robot-wrapper]');
-      if (robotLayer) robotLayer.classList.remove('robot-intro-wave');
+      const robotVisual = document.querySelector('[data-robot-container]');
+      if (robotVisual) robotVisual.classList.remove('robot-intro-wave');
     }
     if (robotState !== 'idle' && robotState !== 'intro') return;
     clearTimeout(robotClickTimer.current);
@@ -4920,18 +4921,19 @@ export default function App() {
         }}
       >
 
-        {/* Layer 0: Interactive Mouse Spotlight — 21st.dev inspired (framer-motion springs) */}
+        {/* Layer 0: Interactive Mouse Spotlight — bright, visible (21st.dev inspired) */}
         <Spotlight
-          size={600}
-          color="rgba(250,204,21,0.07)"
-          color2="rgba(255,255,255,0.04)"
-          springConfig={{ bounce: 0, stiffness: 120, damping: 28 }}
+          size={700}
+          color="rgba(255,255,255,0.12)"
+          color2="rgba(250,204,21,0.10)"
+          springConfig={{ bounce: 0, stiffness: 100, damping: 30 }}
         />
 
         {/* Layer 1: Robot — Absolute Immersive Background — shifted right on desktop */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none md:left-[15%] md:right-0"
           ref={robotContainerRef}
+          data-robot-container
           style={{ willChange: 'transform' }}
         >
           <motion.div
@@ -4946,30 +4948,32 @@ export default function App() {
               className="w-full h-full"
               style={{ objectFit: 'contain' }}
             />
-            {/* Bionic Eyes Overlay */}
+            {/* Bionic Eyes Overlay — positioned on robot head, not chest */}
             <div className="absolute inset-0 z-[15] pointer-events-none">
+              {/* Left eye — ~head height, adjusted for right-shifted robot */}
               <div
                 id="bionic-eye-left"
                 className="absolute rounded-full"
                 style={{
-                  top: '42%', left: '52%', width: '12px', height: '12px',
-                  background: '#facc15',
-                  boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
-                  opacity: 0.9,
-                  filter: 'blur(0.5px)',
+                  top: '24%', left: '54%', width: '10px', height: '10px',
+                  background: 'radial-gradient(circle, #fff 0%, #facc15 40%, rgba(250,204,21,0) 100%)',
+                  boxShadow: '0 0 8px 3px #facc15, 0 0 20px 6px rgba(250,204,21,0.5), 0 0 40px 10px rgba(250,204,21,0.15)',
+                  opacity: 1,
+                  filter: 'blur(0.3px)',
                   animation: 'bionic-pulse 2s ease-in-out infinite',
                   transition: 'all 0.5s ease',
                 }}
               />
+              {/* Right eye — slightly right of left */}
               <div
                 id="bionic-eye-right"
                 className="absolute rounded-full"
                 style={{
-                  top: '42%', left: '58%', width: '12px', height: '12px',
-                  background: '#facc15',
-                  boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
-                  opacity: 0.9,
-                  filter: 'blur(0.5px)',
+                  top: '24%', left: '60%', width: '10px', height: '10px',
+                  background: 'radial-gradient(circle, #fff 0%, #facc15 40%, rgba(250,204,21,0) 100%)',
+                  boxShadow: '0 0 8px 3px #facc15, 0 0 20px 6px rgba(250,204,21,0.5), 0 0 40px 10px rgba(250,204,21,0.15)',
+                  opacity: 1,
+                  filter: 'blur(0.3px)',
                   animation: 'bionic-pulse 2s ease-in-out infinite',
                   transition: 'all 0.5s ease',
                 }}
