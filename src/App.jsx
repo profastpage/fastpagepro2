@@ -4820,7 +4820,7 @@ export default function App() {
       }}>
         <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
           <motion.div
-            className={`font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5 transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}
+            className={`font-bold text-xl tracking-tighter cursor-pointer flex items-center gap-2.5 transition-colors duration-500 ${isDarkMode ? 'text-white' : 'text-zinc-950'}`}
             onClick={(e) => scrollToSection(e, 'top')}
             whileHover={{ scale: 1.05 }}
           >
@@ -4834,7 +4834,7 @@ export default function App() {
           {/* Desktop Nav */}
           <div className="hidden md:flex gap-1 items-center">
             {navItems.map((item) => (
-              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className={`nav-link text-sm font-medium transition-colors px-4 py-2 rounded-lg ${isDarkMode ? 'text-white/60 hover:text-white hover:bg-white/10' : 'text-zinc-600 hover:text-zinc-900 hover:bg-black/5'}`}>{item.label}</motion.a>
+              <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className={`nav-link text-sm font-semibold transition-colors px-4 py-2 rounded-lg ${isDarkMode ? 'text-white/60 hover:text-white hover:bg-white/10' : 'text-zinc-900 hover:text-zinc-950 hover:bg-black/5'}`}>{item.label}</motion.a>
             ))}
             <div className={`w-px h-5 mx-2 ${isDarkMode ? 'bg-white/15' : 'bg-black/10'}`} />
             {/* Language Toggle */}
@@ -4842,7 +4842,7 @@ export default function App() {
               onClick={toggleLanguage}
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.94 }}
-              className={`nav-icon-btn px-3 py-2 text-xs font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-500 hover:text-amber-600'}`}
+              className={`nav-icon-btn px-3 py-2 text-xs font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-800 hover:text-amber-600'}`}
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
@@ -4868,13 +4868,13 @@ export default function App() {
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
-              className={`nav-icon-btn px-2.5 py-2 text-[10px] font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-500 hover:text-amber-600'}`}
+              className={`nav-icon-btn px-2.5 py-2 text-[10px] font-bold transition-colors rounded-lg ${isDarkMode ? 'text-white/60 hover:text-[#FFD700]' : 'text-zinc-800 hover:text-amber-600'}`}
               aria-label="Toggle language"
             >
               {language === 'es' ? 'EN' : 'ES'}
             </motion.button>
             <ThemeToggle isDark={isDarkMode} toggleTheme={toggleTheme} />
-            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className={`nav-icon-btn w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${isDarkMode ? 'text-white/70 hover:text-white' : 'text-zinc-500 hover:text-zinc-900'}`}>
+            <motion.button onClick={() => setMobileMenu(!mobileMenu)} whileTap={{ scale: 0.9 }} className={`nav-icon-btn w-9 h-9 flex items-center justify-center rounded-lg transition-colors ${isDarkMode ? 'text-white/70 hover:text-white' : 'text-zinc-800 hover:text-zinc-950'}`}>
               {mobileMenu ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
           </div>
