@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue } from 'framer-motion';
 import {
   Check,
@@ -54,7 +54,6 @@ import {
   Maximize2
 } from 'lucide-react';
 
-// 21st.dev: Spline 3D Scene + Spotlight
 import { SplineScene } from './components/SplineScene';
 import { Spotlight } from './components/Spotlight';
 
@@ -4249,87 +4248,53 @@ export default function App() {
     return 'landing';
   });
   const hoverTimeoutRef = useRef(null);
-
-  // --- Hero: Parallax Tracking (Mouse + Touch) + Golden Particles ---
-  const robotContainerRef = useRef(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const robotX = useSpring(mouseX, { stiffness: 35, damping: 28, mass: 1.2 });
-  const robotY = useSpring(mouseY, { stiffness: 35, damping: 28, mass: 1.2 });
-  const heroParticles = useMemo(() =>
-    Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2.5 + 1,
-      duration: Math.random() * 10 + 12,
-      delay: Math.random() * 8,
-      opacity: Math.random() * 0.35 + 0.15,
-    })), []);
-
-  // Shared position calculator — robot FOLLOWS the cursor
-  const updateRobotPosition = useCallback((clientX, clientY) => {
-    try {
-      const hero = robotContainerRef.current;
-      if (!hero) return;
-      const rect = hero.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      // Robot follows cursor (same direction, not inverted)
-      const isMobile = window.innerWidth < 768;
-      const factor = isMobile ? 0.08 : 0.05;
-      const maxPx = isMobile ? 40 : 30;
-      const dx = (clientX - cx) * factor;
-      const dy = (clientY - cy) * factor;
-      mouseX.set(Math.max(-maxPx, Math.min(maxPx, dx)));
-      mouseY.set(Math.max(-maxPx, Math.min(maxPx, dy)));
-    } catch {}
-  }, [mouseX, mouseY]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    // Desktop: mouse tracking (on document to catch everything including iframe areas)
-    const handleMouseMove = (e) => updateRobotPosition(e.clientX, e.clientY);
-
-    // Mobile: touch tracking (on document level — iframes can't block document events)
-    const handleTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        updateRobotPosition(touch.clientX, touch.clientY);
-      }
-    };
-    const handleTouchStart = (e) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        updateRobotPosition(touch.clientX, touch.clientY);
-      }
-    };
-
-    // Reset on touch end
-    const handleReset = () => {
-      mouseX.set(0);
-      mouseY.set(0);
-    };
-
-    // Use document level — Spline iframe cannot block document-level events
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: true, capture: true });
-    document.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
-    document.addEventListener('touchend', handleReset, { passive: true });
-    document.addEventListener('touchcancel', handleReset, { passive: true });
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('touchmove', handleTouchMove, true);
-      document.removeEventListener('touchstart', handleTouchStart, true);
-      document.removeEventListener('touchend', handleReset);
-      document.removeEventListener('touchcancel', handleReset);
-    };
-  }, [updateRobotPosition, mouseX, mouseY]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
+
+  // --- Parallax: Robot follows mouse/touch ---
+  const robotOffsetX = useMotionValue(0);
+  const robotOffsetY = useMotionValue(0);
+  const springX = useSpring(robotOffsetX, { stiffness: 80, damping: 20, restDelta: 0.001 });
+  const springY = useSpring(robotOffsetY, { stiffness: 80, damping: 20, restDelta: 0.001 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const nx = (e.clientX / vw - 0.5) * 2; // -1 to 1
+      const ny = (e.clientY / vh - 0.5) * 2; // -1 to 1
+      robotOffsetX.set(nx * -25); // inverted, max 25px
+      robotOffsetY.set(ny * -25);
+    };
+
+    const handleTouchMove = (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const nx = (e.touches[0].clientX / vw - 0.5) * 2;
+      const ny = (e.touches[0].clientY / vh - 0.5) * 2;
+      robotOffsetX.set(nx * -30); // mobile: slightly larger
+      robotOffsetY.set(ny * -30);
+    };
+
+    const handleReset = () => {
+      robotOffsetX.set(0);
+      robotOffsetY.set(0);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('mouseleave', handleReset, { passive: true });
+    window.addEventListener('touchend', handleReset, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('mouseleave', handleReset);
+      window.removeEventListener('touchend', handleReset);
+    };
+  }, [robotOffsetX, robotOffsetY]);
 
   // Navigation: Landing ↔ Portfolio
   const navigateToPortfolio = useCallback(() => {
@@ -4397,10 +4362,8 @@ export default function App() {
         const hash = window.location.hash;
         if (hash === '#portafolio') {
           setCurrentView('portfolio');
-          window.scrollTo({ top: 0, behavior: 'instant' });
         } else if (hash.startsWith('#portfolio/')) {
           setCurrentView('portfolio');
-          window.scrollTo({ top: 0, behavior: 'instant' });
           const slug = hash.replace('#portfolio/', '');
           const title = slugToTitle[slug];
           if (title) {
@@ -4742,157 +4705,127 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION — Immersive 3D Spline Hero (21st.dev) */}
-      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
+      {/* HERO SECTION — Immersive 3D Robot with Parallax */}
+      {currentView === 'landing' && (
+      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center bg-black">
+        {/* Layer 0: Spotlights */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <Spotlight className="animate-spotlight -top-40 left-0 w-[800px] md:w-[1200px] h-[500px] md:h-[800px]" />
+          <Spotlight className="animate-spotlight top-10 right-0 w-[600px] md:w-[1000px] h-[400px] md:h-[600px] opacity-50" />
+        </div>
 
-        {/* Layer 0: Spotlight Effects */}
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
-        <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
-
-        {/* Layer 1: Robot — Absolute Immersive Background */}
-        <div
-          className="absolute inset-0 z-[1] pointer-events-none"
-          ref={robotContainerRef}
-          style={{ willChange: 'transform' }}
+        {/* Layer 1: Spline 3D Robot — follows mouse/touch via parallax */}
+        <motion.div
+          className="absolute inset-0 z-[1] flex items-center justify-center"
+          style={{
+            x: springX,
+            y: springY,
+            willChange: 'transform',
+          }}
         >
-          <motion.div
+          <SplineScene
+            scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
             className="w-full h-full"
-            style={{ x: robotX, y: robotY }}
+            style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
+          />
+        </motion.div>
+
+        {/* Layer 2: Dark gradients for text legibility */}
+        <div className="absolute inset-0 z-[2] pointer-events-none">
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.5) 65%, rgba(0,0,0,0.8) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 100%)' }} />
+        </div>
+
+        {/* Layer 3: Golden floating particles */}
+        <FloatingParticles />
+
+        <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 60 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 1, delay: 0.2 }} 
+            className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
           >
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-              style={{ objectFit: 'contain' }}
-            />
-          </motion.div>
-        </div>
-
-        {/* Layer 1.5: Dark gradient overlays for text readability */}
-        <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)' }} />
-        <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
-
-        {/* Layer 2: Golden Particles */}
-        <div className="absolute inset-0 z-[3] pointer-events-none overflow-hidden">
-          {heroParticles.map((p) => (
-            <div
-              key={p.id}
-              className="absolute rounded-full golden-particle"
-              style={{
-                left: `${p.x}%`,
-                top: `${p.y}%`,
-                width: `${p.size}px`,
-                height: `${p.size}px`,
-                background: 'radial-gradient(circle, rgba(250,204,21,0.8) 0%, rgba(250,204,21,0.2) 50%, transparent 100%)',
-                boxShadow: '0 0 6px rgba(250,204,21,0.4)',
-                opacity: p.opacity,
-                '--duration': `${p.duration}s`,
-                '--delay': `${p.delay}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Layer 3: Main Content (Text + CTAs) */}
-        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
-          <div className="w-full max-w-2xl">
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
+            {/* Badge - Fixed for mobile */}
+            <motion.div 
+              className="inline-block mb-5 sm:mb-6 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" 
               whileHover={{ scale: 1.05 }}
             >
-              <motion.div
-                animate={{ boxShadow: ["0 0 0 0 rgba(251,191,36,0.4)", "0 0 0 10px rgba(251,191,36,0)", "0 0 0 0 rgba(251,191,36,0)"] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-2 h-2 rounded-full bg-yellow-400"
-              />
-              <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-xs font-semibold tracking-widest uppercase text-white/90">{copy.heroBadge}</span>
+              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
+                <motion.div
+                  animate={{
+                    boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
+                />
+                <Zap size={12} className="text-yellow-400 fill-yellow-400" />
+                <span className="hidden xs:inline">🚀</span> {copy.heroBadge}
+              </span>
             </motion.div>
 
-            {/* Main Heading */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-4 sm:mb-5 leading-[1.05]"
-              style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 4px 40px rgba(0,0,0,0.3)' }}
-            >
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-400">
-                {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
-              </span>
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600" style={{ textShadow: '0 0 40px rgba(250,204,21,0.3)' }}>
-                {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
-              </span>
-            </motion.h1>
+            {/* Main Title — 21st.dev Animated Text Reveal */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-8 md:mb-10 leading-[1.1]">
+              <AnimatedTextReveal
+                text={language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
+                delay={0.3}
+              /> <br/>
+              <AnimatedTextReveal
+                text={language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
+                delay={0.7}
+                className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/30"
+              />
+            </h1>
 
             {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 }}
-              className="text-sm sm:text-base md:text-lg text-neutral-300 mb-8 sm:mb-10 max-w-lg leading-relaxed"
-              style={{ textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}
-            >
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
               {copy.heroSubtitle}
-            </motion.p>
+            </p>
 
-            {/* CTA Buttons — Glass Cyber-Premium */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="flex flex-col sm:flex-row gap-3 max-w-md"
-            >
-              {/* Ver Portafolio — Glass Glow CTA */}
+            {/* CTA Buttons — Glassmorphism */}
+            <div className="w-full max-w-sm mx-auto flex flex-col gap-[15px]">
+              {/* Ver Portafolio — Glassmorphism CTA */}
               <motion.a
                 href="#portafolio"
-                onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
-                whileHover={{ scale: 1.04 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateToPortfolio();
+                }}
+                whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                className="group relative flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
-                style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
+                className="relative block w-full font-semibold py-4 px-6 rounded-full text-base text-white border border-[#facc15]/50 bg-white/10 backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(250,204,21,0.3)] hover:bg-[#facc15] hover:text-black hover:border-[#facc15] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)] hover:-translate-y-1 transition-all duration-300 text-center"
               >
-                {/* Shine sweep on hover */}
-                <span className="absolute inset-0 rounded-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                <span className="relative flex items-center gap-2">
+                <span className="flex items-center justify-center gap-2">
                   {copy.heroPrimaryCta}
-                  <motion.span className="inline-block" whileHover={{ x: 4 }}>
-                    <ArrowRight size={16} />
-                  </motion.span>
+                  <ArrowRight size={18} />
                 </span>
               </motion.a>
-              {/* Cotizar Proyecto — WhatsApp */}
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
-                className="h-[48px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
+                className="w-full h-[52px] px-6 text-base font-semibold border !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
               />
-            </motion.div>
+            </div>
 
             {/* Trust Badges */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.3 }}
-              className="mt-8 sm:mt-10 flex items-center gap-4 sm:gap-6 flex-wrap"
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 1.2 }} 
+              className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
             >
-              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
-              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
             </motion.div>
 
-            {/* Live Counter */}
+            {/* Live Booking Counter - Fixed for mobile */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.6 }}
-              className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
+              transition={{ delay: 1.8 }}
+              className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 max-w-full"
             >
               <motion.div
                 animate={{ scale: [1, 1.4, 1] }}
@@ -4900,17 +4833,18 @@ export default function App() {
                 className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                 style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
               />
-              <span className="text-xs whitespace-nowrap">
+              <span className="text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
                 <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
-                <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
+                <span style={{ color: 'rgba(255,255,255,0.85)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
               </span>
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
-      </section>}
+      </section>
+      )}
 
       {/* Stats — Horizontal Achievement Bar (Minimalist) */}
-      {currentView === 'landing' && <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
+      <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
         {/* Desktop: static horizontal row */}
         <div className="hidden md:block">
           <div className="container mx-auto px-4 relative z-10">
@@ -4975,7 +4909,7 @@ export default function App() {
             ))}
           </motion.div>
         </div>
-      </section>}
+      </section>
 
       {/* Portfolio — Featured (Landing) or Full Page */}
       {currentView === 'landing' ? (

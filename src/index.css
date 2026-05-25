@@ -434,6 +434,23 @@ body {
   transition: background-image 0.5s ease;
 }
 
+/* ===== Spotlight animation ===== */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease 0.75s 1 forwards;
+  opacity: 0;
+}
+
 /* ===== Smooth section transitions ===== */
 section {
   transition: background-color 0.5s ease, color 0.5s ease;
