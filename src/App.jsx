@@ -4252,6 +4252,71 @@ export default function App() {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
 
+  // --- Robot interactive states ---
+  const [robotState, setRobotState] = useState('idle'); // idle | scanning | greeting | success
+  const robotClickTimer = useRef(null);
+
+  const handleRobotClick = useCallback(() => {
+    if (robotState !== 'idle') return;
+    clearTimeout(robotClickTimer.current);
+
+    // Phase 1: Scan (bright glow + eyes white)
+    setRobotState('scanning');
+    const scanGlow = document.getElementById('robot-scan-glow');
+    const eyeL = document.getElementById('bionic-eye-left');
+    const eyeR = document.getElementById('bionic-eye-right');
+    if (scanGlow) scanGlow.style.background = 'radial-gradient(circle, rgba(250,204,21,0.3) 0%, transparent 70%)';
+    if (eyeL) { eyeL.style.background = '#ffffff'; eyeL.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
+    if (eyeR) { eyeR.style.background = '#ffffff'; eyeR.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
+
+    // Phase 2: Greet (tilt effect via CSS + eyes amber)
+    robotClickTimer.current = setTimeout(() => {
+      setRobotState('greeting');
+      if (scanGlow) scanGlow.style.background = 'transparent';
+      if (eyeL) { eyeL.style.background = '#f59e0b'; eyeL.style.boxShadow = '0 0 16px #f59e0b'; }
+      if (eyeR) { eyeR.style.background = '#f59e0b'; eyeR.style.boxShadow = '0 0 16px #f59e0b'; }
+      // Tilt the robot container
+      const robotDiv = document.querySelector('[data-robot-wrapper]');
+      if (robotDiv) robotDiv.style.transform = 'rotate(-5deg) scale(1.03)';
+
+      // Phase 3: Success (eyes green + tooltip)
+      robotClickTimer.current = setTimeout(() => {
+        setRobotState('success');
+        if (eyeL) { eyeL.style.background = '#00FF88'; eyeL.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
+        if (eyeR) { eyeR.style.background = '#00FF88'; eyeR.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
+
+        // Phase 4: Reset to idle after 2s
+        robotClickTimer.current = setTimeout(() => {
+          setRobotState('idle');
+          if (eyeL) { eyeL.style.background = '#facc15'; eyeL.style.boxShadow = '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)'; }
+          if (eyeR) { eyeR.style.background = '#facc15'; eyeR.style.boxShadow = '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)'; }
+          if (robotDiv) robotDiv.style.transform = '';
+        }, 2000);
+      }, 600);
+    }, 800);
+  }, [robotState]);
+
+  // --- Random eye blinking every ~5 seconds ---
+  useEffect(() => {
+    const blink = () => {
+      const eyeL = document.getElementById('bionic-eye-left');
+      const eyeR = document.getElementById('bionic-eye-right');
+      if (eyeL && eyeR && robotState === 'idle') {
+        eyeL.style.opacity = '0';
+        eyeR.style.opacity = '0';
+        setTimeout(() => {
+          eyeL.style.opacity = '0.9';
+          eyeR.style.opacity = '0.9';
+        }, 150);
+      }
+      // Schedule next blink: 4-6 seconds random
+      const next = 4000 + Math.random() * 2000;
+      robotClickTimer.current = setTimeout(blink, next);
+    };
+    const timer = setTimeout(blink, 5000);
+    return () => { clearTimeout(timer); clearTimeout(robotClickTimer.current); };
+  }, [robotState]);
+
   // --- Parallax: Robot follows mouse/touch ---
   const robotOffsetX = useMotionValue(0);
   const robotOffsetY = useMotionValue(0);
@@ -4705,67 +4770,116 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION — Immersive 3D Robot with Parallax */}
+      {/* HERO SECTION — FastPagePro Identity: Robot + Left Text */}
       {currentView === 'landing' && (
-      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden flex items-center justify-center bg-black">
-        {/* Layer 0: Spotlights */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <Spotlight className="animate-spotlight -top-40 left-0 w-[800px] md:w-[1200px] h-[500px] md:h-[800px]" />
-          <Spotlight className="animate-spotlight top-10 right-0 w-[600px] md:w-[1000px] h-[400px] md:h-[600px] opacity-50" />
+      <section id="top" className="relative w-full min-h-[85vh] md:min-h-screen overflow-hidden bg-black">
+        {/* Layer 0: Subtle spotlights (no grid, no lines) */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full opacity-[0.07]" style={{ background: 'radial-gradient(circle, #facc15 0%, transparent 70%)' }} />
+          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }} />
         </div>
 
-        {/* Layer 1: Spline 3D Robot — follows mouse/touch via parallax */}
+        {/* Layer 1: Robot — center-right, follows mouse, interactive */}
         <motion.div
-          className="absolute inset-0 z-[1] flex items-center justify-center"
+          className="absolute inset-0 z-[10] flex items-center justify-center md:justify-end pointer-events-none"
           style={{
             x: springX,
             y: springY,
             willChange: 'transform',
           }}
         >
-          <SplineScene
-            scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
-            className="w-full h-full"
-            style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
-          />
+          <div className="w-[90%] md:w-[55%] h-full relative" data-robot-wrapper>
+            {/* Scan glow overlay — activated on click */}
+            <div
+              className="absolute inset-0 z-20 pointer-events-none transition-all duration-500"
+              id="robot-scan-glow"
+              style={{ background: 'transparent' }}
+            />
+            <SplineScene
+              scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+              className="w-full h-full"
+              style={{ width: '100%', height: '100%' }}
+            />
+            {/* Bionic Eyes Overlay */}
+            <div className="absolute inset-0 z-[15] pointer-events-none">
+              <div
+                id="bionic-eye-left"
+                className="absolute rounded-full transition-all duration-200"
+                style={{
+                  top: '38%', left: '58%', width: '14px', height: '14px',
+                  background: '#facc15',
+                  boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
+                  opacity: 0.9,
+                  filter: 'blur(0.5px)',
+                }}
+              />
+              <div
+                id="bionic-eye-right"
+                className="absolute rounded-full transition-all duration-200"
+                style={{
+                  top: '38%', left: '64%', width: '14px', height: '14px',
+                  background: '#facc15',
+                  boxShadow: '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)',
+                  opacity: 0.9,
+                  filter: 'blur(0.5px)',
+                }}
+              />
+            </div>
+            {/* Click interaction zone (transparent, captures clicks) */}
+            <div
+              className="absolute inset-0 z-[25] cursor-pointer"
+              onClick={handleRobotClick}
+            />
+            {/* Success tooltip */}
+            <AnimatePresence>
+              {robotState === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute bottom-[15%] left-1/2 -translate-x-1/2 z-[30] px-5 py-2.5 rounded-full text-sm font-semibold text-black whitespace-nowrap"
+                  style={{ background: '#00FF88', boxShadow: '0 0 20px rgba(0,255,136,0.5)' }}
+                >
+                  Sistemas Listos
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
 
-        {/* Layer 2: Dark gradients for text legibility */}
-        <div className="absolute inset-0 z-[2] pointer-events-none">
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.5) 65%, rgba(0,0,0,0.8) 100%)' }} />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.5) 100%)' }} />
+        {/* Layer 2: Left gradient for text legibility */}
+        <div className="absolute inset-0 z-[11] pointer-events-none">
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.15) 70%, transparent 100%)' }} />
+          <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)' }} />
         </div>
 
         {/* Layer 3: Golden floating particles */}
         <FloatingParticles />
 
-        <motion.div className="relative z-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 text-center text-white flex flex-col items-center justify-center">
-          <motion.div 
-            initial={{ opacity: 0, y: 60 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 1, delay: 0.2 }} 
-            className="w-full max-w-4xl mx-auto flex flex-col items-center justify-center"
-          >
-            {/* Badge - Fixed for mobile */}
-            <motion.div 
-              className="inline-block mb-5 sm:mb-6 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md" 
-              whileHover={{ scale: 1.05 }}
+        {/* Layer 20: Text content — LEFT ALIGNED */}
+        <motion.div className="relative z-20 w-full min-h-[85vh] md:min-h-screen flex items-center px-5 sm:px-8 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
+          <div className="w-full max-w-xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
             >
-              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase flex items-center gap-1.5 sm:gap-2 whitespace-nowrap">
-                <motion.div
-                  animate={{
-                    boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
-                />
-                <Zap size={12} className="text-yellow-400 fill-yellow-400" />
-                <span className="hidden xs:inline">🚀</span> {copy.heroBadge}
-              </span>
+              <motion.div
+                animate={{
+                  boxShadow: ["0 0 0 0 rgba(251, 191, 36, 0.4)", "0 0 0 10px rgba(251, 191, 36, 0)", "0 0 0 0 rgba(251, 191, 36, 0)"]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-yellow-400"
+              />
+              <Zap size={12} className="text-yellow-400 fill-yellow-400" />
+              <span className="text-[11px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase text-white">{copy.heroBadge}</span>
             </motion.div>
 
-            {/* Main Title — 21st.dev Animated Text Reveal */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-8 md:mb-10 leading-[1.1]">
+            {/* Main Title */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-5 sm:mb-6 md:mb-8 leading-[1.1] text-left">
               <AnimatedTextReveal
                 text={language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
                 delay={0.3}
@@ -4778,54 +4892,56 @@ export default function App() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed px-2">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/80 mb-8 sm:mb-10 max-w-md text-left leading-relaxed">
               {copy.heroSubtitle}
             </p>
 
             {/* CTA Buttons — Glassmorphism */}
-            <div className="w-full max-w-sm mx-auto flex flex-col gap-[15px]">
-              {/* Ver Portafolio — Glassmorphism CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="flex flex-col sm:flex-row gap-3 max-w-md"
+            >
               <motion.a
                 href="#portafolio"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigateToPortfolio();
-                }}
-                whileHover={{ scale: 1.03 }}
+                onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
+                whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="relative block w-full font-semibold py-4 px-6 rounded-full text-base text-white border border-[#facc15]/50 bg-white/10 backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(250,204,21,0.3)] hover:bg-[#facc15] hover:text-black hover:border-[#facc15] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)] hover:-translate-y-1 transition-all duration-300 text-center"
+                className="group relative flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
               >
-                <span className="flex items-center justify-center gap-2">
+                <span className="absolute inset-0 rounded-full -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                <span className="relative flex items-center gap-2">
                   {copy.heroPrimaryCta}
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} />
                 </span>
               </motion.a>
               <WhatsAppButton
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
-                className="w-full h-[52px] px-6 text-base font-semibold border !text-white !border-white hover:!bg-white/15 rounded-full shadow-[0_10px_40px_-10px_rgba(255,255,255,0.15)] hover:shadow-[0_20px_50px_-10px_rgba(255,255,255,0.25)] hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300"
+                className="h-[48px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
               />
-            </div>
-
-            {/* Trust Badges */}
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              transition={{ delay: 1.2 }} 
-              className="mt-6 sm:mt-8 flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap px-2"
-            >
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
-              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-white"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
             </motion.div>
 
-            {/* Live Booking Counter - Fixed for mobile */}
+            {/* Trust Badges */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.3 }}
+              className="mt-8 sm:mt-10 flex items-center gap-4 sm:gap-6 flex-wrap"
+            >
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
+              <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
+            </motion.div>
+
+            {/* Live Counter */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.8 }}
-              className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 max-w-full"
+              transition={{ delay: 1.6 }}
+              className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
             >
               <motion.div
                 animate={{ scale: [1, 1.4, 1] }}
@@ -4833,12 +4949,12 @@ export default function App() {
                 className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                 style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
               />
-              <span className="text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+              <span className="text-xs sm:text-sm whitespace-nowrap">
                 <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
-                <span style={{ color: 'rgba(255,255,255,0.85)' }}>{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
+                <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
               </span>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </section>
       )}
