@@ -2954,7 +2954,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
       {/* Compact Stats Bridge — right below navbar, 2x2 mobile / row desktop */}
       <div className="pt-[66px] md:pt-[70px] px-4 pb-1 md:pb-2">
         <div className="container mx-auto max-w-4xl">
-          {/* Mobile: 2x2 grid */}
+          {/* Mobile: 2x2 grid with animated counters */}
           <div className="grid grid-cols-2 gap-x-4 gap-y-1 md:hidden">
             {[
               { icon: Rocket, value: 45, suffix: "+", label: language === "es" ? "proyectos" : "projects" },
@@ -2966,13 +2966,13 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
               return (
                 <div key={i} className="flex items-center gap-2 py-1">
                   <Icon size={14} className="text-yellow-400/70 shrink-0" strokeWidth={1.5} />
-                  <span className="text-sm font-extrabold text-yellow-400">{stat.prefix || ""}{stat.value}{stat.suffix}</span>
+                  <span className="text-sm font-extrabold text-yellow-400"><AnimatedCounter end={stat.value} suffix={stat.suffix} duration={1.8} /></span>
                   <span className="text-[10px] text-[var(--text-muted)]">{stat.label}</span>
                 </div>
               );
             })}
           </div>
-          {/* Desktop: single row */}
+          {/* Desktop: single row with animated counters */}
           <div className="hidden md:flex justify-center items-center gap-6 lg:gap-10 py-1">
             {[
               { icon: Rocket, value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created" },
@@ -2986,7 +2986,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
                   {i > 0 && <div className="w-px h-4 bg-white/10" />}
                   <div className="flex items-center gap-2">
                     <Icon size={15} className="text-yellow-400/70 shrink-0" strokeWidth={1.5} />
-                    <span className="text-base font-extrabold" style={{ color: '#facc15' }}>{stat.prefix || ""}{stat.value}{stat.suffix}</span>
+                    <span className="text-base font-extrabold" style={{ color: '#facc15' }}>{stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} /></span>
                     <span className="text-xs text-[var(--text-muted)] hidden lg:inline">{stat.label}</span>
                   </div>
                 </React.Fragment>
@@ -3053,17 +3053,17 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
                     transition={{ delay: index * 0.06, duration: 0.5 }}
-                    whileHover={{ y: -8 }}
-                    className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
+                    whileHover={{ y: -8, boxShadow: '0 20px 40px -12px rgba(250,204,21,0.2), 0 8px 16px -8px rgba(0,0,0,0.4)' }}
+                    className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline transition-shadow duration-400"
                     style={{ aspectRatio: '4/5' }}
                   >
                     <motion.img
                       src={project.image} alt={project.title} onError={handleImageFallback}
-                      whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
+                      whileHover={{ scale: 1.05 }} transition={{ duration: 0.5, ease: 'easeOut' }}
                       className="w-full h-full object-cover" loading="lazy"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
                     />
-                    <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
+                    <div className="absolute inset-0 portfolio-card-overlay pointer-events-none group-hover:opacity-60 transition-opacity duration-400" />
                     <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
                     <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
                       <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
