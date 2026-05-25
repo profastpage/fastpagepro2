@@ -4252,6 +4252,19 @@ export default function App() {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
 
+  // --- Device detection ---
+  const isMobileRef = useRef(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const check = () => {
+        isMobileRef.current = !window.matchMedia('(pointer: fine)').matches || window.innerWidth < 768;
+      };
+      check();
+      window.addEventListener('resize', check, { passive: true });
+      return () => window.removeEventListener('resize', check);
+    }
+  }, []);
+
   // --- Robot parallax + bionic eyes ---
   const robotContainerRef = useRef(null);
   const mouseX = useMotionValue(0);
@@ -4269,44 +4282,175 @@ export default function App() {
       opacity: Math.random() * 0.35 + 0.15,
     })), []);
 
-  const [robotState, setRobotState] = useState('idle');
-  const robotClickTimer = useRef(null);
+  // --- Robot random phrases (ES / EN) ---
+  const robotPhrases = useMemo(() => ({
+    es: [
+      'Analizando proyecto... ¡Optimización detectada!',
+      'Escaneo completo. Listo para despegar.',
+      'Negocio detectado. Optimizando sistemas...',
+      'Procesando datos... ¡Solución encontrada!',
+      'Diagnóstico OK. Tu web será imparable.',
+      'Calibrando estrategia... ¡Perfecto!',
+      'Evaluando mercado... ¡Oportunidad confirmada!',
+    ],
+    en: [
+      'Analyzing project... Optimization detected!',
+      'Scan complete. Ready for takeoff.',
+      'Business detected. Optimizing systems...',
+      'Processing data... Solution found!',
+      'Diagnostics OK. Your site will be unstoppable.',
+      'Calibrating strategy... Perfect!',
+      'Evaluating market... Opportunity confirmed!',
+    ],
+  }), []);
 
-  const handleRobotClick = useCallback(() => {
+  const [robotState, setRobotState] = useState('idle');
+  const [speechText, setSpeechText] = useState('');
+  const [displayedChars, setDisplayedChars] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const robotClickTimer = useRef(null);
+  const typewriterTimer = useRef(null);
+
+  // --- Typewriter effect ---
+  useEffect(() => {
+    if (isTyping && displayedChars < speechText.length) {
+      typewriterTimer.current = setTimeout(() => {
+        setDisplayedChars(prev => prev + 1);
+      }, 30);
+    }
+    return () => clearTimeout(typewriterTimer.current);
+  }, [isTyping, displayedChars, speechText]);
+
+  // --- Eye helper: set color with smooth transition ---
+  const setEyesColor = useCallback((color, glowColor, size = 12, extraShadow = '') => {
+    const eyeL = document.getElementById('bionic-eye-left');
+    const eyeR = document.getElementById('bionic-eye-right');
+    const shadow = `0 0 ${size}px ${glowColor}, 0 0 ${size * 2}px ${glowColor}44${extraShadow ? ', ' + extraShadow : ''}`;
+    if (eyeL) { eyeL.style.background = color; eyeL.style.boxShadow = shadow; eyeL.style.transition = 'all 0.5s ease'; }
+    if (eyeR) { eyeR.style.background = color; eyeR.style.boxShadow = shadow; eyeR.style.transition = 'all 0.5s ease'; }
+  }, []);
+
+  // --- Haptic feedback (mobile) ---
+  const triggerHaptic = useCallback((pattern = [30, 20, 30]) => {
+    try {
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    } catch {}
+  }, []);
+
+  // --- Desktop click: Scan → Greeting → Speech → Success ---
+  const handleDesktopClick = useCallback(() => {
     if (robotState !== 'idle') return;
     clearTimeout(robotClickTimer.current);
     setRobotState('scanning');
-    const eyeL = document.getElementById('bionic-eye-left');
-    const eyeR = document.getElementById('bionic-eye-right');
-    if (eyeL) { eyeL.style.background = '#ffffff'; eyeL.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
-    if (eyeR) { eyeR.style.background = '#ffffff'; eyeR.style.boxShadow = '0 0 20px #fff, 0 0 40px #facc15'; }
+
+    // Phase 1: White scan
+    setEyesColor('#ffffff', '#ffffff', 20, '0 0 40px #facc1588');
+
     robotClickTimer.current = setTimeout(() => {
+      // Phase 2: Amber greeting + head tilt
       setRobotState('greeting');
-      if (eyeL) { eyeL.style.background = '#f59e0b'; eyeL.style.boxShadow = '0 0 16px #f59e0b'; }
-      if (eyeR) { eyeR.style.background = '#f59e0b'; eyeR.style.boxShadow = '0 0 16px #f59e0b'; }
+      setEyesColor('#f59e0b', '#f59e0b', 16);
       const robotDiv = document.querySelector('[data-robot-wrapper]');
       if (robotDiv) robotDiv.style.transform = 'rotate(-5deg) scale(1.03)';
+
       robotClickTimer.current = setTimeout(() => {
-        setRobotState('success');
-        if (eyeL) { eyeL.style.background = '#00FF88'; eyeL.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
-        if (eyeR) { eyeR.style.background = '#00FF88'; eyeR.style.boxShadow = '0 0 16px #00FF88, 0 0 32px rgba(0,255,136,0.5)'; }
+        // Phase 2.5: Speech tooltip
+        setRobotState('speech');
+        const phrases = language === 'es' ? robotPhrases.es : robotPhrases.en;
+        const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+        setSpeechText(phrase);
+        setDisplayedChars(0);
+        setIsTyping(true);
+        if (robotDiv) robotDiv.style.transform = '';
+
         robotClickTimer.current = setTimeout(() => {
-          setRobotState('idle');
-          if (eyeL) { eyeL.style.background = '#facc15'; eyeL.style.boxShadow = '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)'; }
-          if (eyeR) { eyeR.style.background = '#facc15'; eyeR.style.boxShadow = '0 0 12px #facc15, 0 0 24px rgba(250,204,21,0.4)'; }
-          if (robotDiv) robotDiv.style.transform = '';
-        }, 2000);
+          setIsTyping(false);
+          setDisplayedChars(phrase.length);
+
+          robotClickTimer.current = setTimeout(() => {
+            // Phase 3: Green success
+            setRobotState('success');
+            setEyesColor('#00FF88', '#00FF88', 16);
+            setSpeechText('');
+            setDisplayedChars(0);
+            if (robotDiv) robotDiv.style.transform = '';
+
+            robotClickTimer.current = setTimeout(() => {
+              // Reset to idle
+              setRobotState('idle');
+              setEyesColor('#facc15', '#facc15', 12, '0 0 24px rgba(250,204,21,0.4)');
+            }, 2000);
+          }, 2000);
+        }, Math.min(phrase.length * 30, 1200));
       }, 600);
     }, 800);
-  }, [robotState]);
+  }, [robotState, language, robotPhrases, setEyesColor]);
+
+  // --- Mobile tap: Red Scan → Speech Tooltip → Green Success ---
+  const handleMobileClick = useCallback(() => {
+    if (robotState !== 'idle') return;
+    clearTimeout(robotClickTimer.current);
+    setRobotState('scanning');
+
+    // Phase 1: RED neon scan — aggressive
+    setEyesColor('#ff0000', '#ff0000', 24, '0 0 48px rgba(255,0,0,0.6)');
+    triggerHaptic([50, 30, 50, 30, 50]); // Aggressive vibration
+
+    const robotDiv = document.querySelector('[data-robot-wrapper]');
+    if (robotDiv) robotDiv.style.transform = 'scale(1.05)';
+
+    robotClickTimer.current = setTimeout(() => {
+      // Phase 2: Speech — show typewriter tooltip
+      setRobotState('speech');
+      const phrases = language === 'es' ? robotPhrases.es : robotPhrases.en;
+      const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+      setSpeechText(phrase);
+      setDisplayedChars(0);
+      setIsTyping(true);
+      if (robotDiv) robotDiv.style.transform = 'rotate(-3deg) scale(1.02)';
+      triggerHaptic([20]);
+
+      robotClickTimer.current = setTimeout(() => {
+        // End typing
+        setIsTyping(false);
+        setDisplayedChars(phrase.length);
+
+        robotClickTimer.current = setTimeout(() => {
+          // Phase 3: Green success
+          setRobotState('success');
+          setEyesColor('#22c55e', '#22c55e', 16, '0 0 32px rgba(34,197,94,0.5)');
+          setSpeechText('');
+          setDisplayedChars(0);
+          if (robotDiv) robotDiv.style.transform = '';
+
+          robotClickTimer.current = setTimeout(() => {
+            // Reset to idle golden
+            setRobotState('idle');
+            setEyesColor('#facc15', '#facc15', 12, '0 0 24px rgba(250,204,21,0.4)');
+          }, 1500);
+        }, 2500); // Show full text for 2.5s
+      }, Math.min(phrase.length * 30, 1500)); // Typewriter duration
+    }, 1200); // Red scan duration
+  }, [robotState, language, robotPhrases, setEyesColor, triggerHaptic]);
+
+  // --- Unified click handler ---
+  const handleRobotClick = useCallback(() => {
+    if (isMobileRef.current) {
+      handleMobileClick();
+    } else {
+      handleDesktopClick();
+    }
+  }, [handleMobileClick, handleDesktopClick]);
 
   useEffect(() => {
     const blink = () => {
       const eyeL = document.getElementById('bionic-eye-left');
       const eyeR = document.getElementById('bionic-eye-right');
       if (eyeL && eyeR && robotState === 'idle') {
+        eyeL.style.transition = 'opacity 0.15s ease'; eyeR.style.transition = 'opacity 0.15s ease';
         eyeL.style.opacity = '0'; eyeR.style.opacity = '0';
         setTimeout(() => { eyeL.style.opacity = '0.9'; eyeR.style.opacity = '0.9'; }, 150);
+        setTimeout(() => { eyeL.style.transition = 'all 0.5s ease'; eyeR.style.transition = 'all 0.5s ease'; }, 300);
       }
       robotClickTimer.current = setTimeout(blink, 4000 + Math.random() * 2000);
     };
@@ -4326,9 +4470,35 @@ export default function App() {
         mouseY.set(Math.max(-20, Math.min(20, -(e.clientY - cy) * 0.03)));
       } catch {}
     };
+
+    // Mobile: touch parallax gaze — only move on touchmove, reset on touchend
+    const handleTouch = (e) => {
+      try {
+        const hero = robotContainerRef.current;
+        if (!hero || !e.touches[0]) return;
+        const rect = hero.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const tx = e.touches[0].clientX;
+        const ty = e.touches[0].clientY;
+        mouseX.set(Math.max(-25, Math.min(25, -(tx - cx) * 0.04)));
+        mouseY.set(Math.max(-25, Math.min(25, -(ty - cy) * 0.04)));
+      } catch {}
+    };
+    const handleTouchEnd = () => {
+      mouseX.set(0);
+      mouseY.set(0);
+    };
+
     if (typeof window !== 'undefined') {
       window.addEventListener('mousemove', handleMouse, { passive: true });
-      return () => window.removeEventListener('mousemove', handleMouse);
+      window.addEventListener('touchmove', handleTouch, { passive: true });
+      window.addEventListener('touchend', handleTouchEnd, { passive: true });
+      return () => {
+        window.removeEventListener('mousemove', handleMouse);
+        window.removeEventListener('touchmove', handleTouch);
+        window.removeEventListener('touchend', handleTouchEnd);
+      };
     }
   }, [mouseX, mouseY]);
 
@@ -4772,7 +4942,7 @@ export default function App() {
             <div className="absolute inset-0 z-[15] pointer-events-none">
               <div
                 id="bionic-eye-left"
-                className="absolute rounded-full transition-all duration-200"
+                className="absolute rounded-full"
                 style={{
                   top: '42%', left: '52%', width: '12px', height: '12px',
                   background: '#facc15',
@@ -4780,11 +4950,12 @@ export default function App() {
                   opacity: 0.9,
                   filter: 'blur(0.5px)',
                   animation: 'bionic-pulse 2s ease-in-out infinite',
+                  transition: 'all 0.5s ease',
                 }}
               />
               <div
                 id="bionic-eye-right"
-                className="absolute rounded-full transition-all duration-200"
+                className="absolute rounded-full"
                 style={{
                   top: '42%', left: '58%', width: '12px', height: '12px',
                   background: '#facc15',
@@ -4792,6 +4963,7 @@ export default function App() {
                   opacity: 0.9,
                   filter: 'blur(0.5px)',
                   animation: 'bionic-pulse 2s ease-in-out infinite',
+                  transition: 'all 0.5s ease',
                 }}
               />
             </div>
@@ -4802,6 +4974,43 @@ export default function App() {
             data-robot-wrapper
             onClick={handleRobotClick}
           />
+
+          {/* Speech Tooltip — Typewriter (Mobile & Desktop speech phase) */}
+          <AnimatePresence>
+            {robotState === 'speech' && speechText && (
+              <motion.div
+                initial={{ opacity: 0, y: 15, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                className="absolute bottom-[22%] left-1/2 -translate-x-1/2 z-[40] max-w-[85vw] px-5 py-3 rounded-2xl whitespace-nowrap pointer-events-none"
+                style={{
+                  background: 'rgba(10,10,10,0.88)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 1px rgba(255,255,255,0.1)',
+                }}
+              >
+                <p className="text-xs sm:text-sm font-medium tracking-wide"
+                  style={{
+                    fontFamily: "'Georgia', 'Times New Roman', serif",
+                    color: 'rgba(255,255,255,0.92)',
+                    textShadow: '0 1px 4px rgba(0,0,0,0.5)',
+                  }}
+                >
+                  {speechText.slice(0, displayedChars)}
+                  {isTyping && displayedChars < speechText.length && (
+                    <span className="inline-block w-[2px] h-[14px] ml-0.5 align-middle" style={{ background: '#facc15', animation: 'blink-cursor 0.6s step-end infinite' }} />
+                  )}
+                </p>
+                {/* Decorative corner accents */}
+                <div className="absolute top-1 left-1 w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(250,204,21,0.3)' }} />
+                <div className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(250,204,21,0.3)' }} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Success tooltip */}
           <AnimatePresence>
             {robotState === 'success' && (
@@ -4813,7 +5022,7 @@ export default function App() {
                 className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-[30] px-5 py-2.5 rounded-full text-sm font-semibold text-black whitespace-nowrap"
                 style={{ background: '#00FF88', boxShadow: '0 0 20px rgba(0,255,136,0.5)' }}
               >
-                Sistemas Listos
+                {language === 'es' ? 'Sistemas Listos' : 'Systems Ready'}
               </motion.div>
             )}
           </AnimatePresence>
