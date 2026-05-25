@@ -4252,6 +4252,41 @@ export default function App() {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
 
+  // Navigation: Landing ↔ Portfolio
+  const navigateToPortfolio = useCallback(() => {
+    setCurrentView('portfolio');
+    window.location.hash = 'portafolio';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  const navigateToLanding = useCallback(() => {
+    setCurrentView('landing');
+    try {
+      if (typeof window !== 'undefined' && window.location.hash === '#portafolio') {
+        history.pushState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch {}
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      // Always dark by default. Only light if user explicitly chose 'light' (persisted)
+      return saved !== 'light';
+    } catch {
+      return true; // Dark fallback
+    }
+  });
+  const [language, setLanguage] = useState(() => {
+    try {
+      const savedLanguage = localStorage.getItem('language');
+      return savedLanguage === 'en' ? 'en' : 'es';
+    } catch {
+      return 'es';
+    }
+  });
+
   // --- Device detection ---
   const isMobileRef = useRef(false);
   useEffect(() => {
@@ -4501,41 +4536,6 @@ export default function App() {
       };
     }
   }, [mouseX, mouseY]);
-
-  // Navigation: Landing ↔ Portfolio
-  const navigateToPortfolio = useCallback(() => {
-    setCurrentView('portfolio');
-    window.location.hash = 'portafolio';
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
-
-  const navigateToLanding = useCallback(() => {
-    setCurrentView('landing');
-    try {
-      if (typeof window !== 'undefined' && window.location.hash === '#portafolio') {
-        history.pushState(null, '', window.location.pathname + window.location.search);
-      }
-    } catch {}
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
-
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    try {
-      const saved = localStorage.getItem('theme');
-      // Always dark by default. Only light if user explicitly chose 'light' (persisted)
-      return saved !== 'light';
-    } catch {
-      return true; // Dark fallback
-    }
-  });
-  const [language, setLanguage] = useState(() => {
-    try {
-      const savedLanguage = localStorage.getItem('language');
-      return savedLanguage === 'en' ? 'en' : 'es';
-    } catch {
-      return 'es';
-    }
-  });
 
   // Variable bookings counter - different each day
   const [todayBookings, setTodayBookings] = useState(() => {
