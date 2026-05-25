@@ -4244,7 +4244,17 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [hoveredProject, setHoveredProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#portafolio') return 'portfolio';
+    // Always start on Hero (landing) on initial page load
+    if (typeof window !== 'undefined') {
+      // Only go to portfolio if explicitly navigated (not first load)
+      const isEntry = !sessionStorage.getItem('fpp-visited');
+      if (isEntry) {
+        sessionStorage.setItem('fpp-visited', '1');
+        history.replaceState(null, '', window.location.pathname);
+        return 'landing';
+      }
+      if (window.location.hash === '#portafolio') return 'portfolio';
+    }
     return 'landing';
   });
   const hoverTimeoutRef = useRef(null);
@@ -4267,6 +4277,14 @@ export default function App() {
       }
     } catch {}
     window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
+  // Force scroll to top & prevent browser scroll restoration on initial load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      history.scrollRestoration = 'manual';
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }, []);
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
