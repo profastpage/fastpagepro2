@@ -2951,8 +2951,53 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
 
   return (
     <div className="min-h-screen relative" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
-      {/* Section Title + Filters — Compact: close to navbar */}
-      <div className="pt-[76px] pb-2 md:pt-[84px] md:pb-3 px-4">
+      {/* Compact Stats Bridge — right below navbar, 2x2 mobile / row desktop */}
+      <div className="pt-[66px] md:pt-[70px] px-4 pb-1 md:pb-2">
+        <div className="container mx-auto max-w-4xl">
+          {/* Mobile: 2x2 grid */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 md:hidden">
+            {[
+              { icon: Rocket, value: 45, suffix: "+", label: language === "es" ? "proyectos" : "projects" },
+              { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "ventas+" : "sales+" },
+              { icon: Globe, value: 4, suffix: "", label: language === "es" ? "países" : "countries" },
+              { icon: Zap, value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction" }
+            ].map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <div key={i} className="flex items-center gap-2 py-1">
+                  <Icon size={14} className="text-yellow-400/70 shrink-0" strokeWidth={1.5} />
+                  <span className="text-sm font-extrabold text-yellow-400">{stat.prefix || ""}{stat.value}{stat.suffix}</span>
+                  <span className="text-[10px] text-[var(--text-muted)]">{stat.label}</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* Desktop: single row */}
+          <div className="hidden md:flex justify-center items-center gap-6 lg:gap-10 py-1">
+            {[
+              { icon: Rocket, value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created" },
+              { icon: TrendingUp, value: 300, suffix: "%", prefix: "+", label: language === "es" ? "aumento en ventas" : "sales increase" },
+              { icon: Globe, value: 4, suffix: "", label: language === "es" ? "países" : "countries" },
+              { icon: Zap, value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction" }
+            ].map((stat, i) => {
+              const Icon = stat.icon;
+              return (
+                <React.Fragment key={i}>
+                  {i > 0 && <div className="w-px h-4 bg-white/10" />}
+                  <div className="flex items-center gap-2">
+                    <Icon size={15} className="text-yellow-400/70 shrink-0" strokeWidth={1.5} />
+                    <span className="text-base font-extrabold" style={{ color: '#facc15' }}>{stat.prefix || ""}{stat.value}{stat.suffix}</span>
+                    <span className="text-xs text-[var(--text-muted)] hidden lg:inline">{stat.label}</span>
+                  </div>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Section Title + Filters — Compact: close to stats */}
+      <div className="pt-1 pb-2 md:pt-1 md:pb-3 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4 md:mb-5">
             <div>
@@ -3037,32 +3082,8 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
         </div>
       </div>
 
-      {/* Stats Bar — Immersive */}
-      <div className="px-4 pb-20 md:pb-32">
-        <div className="container mx-auto">
-          <div className="flex flex-wrap justify-center gap-8 md:gap-14">
-            {[
-              { value: 45, suffix: "+", label: language === "es" ? "proyectos creados" : "projects created", icon: Rocket },
-              { value: 300, suffix: "%", label: language === "es" ? "aumento en ventas" : "sales increase", prefix: "+", icon: TrendingUp },
-              { value: 4, suffix: "", label: language === "es" ? "países" : "countries", icon: Globe },
-              { value: 100, suffix: "%", label: language === "es" ? "satisfacción" : "satisfaction", icon: Zap }
-            ].map((stat, i) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }} whileHover={{ y: -4 }} className="text-center group">
-                  <motion.div whileHover={{ scale: 1.15, rotate: -5 }} transition={{ type: "spring", stiffness: 300, damping: 15 }} className="inline-flex items-center justify-center mb-3">
-                    <Icon size={20} className="text-yellow-400/60 group-hover:text-yellow-400 transition-colors duration-300" strokeWidth={1.5} />
-                  </motion.div>
-                  <div className="text-3xl md:text-4xl font-extrabold tracking-tight" style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                    {stat.prefix || ""}<AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
-                  </div>
-                  <div className="text-[11px] md:text-xs uppercase tracking-widest mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      {/* Bottom spacing */}
+      <div className="h-16 md:h-24" />
     </div>
   );
 };
@@ -5177,8 +5198,8 @@ export default function App() {
         />
       </div>}
 
-      {/* Stats — Horizontal Achievement Bar (Minimalist) */}
-      <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
+      {/* Stats — Horizontal Achievement Bar — Only on Landing (transition bridge) */}
+      {currentView === 'landing' && <section id="beneficios" className="stats-bar-section py-10 md:py-16 relative overflow-hidden">
         {/* Desktop: static horizontal row */}
         <div className="hidden md:block">
           <div className="container mx-auto px-4 relative z-10">
@@ -5243,7 +5264,7 @@ export default function App() {
             ))}
           </motion.div>
         </div>
-      </section>
+      </section>}
 
       {/* Portfolio — Featured (Landing) or Full Page */}
       {currentView === 'landing' ? (
