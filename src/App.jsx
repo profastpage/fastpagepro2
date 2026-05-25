@@ -4267,7 +4267,7 @@ export default function App() {
       opacity: Math.random() * 0.35 + 0.15,
     })), []);
 
-  // Shared position calculator
+  // Shared position calculator — robot FOLLOWS the cursor
   const updateRobotPosition = useCallback((clientX, clientY) => {
     try {
       const hero = robotContainerRef.current;
@@ -4275,12 +4275,12 @@ export default function App() {
       const rect = hero.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
-      // Inverted axes: robot moves opposite to input (desktop 4%, mobile 6%)
+      // Robot follows cursor (same direction, not inverted)
       const isMobile = window.innerWidth < 768;
-      const factor = isMobile ? 0.06 : 0.04;
-      const maxPx = isMobile ? 30 : 25;
-      const dx = -(clientX - cx) * factor;
-      const dy = -(clientY - cy) * factor;
+      const factor = isMobile ? 0.08 : 0.05;
+      const maxPx = isMobile ? 40 : 30;
+      const dx = (clientX - cx) * factor;
+      const dy = (clientY - cy) * factor;
       mouseX.set(Math.max(-maxPx, Math.min(maxPx, dx)));
       mouseY.set(Math.max(-maxPx, Math.min(maxPx, dy)));
     } catch {}
@@ -4289,33 +4289,42 @@ export default function App() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Desktop: mouse tracking
+    // Desktop: mouse tracking (on document to catch everything including iframe areas)
     const handleMouseMove = (e) => updateRobotPosition(e.clientX, e.clientY);
 
-    // Mobile: touch tracking
+    // Mobile: touch tracking (on document level — iframes can't block document events)
     const handleTouchMove = (e) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updateRobotPosition(touch.clientX, touch.clientY);
       }
     };
+    const handleTouchStart = (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updateRobotPosition(touch.clientX, touch.clientY);
+      }
+    };
 
-    // Reset on touch end / mouse leave
+    // Reset on touch end
     const handleReset = () => {
       mouseX.set(0);
       mouseY.set(0);
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleReset, { passive: true });
-    window.addEventListener('mouseleave', handleReset, { passive: true });
+    // Use document level — Spline iframe cannot block document-level events
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true, capture: true });
+    document.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
+    document.addEventListener('touchend', handleReset, { passive: true });
+    document.addEventListener('touchcancel', handleReset, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleReset);
-      window.removeEventListener('mouseleave', handleReset);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('touchmove', handleTouchMove, true);
+      document.removeEventListener('touchstart', handleTouchStart, true);
+      document.removeEventListener('touchend', handleReset);
+      document.removeEventListener('touchcancel', handleReset);
     };
   }, [updateRobotPosition, mouseX, mouseY]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
