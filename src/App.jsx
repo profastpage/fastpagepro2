@@ -2856,7 +2856,7 @@ const useGSAPScrollReveal = (ref, options = {}) => {
 };
 
 // --- Featured Portfolio Section (Landing — 3 Projects + CTA) ---
-const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
+const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProjectClick }) => {
   const sectionRef = useRef(null);
   const featured = projects.slice(0, 3);
 
@@ -2887,12 +2887,10 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
                 className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block"
                 style={{ aspectRatio: '4/5' }}
                 onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
-                onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
               >
                 <motion.img
                   src={project.image} alt={project.title} onError={handleImageFallback}
-                  whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
+                  whileHover={{ scale: 1.05 }} transition={{ duration: 0.5, ease: 'easeOut' }}
                   className="w-full h-full object-cover" loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
                 />
@@ -2933,7 +2931,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
 };
 
 // --- Full Portfolio Page (Dedicated /portafolio route) ---
-const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
+const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
@@ -3057,8 +3055,6 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
                   <motion.div
                     key={`${project.title}-${currentFilter}`}
                     onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                    onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
-                    onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -3098,7 +3094,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
   );
 };
 
-const PortfolioSection = ({ copy, projects, language, onProjectClick, onProjectHover, onProjectHoverEnd }) => {
+const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
@@ -3188,8 +3184,6 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick, onProjectH
                   onClick={() => {
                     if (onProjectClick) onProjectClick(project);
                   }}
-                  onmouseenter={() => { if (onProjectHover) onProjectHover(project); }}
-                  onmouseleave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
@@ -4236,7 +4230,6 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [hoveredProject, setHoveredProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
     // Always start on Hero (landing) on initial page load
     if (typeof window !== 'undefined') {
@@ -4251,7 +4244,7 @@ export default function App() {
     }
     return 'landing';
   });
-  const hoverTimeoutRef = useRef(null);
+  // hoverTimeoutRef removed — invasive hover preview eliminated
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -5303,25 +5296,12 @@ export default function App() {
             const slug = PORTFOLIO_SLUGS[project.title];
             if (slug) {
               setSelectedProject(project);
-              setHoveredProject(null);
               try {
                 if (typeof window !== 'undefined') {
                   window.location.hash = `portfolio/${slug}`;
                 }
               } catch {}
             }
-          }}
-          onProjectHover={(project) => {
-            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = setTimeout(() => {
-              setHoveredProject(project);
-            }, 120);
-          }}
-          onProjectHoverEnd={() => {
-            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = setTimeout(() => {
-              setHoveredProject(null);
-            }, 80);
           }}
         />
       ) : (
@@ -5334,25 +5314,12 @@ export default function App() {
             const slug = PORTFOLIO_SLUGS[project.title];
             if (slug) {
               setSelectedProject(project);
-              setHoveredProject(null);
               try {
                 if (typeof window !== 'undefined') {
                   window.location.hash = `portfolio/${slug}`;
                 }
               } catch {}
             }
-          }}
-          onProjectHover={(project) => {
-            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = setTimeout(() => {
-              setHoveredProject(project);
-            }, 120);
-          }}
-          onProjectHoverEnd={() => {
-            if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-            hoverTimeoutRef.current = setTimeout(() => {
-              setHoveredProject(null);
-            }, 80);
           }}
         />
       )}
@@ -5626,54 +5593,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Desktop Hover Preview — shows on mouseover, desktop only (lg+) */}
-      <div className="hidden lg:flex fixed inset-0 z-[90] pointer-events-none items-center justify-center">
-        <AnimatePresence>
-          {hoveredProject && !selectedProject && (
-            <motion.div
-              key={hoveredProject.title}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.92, y: 10 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="will-change-transform"
-            >
-              {/* Frosted glass card */}
-              <div className="relative w-[480px] rounded-2xl border border-white/[0.12] shadow-[0_40px_80px_-16px_rgba(0,0,0,0.7)] overflow-hidden backdrop-blur-2xl bg-stone-950/90">
-                {/* Top shine line */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent z-20" />
-                
-                {/* Preview Image */}
-                <div className="relative aspect-video bg-stone-900 overflow-hidden">
-                  <img
-                    src={PORTFOLIO_MODAL_IMAGES[hoveredProject.title] || hoveredProject.image}
-                    alt={hoveredProject.title}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                  />
-                  {/* Bottom gradient fade into info */}
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-stone-950 to-transparent" />
-                </div>
-
-                {/* Info section */}
-                <div className="px-5 pt-1 pb-5 relative z-10">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-yellow-400">{hoveredProject.category}</span>
-                    <span className="text-stone-700">•</span>
-                    <span className="text-[11px] text-stone-500">{hoveredProject.location}</span>
-                  </div>
-                  <h3 className="text-[15px] font-bold text-white mb-1.5 leading-tight">{hoveredProject.title}</h3>
-                  <p className="text-[12px] text-stone-400 leading-relaxed line-clamp-2">{hoveredProject.description}</p>
-                  <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-yellow-400/90">
-                    <ExternalLink size={11} />
-                    <span>{language === 'es' ? 'Clic para ver proyecto completo' : 'Click to view full project'}</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Hover preview removed — clean micro-interaction hover only */}
     </div>
     </>
   );
