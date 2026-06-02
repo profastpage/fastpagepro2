@@ -3943,6 +3943,7 @@ const PORTFOLIO_SLUGS = {
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "Moda Digital Pro": "moda-digital-pro",
+  "Gincanas Clubes Campestres": "gincanas-clubes-campestres",
   "Atlas": "atlas"
 };
 
@@ -3957,6 +3958,7 @@ const PORTFOLIO_MODAL_IMAGES = {
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
   "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
+  "Gincanas Clubes Campestres": "/images/03-portafolio/GincanasClubes.png",
   "Atlas": "/images/03-portafolio/AtlasDesktop.png"
 };
 
