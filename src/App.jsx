@@ -51,7 +51,8 @@ import {
   MapPin,
   Heart,
   Download,
-  Maximize2
+  Maximize2,
+  Tag
 } from 'lucide-react';
 
 // 21st.dev: Spline 3D Scene + Spotlight
@@ -4488,6 +4489,68 @@ export default function App() {
     }
   }, []);
 
+  // === Scroll Spy + Deep Linking ===
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const SECTION_IDS = ['top', 'portafolio', 'servicios', 'beneficios', 'testimonios', 'planes', 'faq', 'contacto'];
+    let spyPaused = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (spyPaused) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id && id !== 'top') {
+              try {
+                const url = window.location.pathname + window.location.search + '#' + id;
+                if (window.location.hash !== '#' + id) {
+                  history.replaceState(null, '', url);
+                }
+              } catch (e) { /* ignore */ }
+            } else if (id === 'top') {
+              try {
+                if (window.location.hash && !window.location.hash.startsWith('#portfolio')) {
+                  history.replaceState(null, '', window.location.pathname + window.location.search);
+                }
+              } catch (e) { /* ignore */ }
+            }
+          }
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+    );
+
+    // Small delay to ensure DOM is ready
+    const timeout = setTimeout(() => {
+      SECTION_IDS.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+      observer.disconnect();
+    };
+  }, [currentView]);
+
+  // Handle initial hash on load for deep linking
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#') && hash !== '#portafolio' && !hash.startsWith('#portfolio/')) {
+      const id = hash.replace('#', '');
+      const timeout = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 800);
+      return () => clearTimeout(timeout);
+    }
+  }, []);
+
   useEffect(() => {
     HERO_IMAGES.forEach((src, index) => {
       const image = new window.Image();
@@ -5188,7 +5251,7 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="bg-[var(--bg-footer)] border-t border-[var(--border-subtle)]">
+      <footer className="bg-[var(--bg-footer)] border-t border-[var(--border-subtle)] pb-20 md:pb-0">
         <div className="container mx-auto px-4 py-16">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             {/* Brand */}
@@ -5254,8 +5317,79 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Advanced Widget */}
-      <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
+      {/* Advanced Widget — desktop only */}
+      <div className="hidden md:block">
+        <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
+      </div>
+
+      {/* Professional Bottom Nav — mobile only */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[100]" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="relative bg-black/[0.92] backdrop-blur-[20px] border-t border-white/[0.08]">
+          {/* Subtle top glow line */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent" />
+          <div className="flex items-center justify-around px-2 py-2">
+            {/* Portafolio */}
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                if (currentView === 'portfolio') {
+                  setCurrentView('landing');
+                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                } else {
+                  setCurrentView('portfolio');
+                  window.location.hash = 'portafolio';
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }
+              }}
+              className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors ${currentView === 'portfolio' ? 'text-yellow-400' : 'text-white/50 hover:text-white/80'}`}
+            >
+              <Briefcase size={20} strokeWidth={currentView === 'portfolio' ? 2.5 : 1.8} />
+              <span className="text-[10px] font-medium">{language === 'es' ? 'Portafolio' : 'Portfolio'}</span>
+            </motion.button>
+
+            {/* WhatsApp — elevated circle */}
+            <motion.a
+              whileTap={{ scale: 0.9 }}
+              href={getWhatsAppLink('default')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-14 h-14 -mt-6 rounded-full bg-green-500 shadow-[0_8px_30px_-4px_rgba(34,197,94,0.6)] hover:shadow-[0_12px_40px_-4px_rgba(34,197,94,0.7)] transition-shadow"
+            >
+              <MessageCircle size={26} className="text-white" fill="white" />
+            </motion.a>
+
+            {/* Precios */}
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                if (currentView === 'portfolio') {
+                  setCurrentView('landing');
+                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                }
+                setTimeout(() => {
+                  const el = document.getElementById('planes');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, currentView === 'portfolio' ? 150 : 0);
+              }}
+              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl text-white/50 hover:text-white/80 transition-colors"
+            >
+              <Tag size={20} strokeWidth={1.8} />
+              <span className="text-[10px] font-medium">{language === 'es' ? 'Precios' : 'Pricing'}</span>
+            </motion.button>
+
+            {/* Instalar App */}
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={handleInstallApp}
+              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl text-white/50 hover:text-white/80 transition-colors"
+            >
+              <Download size={20} strokeWidth={1.8} />
+              <span className="text-[10px] font-medium">{language === 'es' ? 'App' : 'App'}</span>
+            </motion.button>
+          </div>
+        </div>
+      </div>
 
       {/* Portfolio Modal */}
       <AnimatePresence>
