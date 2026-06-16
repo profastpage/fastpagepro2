@@ -52,7 +52,8 @@ import {
   Heart,
   Download,
   Maximize2,
-  Tag
+  Tag,
+  Wrench
 } from 'lucide-react';
 
 // 21st.dev: Spline 3D Scene + Spotlight
@@ -4239,6 +4240,52 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+  const [waNotifIndex, setWaNotifIndex] = useState(-1);
+
+  // Rotative WhatsApp notifications — show every 5-10s, visible for 3s
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    let idx = 0;
+    const totalMessages = 5;
+    let cancelled = false;
+    const timers = [];
+
+    const scheduleNext = () => {
+      if (cancelled) return;
+      const gap = 5000 + Math.random() * 5000;
+      const t1 = setTimeout(() => {
+        if (cancelled) return;
+        setWaNotifIndex(idx);
+        idx = (idx + 1) % totalMessages;
+        const t2 = setTimeout(() => {
+          if (cancelled) return;
+          setWaNotifIndex(-1);
+          scheduleNext();
+        }, 3000);
+        timers.push(t2);
+      }, gap);
+      timers.push(t1);
+    };
+
+    // First notification after 4s
+    const first = setTimeout(() => {
+      if (cancelled) return;
+      setWaNotifIndex(0);
+      idx = 1;
+      const firstHide = setTimeout(() => {
+        if (cancelled) return;
+        setWaNotifIndex(-1);
+        scheduleNext();
+      }, 3000);
+      timers.push(firstHide);
+    }, 4000);
+    timers.push(first);
+
+    return () => {
+      cancelled = true;
+      timers.forEach(t => clearTimeout(t));
+    };
+  }, []);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [loadedHeroImages, setLoadedHeroImages] = useState(() => HERO_IMAGES.map(() => false));
   const [showNotification, setShowNotification] = useState(false);
@@ -4626,10 +4673,35 @@ export default function App() {
     
     <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark' : ''}`}>
       
-      {/* Progress Bar */}
-      <motion.div className="fixed top-0 left-0 right-0 h-1.5 z-[60]" style={{ scaleX, background: 'var(--border-subtle)' }}>
-        <motion.div className="h-full" style={{ background: 'var(--accent-color)', backgroundSize: '200% 100%' }} animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }} transition={{ duration: 3, repeat: Infinity }} />
-      </motion.div>
+      {/* Golden Electric Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 h-[3px] z-[60]">
+        {/* Track (dark) */}
+        <div className="absolute inset-0 bg-black/30" />
+        {/* Electric gold fill */}
+        <motion.div
+          className="absolute inset-y-0 left-0 origin-left"
+          style={{ scaleX, width: '100%' }}
+        >
+          {/* Core golden line */}
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 via-amber-400 to-yellow-500" />
+          {/* Electric glow layer */}
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-yellow-300 to-amber-400 opacity-80" style={{ filter: 'blur(2px)' }} />
+          {/* Outer glow */}
+          <div className="absolute inset-0 bg-yellow-400/40" style={{ filter: 'blur(6px)' }} />
+          {/* Leading bright point (truelo) */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 -mr-3">
+            <div className="absolute inset-0 rounded-full bg-yellow-300/60" style={{ filter: 'blur(6px)' }} />
+            <div className="absolute inset-1 rounded-full bg-yellow-200/80" style={{ filter: 'blur(3px)' }} />
+            <div className="absolute inset-[6px] rounded-full bg-white shadow-[0_0_8px_2px_rgba(250,204,21,0.9)]" />
+          </div>
+          {/* Sparkle particles along the bar */}
+          <div className="absolute inset-0 overflow-visible">
+            <motion.div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-white" animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }} transition={{ duration: 0.8, repeat: Infinity, delay: 0 }} />
+            <motion.div className="absolute right-[25%] top-1/2 -translate-y-1/2 w-0.5 h-0.5 rounded-full bg-yellow-200" animate={{ opacity: [0, 0.8, 0], scale: [0, 1, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.3 }} />
+            <motion.div className="absolute right-[40%] top-1/2 -translate-y-1/2 w-0.5 h-0.5 rounded-full bg-amber-200" animate={{ opacity: [0, 0.6, 0], scale: [0, 1.2, 0] }} transition={{ duration: 0.7, repeat: Infinity, delay: 0.6 }} />
+          </div>
+        </motion.div>
+      </div>
 
       {/* Navigation — Universal Dark Glassmorphism */}
       <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
@@ -4698,10 +4770,10 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Mobile Menu — Always dark */}
+      {/* Mobile Menu — Always dark, bottom padding for bottom nav */}
       <AnimatePresence>
         {mobileMenu && (
-          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 pt-24 px-6 md:hidden" style={{ background: 'rgba(0, 0, 0, 0.95)', backdropFilter: 'blur(20px)' }}>
+          <motion.div initial={{ opacity: 0, x: '100%' }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: '100%' }} transition={{ type: "spring", damping: 25 }} className="fixed inset-0 z-40 pt-24 px-6 md:hidden overflow-y-auto" style={{ background: 'rgba(0, 0, 0, 0.95)', backdropFilter: 'blur(20px)', paddingBottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
             <div className="flex flex-col gap-4">
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
@@ -5327,7 +5399,44 @@ export default function App() {
         <div className="relative bg-black/[0.92] backdrop-blur-[20px] border-t border-white/[0.08]">
           {/* Subtle top glow line */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent" />
-          <div className="flex items-center justify-around px-2 py-2">
+
+          {/* Rotative WhatsApp notification tooltip */}
+          <div className="absolute bottom-full left-0 right-0 flex justify-center pb-3 pointer-events-none">
+            <AnimatePresence>
+              {waNotifIndex >= 0 && (() => {
+                const waNotifs = language === 'es' ? [
+                  '\u00bfNecesitas ayuda?',
+                  '\u00bfQuieres asesor\u00eda para tu negocio?',
+                  '\u00bfDeseas crear tu aplicaci\u00f3n m\u00f3vil?',
+                  '\u00bfDeseas desarrollar tu p\u00e1gina web?',
+                  '\u00bfDeseas desarrollar tu plataforma digital?'
+                ] : [
+                  'Need help?',
+                  'Want business consulting?',
+                  'Want to create your mobile app?',
+                  'Want to develop your website?',
+                  'Want to build your digital platform?'
+                ];
+                return (
+                  <motion.div
+                    key={waNotifIndex}
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -5, scale: 0.95 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="bg-white rounded-2xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] px-4 py-2.5 flex items-center gap-2.5 max-w-[280px]"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0 shadow-md">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </div>
+                    <p className="text-stone-800 text-[13px] font-medium leading-tight">{waNotifs[waNotifIndex % waNotifs.length]}</p>
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex items-center justify-around px-1 py-2">
             {/* Portafolio */}
             <motion.button
               whileTap={{ scale: 0.9 }}
@@ -5342,22 +5451,60 @@ export default function App() {
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }
               }}
-              className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors ${currentView === 'portfolio' ? 'text-yellow-400' : 'text-white/50 hover:text-white/80'}`}
+              className={`flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl transition-colors ${currentView === 'portfolio' ? 'text-yellow-400' : 'text-white/50 hover:text-white/80'}`}
             >
               <Briefcase size={20} strokeWidth={currentView === 'portfolio' ? 2.5 : 1.8} />
               <span className="text-[10px] font-medium">{language === 'es' ? 'Portafolio' : 'Portfolio'}</span>
             </motion.button>
 
-            {/* WhatsApp — elevated circle */}
-            <motion.a
+            {/* Servicios */}
+            <motion.button
               whileTap={{ scale: 0.9 }}
-              href={getWhatsAppLink('default')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-14 h-14 -mt-6 rounded-full bg-green-500 shadow-[0_8px_30px_-4px_rgba(34,197,94,0.6)] hover:shadow-[0_12px_40px_-4px_rgba(34,197,94,0.7)] transition-shadow"
+              onClick={() => {
+                if (currentView === 'portfolio') {
+                  setCurrentView('landing');
+                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                }
+                setTimeout(() => {
+                  const el = document.getElementById('servicios');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, currentView === 'portfolio' ? 150 : 0);
+              }}
+              className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-white/50 hover:text-white/80 transition-colors"
             >
-              <MessageCircle size={26} className="text-white" fill="white" />
-            </motion.a>
+              <Wrench size={20} strokeWidth={1.8} />
+              <span className="text-[10px] font-medium">{language === 'es' ? 'Servicios' : 'Services'}</span>
+            </motion.button>
+
+            {/* WhatsApp — real icon, elevated, pro vibration effect */}
+            <div className="relative flex flex-col items-center">
+              <motion.a
+                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.08 }}
+                href={getWhatsAppLink('default')}
+                target="_blank"
+                rel="noopener noreferrer"
+                animate={{
+                  boxShadow: [
+                    '0 6px 24px -4px rgba(37,211,102,0.7)',
+                    '0 4px 20px -4px rgba(37,211,102,0.5)',
+                    '0 8px 28px -4px rgba(37,211,102,0.8)',
+                    '0 6px 24px -4px rgba(37,211,102,0.7)',
+                  ]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+                className="relative z-10 flex items-center justify-center w-[56px] h-[56px] -mt-5 rounded-full bg-[#25D366] shadow-[0_6px_24px_-4px_rgba(37,211,102,0.7)] hover:shadow-[0_10px_36px_-4px_rgba(37,211,102,0.8)] transition-colors duration-300"
+              >
+                {/* Inner glow ring */}
+                <div className="absolute inset-0 rounded-full border-2 border-white/20" />
+                <div className="absolute inset-[2px] rounded-full border border-white/10" />
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </motion.a>
+            </div>
 
             {/* Precios */}
             <motion.button
@@ -5372,21 +5519,23 @@ export default function App() {
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }, currentView === 'portfolio' ? 150 : 0);
               }}
-              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl text-white/50 hover:text-white/80 transition-colors"
+              className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-white/50 hover:text-white/80 transition-colors"
             >
               <Tag size={20} strokeWidth={1.8} />
               <span className="text-[10px] font-medium">{language === 'es' ? 'Precios' : 'Pricing'}</span>
             </motion.button>
 
-            {/* Instalar App */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={handleInstallApp}
-              className="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl text-white/50 hover:text-white/80 transition-colors"
-            >
-              <Download size={20} strokeWidth={1.8} />
-              <span className="text-[10px] font-medium">{language === 'es' ? 'App' : 'App'}</span>
-            </motion.button>
+            {/* Instalar App — hidden when already running as PWA */}
+            {!isAppInstalled && (
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={handleInstallApp}
+                className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-white/50 hover:text-white/80 transition-colors"
+              >
+                <Download size={20} strokeWidth={1.8} />
+                <span className="text-[10px] font-medium">{language === 'es' ? 'App' : 'App'}</span>
+              </motion.button>
+            )}
           </div>
         </div>
       </div>
