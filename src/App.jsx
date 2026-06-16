@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue, useAnimationFrame } from 'framer-motion';
 import {
   Check,
   MessageCircle,
@@ -165,7 +165,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
-      image: "/images/03-portafolio/vuelo78hotel.webp",
+      image: "/images/03-portafolio/vuelo78hotel.png",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -174,7 +174,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados, galería de proyectos, secciones de servicios e interiores, y navegación fluida y profesional.",
-      image: "/images/03-portafolio/CMCLATAM.webp",
+      image: "/images/03-portafolio/CMCLATAM.png",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -183,17 +183,8 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT. Incluye preloader temático, WhatsApp dinámico con sistema de consultorías por servicio, imágenes profesionales editadas en Photoshop, y diseño corporativo elegante.",
-      image: "/images/03-portafolio/JhonAsociados.webp",
+      image: "/images/03-portafolio/JhonAsociados.png",
       link: "https://www.jhonasociados.com/"
-    },
-    {
-      title: "Gincanas Clubes Campestres",
-      location: "Colombia",
-      category: "Web Profesional",
-      type: "web",
-      description: "Centro de gestión de 14 clubes campestres exclusivos con sistema de reservas directas por WhatsApp. Más de 15 años de experiencia con 500+ eventos exitosos gestionados. Incluye exploración interactiva de clubes, ejecutivos de cuentas dedicados, diseño premium con atmósfera sofisticada y CTAs estratégicos de conversión.",
-      image: "/images/03-portafolio/GincanasClubes.webp",
-      link: "https://gincanasclubescampestres.com/"
     },
     {
       title: "E-commerce Builder Pro",
@@ -201,7 +192,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
-      image: "/images/03-portafolio/EcommerceBuilder.webp",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -211,7 +202,7 @@ const PORTFOLIO_BY_LANG = {
       category: "App Móvil",
       type: "app",
       description: "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
-      image: "/images/03-portafolio/AtlasHero.webp",
+      image: "/images/03-portafolio/AtlasHero.png",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -220,7 +211,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
-      image: "/images/03-portafolio/CotizadorPro.webp",
+      image: "/images/03-portafolio/CotizadorPro.png",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -229,7 +220,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, navegación estilo app con menú superior e inferior. Catálogo de equipos, servicios de impresión digital y sublimación, FAQ interactivo y formulario de contacto.",
-      image: "/images/03-portafolio/ModaDigitalPro.webp",
+      image: "/images/03-portafolio/ModaDigitalPro.png",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -238,7 +229,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.webp",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -247,7 +238,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/UrbanStyle.webp",
+      image: "/images/03-portafolio/UrbanStyle.png",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ],
@@ -258,7 +249,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
-      image: "/images/03-portafolio/vuelo78hotel.webp",
+      image: "/images/03-portafolio/vuelo78hotel.png",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -267,7 +258,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Bilingual web platform for coastal architecture and construction firm. Features dark/light mode, dynamic WhatsApp with custom CTAs, project gallery, services and interiors sections, with fluid professional navigation.",
-      image: "/images/03-portafolio/CMCLATAM.webp",
+      image: "/images/03-portafolio/CMCLATAM.png",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -276,17 +267,8 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Complete 5-page website for accounting firm specialized in tax advisory and SUNAT defense. Features themed preloader, dynamic WhatsApp with per-service consultation system, Photoshop-enhanced professional images, and elegant corporate design.",
-      image: "/images/03-portafolio/JhonAsociados.webp",
+      image: "/images/03-portafolio/JhonAsociados.png",
       link: "https://www.jhonasociados.com/"
-    },
-    {
-      title: "Gincanas Clubes Campestres",
-      location: "Colombia",
-      category: "Professional Web",
-      type: "web",
-      description: "Management center for 14 exclusive country clubs with direct WhatsApp reservation system. Over 15 years of experience with 500+ successful events managed. Features interactive club exploration, dedicated account executives, premium design with sophisticated atmosphere and strategic conversion CTAs.",
-      image: "/images/03-portafolio/GincanasClubes.webp",
-      link: "https://gincanasclubescampestres.com/"
     },
     {
       title: "E-commerce Builder Pro",
@@ -294,7 +276,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant platform for mass creation of online stores. Allows entrepreneurs to launch their ecommerce in minutes with independent admin panels and a centralized Super Admin for full ecosystem control.",
-      image: "/images/03-portafolio/EcommerceBuilder.webp",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -304,7 +286,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Mobile App",
       type: "app",
       description: "AI-powered strategic business consultant. Intelligent assistant that analyzes your business, suggests growth strategies and creates personalized weekly action plans via conversational chat.",
-      image: "/images/03-portafolio/AtlasHero.webp",
+      image: "/images/03-portafolio/AtlasHero.png",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -313,7 +295,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
-      image: "/images/03-portafolio/CotizadorPro.webp",
+      image: "/images/03-portafolio/CotizadorPro.png",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -322,7 +304,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
-      image: "/images/03-portafolio/ModaDigitalPro.webp",
+      image: "/images/03-portafolio/ModaDigitalPro.png",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -331,7 +313,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.webp",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -340,7 +322,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
-      image: "/images/03-portafolio/UrbanStyle.webp",
+      image: "/images/03-portafolio/UrbanStyle.png",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ]
@@ -351,7 +333,6 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Perú", stars: 5, text: "Desde que implementaron el sistema de reservas por WhatsApp, nuestras reservas mensuales pasaron de 15 a 42. La respuesta automatizada del hotel nos permite atender consultas a cualquier hora sin personal adicional. El mejor impacto que hemos tenido." },
     { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Perú", stars: 5, text: "Necesitábamos una web que reflejara la calidad de nuestros proyectos de arquitectura costera. El resultado fue una plataforma bilingüe con modo claro/oscuro, galería de proyectos y WhatsApp integrado. Nuestros clientes internacionales quedan impresionados desde el primer contacto." },
     { name: "Jhon Quispe", hotel: "Jhon & Asociados", location: "Lima, Perú", stars: 5, text: "Como estudio contable necesitábamos una web profesional que transmitiera confianza. El resultado fue una plataforma de 5 subpáginas con preloader temático, WhatsApp dinámico que dirige las consultas al servicio correcto automáticamente, y un diseño corporativo que nuestros clientes valoran mucho." },
-    { name: "Sandra Velásquez", hotel: "Gincanas Clubes Campestres", location: "Colombia", stars: 5, text: "Gestionar 14 clubes campestres era un desafío logístico enorme. La web que desarrollaron nos permitió centralizar todas las reservas por WhatsApp con respuesta inmediata. Nuestros eventos pasaron de 20 a más de 500 al año, y cada institución que nos contacta queda impresionada desde el primer clic." },
     { name: "María Torres", hotel: "E-commerce Builder Pro", location: "Remoto, Global", stars: 5, text: "Como emprendedora, necesitaba lanzar mi tienda online sin complicaciones. La plataforma multi-tenant me permitió tener mi catálogo virtual funcionando en menos de una semana. El panel de administración es intuitivo y el soporte técnico excelente." },
     { name: "Roberto Sánchez", hotel: "Atlas", location: "Lima, Perú", stars: 5, text: "El asistente de IA que desarrollaron analiza mi negocio en tiempo real y me sugiere estrategias de crecimiento semanales. Ha sido como tener un consultor estratégico disponible 24/7. Las recomendaciones son precisas y accionables." },
     { name: "Ana García", hotel: "Cotizador Pro", location: "Remoto, Global", stars: 5, text: "El SaaS multi-tenant que construyeron nos ahorró decenas de horas semanales en la generación de cotizaciones. La automatización de plantillas, el sistema de créditos y la autenticación Google funcionan de manera impecable." },
@@ -363,7 +344,6 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Peru", stars: 5, text: "Since they implemented the WhatsApp booking system, our monthly reservations went from 15 to 42. The hotel's automated response lets us handle inquiries 24/7 without extra staff. The best impact we've ever had." },
     { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Peru", stars: 5, text: "We needed a website that reflected the quality of our coastal architecture projects. The result was a bilingual platform with dark/light mode, project gallery and integrated WhatsApp. Our international clients are impressed from the very first contact." },
     { name: "Jhon Quispe", hotel: "Jhon & Asociados", location: "Lima, Peru", stars: 5, text: "As an accounting firm we needed a professional website that conveyed trust. The result was a 5-page platform with a themed preloader, dynamic WhatsApp that automatically routes consultations to the right service, and a corporate design our clients truly value." },
-    { name: "Sandra Velasquez", hotel: "Gincanas Clubes Campestres", location: "Colombia", stars: 5, text: "Managing 14 country clubs was a massive logistical challenge. The website they built allowed us to centralize all WhatsApp reservations with instant response. Our events went from 20 to over 500 per year, and every institution that contacts us is impressed from the very first click." },
     { name: "Maria Torres", hotel: "E-commerce Builder Pro", location: "Remote, Global", stars: 5, text: "As an entrepreneur, I needed to launch my online store without complications. The multi-tenant platform let me have my virtual catalog running in less than a week. The admin panel is intuitive and the tech support is excellent." },
     { name: "Roberto Sanchez", hotel: "Atlas", location: "Lima, Peru", stars: 5, text: "The AI assistant they developed analyzes my business in real time and suggests weekly growth strategies. It's been like having a strategic consultant available 24/7. The recommendations are precise and actionable." },
     { name: "Ana Garcia", hotel: "Cotizador Pro", location: "Remote, Global", stars: 5, text: "The multi-tenant SaaS they built saves us dozens of hours every week on quote generation. Template automation, the credit system and Google authentication work flawlessly." },
@@ -2312,7 +2292,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel. Tras implementar el sistema, las reservas mensuales pasaron de 15 a 42, eliminando el 90% del trabajo manual en recepción."
         : "Direct booking system via WhatsApp with date-based availability and automated hotel response. After implementation, monthly bookings went from 15 to 42, eliminating 90% of manual reception work.",
-      image: "/images/03-portafolio/vuelo78hotel.webp",
+      image: "/images/03-portafolio/vuelo78hotel.png",
       color: "from-blue-500 to-cyan-400"
     },
     {
@@ -2323,7 +2303,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Menú visual interactivo y sistema de reservas y pedidos directos por WhatsApp optimizado para aumentar ventas. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono."
         : "Interactive visual menu and direct reservation/ordering system via WhatsApp optimized to increase sales. Customers now order in under 2 minutes without needing to call.",
-      image: "/images/03-portafolio/LaCasonaGourmet.webp",
+      image: "/images/03-portafolio/LaCasonaGourmet.png",
       color: "from-emerald-500 to-green-400"
     },
     {
@@ -2334,7 +2314,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Plataforma Multi-tenant para la creación masiva de tiendas online rápida y eficiente. Permite a emprendedores lanzar su propio catálogo virtual de manera automatizada con paneles independientes y Super Admin centralizado."
         : "Multi-tenant platform for fast and efficient mass creation of online stores. Allows entrepreneurs to launch their own virtual catalog automatically with independent panels and centralized Super Admin.",
-      image: "/images/03-portafolio/EcommerceBuilder.webp",
+      image: "/images/03-portafolio/EcommerceBuilder.png",
       color: "from-orange-500 to-amber-400"
     }
   ];
@@ -3956,32 +3936,30 @@ const PORTFOLIO_SLUGS = {
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "Moda Digital Pro": "moda-digital-pro",
-  "Gincanas Clubes Campestres": "gincanas-clubes-campestres",
   "Atlas": "atlas"
 };
 
 const PORTFOLIO_MODAL_IMAGES = {
-  "Urban Style": "/images/03-portafolio/UrbanStyle.webp",
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.webp",
-  "CMC LATAM": "/images/03-portafolio/CMCLATAM.webp",
-  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.webp",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.webp",
-  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.webp",
-  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.webp",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.webp",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.webp",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.webp",
-  "Gincanas Clubes Campestres": "/images/03-portafolio/GincanasClubes.webp",
-  "Atlas": "/images/03-portafolio/AtlasDesktop.webp"
+  "Urban Style": "/images/03-portafolio/UrbanStyle.png",
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
+  "CMC LATAM": "/images/03-portafolio/CMCLATAM.png",
+  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.png",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
+  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
+  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
+  "Atlas": "/images/03-portafolio/AtlasDesktop.png"
 };
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.webp",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.webp",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.webp",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.webp",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.webp",
-  "Atlas": "/images/03-portafolio/AtlasApp.webp"
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.png",
+  "Atlas": "/images/03-portafolio/AtlasApp.png"
 };
 
 const slugToTitle = {};
@@ -4272,12 +4250,12 @@ export default function App() {
   });
   const hoverTimeoutRef = useRef(null);
 
-  // --- Hero: Parallax Tracking (Mouse + Touch) + Golden Particles ---
+  // --- Hero: Parallax Mouse Tracking + Golden Particles ---
   const robotContainerRef = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const robotX = useSpring(mouseX, { stiffness: 35, damping: 28, mass: 1.2 });
-  const robotY = useSpring(mouseY, { stiffness: 35, damping: 28, mass: 1.2 });
+  const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
+  const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
   const heroParticles = useMemo(() =>
     Array.from({ length: 20 }, (_, i) => ({
       id: i,
@@ -4288,67 +4266,26 @@ export default function App() {
       delay: Math.random() * 8,
       opacity: Math.random() * 0.35 + 0.15,
     })), []);
-
-  // Shared position calculator — robot FOLLOWS the cursor
-  const updateRobotPosition = useCallback((clientX, clientY) => {
-    try {
-      const hero = robotContainerRef.current;
-      if (!hero) return;
-      const rect = hero.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      // Robot follows cursor (same direction, not inverted)
-      const isMobile = window.innerWidth < 768;
-      const factor = isMobile ? 0.08 : 0.05;
-      const maxPx = isMobile ? 40 : 30;
-      const dx = (clientX - cx) * factor;
-      const dy = (clientY - cy) * factor;
-      mouseX.set(Math.max(-maxPx, Math.min(maxPx, dx)));
-      mouseY.set(Math.max(-maxPx, Math.min(maxPx, dy)));
-    } catch {}
-  }, [mouseX, mouseY]);
-
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    // Desktop: mouse tracking (on document to catch everything including iframe areas)
-    const handleMouseMove = (e) => updateRobotPosition(e.clientX, e.clientY);
-
-    // Mobile: touch tracking (on document level — iframes can't block document events)
-    const handleTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        updateRobotPosition(touch.clientX, touch.clientY);
-      }
+    const handleMouse = (e) => {
+      try {
+        const hero = robotContainerRef.current;
+        if (!hero) return;
+        const rect = hero.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        // Inverted axes: robot moves opposite to mouse (5% range, max 20px)
+        const dx = -(e.clientX - cx) * 0.03;
+        const dy = -(e.clientY - cy) * 0.03;
+        mouseX.set(Math.max(-20, Math.min(20, dx)));
+        mouseY.set(Math.max(-20, Math.min(20, dy)));
+      } catch {}
     };
-    const handleTouchStart = (e) => {
-      if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        updateRobotPosition(touch.clientX, touch.clientY);
-      }
-    };
-
-    // Reset on touch end
-    const handleReset = () => {
-      mouseX.set(0);
-      mouseY.set(0);
-    };
-
-    // Use document level — Spline iframe cannot block document-level events
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('touchmove', handleTouchMove, { passive: true, capture: true });
-    document.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
-    document.addEventListener('touchend', handleReset, { passive: true });
-    document.addEventListener('touchcancel', handleReset, { passive: true });
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('touchmove', handleTouchMove, true);
-      document.removeEventListener('touchstart', handleTouchStart, true);
-      document.removeEventListener('touchend', handleReset);
-      document.removeEventListener('touchcancel', handleReset);
-    };
-  }, [updateRobotPosition, mouseX, mouseY]);
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      window.addEventListener('mousemove', handleMouse, { passive: true });
+      return () => window.removeEventListener('mousemove', handleMouse);
+    }
+  }, [mouseX, mouseY]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -4419,10 +4356,8 @@ export default function App() {
         const hash = window.location.hash;
         if (hash === '#portafolio') {
           setCurrentView('portfolio');
-          window.scrollTo({ top: 0, behavior: 'instant' });
         } else if (hash.startsWith('#portfolio/')) {
           setCurrentView('portfolio');
-          window.scrollTo({ top: 0, behavior: 'instant' });
           const slug = hash.replace('#portfolio/', '');
           const title = slugToTitle[slug];
           if (title) {
@@ -4553,76 +4488,6 @@ export default function App() {
     }
   }, []);
 
-  // --- Section Deep Linking + Scroll Spy (History API) ---
-  const SECTION_IDS = ['top', 'portafolio', 'servicios', 'beneficios', 'testimonios', 'planes', 'faq', 'contacto'];
-  const scrollSpyActiveRef = useRef(false);
-
-  // Scroll Spy: update URL as user scrolls through sections
-  useEffect(() => {
-    if (currentView !== 'landing') return;
-    scrollSpyActiveRef.current = true;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!scrollSpyActiveRef.current) return;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const id = entry.target.id;
-            if (id && SECTION_IDS.includes(id)) {
-              try {
-                const newHash = `#${id}`;
-                if (window.location.hash !== newHash) {
-                  history.replaceState(null, '', newHash);
-                }
-              } catch {}
-            }
-          }
-        }
-      },
-      { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
-    );
-
-    // Small delay so sections are mounted
-    const timer = setTimeout(() => {
-      SECTION_IDS.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
-      });
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-    };
-  }, [currentView]);
-
-  // Handle incoming hash on load or hashchange (for shared links)
-  useEffect(() => {
-    if (currentView !== 'landing') return;
-
-    const scrollToHash = () => {
-      scrollSpyActiveRef.current = false; // Pause spy during programmatic scroll
-      const hash = window.location.hash.replace('#', '');
-      if (hash && SECTION_IDS.includes(hash)) {
-        setTimeout(() => {
-          try {
-            const el = document.getElementById(hash);
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-              setTimeout(() => { scrollSpyActiveRef.current = true; }, 1200);
-            } else {
-              scrollSpyActiveRef.current = true;
-            }
-          } catch { scrollSpyActiveRef.current = true; }
-        }, 300);
-      } else {
-        scrollSpyActiveRef.current = true;
-      }
-    };
-
-    scrollToHash();
-  }, [currentView]);
-
   useEffect(() => {
     HERO_IMAGES.forEach((src, index) => {
       const image = new window.Image();
@@ -4666,7 +4531,6 @@ export default function App() {
 
   const scrollToSection = (e, id) => {
     e.preventDefault();
-    scrollSpyActiveRef.current = false; // Pause spy during programmatic scroll
     setMobileMenu(false);
     // Portfolio is a subpage, not a section — navigate to it
     if (id === 'portafolio') {
@@ -4679,24 +4543,16 @@ export default function App() {
       setTimeout(() => {
         try {
           const element = document.getElementById(id);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            history.replaceState(null, '', `#${id}`);
-            setTimeout(() => { scrollSpyActiveRef.current = true; }, 1200);
-          }
-        } catch { scrollSpyActiveRef.current = true; }
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
+        } catch {}
       }, 100);
       return;
     }
     try {
       const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-        history.replaceState(null, '', `#${id}`);
-        setTimeout(() => { scrollSpyActiveRef.current = true; }, 1200);
-      }
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
     } catch {
-      scrollSpyActiveRef.current = true;
+      // ignore smooth scroll errors
     }
   };
 
@@ -5398,71 +5254,8 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Professional Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-        <div className="flex items-center justify-around py-2 px-2">
-          {/* Portafolio */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => {
-              if (currentView === 'portfolio') { navigateToLanding(); }
-              else { navigateToPortfolio(); }
-            }}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors"
-            style={{ color: currentView === 'portfolio' ? '#facc15' : 'rgba(255,255,255,0.5)' }}
-          >
-            <LayoutGrid size={20} strokeWidth={currentView === 'portfolio' ? 2.5 : 1.8} />
-            <span className="text-[10px] font-semibold">{language === 'es' ? 'Portafolio' : 'Portfolio'}</span>
-          </motion.button>
-
-          {/* WhatsApp Directo */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => {
-              const msg = language === 'es' ? copy.navCta : 'Start my project';
-              window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
-            }}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors"
-            style={{ color: 'rgba(255,255,255,0.5)' }}
-          >
-            <div className="w-10 h-10 -mt-4 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-            </div>
-            <span className="text-[10px] font-semibold" style={{ marginTop: '-2px' }}>WhatsApp</span>
-          </motion.button>
-
-          {/* Precios */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={(e) => scrollToSection(e, 'planes')}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors"
-            style={{ color: 'rgba(255,255,255,0.5)' }}
-          >
-            <Sparkles size={20} strokeWidth={1.8} />
-            <span className="text-[10px] font-semibold">{language === 'es' ? 'Precios' : 'Pricing'}</span>
-          </motion.button>
-
-          {/* Instalar App */}
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handleInstallApp()}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors"
-            style={{ color: isAppInstalled ? '#22c55e' : 'rgba(255,255,255,0.5)' }}
-          >
-            <Download size={20} strokeWidth={isAppInstalled ? 2.5 : 1.8} />
-            <span className="text-[10px] font-semibold">{isAppInstalled ? (language === 'es' ? 'Abrir App' : 'Open App') : (language === 'es' ? 'Instalar' : 'Install')}</span>
-          </motion.button>
-        </div>
-        {/* Safe area spacer for iOS */}
-        <div className="h-[env(safe-area-inset-bottom)]" />
-      </div>
-
-      {/* Advanced Widget — Desktop only */}
-      <div className="hidden md:block">
-        <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
-      </div>
+      {/* Advanced Widget */}
+      <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
 
       {/* Portfolio Modal */}
       <AnimatePresence>
