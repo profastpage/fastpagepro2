@@ -165,7 +165,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -174,7 +174,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados, galería de proyectos, secciones de servicios e interiores, y navegación fluida y profesional.",
-      image: "/images/03-portafolio/CMCLATAM.png",
+      image: "/images/03-portafolio/CMCLATAM.webp",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -183,8 +183,17 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT. Incluye preloader temático, WhatsApp dinámico con sistema de consultorías por servicio, imágenes profesionales editadas en Photoshop, y diseño corporativo elegante.",
-      image: "/images/03-portafolio/JhonAsociados.png",
+      image: "/images/03-portafolio/JhonAsociados.webp",
       link: "https://www.jhonasociados.com/"
+    },
+    {
+      title: "Gincanas Clubes Campestres",
+      location: "Colombia",
+      category: "Web Profesional",
+      type: "web",
+      description: "Centro de gestión de 14 clubes campestres exclusivos con sistema de reservas directas por WhatsApp. Más de 15 años de experiencia con 500+ eventos exitosos gestionados. Incluye exploración interactiva de clubes, ejecutivos de cuentas dedicados, diseño premium con atmósfera sofisticada y CTAs estratégicos de conversión.",
+      image: "/images/03-portafolio/GincanasClubes.webp",
+      link: "https://gincanasclubescampestres.com/"
     },
     {
       title: "E-commerce Builder Pro",
@@ -192,7 +201,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -202,7 +211,7 @@ const PORTFOLIO_BY_LANG = {
       category: "App Móvil",
       type: "app",
       description: "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
-      image: "/images/03-portafolio/AtlasHero.png",
+      image: "/images/03-portafolio/AtlasHero.webp",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -211,7 +220,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
-      image: "/images/03-portafolio/CotizadorPro.png",
+      image: "/images/03-portafolio/CotizadorPro.webp",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -220,7 +229,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, navegación estilo app con menú superior e inferior. Catálogo de equipos, servicios de impresión digital y sublimación, FAQ interactivo y formulario de contacto.",
-      image: "/images/03-portafolio/ModaDigitalPro.png",
+      image: "/images/03-portafolio/ModaDigitalPro.webp",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -229,7 +238,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -238,7 +247,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/UrbanStyle.png",
+      image: "/images/03-portafolio/UrbanStyle.webp",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ],
@@ -249,7 +258,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -258,7 +267,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Bilingual web platform for coastal architecture and construction firm. Features dark/light mode, dynamic WhatsApp with custom CTAs, project gallery, services and interiors sections, with fluid professional navigation.",
-      image: "/images/03-portafolio/CMCLATAM.png",
+      image: "/images/03-portafolio/CMCLATAM.webp",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -267,8 +276,17 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Complete 5-page website for accounting firm specialized in tax advisory and SUNAT defense. Features themed preloader, dynamic WhatsApp with per-service consultation system, Photoshop-enhanced professional images, and elegant corporate design.",
-      image: "/images/03-portafolio/JhonAsociados.png",
+      image: "/images/03-portafolio/JhonAsociados.webp",
       link: "https://www.jhonasociados.com/"
+    },
+    {
+      title: "Gincanas Clubes Campestres",
+      location: "Colombia",
+      category: "Professional Web",
+      type: "web",
+      description: "Management center for 14 exclusive country clubs with direct WhatsApp reservation system. Over 15 years of experience with 500+ successful events managed. Features interactive club exploration, dedicated account executives, premium design with sophisticated atmosphere and strategic conversion CTAs.",
+      image: "/images/03-portafolio/GincanasClubes.webp",
+      link: "https://gincanasclubescampestres.com/"
     },
     {
       title: "E-commerce Builder Pro",
@@ -276,7 +294,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant platform for mass creation of online stores. Allows entrepreneurs to launch their ecommerce in minutes with independent admin panels and a centralized Super Admin for full ecosystem control.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -286,7 +304,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Mobile App",
       type: "app",
       description: "AI-powered strategic business consultant. Intelligent assistant that analyzes your business, suggests growth strategies and creates personalized weekly action plans via conversational chat.",
-      image: "/images/03-portafolio/AtlasHero.png",
+      image: "/images/03-portafolio/AtlasHero.webp",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -295,7 +313,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
-      image: "/images/03-portafolio/CotizadorPro.png",
+      image: "/images/03-portafolio/CotizadorPro.webp",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -304,7 +322,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
-      image: "/images/03-portafolio/ModaDigitalPro.png",
+      image: "/images/03-portafolio/ModaDigitalPro.webp",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -313,7 +331,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -322,7 +340,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
-      image: "/images/03-portafolio/UrbanStyle.png",
+      image: "/images/03-portafolio/UrbanStyle.webp",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ]
@@ -333,6 +351,7 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Perú", stars: 5, text: "Desde que implementaron el sistema de reservas por WhatsApp, nuestras reservas mensuales pasaron de 15 a 42. La respuesta automatizada del hotel nos permite atender consultas a cualquier hora sin personal adicional. El mejor impacto que hemos tenido." },
     { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Perú", stars: 5, text: "Necesitábamos una web que reflejara la calidad de nuestros proyectos de arquitectura costera. El resultado fue una plataforma bilingüe con modo claro/oscuro, galería de proyectos y WhatsApp integrado. Nuestros clientes internacionales quedan impresionados desde el primer contacto." },
     { name: "Jhon Quispe", hotel: "Jhon & Asociados", location: "Lima, Perú", stars: 5, text: "Como estudio contable necesitábamos una web profesional que transmitiera confianza. El resultado fue una plataforma de 5 subpáginas con preloader temático, WhatsApp dinámico que dirige las consultas al servicio correcto automáticamente, y un diseño corporativo que nuestros clientes valoran mucho." },
+    { name: "Sandra Velásquez", hotel: "Gincanas Clubes Campestres", location: "Colombia", stars: 5, text: "Gestionar 14 clubes campestres era un desafío logístico enorme. La web que desarrollaron nos permitió centralizar todas las reservas por WhatsApp con respuesta inmediata. Nuestros eventos pasaron de 20 a más de 500 al año, y cada institución que nos contacta queda impresionada desde el primer clic." },
     { name: "María Torres", hotel: "E-commerce Builder Pro", location: "Remoto, Global", stars: 5, text: "Como emprendedora, necesitaba lanzar mi tienda online sin complicaciones. La plataforma multi-tenant me permitió tener mi catálogo virtual funcionando en menos de una semana. El panel de administración es intuitivo y el soporte técnico excelente." },
     { name: "Roberto Sánchez", hotel: "Atlas", location: "Lima, Perú", stars: 5, text: "El asistente de IA que desarrollaron analiza mi negocio en tiempo real y me sugiere estrategias de crecimiento semanales. Ha sido como tener un consultor estratégico disponible 24/7. Las recomendaciones son precisas y accionables." },
     { name: "Ana García", hotel: "Cotizador Pro", location: "Remoto, Global", stars: 5, text: "El SaaS multi-tenant que construyeron nos ahorró decenas de horas semanales en la generación de cotizaciones. La automatización de plantillas, el sistema de créditos y la autenticación Google funcionan de manera impecable." },
@@ -344,6 +363,7 @@ const TESTIMONIALS_BY_LANG = {
     { name: "Carlos Mendoza", hotel: "Vuelo 78 Hotel", location: "Tarapoto, Peru", stars: 5, text: "Since they implemented the WhatsApp booking system, our monthly reservations went from 15 to 42. The hotel's automated response lets us handle inquiries 24/7 without extra staff. The best impact we've ever had." },
     { name: "Andrea Castillo", hotel: "CMC LATAM", location: "Peru", stars: 5, text: "We needed a website that reflected the quality of our coastal architecture projects. The result was a bilingual platform with dark/light mode, project gallery and integrated WhatsApp. Our international clients are impressed from the very first contact." },
     { name: "Jhon Quispe", hotel: "Jhon & Asociados", location: "Lima, Peru", stars: 5, text: "As an accounting firm we needed a professional website that conveyed trust. The result was a 5-page platform with a themed preloader, dynamic WhatsApp that automatically routes consultations to the right service, and a corporate design our clients truly value." },
+    { name: "Sandra Velasquez", hotel: "Gincanas Clubes Campestres", location: "Colombia", stars: 5, text: "Managing 14 country clubs was a massive logistical challenge. The website they built allowed us to centralize all WhatsApp reservations with instant response. Our events went from 20 to over 500 per year, and every institution that contacts us is impressed from the very first click." },
     { name: "Maria Torres", hotel: "E-commerce Builder Pro", location: "Remote, Global", stars: 5, text: "As an entrepreneur, I needed to launch my online store without complications. The multi-tenant platform let me have my virtual catalog running in less than a week. The admin panel is intuitive and the tech support is excellent." },
     { name: "Roberto Sanchez", hotel: "Atlas", location: "Lima, Peru", stars: 5, text: "The AI assistant they developed analyzes my business in real time and suggests weekly growth strategies. It's been like having a strategic consultant available 24/7. The recommendations are precise and actionable." },
     { name: "Ana Garcia", hotel: "Cotizador Pro", location: "Remote, Global", stars: 5, text: "The multi-tenant SaaS they built saves us dozens of hours every week on quote generation. Template automation, the credit system and Google authentication work flawlessly." },
@@ -2292,7 +2312,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel. Tras implementar el sistema, las reservas mensuales pasaron de 15 a 42, eliminando el 90% del trabajo manual en recepción."
         : "Direct booking system via WhatsApp with date-based availability and automated hotel response. After implementation, monthly bookings went from 15 to 42, eliminating 90% of manual reception work.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       color: "from-blue-500 to-cyan-400"
     },
     {
@@ -2303,7 +2323,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Menú visual interactivo y sistema de reservas y pedidos directos por WhatsApp optimizado para aumentar ventas. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono."
         : "Interactive visual menu and direct reservation/ordering system via WhatsApp optimized to increase sales. Customers now order in under 2 minutes without needing to call.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       color: "from-emerald-500 to-green-400"
     },
     {
@@ -2314,7 +2334,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Plataforma Multi-tenant para la creación masiva de tiendas online rápida y eficiente. Permite a emprendedores lanzar su propio catálogo virtual de manera automatizada con paneles independientes y Super Admin centralizado."
         : "Multi-tenant platform for fast and efficient mass creation of online stores. Allows entrepreneurs to launch their own virtual catalog automatically with independent panels and centralized Super Admin.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       color: "from-orange-500 to-amber-400"
     }
   ];
@@ -3936,30 +3956,32 @@ const PORTFOLIO_SLUGS = {
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "Moda Digital Pro": "moda-digital-pro",
+  "Gincanas Clubes Campestres": "gincanas-clubes-campestres",
   "Atlas": "atlas"
 };
 
 const PORTFOLIO_MODAL_IMAGES = {
-  "Urban Style": "/images/03-portafolio/UrbanStyle.png",
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
-  "CMC LATAM": "/images/03-portafolio/CMCLATAM.png",
-  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.png",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
-  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
-  "Atlas": "/images/03-portafolio/AtlasDesktop.png"
+  "Urban Style": "/images/03-portafolio/UrbanStyle.webp",
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.webp",
+  "CMC LATAM": "/images/03-portafolio/CMCLATAM.webp",
+  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.webp",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.webp",
+  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.webp",
+  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.webp",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.webp",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.webp",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.webp",
+  "Gincanas Clubes Campestres": "/images/03-portafolio/GincanasClubes.webp",
+  "Atlas": "/images/03-portafolio/AtlasDesktop.webp"
 };
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.png",
-  "Atlas": "/images/03-portafolio/AtlasApp.png"
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.webp",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.webp",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.webp",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.webp",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.webp",
+  "Atlas": "/images/03-portafolio/AtlasApp.webp"
 };
 
 const slugToTitle = {};
