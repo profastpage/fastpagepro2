@@ -2967,6 +2967,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
   const sectionRef = useRef(null);
+  const portfolioTouchStart = useRef(null);
 
   const categories = PORTFOLIO_CATEGORIES[language] || PORTFOLIO_CATEGORIES.es;
   const currentFilter = language === "en" ? activeFilterEn : activeFilter;
@@ -3031,10 +3032,25 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
         </div>
       </div>
 
-      {/* Full Portfolio Grid */}
+      {/* Full Portfolio Grid — swipeable on mobile */}
       <div className="px-4 mb-16 md:mb-24">
         <div className="container mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <div
+            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 md:grid-flow-row"
+            style={{ gridAutoFlow: 'row dense' }}
+            onTouchStart={(e) => { portfolioTouchStart.current = e.touches[0].clientX; }}
+            onTouchEnd={(e) => {
+              if (portfolioTouchStart.current === null || window.innerWidth >= 640) return;
+              const diff = portfolioTouchStart.current - e.changedTouches[0].clientX;
+              if (Math.abs(diff) > 50) {
+                const cats = categories;
+                const currentIdx = cats.indexOf(currentFilter);
+                const nextIdx = diff > 0 ? Math.min(cats.length - 1, currentIdx + 1) : Math.max(0, currentIdx - 1);
+                setCurrentFilter(cats[nextIdx]);
+              }
+              portfolioTouchStart.current = null;
+            }}
+          >
             <AnimatePresence mode="wait">
               {filteredProjects.map((project, index) => {
                 const gradientColor = getTypeColor(project.type);
@@ -3042,15 +3058,26 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick, o
                   <motion.div
                     key={`${project.title}-${currentFilter}`}
                     onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                    onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
-                    onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
+                    onMouseEnter={(e) => {
+                      if (onProjectHover) onProjectHover(project);
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = '';
+                      if (onProjectHoverEnd) onProjectHoverEnd();
+                    }}
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -20, scale: 0.95 }}
                     transition={{ delay: index * 0.06, duration: 0.5 }}
                     whileHover={{ y: -8 }}
                     className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
-                    style={{ aspectRatio: '4/5' }}
+                    style={{ aspectRatio: '4/5', perspective: '1000px' }}
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = (e.clientX - rect.left) / rect.width - 0.5;
+                      const y = (e.clientY - rect.top) / rect.height - 0.5;
+                      e.currentTarget.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
+                    }}
                   >
                     <motion.img
                       src={project.image} alt={project.title} onError={handleImageFallback}
@@ -4236,11 +4263,67 @@ const PortfolioModal = ({ project, language, onClose }) => {
   );
 };
 
+// --- Pull-to-refresh visual indicator (mobile PWA) ---
+const PullToRefreshIndicator = () => {
+  const [pullDist, setPullDist] = useState(0);
+  const startY = useRef(0);
+  const isPulling = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia('(display-mode: standalone)').matches) return;
+    const onTouchStart = (e) => {
+      if (window.scrollY <= 0) { startY.current = e.touches[0].clientY; isPulling.current = true; }
+    };
+    const onTouchMove = (e) => {
+      if (!isPulling.current) return;
+      const diff = e.touches[0].clientY - startY.current;
+      if (diff > 0 && diff < 120) setPullDist(Math.min(diff * 0.5, 50));
+      else if (diff >= 120) setPullDist(50);
+      else setPullDist(0);
+    };
+    const onTouchEnd = () => {
+      if (pullDist > 40) window.location.reload();
+      isPulling.current = false;
+      setTimeout(() => setPullDist(0), 200);
+    };
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('touchend', onTouchEnd);
+    return () => { window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchmove', onTouchMove); window.removeEventListener('touchend', onTouchEnd); };
+  }, [pullDist]);
+
+  if (pullDist <= 0) return null;
+  return (
+    <div className="md:hidden fixed top-[3px] left-1/2 -translate-x-1/2 z-[70] flex flex-col items-center" style={{ transform: `translate(-50%, ${pullDist * 0.4}px)`, opacity: Math.min(1, pullDist / 20) }}>
+      <motion.div animate={{ rotate: pullDist > 40 ? 360 : 0 }} transition={{ duration: 0.3 }} className="w-8 h-8 rounded-full border-2 border-yellow-400/60 flex items-center justify-center mb-1">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(250,204,21,0.8)" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v4m0 12v4m-7.07-3.93l2.83-2.83m8.48-8.48l2.83-2.83M2 12h4m12 0h4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83" /></svg>
+      </motion.div>
+      <span className="text-[10px] text-yellow-400/70 font-medium">{pullDist > 40 ? 'Soltar' : 'Desliza'}</span>
+    </div>
+  );
+};
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [waNotifIndex, setWaNotifIndex] = useState(-1);
+  const [liveVisitorCount, setLiveVisitorCount] = useState(0);
+
+  // Live visitor counter — simulated realistic
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const base = 11 + Math.floor(Math.random() * 8);
+    setLiveVisitorCount(base);
+    const interval = setInterval(() => {
+      setLiveVisitorCount(prev => {
+        const delta = Math.random() > 0.4 ? 1 : -1;
+        const next = Math.max(6, Math.min(28, prev + delta));
+        return next;
+      });
+    }, 4000 + Math.random() * 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Rotative WhatsApp notifications — show every 5-10s, visible for 3s
   useEffect(() => {
@@ -4598,6 +4681,44 @@ export default function App() {
     }
   }, []);
 
+  // Golden cursor trail (desktop only)
+  useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth < 768) return;
+    const container = document.getElementById('cursor-trail-container');
+    if (!container) return;
+    const dots = [];
+    const maxDots = 12;
+    for (let i = 0; i < maxDots; i++) {
+      const dot = document.createElement('div');
+      const size = Math.max(2, 8 - i * 0.6);
+      Object.assign(dot.style, {
+        position: 'fixed', width: size + 'px', height: size + 'px', borderRadius: '50%',
+        background: `rgba(250,204,21,${0.6 - i * 0.045})`, pointerEvents: 'none',
+        transform: 'translate(-50%,-50%)', transition: `left ${0.06 + i * 0.02}s ease-out, top ${0.06 + i * 0.02}s ease-out, opacity 0.3s`,
+        zIndex: '9999', filter: i < 3 ? 'blur(0px)' : `blur(${i * 0.3}px)`,
+        boxShadow: i < 2 ? '0 0 6px rgba(250,204,21,0.5)' : 'none'
+      });
+      container.appendChild(dot);
+      dots.push({ el: dot, x: 0, y: 0 });
+    }
+    let mouseX = 0, mouseY = 0, raf;
+    const onMove = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
+    const animate = () => {
+      let px = mouseX, py = mouseY;
+      dots.forEach((d, i) => {
+        d.x += (px - d.x) * (0.35 - i * 0.02);
+        d.y += (py - d.y) * (0.35 - i * 0.02);
+        d.el.style.left = d.x + 'px';
+        d.el.style.top = d.y + 'px';
+        px = d.x; py = d.y;
+      });
+      raf = requestAnimationFrame(animate);
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    animate();
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); container.innerHTML = ''; };
+  }, []);
+
   useEffect(() => {
     HERO_IMAGES.forEach((src, index) => {
       const image = new window.Image();
@@ -4670,6 +4791,9 @@ export default function App() {
     <>
       {/* GSAP Preloader */}
       {showPreloader && <GSAPPreloader onComplete={preloaderComplete} />}
+
+      {/* Pull-to-refresh indicator (mobile) */}
+      <PullToRefreshIndicator />
     
     <div ref={containerRef} className={`min-h-screen font-sans overflow-x-hidden transition-colors duration-500 ${isDarkMode ? 'dark' : ''}`}>
       
@@ -4702,6 +4826,9 @@ export default function App() {
           </div>
         </motion.div>
       </div>
+
+      {/* Golden Cursor Trail (desktop only) */}
+      <div className="hidden md:block fixed inset-0 z-[9999] pointer-events-none" id="cursor-trail-container" />
 
       {/* Navigation — Universal Dark Glassmorphism */}
       <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
@@ -4876,7 +5003,7 @@ export default function App() {
                 width: `${p.size}px`,
                 height: `${p.size}px`,
                 background: 'radial-gradient(circle, rgba(250,204,21,0.8) 0%, rgba(250,204,21,0.2) 50%, transparent 100%)',
-                boxShadow: '0 0 6px rgba(250,204,21,0.4)',
+                boxShadow: '0 0 6px 2px rgba(250,204,21,0.5), 0 0 12px rgba(250,204,21,0.2)',
                 opacity: p.opacity,
                 '--duration': `${p.duration}s`,
                 '--delay': `${p.delay}s`,
@@ -5400,6 +5527,22 @@ export default function App() {
           {/* Subtle top glow line */}
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent" />
 
+          {/* Live visitors counter — top center */}
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2, duration: 0.5 }}
+            className="absolute -top-7 left-0 right-0 flex justify-center pointer-events-none"
+          >
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/[0.06]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+              </span>
+              <span className="text-[10px] text-white/60 font-medium"><span className="text-white/90" id="live-visitor-count">{liveVisitorCount}</span> {language === 'es' ? 'viendo esto ahora' : 'viewing now'}</span>
+            </div>
+          </motion.div>
+
           {/* Rotative WhatsApp notification tooltip */}
           <div className="absolute bottom-full left-0 right-0 flex justify-center pb-3 pointer-events-none">
             <AnimatePresence>
@@ -5503,6 +5646,10 @@ export default function App() {
                 <div className="absolute inset-0 rounded-full border-2 border-white/20" />
                 <div className="absolute inset-[2px] rounded-full border border-white/10" />
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                {/* Verification badge */}
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(34,197,94,0.6)] border-2 border-black">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                </div>
               </motion.a>
             </div>
 

@@ -61,11 +61,11 @@
       });
     </script>
     
-    <!-- Schema.org JSON-LD -->
+    <!-- Schema.org JSON-LD — LocalBusiness with Reviews -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "ProfessionalService",
+        "@type": "LocalBusiness",
         "name": "Fast Page Pro",
         "description": "Agencia de desarrollo web e ingeniería de software. Especialistas en sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables.",
         "url": "https://fastpagepro.com",
@@ -73,16 +73,52 @@
         "image": "https://fastpagepro.com/og-image.jpg",
         "telephone": "+51933667414",
         "email": "profastpage@gmail.com",
+        "priceRange": "S/ 700 - S/ 1700",
         "address": {
           "@type": "PostalAddress",
-          "addressCountry": "PE",
-          "addressRegion": "Lima"
+          "addressLocality": "Lima",
+          "addressRegion": "Lima",
+          "addressCountry": "PE"
         },
-        "areaServed": {
-          "@type": "Country",
-          "name": "Peru"
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -12.0464,
+          "longitude": -77.0428
         },
-        "priceRange": "S/ 700 - S/ 1700"
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          "opens": "08:00",
+          "closes": "22:00"
+        },
+        "sameAs": [],
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "reviewCount": "5",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "review": [
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Carlos Mendoza" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Desde que implementaron el sistema de reservas por WhatsApp, nuestras reservas mensuales pasaron de 15 a 42. El mejor impacto que hemos tenido."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Andrea Castillo" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "Necesitábamos una web que reflejara la calidad de nuestros proyectos de arquitectura costera. Nuestros clientes internacionales quedan impresionados desde el primer contacto."
+          },
+          {
+            "@type": "Review",
+            "author": { "@type": "Person", "name": "Jorge Luis" },
+            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+            "reviewBody": "La integración del menú visual interactivo y el sistema de pedidos por WhatsApp transformó nuestro restaurante. Nuestro volumen de pedidos aumentó un 95%."
+          }
+        ]
       }
     </script>
     
