@@ -2915,10 +2915,16 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 whileHover={{ y: -8 }}
                 className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block"
-                style={{ aspectRatio: '4/5' }}
+                style={{ aspectRatio: '4/5', perspective: '1000px' }}
                 onClick={() => { if (onProjectClick) onProjectClick(project); }}
                 onMouseEnter={() => { if (onProjectHover) onProjectHover(project); }}
-                onMouseLeave={() => { if (onProjectHoverEnd) onProjectHoverEnd(); }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = ''; if (onProjectHoverEnd) onProjectHoverEnd(); }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = (e.clientX - rect.left) / rect.width - 0.5;
+                  const y = (e.clientY - rect.top) / rect.height - 0.5;
+                  e.currentTarget.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
+                }}
               >
                 <motion.img
                   src={project.image} alt={project.title} onError={handleImageFallback}
@@ -4388,15 +4394,20 @@ export default function App() {
   const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
   const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
   const heroParticles = useMemo(() =>
-    Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2.5 + 1,
-      duration: Math.random() * 10 + 12,
-      delay: Math.random() * 8,
-      opacity: Math.random() * 0.35 + 0.15,
-    })), []);
+    Array.from({ length: 45 }, (_, i) => {
+      const type = Math.random();
+      return {
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: type < 0.3 ? Math.random() * 1.5 + 0.5 : type < 0.7 ? Math.random() * 2.5 + 1 : Math.random() * 3.5 + 2,
+        duration: Math.random() * 12 + 10,
+        delay: Math.random() * 10,
+        opacity: type < 0.3 ? Math.random() * 0.2 + 0.1 : Math.random() * 0.4 + 0.2,
+        type: type < 0.3 ? 'tiny' : type < 0.7 ? 'medium' : 'large',
+        pulse: Math.random() > 0.6,
+      };
+    }), []);
   useEffect(() => {
     const handleMouse = (e) => {
       try {
@@ -4681,33 +4692,59 @@ export default function App() {
     }
   }, []);
 
-  // Golden cursor trail (desktop only)
+  // Golden cursor dot + trail (desktop only)
   useEffect(() => {
     if (typeof window === 'undefined' || window.innerWidth < 768) return;
     const container = document.getElementById('cursor-trail-container');
     if (!container) return;
+
+    // Main golden dot
+    const mainDot = document.createElement('div');
+    Object.assign(mainDot.style, {
+      position: 'fixed', width: '10px', height: '10px', borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(250,204,21,0.9) 40%, rgba(250,204,21,0.3) 70%, transparent 100%)',
+      pointerEvents: 'none', transform: 'translate(-50%,-50%)',
+      transition: 'left 0.08s ease-out, top 0.08s ease-out, width 0.2s, height 0.2s',
+      zIndex: '10000', boxShadow: '0 0 10px 3px rgba(250,204,21,0.6), 0 0 25px rgba(250,204,21,0.2)',
+    });
+    container.appendChild(mainDot);
+
+    // Hover grow on interactive elements
+    const growCursor = () => { mainDot.style.width = '18px'; mainDot.style.height = '18px'; };
+    const shrinkCursor = () => { mainDot.style.width = '10px'; mainDot.style.height = '10px'; };
+    document.addEventListener('mouseover', (e) => {
+      const t = e.target;
+      if (t.closest('a, button, [role="button"], input, select, textarea, .portfolio-card, .cursor-pointer')) growCursor();
+    });
+    document.addEventListener('mouseout', (e) => {
+      const t = e.target;
+      if (t.closest('a, button, [role="button"], input, select, textarea, .portfolio-card, .cursor-pointer')) shrinkCursor();
+    });
+
     const dots = [];
-    const maxDots = 12;
+    const maxDots = 14;
     for (let i = 0; i < maxDots; i++) {
       const dot = document.createElement('div');
-      const size = Math.max(2, 8 - i * 0.6);
+      const size = Math.max(1.5, 7 - i * 0.5);
       Object.assign(dot.style, {
         position: 'fixed', width: size + 'px', height: size + 'px', borderRadius: '50%',
-        background: `rgba(250,204,21,${0.6 - i * 0.045})`, pointerEvents: 'none',
-        transform: 'translate(-50%,-50%)', transition: `left ${0.06 + i * 0.02}s ease-out, top ${0.06 + i * 0.02}s ease-out, opacity 0.3s`,
-        zIndex: '9999', filter: i < 3 ? 'blur(0px)' : `blur(${i * 0.3}px)`,
-        boxShadow: i < 2 ? '0 0 6px rgba(250,204,21,0.5)' : 'none'
+        background: `rgba(250,204,21,${0.55 - i * 0.035})`, pointerEvents: 'none',
+        transform: 'translate(-50%,-50%)', transition: `left ${0.05 + i * 0.018}s ease-out, top ${0.05 + i * 0.018}s ease-out, opacity 0.3s`,
+        zIndex: '9999', filter: i < 3 ? 'blur(0px)' : `blur(${i * 0.4}px)`,
+        boxShadow: i < 2 ? '0 0 8px rgba(250,204,21,0.5)' : 'none'
       });
       container.appendChild(dot);
       dots.push({ el: dot, x: 0, y: 0 });
     }
-    let mouseX = 0, mouseY = 0, raf;
-    const onMove = (e) => { mouseX = e.clientX; mouseY = e.clientY; };
+    let mx = 0, my = 0, raf;
+    const onMove = (e) => { mx = e.clientX; my = e.clientY; };
     const animate = () => {
-      let px = mouseX, py = mouseY;
+      mainDot.style.left = mx + 'px';
+      mainDot.style.top = my + 'px';
+      let px = mx, py = my;
       dots.forEach((d, i) => {
-        d.x += (px - d.x) * (0.35 - i * 0.02);
-        d.y += (py - d.y) * (0.35 - i * 0.02);
+        d.x += (px - d.x) * (0.38 - i * 0.02);
+        d.y += (py - d.y) * (0.38 - i * 0.02);
         d.el.style.left = d.x + 'px';
         d.el.style.top = d.y + 'px';
         px = d.x; py = d.y;
@@ -4716,7 +4753,9 @@ export default function App() {
     };
     window.addEventListener('mousemove', onMove, { passive: true });
     animate();
-    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); container.innerHTML = ''; };
+    return () => {
+      window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); container.innerHTML = '';
+    };
   }, []);
 
   useEffect(() => {
@@ -4828,7 +4867,7 @@ export default function App() {
       </div>
 
       {/* Golden Cursor Trail (desktop only) */}
-      <div className="hidden md:block fixed inset-0 z-[9999] pointer-events-none" id="cursor-trail-container" />
+      <div className="hidden md:block fixed inset-0 z-[9999] pointer-events-none" id="cursor-trail-container" style={{ cursor: 'none' }} />
 
       {/* Navigation — Universal Dark Glassmorphism */}
       <nav className="fixed w-full z-50 transition-all duration-500 h-[60px] sm:h-[64px]" style={{
@@ -4991,19 +5030,27 @@ export default function App() {
         <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%)' }} />
         <div className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
 
-        {/* Layer 2: Golden Particles */}
+        {/* Layer 2: Golden Particles — Enhanced Pro */}
         <div className="absolute inset-0 z-[3] pointer-events-none overflow-hidden">
           {heroParticles.map((p) => (
             <div
               key={p.id}
-              className="absolute rounded-full golden-particle"
+              className={`absolute rounded-full golden-particle ${p.pulse ? 'golden-particle-pulse' : ''}`}
               style={{
                 left: `${p.x}%`,
                 top: `${p.y}%`,
                 width: `${p.size}px`,
                 height: `${p.size}px`,
-                background: 'radial-gradient(circle, rgba(250,204,21,0.8) 0%, rgba(250,204,21,0.2) 50%, transparent 100%)',
-                boxShadow: '0 0 6px 2px rgba(250,204,21,0.5), 0 0 12px rgba(250,204,21,0.2)',
+                background: p.type === 'large'
+                  ? 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(250,204,21,0.7) 30%, rgba(250,204,21,0.15) 60%, transparent 100%)'
+                  : p.type === 'medium'
+                  ? 'radial-gradient(circle, rgba(250,204,21,0.9) 0%, rgba(250,204,21,0.25) 50%, transparent 100%)'
+                  : 'radial-gradient(circle, rgba(250,204,21,0.6) 0%, transparent 80%)',
+                boxShadow: p.type === 'large'
+                  ? '0 0 8px 3px rgba(250,204,21,0.6), 0 0 20px rgba(250,204,21,0.25), 0 0 40px rgba(250,204,21,0.1)'
+                  : p.type === 'medium'
+                  ? '0 0 6px 2px rgba(250,204,21,0.5), 0 0 14px rgba(250,204,21,0.15)'
+                  : '0 0 4px 1px rgba(250,204,21,0.3)',
                 opacity: p.opacity,
                 '--duration': `${p.duration}s`,
                 '--delay': `${p.delay}s`,

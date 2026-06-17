@@ -661,3 +661,10 @@ section {
 .golden-particle {
   animation: particle-drift var(--duration, 12s) ease-in-out var(--delay, 0s) infinite;
 }
+.golden-particle-pulse {
+  animation: particle-drift var(--duration, 12s) ease-in-out var(--delay, 0s) infinite, particle-twinkle 2.5s ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes particle-twinkle {
+  0%, 100% { opacity: var(--particle-opacity, 0.3); transform: scale(1); }
+  50% { opacity: calc(var(--particle-opacity, 0.3) * 0.3); transform: scale(0.5); }
+}

@@ -121,6 +121,72 @@
         ]
       }
     </script>
+
+    <!-- Schema.org JSON-LD — WebSite (enables Sitelinks Search Box) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Fast Page Pro",
+        "alternateName": "FastPagePro",
+        "url": "https://fastpagepro.com",
+        "inLanguage": ["es", "en"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://fastpagepro.com/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+
+    <!-- Schema.org JSON-LD — Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Fast Page Pro",
+        "legalName": "Fast Page Pro - Fabio Herrera",
+        "url": "https://fastpagepro.com",
+        "logo": "https://fastpagepro.com/favicon.svg",
+        "foundingDate": "2024",
+        "founder": {
+          "@type": "Person",
+          "name": "Fabio Herrera"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+51933667414",
+          "contactType": "sales",
+          "availableLanguage": ["Spanish", "English"],
+          "areaServed": "LATAM"
+        },
+        "knowsAbout": ["Desarrollo Web", "Ingeniería de Software", "Agentes de IA", "SaaS", "Plataformas Escalables", "PWA", "Sistemas de Reservas"],
+        "sameAs": []
+      }
+    </script>
+
+    <!-- Schema.org JSON-LD — SoftwareApplication (PWA) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Fast Page Pro",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser (PWA)",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "PEN"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "5"
+        },
+        "installUrl": "https://fastpagepro.com",
+        "screenshot": "https://fastpagepro.com/og-image.jpg"
+      }
+    </script>
     
     <title>Fast Page Pro | Agencia de Desarrollo Web y Sistemas IA</title>
   </head>
