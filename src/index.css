@@ -523,6 +523,16 @@ section {
     rgba(0, 0, 0, 0.1) 65%,
     transparent 100%
   );
+  transition: background 0.4s ease;
+}
+.portfolio-card:hover .portfolio-card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.55) 30%,
+    rgba(0, 0, 0, 0.15) 60%,
+    transparent 100%
+  );
 }
 
 /* ===== Portfolio Stats Glass ===== */
@@ -667,4 +677,148 @@ section {
 @keyframes particle-twinkle {
   0%, 100% { opacity: var(--particle-opacity, 0.3); transform: scale(1); }
   50% { opacity: calc(var(--particle-opacity, 0.3) * 0.3); transform: scale(0.5); }
+}
+
+/* --- Ultra Deluxe Pro Effects --- */
+
+/* Shimmer sweep on portfolio cards */
+.portfolio-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 215, 0, 0.04) 45%,
+    rgba(255, 215, 0, 0.08) 50%,
+    rgba(255, 215, 0, 0.04) 55%,
+    transparent 60%
+  );
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.portfolio-card:hover::after {
+  opacity: 1;
+  animation: shimmer-sweep 1.2s ease-in-out 0.1s;
+}
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Gradient animated border on CTA buttons */
+.cta-glow-border {
+  position: relative;
+  z-index: 1;
+}
+.cta-glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    #FFD700 0%,
+    #FF8C00 15%,
+    #FFD700 30%,
+    transparent 50%,
+    transparent 70%,
+    #FFD700 85%,
+    #FFD700 100%
+  );
+  z-index: -2;
+  animation: rotate-border 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.cta-glow-border:hover::before {
+  opacity: 1;
+}
+.cta-glow-border::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: -1;
+}
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes rotate-border {
+  to { --border-angle: 360deg; }
+}
+
+/* Glass shine on section titles */
+.section-shine {
+  position: relative;
+  overflow: hidden;
+}
+.section-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.06), transparent);
+  animation: section-shine-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes section-shine-sweep {
+  0%, 100% { left: -100%; }
+  50% { left: 150%; }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Active nav link glow indicator */
+.nav-link-active {
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+}
+
+/* Premium card hover glow */
+.portfolio-card {
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+.portfolio-card:hover {
+  box-shadow: 0 0 30px -5px rgba(255, 215, 0, 0.15), 0 20px 60px -15px rgba(0, 0, 0, 0.5);
+}
+
+/* Magnetic button effect base */
+.magnetic-btn {
+  transition: transform 0.2s ease-out;
+}
+
+/* Premium gradient text */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 40%, #FFD700 70%, #FFF8DC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth reveal for bottom nav */
+.bottom-nav-item {
+  position: relative;
+}
+.bottom-nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 2px;
+  background: #FFD700;
+  border-radius: 1px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
 }
