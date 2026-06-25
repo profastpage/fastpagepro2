@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue, useAnimationFrame } from 'framer-motion';
 import {
   Check,
@@ -4374,7 +4375,10 @@ export default function App() {
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#portafolio') return 'portfolio';
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      if (path === '/portafolio' || path.startsWith('/portafolio/')) return 'portfolio';
+    }
     return 'landing';
   });
 
@@ -4423,20 +4427,16 @@ export default function App() {
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
 
-  // Navigation: Landing ↔ Portfolio
+  // Navigation: Landing ↔ Portfolio (History API — clean URLs)
   const navigateToPortfolio = useCallback(() => {
     setCurrentView('portfolio');
-    window.location.hash = 'portafolio';
+    try { history.pushState(null, '', '/portafolio'); } catch {}
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
   const navigateToLanding = useCallback(() => {
     setCurrentView('landing');
-    try {
-      if (typeof window !== 'undefined' && window.location.hash === '#portafolio') {
-        history.pushState(null, '', window.location.pathname + window.location.search);
-      }
-    } catch {}
+    try { history.pushState(null, '', '/'); } catch {}
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
@@ -4482,16 +4482,17 @@ export default function App() {
   const portfolioProjects = PORTFOLIO_BY_LANG[language];
   const navItems = NAV_ITEMS.map((item) => ({ id: item.id, label: item[language] }));
 
-  // Listen for hash changes to handle #portafolio navigation
+  // Listen for popstate to handle browser back/forward (History API)
   useEffect(() => {
-    const handleHash = () => {
+    const handlePopState = () => {
       try {
-        const hash = window.location.hash;
-        if (hash === '#portafolio') {
+        const path = window.location.pathname;
+        if (path === '/portafolio') {
           setCurrentView('portfolio');
-        } else if (hash.startsWith('#portfolio/')) {
+          setSelectedProject(null);
+        } else if (path.startsWith('/portafolio/')) {
           setCurrentView('portfolio');
-          const slug = hash.replace('#portfolio/', '');
+          const slug = path.replace('/portafolio/', '');
           const title = slugToTitle[slug];
           if (title) {
             const project = portfolioProjects.find((p) => p.title === title);
@@ -4504,9 +4505,9 @@ export default function App() {
       } catch {}
     };
     if (typeof window !== 'undefined') {
-      window.addEventListener('hashchange', handleHash);
-      handleHash();
-      return () => window.removeEventListener('hashchange', handleHash);
+      window.addEventListener('popstate', handlePopState);
+      handlePopState();
+      return () => window.removeEventListener('popstate', handlePopState);
     }
   }, [portfolioProjects]);
 
@@ -4580,20 +4581,11 @@ export default function App() {
     setIsWidgetOpen(true);
   };
 
-  // Portfolio modal: close and clear hash
+  // Portfolio modal: close and restore URL
   const closePortfolioModal = useCallback(() => {
     setSelectedProject(null);
-    // Restore hash to #portafolio when closing modal on portfolio page
-    if (currentView === 'portfolio') {
-      window.location.hash = 'portafolio';
-    } else {
-      try {
-        if (typeof window !== 'undefined' && window.location.hash.startsWith('#portfolio/')) {
-          history.pushState(null, '', window.location.pathname + window.location.search);
-        }
-      } catch {}
-    }
-  }, [currentView]);
+    try { history.pushState(null, '', '/portafolio'); } catch {}
+  }, []);
 
   // Open project from slug
   const openProjectBySlug = useCallback((slug) => {
@@ -4642,7 +4634,7 @@ export default function App() {
               } catch (e) { /* ignore */ }
             } else if (id === 'top') {
               try {
-                if (window.location.hash && !window.location.hash.startsWith('#portfolio')) {
+                if (window.location.hash) {
                   history.replaceState(null, '', window.location.pathname + window.location.search);
                 }
               } catch (e) { /* ignore */ }
@@ -4667,11 +4659,11 @@ export default function App() {
     };
   }, [currentView]);
 
-  // Handle initial hash on load for deep linking
+  // Handle initial hash/anchor on load for deep linking to sections
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const hash = window.location.hash;
-    if (hash && hash.startsWith('#') && hash !== '#portafolio' && !hash.startsWith('#portfolio/')) {
+    if (hash && hash.startsWith('#') && hash.length > 1) {
       const id = hash.replace('#', '');
       const timeout = setTimeout(() => {
         const el = document.getElementById(id);
@@ -5107,7 +5099,7 @@ export default function App() {
             >
               {/* Ver Portafolio — Glass Glow CTA */}
               <motion.a
-                href="#portafolio"
+                href="/portafolio"
                 onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
@@ -5245,11 +5237,7 @@ export default function App() {
             const slug = PORTFOLIO_SLUGS[project.title];
             if (slug) {
               setSelectedProject(project);
-              try {
-                if (typeof window !== 'undefined') {
-                  window.location.hash = `portfolio/${slug}`;
-                }
-              } catch {}
+              try { history.pushState(null, '', `/portafolio/${slug}`); } catch {}
             }
           }}
         />
@@ -5263,11 +5251,7 @@ export default function App() {
             const slug = PORTFOLIO_SLUGS[project.title];
             if (slug) {
               setSelectedProject(project);
-              try {
-                if (typeof window !== 'undefined') {
-                  window.location.hash = `portfolio/${slug}`;
-                }
-              } catch {}
+              try { history.pushState(null, '', `/portafolio/${slug}`); } catch {}
             }
           }}
         />
@@ -5499,7 +5483,7 @@ export default function App() {
             <div>
               <h4 className="text-[var(--text-primary)] font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Empresa" : "Company"}</h4>
               <ul className="space-y-3">
-                <li><a href="#portafolio" onClick={(e) => scrollToSection(e, 'portafolio')} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] hover:border-[var(--glass-border)] text-sm transition-all">{language === "es" ? "Portafolio" : "Portfolio"} <ArrowUpRight size={14} /></a></li>
+                <li><a href="/portafolio" onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-bg)] hover:border-[var(--glass-border)] text-sm transition-all">{language === "es" ? "Portafolio" : "Portfolio"} <ArrowUpRight size={14} /></a></li>
                 <li><a href="#proceso" onClick={(e) => scrollToSection(e, 'proceso')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Proceso" : "Process"}</a></li>
                 <li><a href="#testimonios" onClick={(e) => scrollToSection(e, 'testimonios')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Testimonios" : "Testimonials"}</a></li>
                 <li><a href="#planes" onClick={(e) => scrollToSection(e, 'planes')} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-sm transition-colors">{language === "es" ? "Planes" : "Plans"}</a></li>
@@ -5598,11 +5582,11 @@ export default function App() {
               onClick={() => {
                 if (currentView === 'portfolio') {
                   setCurrentView('landing');
-                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                  try { history.pushState(null, '', '/'); } catch(e){}
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 } else {
                   setCurrentView('portfolio');
-                  window.location.hash = 'portafolio';
+                  try { history.pushState(null, '', '/portafolio'); } catch(e){}
                   window.scrollTo({ top: 0, behavior: 'instant' });
                 }
               }}
@@ -5618,7 +5602,7 @@ export default function App() {
               onClick={() => {
                 if (currentView === 'portfolio') {
                   setCurrentView('landing');
-                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                  try { history.pushState(null, '', '/'); } catch(e){}
                 }
                 setTimeout(() => {
                   const el = document.getElementById('servicios');
@@ -5671,7 +5655,7 @@ export default function App() {
               onClick={() => {
                 if (currentView === 'portfolio') {
                   setCurrentView('landing');
-                  try { history.pushState(null, '', window.location.pathname + window.location.search); } catch(e){}
+                  try { history.pushState(null, '', '/'); } catch(e){}
                 }
                 setTimeout(() => {
                   const el = document.getElementById('planes');
@@ -5709,6 +5693,75 @@ export default function App() {
           />
         )}
       </AnimatePresence>
+
+      {/* ===== Dynamic SEO Head (react-helmet-async) ===== */}
+      {currentView === 'portfolio' && !selectedProject && (
+        <Helmet>
+          <title>Portafolio | Fast Page Pro — Proyectos de Desarrollo Web e IA</title>
+          <meta name="description" content="Explora nuestros proyectos: sistemas web, agentes de IA, SaaS multi-tenant, e-commerce y más. Resultados reales para negocios en LATAM." />
+          <link rel="canonical" href="https://fastpagepro.com/portafolio" />
+          <meta property="og:url" content="https://fastpagepro.com/portafolio" />
+          <meta property="og:title" content="Portafolio | Fast Page Pro" />
+          <meta property="og:description" content="Explora nuestros proyectos: sistemas web, agentes de IA, SaaS multi-tenant, e-commerce y más." />
+          <meta property="og:type" content="website" />
+          <meta name="twitter:title" content="Portafolio | Fast Page Pro" />
+          <meta name="twitter:description" content="Explora nuestros proyectos de desarrollo web e IA con resultados reales." />
+        </Helmet>
+      )}
+
+      {selectedProject && (() => {
+        const slug = PORTFOLIO_SLUGS[selectedProject.title] || '';
+        const projUrl = `https://fastpagepro.com/portafolio/${slug}`;
+        const projDesc = selectedProject.description || `Proyecto de desarrollo web profesional por Fast Page Pro — ${selectedProject.title}`;
+        const projImg = selectedProject.image || 'https://fastpagepro.com/og-image.jpg';
+        return (
+          <Helmet>
+            <title>{selectedProject.title} | Fast Page Pro — Proyecto de Desarrollo Web</title>
+            <meta name="description" content={projDesc} />
+            <link rel="canonical" href={projUrl} />
+            <meta property="og:url" content={projUrl} />
+            <meta property="og:title" content={`${selectedProject.title} | Fast Page Pro`} />
+            <meta property="og:description" content={projDesc} />
+            <meta property="og:image" content={projImg} />
+            <meta property="og:type" content="article" />
+            <meta name="twitter:title" content={`${selectedProject.title} | Fast Page Pro`} />
+            <meta name="twitter:description" content={projDesc} />
+            <meta name="twitter:image" content={projImg} />
+            <script type="application/ld+json">
+              {JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "CreativeWork",
+                "name": selectedProject.title,
+                "description": projDesc,
+                "url": projUrl,
+                "image": projImg,
+                "creator": {
+                  "@type": "Organization",
+                  "name": "Fast Page Pro",
+                  "url": "https://fastpagepro.com"
+                },
+                "genre": selectedProject.category || "Desarrollo Web",
+                "locationCreated": {
+                  "@type": "Place",
+                  "name": "Lima, Peru"
+                }
+              })}
+            </script>
+          </Helmet>
+        );
+      })()}
+
+      {currentView === 'landing' && !selectedProject && (
+        <Helmet>
+          <title>Fast Page Pro | Agencia de Desarrollo Web y Sistemas IA</title>
+          <meta name="description" content="Especialistas en desarrollo de sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables de alto rendimiento." />
+          <link rel="canonical" href="https://fastpagepro.com" />
+          <meta property="og:url" content="https://fastpagepro.com" />
+          <meta property="og:title" content="Fast Page Pro | Agencia de Desarrollo Web y Sistemas IA" />
+          <meta property="og:description" content="Especialistas en desarrollo de sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables de alto rendimiento." />
+          <meta property="og:type" content="website" />
+        </Helmet>
+      )}
 
       </div>
     </>

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /assets/
+Disallow: /sw.js
+Disallow: /manifest.json
+
+Sitemap: https://fastpagepro.com/sitemap.xml

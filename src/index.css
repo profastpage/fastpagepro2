@@ -30,24 +30,57 @@ body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Custom Scrollbar — theme-aware */
+/* ===== Gold Electric Scrollbar — Ultra Premium ===== */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 14px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-global);
-  transition: background-color 0.5s ease;
+  background: #050505;
+  border-left: 1px solid rgba(255, 193, 7, 0.15);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--scrollbar-thumb-1, #a8a29e), var(--scrollbar-thumb-2, #78716c));
-  border-radius: 5px;
-  transition: background 0.5s ease;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 40%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.5) 60%,
+      transparent 100%
+    ),
+    linear-gradient(
+      180deg,
+      #FFE082,
+      #FFC107,
+      #FFB300
+    );
+  background-size: 100% 200%, 100% 100%;
+  border-radius: 999px;
+  box-shadow:
+    0 0 10px rgba(255, 193, 7, 0.7),
+    0 0 20px rgba(255, 193, 7, 0.5),
+    inset 0 0 8px rgba(255, 255, 255, 0.35);
+  animation: scrollEnergy 2.5s linear infinite;
+}
+
+@keyframes scrollEnergy {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 200%, 0 0; }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, var(--scrollbar-thumb-hover-1, #b0a89e), var(--scrollbar-thumb-hover-2, #a8a29e));
+  background: linear-gradient(
+    180deg,
+    #FFF176,
+    #FFD54F,
+    #FFC107
+  );
+  box-shadow:
+    0 0 15px rgba(255, 193, 7, 0.9),
+    0 0 35px rgba(255, 193, 7, 0.7),
+    0 0 50px rgba(255, 193, 7, 0.4);
 }
 
 /* Line clamp utility */
@@ -173,6 +206,13 @@ body {
   /* Shimmer opacity */
   --shimmer-opacity: 0.15;
 
+  /* Gold palette */
+  --gold-1: #FFE082;
+  --gold-2: #FFD54F;
+  --gold-3: #FFC107;
+  --gold-4: #FFB300;
+  --gold-5: #FF8F00;
+
   /* Stats-specific overrides */
   --stats-bg: #F7F7F8;
   --stats-card-bg: rgba(255, 255, 255, 0.8);
@@ -240,6 +280,13 @@ body {
 
   /* Shimmer opacity */
   --shimmer-opacity: 0.25;
+
+  /* Gold palette */
+  --gold-1: #FFE082;
+  --gold-2: #FFD54F;
+  --gold-3: #FFC107;
+  --gold-4: #FFB300;
+  --gold-5: #FF8F00;
 
   /* Stats-specific overrides */
   --stats-bg: #0a0a0a;
@@ -775,9 +822,23 @@ section {
   50% { left: 150%; }
 }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+/* ===== Premium Text Selection — Gold Glow ===== */
+::selection {
+  background: rgba(255, 193, 7, 0.28);
+  color: #ffffff;
+  text-shadow:
+    0 0 8px #FFC107,
+    0 0 18px #FFC107,
+    0 0 32px #FFB300;
+}
+
+::-moz-selection {
+  background: rgba(255, 193, 7, 0.28);
+  color: #ffffff;
+  text-shadow:
+    0 0 8px #FFC107,
+    0 0 18px #FFC107,
+    0 0 32px #FFB300;
 }
 
 /* Active nav link glow indicator */
@@ -821,4 +882,13 @@ html {
   background: #FFD700;
   border-radius: 1px;
   box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* ===== Ultra Premium Interactive Glow ===== */
+a:hover,
+button:hover {
+  box-shadow:
+    0 0 12px rgba(255, 193, 7, 0.4),
+    0 0 25px rgba(255, 193, 7, 0.3),
+    0 0 40px rgba(255, 193, 7, 0.2);
 }
