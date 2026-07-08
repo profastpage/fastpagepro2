@@ -114,26 +114,7 @@ const handleImageFallback = (event) => {
   }
 };
 
-const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=2070&auto=format&fit=crop"
-];
-
-// Cloudinary video URLs — f_auto,q_auto for maximum optimization
-const CLOUDINARY_CLOUD = "profastpage";
-const CLOUDINARY_VIDEO_ID = "hero-showreel";
-const HERO_VIDEO_CLOUDINARY = {
-  webm: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,vc_auto/${CLOUDINARY_VIDEO_ID}.webm`,
-  mp4: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,vc_auto/${CLOUDINARY_VIDEO_ID}.mp4`,
-  poster: `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/video/upload/f_auto,q_auto,w_1280,h_720,so_0,du_1/${CLOUDINARY_VIDEO_ID}.jpg`
-};
-const HERO_VIDEO_LOCAL = {
-  webm: "/hero-showreel.webm",
-  mp4: "/hero-showreel.mp4",
-  poster: "/hero-poster.jpg"
-};
+// Hero image + video constants removed (dead code — 3D hero active)
 
 const NAV_ITEMS = [
   { id: "portafolio", es: "Portafolio", en: "Portfolio" },
@@ -168,7 +149,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -177,7 +158,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma de préstamos en línea con calculadora inteligente de cuotas, doble menú de navegación, efecto de partículas de animación, integración con WhatsApp para solicitudes instantáneas y diseño premium dorado. Web optimizada para carga en 0.5 segundos con tecnología moderna, SEO avanzado y posicionamiento en Google.",
-      image: "/images/03-portafolio/MandiCorp.png",
+      image: "/images/03-portafolio/MandiCorp.webp",
       link: "https://www.mandicorp.com/#inicio"
     },
     {
@@ -186,7 +167,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados, galería de proyectos, secciones de servicios e interiores, y navegación fluida y profesional.",
-      image: "/images/03-portafolio/CMCLATAM.png",
+      image: "/images/03-portafolio/CMCLATAM.webp",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -195,7 +176,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT. Incluye preloader temático, WhatsApp dinámico con sistema de consultorías por servicio, imágenes profesionales editadas en Photoshop, y diseño corporativo elegante.",
-      image: "/images/03-portafolio/JhonAsociados.png",
+      image: "/images/03-portafolio/JhonAsociados.webp",
       link: "https://www.jhonasociados.com/"
     },
     {
@@ -204,7 +185,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -214,7 +195,7 @@ const PORTFOLIO_BY_LANG = {
       category: "App Móvil",
       type: "app",
       description: "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
-      image: "/images/03-portafolio/AtlasHero.png",
+      image: "/images/03-portafolio/AtlasHero.webp",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -223,7 +204,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Proyecto Personalizado",
       type: "custom",
       description: "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
-      image: "/images/03-portafolio/CotizadorPro.png",
+      image: "/images/03-portafolio/CotizadorPro.webp",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -232,7 +213,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, navegación estilo app con menú superior e inferior. Catálogo de equipos, servicios de impresión digital y sublimación, FAQ interactivo y formulario de contacto.",
-      image: "/images/03-portafolio/ModaDigitalPro.png",
+      image: "/images/03-portafolio/ModaDigitalPro.webp",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -241,7 +222,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Web Profesional",
       type: "web",
       description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -250,7 +231,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Tienda Online",
       type: "tienda",
       description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/UrbanStyle.png",
+      image: "/images/03-portafolio/UrbanStyle.webp",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ],
@@ -261,7 +242,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       link: "https://www.vuelo78hotel.com"
     },
     {
@@ -270,7 +251,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Online lending platform with smart quota calculator, dual navigation menu, particle animation effects, WhatsApp integration for instant loan requests and premium gold design. Website optimized for 0.5-second load times with modern technology, advanced SEO and Google ranking.",
-      image: "/images/03-portafolio/MandiCorp.png",
+      image: "/images/03-portafolio/MandiCorp.webp",
       link: "https://www.mandicorp.com/#inicio"
     },
     {
@@ -279,7 +260,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Bilingual web platform for coastal architecture and construction firm. Features dark/light mode, dynamic WhatsApp with custom CTAs, project gallery, services and interiors sections, with fluid professional navigation.",
-      image: "/images/03-portafolio/CMCLATAM.png",
+      image: "/images/03-portafolio/CMCLATAM.webp",
       link: "https://cmc-latam-2.vercel.app/"
     },
     {
@@ -288,7 +269,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Complete 5-page website for accounting firm specialized in tax advisory and SUNAT defense. Features themed preloader, dynamic WhatsApp with per-service consultation system, Photoshop-enhanced professional images, and elegant corporate design.",
-      image: "/images/03-portafolio/JhonAsociados.png",
+      image: "/images/03-portafolio/JhonAsociados.webp",
       link: "https://www.jhonasociados.com/"
     },
     {
@@ -297,7 +278,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant platform for mass creation of online stores. Allows entrepreneurs to launch their ecommerce in minutes with independent admin panels and a centralized Super Admin for full ecosystem control.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -307,7 +288,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Mobile App",
       type: "app",
       description: "AI-powered strategic business consultant. Intelligent assistant that analyzes your business, suggests growth strategies and creates personalized weekly action plans via conversational chat.",
-      image: "/images/03-portafolio/AtlasHero.png",
+      image: "/images/03-portafolio/AtlasHero.webp",
       link: "https://atlas-9mv.pages.dev/"
     },
     {
@@ -316,7 +297,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Custom Project",
       type: "custom",
       description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
-      image: "/images/03-portafolio/CotizadorPro.png",
+      image: "/images/03-portafolio/CotizadorPro.webp",
       link: "https://cotizador-pro.pages.dev/"
     },
     {
@@ -325,7 +306,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
-      image: "/images/03-portafolio/ModaDigitalPro.png",
+      image: "/images/03-portafolio/ModaDigitalPro.webp",
       link: "https://www.modadigitalpro.com/"
     },
     {
@@ -334,7 +315,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Professional Web",
       type: "web",
       description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       link: "https://la-casa-gourmet.vercel.app/"
     },
     {
@@ -343,7 +324,7 @@ const PORTFOLIO_BY_LANG = {
       category: "Online Store",
       type: "tienda",
       description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
-      image: "/images/03-portafolio/UrbanStyle.png",
+      image: "/images/03-portafolio/UrbanStyle.webp",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ]
@@ -1376,7 +1357,7 @@ const TestimonialCard = ({ testimonial, index }) => {
       {/* Author */}
       <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.05)' }}>
         <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0" style={{ border: '1px solid rgba(0,0,0,0.06)' }}>
-          <img src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]} alt={testimonial.name} onError={handleImageFallback} className="w-full h-full object-cover" loading="lazy" />
+          <img src={testimonial.avatar || LATIN_AVATARS[index % LATIN_AVATARS.length]} alt={testimonial.name} onError={handleImageFallback} className="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
         <div>
           <h4 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{testimonial.name}</h4>
@@ -1457,7 +1438,7 @@ const MobileTestimonialCarousel = ({ testimonials }) => {
                     alt={t.name}
                     onError={handleImageFallback}
                     className="w-10 h-10 rounded-full object-cover border border-stone-200 dark:border-stone-700 flex-shrink-0"
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-stone-950 dark:text-white text-sm truncate">{t.name}</div>
@@ -2349,7 +2330,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel. Tras implementar el sistema, las reservas mensuales pasaron de 15 a 42, eliminando el 90% del trabajo manual en recepción."
         : "Direct booking system via WhatsApp with date-based availability and automated hotel response. After implementation, monthly bookings went from 15 to 42, eliminating 90% of manual reception work.",
-      image: "/images/03-portafolio/vuelo78hotel.png",
+      image: "/images/03-portafolio/vuelo78hotel.webp",
       color: "from-blue-500 to-cyan-400"
     },
     {
@@ -2360,7 +2341,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Menú visual interactivo y sistema de reservas y pedidos directos por WhatsApp optimizado para aumentar ventas. Los clientes ahora hacen pedidos en menos de 2 minutos sin necesidad de llamar por teléfono."
         : "Interactive visual menu and direct reservation/ordering system via WhatsApp optimized to increase sales. Customers now order in under 2 minutes without needing to call.",
-      image: "/images/03-portafolio/LaCasonaGourmet.png",
+      image: "/images/03-portafolio/LaCasonaGourmet.webp",
       color: "from-emerald-500 to-green-400"
     },
     {
@@ -2371,7 +2352,7 @@ const CasesSection = ({ copy, language }) => {
       desc: language === "es"
         ? "Plataforma Multi-tenant para la creación masiva de tiendas online rápida y eficiente. Permite a emprendedores lanzar su propio catálogo virtual de manera automatizada con paneles independientes y Super Admin centralizado."
         : "Multi-tenant platform for fast and efficient mass creation of online stores. Allows entrepreneurs to launch their own virtual catalog automatically with independent panels and centralized Super Admin.",
-      image: "/images/03-portafolio/EcommerceBuilder.png",
+      image: "/images/03-portafolio/EcommerceBuilder.webp",
       color: "from-orange-500 to-amber-400"
     }
   ];
@@ -2408,7 +2389,7 @@ const CasesSection = ({ copy, language }) => {
                     alt={c.title}
                     onError={handleImageFallback}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                   {/* Dark gradient fade into text area */}
                   <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[var(--bg-global)]" />
@@ -2814,15 +2795,17 @@ const FloatingParticles = () => {
   );
 };
 
-// --- Ultra Deluxe: Glowing Mouse/Touch Particle Trail (All Devices) ---
+// --- Glowing Mouse Particle Trail (Desktop only — saves RAF + setState on mobile) ---
 const GlowingMouseTrail = () => {
   const [particles, setParticles] = useState([]);
   const animFrameRef = useRef(null);
   const lastPosRef = useRef(null);
+  const isMobileRef = useRef(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
+    if (isMobileRef.current) return;
     let isMounted = true;
-    const maxParticles = 18;
+    const maxParticles = 12;
 
     const addParticle = (x, y) => {
       if (!isMounted) return;
@@ -2862,14 +2845,7 @@ const GlowingMouseTrail = () => {
     };
 
     const onMouseMove = (e) => handleMove(e.clientX, e.clientY);
-    const onTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
     window.addEventListener('mousemove', onMouseMove, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
 
     // Animate particles
     const animate = () => {
@@ -2899,7 +2875,6 @@ const GlowingMouseTrail = () => {
     return () => {
       isMounted = false;
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, []);
@@ -3096,7 +3071,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
                 <motion.img
                   src={project.image} alt={project.title} onError={handleImageFallback}
                   whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
-                  className="w-full h-full object-cover" loading="lazy"
+                  className="w-full h-full object-cover" loading="lazy" decoding="async"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
                 />
                 <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
@@ -3251,7 +3226,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
                     <motion.img
                       src={project.image} alt={project.title} onError={handleImageFallback}
                       whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
-                      className="w-full h-full object-cover" loading="lazy"
+                      className="w-full h-full object-cover" loading="lazy" decoding="async"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
                     />
                     <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
@@ -3410,7 +3385,7 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
                     transition={{ duration: 0.6 }}
                     className="w-full h-full object-cover"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
-                    loading="lazy"
+                    loading="lazy" decoding="async"
                   />
                   
                   {/* Bottom gradient overlay — always dark for text legibility */}
@@ -4137,28 +4112,28 @@ const PORTFOLIO_SLUGS = {
 };
 
 const PORTFOLIO_MODAL_IMAGES = {
-  "Urban Style": "/images/03-portafolio/UrbanStyle.png",
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.png",
-  "CMC LATAM": "/images/03-portafolio/CMCLATAM.png",
-  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.png",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.png",
-  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.png",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
-  "Atlas": "/images/03-portafolio/AtlasDesktop.png",
-  "Mandi Corp": "/images/03-portafolio/MandiCorp-modal.png"
+  "Urban Style": "/images/03-portafolio/UrbanStyle.webp",
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.webp",
+  "CMC LATAM": "/images/03-portafolio/CMCLATAM.webp",
+  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.webp",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.webp",
+  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.webp",
+  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.webp",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.webp",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.webp",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.webp",
+  "Atlas": "/images/03-portafolio/AtlasDesktop.webp",
+  "Mandi Corp": "/images/03-portafolio/MandiCorp-modal.webp"
 };
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.png",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.png",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.png",
-  "Atlas": "/images/03-portafolio/AtlasApp.png",
-  "Mandi Corp": "/images/03-portafolio/MandiCorp-mobile.png"
+  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.webp",
+  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.webp",
+  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.webp",
+  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.webp",
+  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.webp",
+  "Atlas": "/images/03-portafolio/AtlasApp.webp",
+  "Mandi Corp": "/images/03-portafolio/MandiCorp-mobile.webp"
 };
 
 const slugToTitle = {};
@@ -4539,9 +4514,10 @@ export default function App() {
       timers.forEach(t => clearTimeout(t));
     };
   }, []);
-  const [currentHeroImage, setCurrentHeroImage] = useState(0);
-  const [loadedHeroImages, setLoadedHeroImages] = useState(() => HERO_IMAGES.map(() => false));
+  // Hero image rotation state removed (unused — 3D hero is active)
   const [showNotification, setShowNotification] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
@@ -4559,7 +4535,7 @@ export default function App() {
   const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
   const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
   const heroParticles = useMemo(() =>
-    Array.from({ length: 45 }, (_, i) => {
+    Array.from({ length: isMobile ? 12 : 45 }, (_, i) => {
       const type = Math.random();
       return {
         id: i,
@@ -4737,6 +4713,21 @@ export default function App() {
       return () => {
         window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
         window.removeEventListener('appinstalled', handleAppInstalled);
+      };
+    }
+  }, []);
+
+  // Responsive + accessibility listeners
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const onResize = () => setIsMobile(window.innerWidth < 768);
+      window.addEventListener('resize', onResize, { passive: true });
+      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const onMotion = (e) => setPrefersReducedMotion(e.matches);
+      mql.addEventListener('change', onMotion);
+      return () => {
+        window.removeEventListener('resize', onResize);
+        mql.removeEventListener('change', onMotion);
       };
     }
   }, []);
@@ -5104,11 +5095,11 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                   onClick={() => { handleInstallApp(); setMobileMenu(false); }}
-                  className="w-full mt-4 flex items-center justify-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-4 px-6 rounded-full text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5"
+                  className="w-full mt-4 flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-3 px-5 rounded-full text-sm transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]"
                   style={{ boxShadow: '0 0 20px rgba(250,204,21,0.2), 0 10px 40px -10px rgba(250,204,21,0.5)' }}
                 >
-                  <Download size={20} />
-                  <span>{language === 'es' ? 'Lleva FastPagePro en tu bolsillo (Instalar)' : 'Take FastPagePro with you (Install)'}</span>
+                  <Download size={18} />
+                  <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
                 </motion.button>
               )}
             </div>
@@ -5153,7 +5144,8 @@ export default function App() {
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        {/* Layer 1: Robot — Absolute Immersive Background */}
+        {/* Layer 1: Robot — Absolute Immersive Background (Desktop only — prevents 2MB+ Spline load on mobile) */}
+        {!isMobile && (
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           ref={robotContainerRef}
@@ -5170,6 +5162,7 @@ export default function App() {
             />
           </motion.div>
         </div>
+        )}
 
         {/* Layer 1.5: Dark gradient overlays for text readability */}
         <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)' }} />
@@ -5440,24 +5433,24 @@ export default function App() {
               <Smartphone size={20} className="text-yellow-400" />
               <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest">{language === 'es' ? 'App Oficial' : 'Official App'}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-2 tracking-tight">
+            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-2 tracking-tight">
               {language === 'es' ? 'Lleva tu agencia a todos lados' : 'Take your agency everywhere'}
             </h3>
-            <p className="text-[var(--text-muted)] text-sm sm:text-base mb-5 max-w-md mx-auto">
+            <p className="text-[var(--text-muted)] text-xs sm:text-base mb-4 max-w-md mx-auto">
               {language === 'es'
-                ? 'Instala nuestra App oficial para una mejor experiencia. Accede al instante desde tu pantalla de inicio.'
-                : 'Install our official App for a better experience. Access instantly from your home screen.'}
+                ? 'Instala nuestra App oficial para una mejor experiencia.'
+                : 'Install our official App for a better experience.'}
             </p>
             <motion.button
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={handleInstallApp}
-              className="inline-flex items-center gap-2.5 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-3.5 px-7 rounded-full text-sm sm:text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)]"
+              className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-3 px-5 sm:py-3.5 sm:px-7 rounded-full text-xs sm:text-base transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]"
             >
-              <Download size={18} />
+              <Download size={16} />
               <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
             </motion.button>
-            <p className="text-[var(--text-muted)] text-[11px] mt-3">
+            <p className="text-[var(--text-muted)] text-[10px] mt-2">
               {language === 'es' ? 'Sin tiendas de apps. Gratuito.' : 'No app stores needed. Free.'}
             </p>
           </div>
@@ -5615,24 +5608,24 @@ export default function App() {
               </div>
               <span className="text-[var(--text-primary)] font-bold text-xl tracking-tight">FastPagePro</span>
             </div>
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-3 tracking-tight">
+            <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-3 tracking-tight">
               {language === 'es' ? 'Lleva FastPagePro en tu bolsillo' : 'Take FastPagePro with you'}
             </h3>
-            <p className="text-[var(--text-muted)] text-sm sm:text-base mb-6 max-w-md mx-auto">
+            <p className="text-[var(--text-muted)] text-xs sm:text-base mb-5 max-w-md mx-auto">
               {language === 'es'
-                ? 'Instala nuestra app y accede desde cualquier lugar en un toque. Sin tienda de apps, directo a tu pantalla.'
-                : 'Install our app and access it from anywhere in one tap. No app store needed, straight to your screen.'}
+                ? 'Instala nuestra app y accede desde cualquier lugar en un toque.'
+                : 'Install our app and access it from anywhere in one tap.'}
             </p>
             <motion.button
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={handleInstallApp}
-              className="inline-flex items-center gap-3 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-4 px-8 rounded-full text-base sm:text-lg transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.6)]"
+              className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-bold py-3 px-5 sm:py-4 sm:px-8 rounded-full text-xs sm:text-lg transition-all duration-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]"
             >
-              <Download size={22} />
+              <Download size={18} />
               <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
             </motion.button>
-            <p className="text-[var(--text-muted)] text-xs mt-4">
+            <p className="text-[var(--text-muted)] text-[10px] mt-3">
               {language === 'es' ? '100% gratuito. Sin registros.' : '100% free. No sign-ups.'}
             </p>
           </div>
