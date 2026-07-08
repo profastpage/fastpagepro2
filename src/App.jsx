@@ -172,6 +172,15 @@ const PORTFOLIO_BY_LANG = {
       link: "https://www.vuelo78hotel.com"
     },
     {
+      title: "Mandi Corp",
+      location: "Lima, Perú",
+      category: "Web Profesional",
+      type: "web",
+      description: "Plataforma de préstamos en línea con calculadora inteligente de cuotas, doble menú de navegación, efecto de partículas de animación, integración con WhatsApp para solicitudes instantáneas y diseño premium dorado. Web optimizada para carga en 0.5 segundos con tecnología moderna, SEO avanzado y posicionamiento en Google.",
+      image: "/images/03-portafolio/MandiCorp.png",
+      link: "https://www.mandicorp.com/#inicio"
+    },
+    {
       title: "CMC LATAM",
       location: "Perú",
       category: "Web Profesional",
@@ -254,6 +263,15 @@ const PORTFOLIO_BY_LANG = {
       description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
       image: "/images/03-portafolio/vuelo78hotel.png",
       link: "https://www.vuelo78hotel.com"
+    },
+    {
+      title: "Mandi Corp",
+      location: "Lima, Peru",
+      category: "Professional Web",
+      type: "web",
+      description: "Online lending platform with smart quota calculator, dual navigation menu, particle animation effects, WhatsApp integration for instant loan requests and premium gold design. Website optimized for 0.5-second load times with modern technology, advanced SEO and Google ranking.",
+      image: "/images/03-portafolio/MandiCorp.png",
+      link: "https://www.mandicorp.com/#inicio"
     },
     {
       title: "CMC LATAM",
@@ -4114,7 +4132,8 @@ const PORTFOLIO_SLUGS = {
   "E-commerce Builder Pro": "ecommerce-builder-pro",
   "Cotizador Pro": "cotizador-pro",
   "Moda Digital Pro": "moda-digital-pro",
-  "Atlas": "atlas"
+  "Atlas": "atlas",
+  "Mandi Corp": "mandi-corp"
 };
 
 const PORTFOLIO_MODAL_IMAGES = {
@@ -4128,7 +4147,8 @@ const PORTFOLIO_MODAL_IMAGES = {
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.png",
   "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.png",
-  "Atlas": "/images/03-portafolio/AtlasDesktop.png"
+  "Atlas": "/images/03-portafolio/AtlasDesktop.png",
+  "Mandi Corp": "/images/03-portafolio/MandiCorp-modal.png"
 };
 
 const PORTFOLIO_MODAL_MOBILE_IMAGES = {
@@ -4137,7 +4157,8 @@ const PORTFOLIO_MODAL_MOBILE_IMAGES = {
   "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.png",
   "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.png",
   "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.png",
-  "Atlas": "/images/03-portafolio/AtlasApp.png"
+  "Atlas": "/images/03-portafolio/AtlasApp.png",
+  "Mandi Corp": "/images/03-portafolio/MandiCorp-mobile.png"
 };
 
 const slugToTitle = {};
