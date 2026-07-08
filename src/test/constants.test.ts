@@ -6,7 +6,7 @@ describe('Constants', () => {
   });
 
   it('should have correct email', () => {
-    expect('profastpage@gmail.com').toBe('profastpage@gmail.com');
+    expect('cotizaciones@fastpagepro.com').toBe('cotizaciones@fastpagepro.com');
   });
 
   it('should have hero images array', async () => {

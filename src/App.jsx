@@ -65,7 +65,7 @@ const _MOTION = motion;
 
 // --- Constants ---
 const WHATSAPP_NUMBER = "51933667414";
-const PROFASTPAGE_EMAIL = "profastpage@gmail.com";
+const PROFASTPAGE_EMAIL = "cotizaciones@fastpagepro.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
 const WA_EMOJI = {
   wave: "👋",
@@ -360,101 +360,137 @@ const PLANS_BY_LANG = {
   es: [
     {
       name: "START",
-      price: "700",
+      price: "900",
       period: "pago único",
       features: [
-        "Hosting Rápido Incluido",
-        "Botón Flotante de WhatsApp",
-        "Sistema de Reservas Directo",
-        "Personalización Básica de Marca",
-        "Diseño Responsivo (Móvil/PC)",
-        "Certificado SSL Seguro"
+        "Web completa de hasta 5 subpáginas",
+        "5 correos corporativos incluidos",
+        "Certificado SSL seguro",
+        "Hosting ultra rápido Edge",
+        "Dominio incluido",
+        "Sistema de Reservas o Pedidos por WhatsApp",
+        "Diseño Responsivo (Móvil, PC, Tablet)"
       ],
       highlight: false
     },
     {
       name: "PRO",
-      price: "1200",
+      price: "1300",
       period: "pago único",
       features: [
         "Todo lo del Plan START",
+        "Panel CMS autoadministrable incluido",
+        "100 GB almacenamiento alta velocidad",
+        "Edición visual intuitiva",
+        "Capacitaciones incluidas",
         "SEO Intermedio Optimizado",
         "Diseño Premium Personalizado",
-        "Soporte Prioritario",
-        "Integración Google Maps",
-        "Configuración de Cuentas",
-        "Adaptación Tablet y PC",
-        "Galería de Imágenes Avanzada"
+        "Funciones avanzadas",
+        "Tienda online con pagos integrados (Yape, Plin, tarjetas)"
       ],
       highlight: true
     },
     {
       name: "BUSINESS",
-      price: "1700",
+      price: "1800",
       period: "pago único",
       features: [
         "Todo lo del Plan PRO",
-        "App PWA (Instalable)",
+        "App PWA instalable en todos los dispositivos",
+        "Modo claro y oscuro",
         "Panel Super Administración",
-        "Hosting Ultra Rápido",
         "Soporte Inmediato 24/7",
-        "Imágenes en Alta Calidad",
         "SEO Profesional Máximo",
         "Optimización 95%+ PageSpeed",
-        "Pagos: Yape, Plin, Izipay",
-        "Trabajo Prioritario"
+        "Pagos: Yape, Plin, tarjetas crédito/débito",
+        "Tienda online completa con pasarela de pagos"
       ],
       highlight: false
+    },
+    {
+      name: "PERSONALIZADO",
+      price: "",
+      period: "Cotizar",
+      features: [
+        "Sistemas personalizados a medida",
+        "Aplicaciones web y móviles",
+        "CRMs y ERPs custom",
+        "Agentes de Inteligencia Artificial",
+        "Plataformas SaaS multi-tenant",
+        "Integraciones y APIs",
+        "Automatización inteligente",
+        "Escalabilidad total"
+      ],
+      highlight: false,
+      custom: true
     }
   ],
   en: [
     {
       name: "START",
-      price: "700",
+      price: "900",
       period: "one-time payment",
       features: [
-        "Fast Hosting Included",
-        "Floating WhatsApp Button",
-        "Direct Booking System",
-        "Basic Brand Customization",
-        "Responsive Design (Mobile/Desktop)",
-        "Secure SSL Certificate"
+        "Complete website up to 5 subpages",
+        "5 corporate emails included",
+        "Secure SSL Certificate",
+        "Ultra-fast Edge Hosting",
+        "Domain included",
+        "Direct Booking or Orders via WhatsApp",
+        "Responsive Design (Mobile, PC, Tablet)"
       ],
       highlight: false
     },
     {
       name: "PRO",
-      price: "1200",
+      price: "1300",
       period: "one-time payment",
       features: [
         "Everything in START",
+        "Self-managed CMS panel included",
+        "100 GB high-speed storage",
+        "Intuitive visual editing",
+        "Training sessions included",
         "Optimized Intermediate SEO",
         "Premium Custom Design",
-        "Priority Support",
-        "Google Maps Integration",
-        "Account Setup",
-        "Tablet and Desktop Adaptation",
-        "Advanced Image Gallery"
+        "Advanced features",
+        "Online store with integrated payments (Yape, Plin, cards)"
       ],
       highlight: true
     },
     {
       name: "BUSINESS",
-      price: "1700",
+      price: "1800",
       period: "one-time payment",
       features: [
         "Everything in PRO",
-        "Installable PWA App",
+        "Installable PWA app on all devices",
+        "Light and dark mode",
         "Super Admin Panel",
-        "Ultra Fast Hosting",
         "Immediate 24/7 Support",
-        "High-Quality Images",
         "Maximum Professional SEO",
         "95%+ PageSpeed Optimization",
-        "Payments: Yape, Plin, Izipay",
-        "Priority Delivery"
+        "Payments: Yape, Plin, credit/debit cards",
+        "Full online store with payment gateway"
       ],
       highlight: false
+    },
+    {
+      name: "CUSTOM",
+      price: "",
+      period: "Get Quote",
+      features: [
+        "Custom-built systems",
+        "Web and mobile applications",
+        "Custom CRMs and ERPs",
+        "AI Agents",
+        "Multi-tenant SaaS platforms",
+        "Integrations and APIs",
+        "Intelligent automation",
+        "Total scalability"
+      ],
+      highlight: false,
+      custom: true
     }
   ]
 };
@@ -2760,6 +2796,119 @@ const FloatingParticles = () => {
   );
 };
 
+// --- Ultra Deluxe: Glowing Mouse/Touch Particle Trail (All Devices) ---
+const GlowingMouseTrail = () => {
+  const [particles, setParticles] = useState([]);
+  const animFrameRef = useRef(null);
+  const lastPosRef = useRef(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    const maxParticles = 18;
+
+    const addParticle = (x, y) => {
+      if (!isMounted) return;
+      const id = Date.now() + Math.random();
+      const size = Math.random() * 4 + 2;
+      const hue = Math.random() > 0.5 ? '250, 204, 21' : '255, 215, 0';
+      setParticles(prev => {
+        const next = [...prev, {
+          id,
+          x,
+          y,
+          size,
+          hue,
+          life: 1,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5 - 0.5,
+        }];
+        return next.length > maxParticles ? next.slice(-maxParticles) : next;
+      });
+    };
+
+    const handleMove = (clientX, clientY) => {
+      if (!isMounted) return;
+      const last = lastPosRef.current;
+      if (last) {
+        const dx = clientX - last.x;
+        const dy = clientY - last.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > 8) {
+          addParticle(clientX, clientY);
+          lastPosRef.current = { x: clientX, y: clientY };
+        }
+      } else {
+        addParticle(clientX, clientY);
+        lastPosRef.current = { x: clientX, y: clientY };
+      }
+    };
+
+    const onMouseMove = (e) => handleMove(e.clientX, e.clientY);
+    const onTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+    // Animate particles
+    const animate = () => {
+      if (!isMounted) return;
+      setParticles(prev => {
+        let changed = false;
+        const next = [];
+        for (const p of prev) {
+          const newLife = p.life - 0.025;
+          if (newLife > 0) {
+            changed = true;
+            next.push({
+              ...p,
+              life: newLife,
+              x: p.x + p.vx,
+              y: p.y + p.vy,
+              size: p.size * newLife,
+            });
+          }
+        }
+        return changed ? next : [];
+      });
+      animFrameRef.current = requestAnimationFrame(animate);
+    };
+    animFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-[9999] pointer-events-none" aria-hidden="true">
+      {particles.map(p => (
+        <div
+          key={p.id}
+          style={{
+            position: 'absolute',
+            left: p.x,
+            top: p.y,
+            width: p.size,
+            height: p.size,
+            borderRadius: '50%',
+            background: `radial-gradient(circle, rgba(${p.hue}, ${p.life}) 0%, rgba(${p.hue}, ${p.life * 0.4}) 40%, transparent 100%)`,
+            boxShadow: `0 0 ${p.size * 2}px rgba(${p.hue}, ${p.life * 0.6}), 0 0 ${p.size * 4}px rgba(${p.hue}, ${p.life * 0.3})`,
+            transform: 'translate(-50%, -50%)',
+            willChange: 'transform, opacity',
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 const GSAPPreloader = ({ onComplete }) => {
   const [count, setCount] = useState(0);
   const [slideOut, setSlideOut] = useState(false);
@@ -4946,38 +5095,31 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Notification - Enhanced */}
+      {/* Notification - Compact Enhanced */}
       <AnimatePresence>
         {showNotification && (
           <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.9, x: 0 }}
-            animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
-            exit={{ opacity: 0, y: 100, scale: 0.9, x: 0 }}
+            initial={{ opacity: 0, y: 60, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 60, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="hidden md:flex fixed bottom-6 left-6 z-50 bg-white dark:bg-stone-900 rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] p-5 items-center gap-4 border border-stone-100 dark:border-stone-800 min-w-[340px]"
+            className="hidden md:flex fixed bottom-6 left-6 z-50 bg-white dark:bg-stone-900 rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.3)] p-3.5 items-center gap-3 border border-stone-100 dark:border-stone-800"
           >
             <motion.div
-              className="relative w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg"
+              className="relative w-9 h-9 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-md shrink-0"
               animate={{
-                scale: [1, 1.15, 1],
-                rotate: [0, 5, -5, 0]
+                scale: [1, 1.1, 1],
               }}
               transition={{ duration: 0.6 }}
             >
-              <Check className="text-white" size={28} strokeWidth={3} />
-              <motion.div
-                className="absolute inset-0 bg-green-400 rounded-full"
-                animate={{ scale: [1, 1.3], opacity: [0.3, 0] }}
-                transition={{ duration: 0.6 }}
-              />
+              <Check className="text-white" size={18} strokeWidth={3} />
             </motion.div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <div className="font-semibold text-stone-950 text-sm dark:text-white">{copy.notificationTitle}</div>
-                <span className="text-xs text-green-600 dark:text-green-400 font-medium">● {language === 'es' ? 'En vivo' : 'Live'}</span>
+                <div className="font-semibold text-stone-950 text-xs dark:text-white truncate">{copy.notificationTitle}</div>
+                <span className="text-[10px] text-green-600 dark:text-green-400 font-medium shrink-0">● {language === 'es' ? 'En vivo' : 'Live'}</span>
               </div>
-              <div className="text-xs text-stone-500 dark:text-stone-300 mt-0.5">{copy.notificationSubtitle}</div>
-              <div className="text-xs text-stone-400 dark:text-stone-300 mt-1">🚀 {language === 'es' ? 'Entregado en 2 días' : 'Delivered in 2 days'} • Web + WhatsApp</div>
+              <div className="text-[11px] text-stone-400 dark:text-stone-300 mt-0.5 truncate">{copy.notificationSubtitle}</div>
             </div>
           </motion.div>
         )}
@@ -5310,11 +5452,11 @@ export default function App() {
       {/* TESTIMONIALS — Hybrid Carousel (Auto + Manual) */}
       <TestimonialCarousel testimonials={testimonials} copy={copy} />
 
-      {/* PRICING - Updated */}
+      {/* PRICING - Updated with 4 plans */}
       <section id="planes" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto mt-10 md:mt-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 max-w-7xl mx-auto mt-10 md:mt-16">
             {plans.map((plan, i) => {
               const mpLinks = {
                 START: "https://mpago.la/2jScw4A",
@@ -5322,50 +5464,81 @@ export default function App() {
                 BUSINESS: "https://mpago.la/1GY3yPf"
               };
               const cuotas = {
-                START: "233.33",
-                PRO: "400",
-                BUSINESS: "566.67"
+                START: "300",
+                PRO: "433.33",
+                BUSINESS: "600"
               };
-              
+              const isCustom = plan.custom || !plan.price;
+
               return (
                 <motion.div
                   key={i}
-                  className={`relative p-6 sm:p-7 md:p-10 rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white sm:scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
+                  className={`relative p-6 sm:p-7 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white lg:scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : isCustom ? 'bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 border-stone-700 text-white dark:from-stone-800 dark:via-stone-700 dark:to-stone-800 dark:border-yellow-400/30' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
                   whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
                 >
                   {plan.highlight && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-stone-950 dark:bg-yellow-400 dark:text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg">
                       {copy.popularTag}
                     </div>
                   )}
-                  <h3 className={`text-base md:text-lg mb-2 uppercase tracking-widest ${plan.highlight ? 'text-white/90 dark:text-stone-950/90' : 'opacity-60'}`}>{plan.name}</h3>
-                  <div className={`text-4xl md:text-5xl lg:text-6xl font-bold mb-2 tracking-tight ${plan.highlight ? 'text-white dark:text-stone-950' : ''}`}>S/ {plan.price}</div>
-                  <div className={`text-xs md:text-sm mb-7 md:mb-8 ${plan.highlight ? 'text-white/70 dark:text-stone-950/70' : 'opacity-50 sm:opacity-40'}`}>{plan.period}</div>
+                  {isCustom && (
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg shadow-yellow-500/30">
+                      {language === 'es' ? 'A Medida' : 'Bespoke'}
+                    </div>
+                  )}
+                  <h3 className={`text-sm md:text-base mb-2 uppercase tracking-widest ${plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-yellow-400' : 'opacity-60'}`}>{plan.name}</h3>
+                  {isCustom ? (
+                    <div className="mb-2">
+                      <Sparkles className="inline-block text-yellow-400 mb-2" size={28} />
+                      <div className={`text-xl md:text-2xl font-bold tracking-tight text-yellow-400`}>{language === 'es' ? 'Cotización' : 'Custom Quote'}</div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 tracking-tight ${plan.highlight ? 'text-white dark:text-stone-950' : ''}`}>S/ {plan.price}</div>
+                    </>
+                  )}
+                  <div className={`text-xs md:text-sm mb-7 md:mb-8 ${plan.highlight ? 'text-white/70 dark:text-stone-950/70' : isCustom ? 'text-yellow-400/60' : 'opacity-50 sm:opacity-40'}`}>{plan.period}</div>
 
-                  <ul className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1 text-left">
+                  <ul className="space-y-2.5 md:space-y-3 mb-8 md:mb-10 flex-1 text-left">
                     {plan.features.map((f, j) => (
-                      <li key={j} className="flex items-start gap-3 text-xs md:text-sm">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950 dark:bg-yellow-400 dark:text-stone-950' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
+                      <li key={j} className="flex items-start gap-2.5 text-xs md:text-sm">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950' : isCustom ? 'bg-yellow-400/20 text-yellow-400' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
                           <Check size={12} strokeWidth={3} />
                         </div>
-                        <span className={plan.highlight ? 'text-white/90 dark:text-stone-950/90' : 'text-stone-600 dark:text-stone-300'}>{f}</span>
+                        <span className={plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-white/80' : 'text-stone-600 dark:text-stone-300'}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href={mpLinks[plan.name]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base ${plan.highlight ? 'bg-yellow-400 text-stone-950 hover:bg-yellow-500 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]' : 'bg-stone-900 text-white hover:bg-stone-800 dark:bg-white dark:text-stone-950 dark:hover:bg-stone-100'}`}
-                  >
-                    <span className="flex items-center gap-2 relative z-10">
-                      {copy.selectPlan}
-                      {!plan.highlight && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
-                    </span>
-                  </a>
-                  <div className="mt-2 text-center">
-                    <p className={`text-xs ${plan.highlight ? 'text-white/60 dark:text-stone-950/60' : 'text-stone-500 dark:text-stone-300'}`}>{language === 'es' ? '3 cuotas sin interés:' : '3 interest-free installments:'} <span className={`font-semibold ${plan.highlight ? 'text-white/80 dark:text-stone-950/80' : 'text-stone-700 dark:text-stone-200'}`}>S/ {cuotas[plan.name]}/{language === 'es' ? 'mes' : 'mo'}</span></p>
-                  </div>
+                  {isCustom ? (
+                    <a
+                      href={getWhatsAppLink('precios', { plan: 'Personalizado' })}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 hover:from-yellow-500 hover:to-amber-600 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]"
+                    >
+                      <span className="flex items-center gap-2 relative z-10">
+                        <MessageCircle size={18} />
+                        {language === 'es' ? 'Solicitar Cotización' : 'Request Quote'}
+                      </span>
+                    </a>
+                  ) : (
+                    <>
+                      <a
+                        href={mpLinks[plan.name]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base ${plan.highlight ? 'bg-yellow-400 text-stone-950 hover:bg-yellow-500 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]' : 'bg-stone-900 text-white hover:bg-stone-800 dark:bg-white dark:text-stone-950 dark:hover:bg-stone-100'}`}
+                      >
+                        <span className="flex items-center gap-2 relative z-10">
+                          {copy.selectPlan}
+                          {!plan.highlight && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
+                        </span>
+                      </a>
+                      <div className="mt-2 text-center">
+                        <p className={`text-xs ${plan.highlight ? 'text-white/60 dark:text-stone-950/60' : 'text-stone-500 dark:text-stone-300'}`}>{language === 'es' ? '3 cuotas sin interés:' : '3 interest-free installments:'} <span className={`font-semibold ${plan.highlight ? 'text-white/80 dark:text-stone-950/80' : 'text-stone-700 dark:text-stone-200'}`}>S/ {cuotas[plan.name]}/{language === 'es' ? 'mes' : 'mo'}</span></p>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               );
             })}
@@ -5493,8 +5666,8 @@ export default function App() {
             <div>
               <h4 className="text-[var(--text-primary)] font-semibold text-sm uppercase tracking-wider mb-4">{language === "es" ? "Contacto" : "Contact"}</h4>
               <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><Phone size={14} /> +51 933 667 414</li>
-                <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><Send size={14} /> profastpage@gmail.com</li>
+                <a href="tel:+51933667414" className="flex items-center gap-2 text-[var(--text-muted)] text-sm hover:text-[var(--text-primary)] transition-colors rounded-lg px-2 py-1 hover:bg-[var(--glass-bg)]"><Phone size={14} /> +51 933 667 414</a>
+                <a href="mailto:cotizaciones@fastpagepro.com" className="flex items-center gap-2 text-[var(--text-muted)] text-sm hover:text-[var(--text-primary)] transition-colors rounded-lg px-2 py-1 hover:bg-[var(--glass-bg)]"><Send size={14} /> cotizaciones@fastpagepro.com</a>
                 <li className="flex items-center gap-2 text-[var(--text-muted)] text-sm"><MapPin size={14} /> {language === "es" ? "Lima, Perú" : "Lima, Peru"}</li>
               </ul>
             </div>
@@ -5528,47 +5701,47 @@ export default function App() {
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.5 }}
-            className="absolute -top-7 left-0 right-0 flex justify-center pointer-events-none"
+            className="absolute -top-6 left-0 right-0 flex justify-center pointer-events-none"
           >
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/[0.06]">
-              <span className="relative flex h-2 w-2">
+            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-sm border border-white/[0.06]">
+              <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400" />
               </span>
-              <span className="text-[10px] text-white/60 font-medium"><span className="text-white/90" id="live-visitor-count">{liveVisitorCount}</span> {language === 'es' ? 'viendo esto ahora' : 'viewing now'}</span>
+              <span className="text-[9px] text-white/50 font-medium"><span className="text-white/80" id="live-visitor-count">{liveVisitorCount}</span> {language === 'es' ? 'online' : 'online'}</span>
             </div>
           </motion.div>
 
-          {/* Rotative WhatsApp notification tooltip */}
-          <div className="absolute bottom-full left-0 right-0 flex justify-center pb-3 pointer-events-none">
+          {/* Compact WhatsApp notification tooltip — reduced for better UX */}
+          <div className="absolute bottom-full left-0 right-0 flex justify-center pb-1 pointer-events-none">
             <AnimatePresence>
               {waNotifIndex >= 0 && (() => {
                 const waNotifs = language === 'es' ? [
                   '\u00bfNecesitas ayuda?',
-                  '\u00bfQuieres asesor\u00eda para tu negocio?',
-                  '\u00bfDeseas crear tu aplicaci\u00f3n m\u00f3vil?',
-                  '\u00bfDeseas desarrollar tu p\u00e1gina web?',
-                  '\u00bfDeseas desarrollar tu plataforma digital?'
+                  '\u00bfCotizar mi web?',
+                  '\u00bfCrear mi app?',
+                  '\u00bfDesarrollar mi negocio?',
+                  '\u00bfPlataforma digital?'
                 ] : [
                   'Need help?',
-                  'Want business consulting?',
-                  'Want to create your mobile app?',
-                  'Want to develop your website?',
-                  'Want to build your digital platform?'
+                  'Get a quote?',
+                  'Build my app?',
+                  'Grow my business?',
+                  'Digital platform?'
                 ];
                 return (
                   <motion.div
                     key={waNotifIndex}
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    initial={{ opacity: 0, y: 8, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -5, scale: 0.95 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-white rounded-2xl shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] px-4 py-2.5 flex items-center gap-2.5 max-w-[280px]"
+                    exit={{ opacity: 0, y: -4, scale: 0.95 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    className="bg-white/95 backdrop-blur-sm rounded-full shadow-lg px-3 py-1.5 flex items-center gap-2 max-w-[200px]"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0 shadow-md">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     </div>
-                    <p className="text-stone-800 text-[13px] font-medium leading-tight">{waNotifs[waNotifIndex % waNotifs.length]}</p>
+                    <p className="text-stone-700 text-[11px] font-medium">{waNotifs[waNotifIndex % waNotifs.length]}</p>
                   </motion.div>
                 );
               })()}
@@ -5682,6 +5855,9 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Glowing Mouse/Touch Particle Trail — All Devices */}
+      <GlowingMouseTrail />
 
       {/* Portfolio Modal */}
       <AnimatePresence>
