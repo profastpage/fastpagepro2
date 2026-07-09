@@ -4710,8 +4710,24 @@ export default function App() {
     setIsDarkMode((prev) => !prev);
   };
 
-  // PWA Install Prompt
+  // PWA Install Prompt — opens app if already installed
   const handleInstallApp = useCallback(async () => {
+    // If app is already installed as PWA, try to open in standalone mode
+    if (isAppInstalled) {
+      try {
+        // Read manifest start_url and navigate — the OS will intercept
+        // and open the installed PWA if available
+        const manifest = await fetch('/manifest.json').then(r => r.json()).catch(() => ({}));
+        const startUrl = manifest.start_url || window.location.origin + '/';
+        // Navigate to start_url — on mobile, if the PWA is installed,
+        // the system will offer to "Open in FastPagePro" instead of navigating in-browser
+        window.location.href = startUrl;
+      } catch {
+        // Fallback: reload in standalone context
+        window.location.href = window.location.origin + '/';
+      }
+      return;
+    }
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
@@ -4719,7 +4735,7 @@ export default function App() {
       setIsAppInstalled(true);
       setDeferredPrompt(null);
     }
-  }, [deferredPrompt]);
+  }, [deferredPrompt, isAppInstalled]);
 
   useEffect(() => {
     // Check if already installed
@@ -5858,8 +5874,17 @@ export default function App() {
               <span className="text-[10px] font-medium">{language === 'es' ? 'Precios' : 'Pricing'}</span>
             </motion.button>
 
-            {/* Instalar App — hidden when already running as PWA */}
-            {!isAppInstalled && (
+            {/* App button — always visible: installs if new, opens app if installed */}
+            {isAppInstalled ? (
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={handleInstallApp}
+                className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-yellow-400/70 hover:text-yellow-400 transition-colors"
+              >
+                <Rocket size={20} strokeWidth={1.8} />
+                <span className="text-[10px] font-medium">{language === 'es' ? 'Abrir' : 'Open'}</span>
+              </motion.button>
+            ) : (
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={handleInstallApp}
