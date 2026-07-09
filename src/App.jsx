@@ -2798,7 +2798,7 @@ const FloatingParticles = () => {
   );
 };
 
-// --- Glowing Mouse Particle Trail (Desktop only — saves RAF + setState on mobile) ---
+// --- Glowing Particle Trail (Mobile + Desktop) — Ultra Pro Optimized ---
 const GlowingMouseTrail = () => {
   const [particles, setParticles] = useState([]);
   const animFrameRef = useRef(null);
@@ -2806,25 +2806,31 @@ const GlowingMouseTrail = () => {
   const isMobileRef = useRef(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
-    if (isMobileRef.current) return;
     let isMounted = true;
-    const maxParticles = 12;
+    const isMob = isMobileRef.current;
+    const maxParticles = isMob ? 8 : 14;
+    // Throttle on mobile to prevent jank during scroll — desktop no throttle needed
+    const throttleMs = isMob ? 32 : 0;
+    let lastTime = 0;
+    const minDist = isMob ? 18 : 8;
 
     const addParticle = (x, y) => {
       if (!isMounted) return;
       const id = Date.now() + Math.random();
-      const size = Math.random() * 4 + 2;
-      const hue = Math.random() > 0.5 ? '250, 204, 21' : '255, 215, 0';
+      const isGold = Math.random() > 0.3;
+      const size = isMob
+        ? Math.random() * 3.5 + 1.5
+        : Math.random() * 4 + 2;
+      const hue = isGold
+        ? (Math.random() > 0.5 ? '250, 204, 21' : '255, 215, 0')
+        : '180, 220, 255';
+      const glow = Math.random();
       setParticles(prev => {
         const next = [...prev, {
-          id,
-          x,
-          y,
-          size,
-          hue,
+          id, x, y, size, hue, glow,
           life: 1,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: (Math.random() - 0.5) * 1.5 - 0.5,
+          vx: (Math.random() - 0.5) * (isMob ? 1 : 1.5),
+          vy: (Math.random() - 0.5) * (isMob ? 1 : 1.5) - 0.3,
         }];
         return next.length > maxParticles ? next.slice(-maxParticles) : next;
       });
@@ -2832,13 +2838,22 @@ const GlowingMouseTrail = () => {
 
     const handleMove = (clientX, clientY) => {
       if (!isMounted) return;
+      // Throttle check (mobile only)
+      const now = performance.now();
+      if (throttleMs > 0 && now - lastTime < throttleMs) return;
+      lastTime = now;
+
       const last = lastPosRef.current;
       if (last) {
         const dx = clientX - last.x;
         const dy = clientY - last.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist > 8) {
+        if (dist > minDist) {
           addParticle(clientX, clientY);
+          // On mobile, add a secondary smaller particle for trail density
+          if (isMob && dist > 30) {
+            addParticle(clientX - dx * 0.3, clientY - dy * 0.3);
+          }
           lastPosRef.current = { x: clientX, y: clientY };
         }
       } else {
@@ -2848,16 +2863,23 @@ const GlowingMouseTrail = () => {
     };
 
     const onMouseMove = (e) => handleMove(e.clientX, e.clientY);
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    const onTouchMove = (e) => {
+      // passive: true — NEVER blocks scrolling or touch events
+      if (e.touches.length > 0) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    };
 
-    // Animate particles
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+    // Animate particles — batch updates, faster decay on mobile
+    const decayRate = isMob ? 0.035 : 0.025;
     const animate = () => {
       if (!isMounted) return;
       setParticles(prev => {
         let changed = false;
         const next = [];
         for (const p of prev) {
-          const newLife = p.life - 0.025;
+          const newLife = p.life - decayRate;
           if (newLife > 0) {
             changed = true;
             next.push({
@@ -2878,6 +2900,7 @@ const GlowingMouseTrail = () => {
     return () => {
       isMounted = false;
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, []);
@@ -2894,8 +2917,12 @@ const GlowingMouseTrail = () => {
             width: p.size,
             height: p.size,
             borderRadius: '50%',
-            background: `radial-gradient(circle, rgba(${p.hue}, ${p.life}) 0%, rgba(${p.hue}, ${p.life * 0.4}) 40%, transparent 100%)`,
-            boxShadow: `0 0 ${p.size * 2}px rgba(${p.hue}, ${p.life * 0.6}), 0 0 ${p.size * 4}px rgba(${p.hue}, ${p.life * 0.3})`,
+            background: p.glow > 0.7
+              ? `radial-gradient(circle, rgba(255,255,255,${p.life * 0.9}) 0%, rgba(${p.hue}, ${p.life}) 30%, transparent 70%)`
+              : `radial-gradient(circle, rgba(${p.hue}, ${p.life}) 0%, rgba(${p.hue}, ${p.life * 0.3}) 50%, transparent 100%)`,
+            boxShadow: p.glow > 0.5
+              ? `0 0 ${p.size}px rgba(${p.hue}, ${p.life * 0.7}), 0 0 ${p.size * 2.5}px rgba(${p.hue}, ${p.life * 0.3})`
+              : `0 0 ${p.size * 1.5}px rgba(${p.hue}, ${p.life * 0.5})`,
             transform: 'translate(-50%, -50%)',
             willChange: 'transform, opacity',
           }}
