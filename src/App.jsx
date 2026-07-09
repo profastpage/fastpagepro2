@@ -61,6 +61,9 @@ import {
 import { SplineScene } from './components/SplineScene';
 import { Spotlight } from './components/Spotlight';
 
+// WebGL Shader Background (Mobile Only — Ultra Pro Aurora/Rays)
+import AetherHero from './components/AetherHero';
+
 const _MOTION = motion;
 
 // --- Constants ---
@@ -5128,6 +5131,13 @@ export default function App() {
             />
           </motion.div>
         </div>
+        )}
+
+        {/* Layer 1-Mobile: WebGL Aurora/Rays Shader (Mobile only — ultra pro energy backdrop) */}
+        {isMobile && (
+          <div className="absolute inset-0 z-[1] pointer-events-none">
+            <AetherHero dprMax={1.5} />
+          </div>
         )}
 
         {/* Layer 1.5: Dark gradient overlays for text readability */}
