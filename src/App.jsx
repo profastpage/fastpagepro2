@@ -4902,41 +4902,7 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    HERO_IMAGES.forEach((src, index) => {
-      const image = new window.Image();
-      image.src = src;
-      image.onload = () => {
-        setLoadedHeroImages((prev) => {
-          if (prev[index]) return prev;
-          const next = [...prev];
-          next[index] = true;
-          return next;
-        });
-      };
-      image.onerror = () => {
-        setLoadedHeroImages((prev) => {
-          if (prev[index]) return prev;
-          const next = [...prev];
-          next[index] = true;
-          return next;
-        });
-      };
-    });
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentHeroImage((prev) => {
-        for (let step = 1; step <= HERO_IMAGES.length; step += 1) {
-          const nextIndex = (prev + step) % HERO_IMAGES.length;
-          if (loadedHeroImages[nextIndex]) return nextIndex;
-        }
-        return prev;
-      });
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [loadedHeroImages]);
+  // Hero image preloader + rotation removed (3D hero is active — no image carousel)
 
   useEffect(() => {
     const timer = setTimeout(() => { setShowNotification(true); setTimeout(() => setShowNotification(false), 5000); }, 8000);
