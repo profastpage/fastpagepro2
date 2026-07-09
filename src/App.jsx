@@ -4741,10 +4741,15 @@ export default function App() {
     // Check if already installed
     if (typeof window !== 'undefined') {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-      if (isStandalone) setIsAppInstalled(true);
+      if (isStandalone) {
+        setIsAppInstalled(true);
+        return; // No need for further checks if already in standalone
+      }
 
+      let beforeFired = false;
       const handleBeforeInstall = (e) => {
         e.preventDefault();
+        beforeFired = true;
         setDeferredPrompt(e);
       };
 
@@ -4756,9 +4761,36 @@ export default function App() {
       window.addEventListener('beforeinstallprompt', handleBeforeInstall);
       window.addEventListener('appinstalled', handleAppInstalled);
 
+      // Heuristic: if beforeinstallprompt never fires after 4s,
+      // the PWA is likely already installed (Chrome only fires it when
+      // the user hasn't installed it yet). Also try getInstalledRelatedApps.
+      // Note: only apply fallback on mobile-like devices to avoid false
+      // positives on desktop browsers that don't support PWA install.
+      const checkTimer = setTimeout(async () => {
+        if (beforeFired) return; // Can still be installed, not installed yet
+        // Check getInstalledRelatedApps API (supported in Chrome 96+)
+        try {
+          if (navigator.getInstalledRelatedApps) {
+            const apps = await navigator.getInstalledRelatedApps();
+            if (apps && apps.length > 0) {
+              setIsAppInstalled(true);
+              return;
+            }
+          }
+        } catch {}
+        // Fallback heuristic: only on mobile/touch devices
+        // Desktop browsers that don't fire beforeinstallprompt aren't necessarily installed
+        const isMobileOrTablet = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
+          || ('ontouchstart' in window && window.innerWidth < 1280);
+        if (isMobileOrTablet) {
+          setIsAppInstalled(true);
+        }
+      }, 4000);
+
       return () => {
         window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
         window.removeEventListener('appinstalled', handleAppInstalled);
+        clearTimeout(checkTimer);
       };
     }
   }, []);
@@ -5874,15 +5906,15 @@ export default function App() {
               <span className="text-[10px] font-medium">{language === 'es' ? 'Precios' : 'Pricing'}</span>
             </motion.button>
 
-            {/* App button — always visible: installs if new, opens app if installed */}
+            {/* App / Theme button — if PWA installed show theme toggle, else install button */}
             {isAppInstalled ? (
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                onClick={handleInstallApp}
+                onClick={toggleTheme}
                 className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-yellow-400/70 hover:text-yellow-400 transition-colors"
               >
-                <Rocket size={20} strokeWidth={1.8} />
-                <span className="text-[10px] font-medium">{language === 'es' ? 'Abrir' : 'Open'}</span>
+                {isDarkMode ? <Sun size={20} strokeWidth={1.8} /> : <Moon size={20} strokeWidth={1.8} />}
+                <span className="text-[10px] font-medium">{language === 'es' ? 'Tema' : 'Theme'}</span>
               </motion.button>
             ) : (
               <motion.button
