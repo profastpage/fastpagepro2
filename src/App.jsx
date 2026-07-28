@@ -4551,6 +4551,12 @@ export default function App() {
   // Mobile already skips Spline entirely (gated below by !isMobile).
   // Reduced-motion users also skip it (static scene only).
   const [splineReady, setSplineReady] = useState(false);
+  // Track whether the hero section is in the viewport. When the user scrolls
+  // away from the hero (e.g. to #beneficios), we unmount Spline entirely and
+  // pause the AetherHero RAF loop — frees the GPU and eliminates the
+  // continuous main-thread jank that was causing "PC feels slow" symptoms.
+  const [heroInView, setHeroInView] = useState(true);
+  const heroSectionRef = useRef(null);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
@@ -4568,7 +4574,7 @@ export default function App() {
   const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
   const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
   const heroParticles = useMemo(() =>
-    Array.from({ length: isMobile ? 12 : 45 }, (_, i) => {
+    Array.from({ length: isMobile ? 12 : 25 }, (_, i) => {
       const type = Math.random();
       return {
         id: i,
@@ -4616,6 +4622,24 @@ export default function App() {
       else clearTimeout(handle);
     };
   }, [isMobile, prefersReducedMotion]);
+
+  // Hero visibility observer — unmount Spline + pause AetherHero RAF when the
+  // hero section is scrolled out of view. This is the dominant PC lag cause:
+  // WebGL contexts (Spline + AetherHero) keep rendering at 60fps even when the
+  // user is reading #beneficios or other below-the-fold sections.
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+    const section = heroSectionRef.current;
+    if (!section) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setHeroInView(entry.isIntersecting),
+      // Trigger when the hero is at least 5% visible; small threshold avoids
+      // flapping during scroll bounce.
+      { threshold: 0.05 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [currentView]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -5199,7 +5223,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* HERO SECTION — Immersive 3D Spline Hero (21st.dev) */}
-      {currentView === 'landing' && <section id="top" className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
+      {currentView === 'landing' && <section id="top" ref={heroSectionRef} className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
 
         {/* Layer 0: Spotlight Effects */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
@@ -5208,8 +5232,10 @@ export default function App() {
         {/* Layer 1: Robot — Absolute Immersive Background (Desktop only).
             Deferred via requestIdleCallback so the ~4.5 MB Spline chunk
             family doesn't compete with FCP/LCP. Skipped on mobile and when
-            the user prefers reduced motion. */}
-        {!isMobile && splineReady && (
+            the user prefers reduced motion.
+            UNMOUNTS when the hero is scrolled out of view (heroInView=false)
+            to free the GPU — Spline's RAF + WebGL context stops entirely. */}
+        {!isMobile && splineReady && heroInView && (
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           ref={robotContainerRef}
@@ -5230,17 +5256,19 @@ export default function App() {
 
         {/* Layer 1-Desktop fallback: lightweight WebGL aurora shown BEFORE
             Spline is ready (or when reduced-motion / mobile). Zero-cost CSS
-            gradient fallback would also be acceptable. */}
+            gradient fallback would also be acceptable.
+            Passes `active={heroInView}` so the RAF loop pauses when the hero
+            is scrolled out of view. */}
         {!isMobile && !splineReady && (
           <div className="absolute inset-0 z-[1] pointer-events-none">
-            <AetherHero dprMax={1.5} />
+            <AetherHero dprMax={1.5} active={heroInView} />
           </div>
         )}
 
         {/* Layer 1-Mobile: WebGL Aurora/Rays Shader (Mobile only — ultra pro energy backdrop) */}
         {isMobile && (
           <div className="absolute inset-0 z-[1] pointer-events-none">
-            <AetherHero dprMax={1.5} />
+            <AetherHero dprMax={1.5} active={heroInView} />
           </div>
         )}
 

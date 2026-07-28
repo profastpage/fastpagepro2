@@ -49,9 +49,11 @@ in vec2 position;
 void main(){ gl_Position = vec4(position, 0.0, 1.0); }
 `;
 
-export default function AetherHero({ dprMax = 1.5, clearColor = [0, 0, 0, 1], className = '' }) {
+export default function AetherHero({ dprMax = 1.5, clearColor = [0, 0, 0, 1], className = '', active = true }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
+  const activeRef = useRef(active);
+  activeRef.current = active;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -121,14 +123,17 @@ export default function AetherHero({ dprMax = 1.5, clearColor = [0, 0, 0, 1], cl
     const ro = new ResizeObserver(fit);
     ro.observe(canvas);
 
-    // Render loop — pure GL, no React setState
+    // Render loop — pure GL, no React setState. Pauses RAF when not active
+    // (e.g. when the hero is scrolled out of view) to free the GPU.
     const loop = (now) => {
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.useProgram(prog);
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      if (uniRes) gl.uniform2f(uniRes, canvas.width, canvas.height);
-      if (uniTime) gl.uniform1f(uniTime, now * 1e-3);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (activeRef.current) {
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(prog);
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        if (uniRes) gl.uniform2f(uniRes, canvas.width, canvas.height);
+        if (uniTime) gl.uniform1f(uniTime, now * 1e-3);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
       rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
