@@ -8,10 +8,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    
     <!-- SEO Meta Tags Optimizados -->
     <meta name="description" content="Especialistas en desarrollo de sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables de alto rendimiento." />
     <meta name="keywords" content="desarrollo web, ingeniería de software, agentes de IA, SaaS multi-tenant, sistemas personalizados, plataformas escalables, automatización inteligente, agencia de desarrollo, Fast Page Pro" />
@@ -19,29 +15,39 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0b0b0f" />
     <meta name="google-site-verification" content="ZzymFjBtdjauj4C-i4OEbtRZLzDX5Z6bZWyCY8FLBvs" />
-    
-    <!-- Open Graph / Facebook (Optimizado para WhatsApp y Redes Sociales) -->
+
+    <!-- Open Graph / Facebook (Optimizado para WhatsApp y Redes Sociales)
+         IMPORTANTE: og:url DEBE coincidir con la URL canónica final (con www.)
+         porque fastpagepro.com hace redirect 308 → www.fastpagepro.com y muchos
+         scrapers (WhatsApp, Facebook, LinkedIn, Telegram) NO siguen el redirect
+         y por eso la imagen preview dejaba de cargar. Todas las URLs absolutas
+         deben usar el dominio canónico: https://www.fastpagepro.com -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fastpagepro.com" />
+    <meta property="og:site_name" content="Fast Page Pro" />
+    <meta property="og:url" content="https://www.fastpagepro.com" />
     <meta property="og:title" content="Fast Page Pro | Agencia de Desarrollo Web y Sistemas IA" />
     <meta property="og:description" content="Especialistas en desarrollo de sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables de alto rendimiento." />
-    <meta property="og:image" content="https://fastpagepro.com/og-image.jpg" />
+    <meta property="og:image" content="https://www.fastpagepro.com/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://www.fastpagepro.com/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fast Page Pro — Agencia de desarrollo web, sistemas IA y SaaS multi-tenant en Lima, Perú" />
     <meta property="og:locale" content="es_PE" />
     <meta property="og:locale:alternate" content="en_US" />
-    
+
     <!-- Twitter (Optimizado para CTR y conversión) -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://fastpagepro.com" />
+    <meta name="twitter:url" content="https://www.fastpagepro.com" />
     <meta name="twitter:title" content="Fast Page Pro | Agencia de Desarrollo Web y Sistemas IA" />
     <meta name="twitter:description" content="Transformamos negocios con ingeniería web avanzada y automatización inteligente." />
-    <meta name="twitter:image" content="https://fastpagepro.com/og-image.jpg" />
+    <meta name="twitter:image" content="https://www.fastpagepro.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Fast Page Pro — Agencia de desarrollo web, sistemas IA y SaaS multi-tenant en Lima, Perú" />
     <meta name="twitter:image:width" content="1200" />
     <meta name="twitter:image:height" content="630" />
-    
+
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://fastpagepro.com" />
+    <link rel="canonical" href="https://www.fastpagepro.com" />
     
     <!-- Preconnect to external domains (only the ones actually used).
          Google Fonts preconnects removed — the site uses system fonts only
@@ -61,9 +67,9 @@
         "@type": "LocalBusiness",
         "name": "Fast Page Pro",
         "description": "Agencia de desarrollo web e ingeniería de software. Especialistas en sistemas personalizados, agentes de IA, SaaS multi-tenant y plataformas escalables.",
-        "url": "https://fastpagepro.com",
-        "logo": "https://fastpagepro.com/favicon.svg",
-        "image": "https://fastpagepro.com/og-image.jpg",
+        "url": "https://www.fastpagepro.com",
+        "logo": "https://www.fastpagepro.com/favicon.svg",
+        "image": "https://www.fastpagepro.com/og-image.jpg",
         "telephone": "+51933667414",
         "email": "cotizaciones@fastpagepro.com",
         "priceRange": "S/ 900 - Cotizar",
@@ -122,11 +128,11 @@
         "@type": "WebSite",
         "name": "Fast Page Pro",
         "alternateName": "FastPagePro",
-        "url": "https://fastpagepro.com",
+        "url": "https://www.fastpagepro.com",
         "inLanguage": ["es", "en"],
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://fastpagepro.com/?q={search_term_string}",
+          "target": "https://www.fastpagepro.com/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -139,8 +145,8 @@
         "@type": "Organization",
         "name": "Fast Page Pro",
         "legalName": "Fast Page Pro - Fabio Herrera",
-        "url": "https://fastpagepro.com",
-        "logo": "https://fastpagepro.com/favicon.svg",
+        "url": "https://www.fastpagepro.com",
+        "logo": "https://www.fastpagepro.com/favicon.svg",
         "foundingDate": "2024",
         "founder": {
           "@type": "Person",
@@ -176,8 +182,8 @@
           "ratingValue": "5.0",
           "ratingCount": "5"
         },
-        "installUrl": "https://fastpagepro.com",
-        "screenshot": "https://fastpagepro.com/og-image.jpg"
+        "installUrl": "https://www.fastpagepro.com",
+        "screenshot": "https://www.fastpagepro.com/og-image.jpg"
       }
     </script>
     
