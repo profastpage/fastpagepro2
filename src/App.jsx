@@ -57,8 +57,7 @@ import {
   Wrench
 } from 'lucide-react';
 
-// 21st.dev: Spline 3D Scene + Spotlight
-import { SplineScene } from './components/SplineScene';
+// 21st.dev: Spotlight (Spline 3D Scene removed — was 4.5 MB of JS for a decorative robot)
 import { Spotlight } from './components/Spotlight';
 
 // WebGL Shader Background (Mobile Only — Ultra Pro Aurora/Rays)
@@ -4546,15 +4545,9 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
-  // Defer Spline 3D mount until the browser is idle — keeps the ~4.5 MB
-  // Spline chunk family from competing with FCP/LCP on first paint.
-  // Mobile already skips Spline entirely (gated below by !isMobile).
-  // Reduced-motion users also skip it (static scene only).
-  const [splineReady, setSplineReady] = useState(false);
   // Track whether the hero section is in the viewport. When the user scrolls
-  // away from the hero (e.g. to #beneficios), we unmount Spline entirely and
-  // pause the AetherHero RAF loop — frees the GPU and eliminates the
-  // continuous main-thread jank that was causing "PC feels slow" symptoms.
+  // away from the hero (e.g. to #beneficios), we pause the AetherHero RAF
+  // loop — frees the GPU and eliminates continuous main-thread jank.
   const [heroInView, setHeroInView] = useState(true);
   const heroSectionRef = useRef(null);
   const [showPreloader, setShowPreloader] = useState(true);
@@ -4567,12 +4560,7 @@ export default function App() {
     return 'landing';
   });
 
-  // --- Hero: Parallax Mouse Tracking + Golden Particles ---
-  const robotContainerRef = useRef(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const robotX = useSpring(mouseX, { stiffness: 40, damping: 30, mass: 1 });
-  const robotY = useSpring(mouseY, { stiffness: 40, damping: 30, mass: 1 });
+  // --- Hero: Golden Particles (no more Spline robot parallax) ---
   const heroParticles = useMemo(() =>
     Array.from({ length: isMobile ? 12 : 25 }, (_, i) => {
       const type = Math.random();
@@ -4588,45 +4576,11 @@ export default function App() {
         pulse: Math.random() > 0.6,
       };
     }), []);
-  useEffect(() => {
-    const handleMouse = (e) => {
-      try {
-        const hero = robotContainerRef.current;
-        if (!hero) return;
-        const rect = hero.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        // Inverted axes: robot moves opposite to mouse (5% range, max 20px)
-        const dx = -(e.clientX - cx) * 0.03;
-        const dy = -(e.clientY - cy) * 0.03;
-        mouseX.set(Math.max(-20, Math.min(20, dx)));
-        mouseY.set(Math.max(-20, Math.min(20, dy)));
-      } catch {}
-    };
-    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
-      window.addEventListener('mousemove', handleMouse, { passive: true });
-      return () => window.removeEventListener('mousemove', handleMouse);
-    }
-  }, [mouseX, mouseY]);
 
-  // Spline 3D deferral: mount only after the browser is idle (or 1.5s fallback).
-  // Skips entirely on mobile / reduced-motion to save data and respect user prefs.
-  useEffect(() => {
-    if (isMobile || prefersReducedMotion) return;
-    if (typeof window === 'undefined') return;
-    // If the browser is already busy, defer; otherwise schedule immediately.
-    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500));
-    const handle = ric(() => setSplineReady(true), { timeout: 2000 });
-    return () => {
-      if (window.cancelIdleCallback) window.cancelIdleCallback(handle);
-      else clearTimeout(handle);
-    };
-  }, [isMobile, prefersReducedMotion]);
-
-  // Hero visibility observer — unmount Spline + pause AetherHero RAF when the
-  // hero section is scrolled out of view. This is the dominant PC lag cause:
-  // WebGL contexts (Spline + AetherHero) keep rendering at 60fps even when the
-  // user is reading #beneficios or other below-the-fold sections.
+  // Spline 3D was removed from the hero — no more deferral needed.
+  // Hero visibility observer — pauses AetherHero RAF when the hero section
+  // is scrolled out of view. Frees the GPU when the user is reading
+  // #beneficios or other below-the-fold sections.
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
     const section = heroSectionRef.current;
@@ -5222,62 +5176,25 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION — Immersive 3D Spline Hero (21st.dev) */}
-      {currentView === 'landing' && <section id="top" ref={heroSectionRef} className="relative w-full min-h-screen overflow-hidden bg-black/[0.96]">
+      {/* HERO SECTION — Ultra Pro Centered (no Spline, AetherHero only) */}
+      {currentView === 'landing' && <section id="top" ref={heroSectionRef} className="relative w-full min-h-screen overflow-hidden bg-black/[0.96] flex items-center justify-center">
 
-        {/* Layer 0: Spotlight Effects */}
+        {/* Layer 0: Spotlight Effects — subtle radial glows for depth */}
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        {/* Layer 1: Robot — Absolute Immersive Background (Desktop only).
-            Deferred via requestIdleCallback so the ~4.5 MB Spline chunk
-            family doesn't compete with FCP/LCP. Skipped on mobile and when
-            the user prefers reduced motion.
-            UNMOUNTS when the hero is scrolled out of view (heroInView=false)
-            to free the GPU — Spline's RAF + WebGL context stops entirely. */}
-        {!isMobile && splineReady && heroInView && (
-        <div
-          className="absolute inset-0 z-[1] pointer-events-none"
-          ref={robotContainerRef}
-          style={{ willChange: 'transform' }}
-        >
-          <motion.div
-            className="w-full h-full"
-            style={{ x: robotX, y: robotY }}
-          >
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-              style={{ objectFit: 'contain' }}
-            />
-          </motion.div>
+        {/* Layer 1: WebGL Aurora Shader (single background, all devices).
+            Replaces Spline 3D robot — was 4.5 MB of JS, now 0 MB extra.
+            Pauses RAF when hero scrolled out of view (active={heroInView}). */}
+        <div className="absolute inset-0 z-[1] pointer-events-none">
+          <AetherHero dprMax={isMobile ? 1.5 : 2} active={heroInView} />
         </div>
-        )}
 
-        {/* Layer 1-Desktop fallback: lightweight WebGL aurora shown BEFORE
-            Spline is ready (or when reduced-motion / mobile). Zero-cost CSS
-            gradient fallback would also be acceptable.
-            Passes `active={heroInView}` so the RAF loop pauses when the hero
-            is scrolled out of view. */}
-        {!isMobile && !splineReady && (
-          <div className="absolute inset-0 z-[1] pointer-events-none">
-            <AetherHero dprMax={1.5} active={heroInView} />
-          </div>
-        )}
+        {/* Layer 1.5: Radial vignette for text readability (centered hero) */}
+        <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 60%, rgba(0,0,0,0.92) 100%)' }} />
+        <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
 
-        {/* Layer 1-Mobile: WebGL Aurora/Rays Shader (Mobile only — ultra pro energy backdrop) */}
-        {isMobile && (
-          <div className="absolute inset-0 z-[1] pointer-events-none">
-            <AetherHero dprMax={1.5} active={heroInView} />
-          </div>
-        )}
-
-        {/* Layer 1.5: Dark gradient overlays for text readability */}
-        <div className="absolute inset-0 z-[2] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)' }} />
-        <div className="absolute inset-0 z-[2] pointer-events-none md:hidden" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 h-40 z-[2] pointer-events-none hidden md:block" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%)' }} />
-
-        {/* Layer 2: Golden Particles — Enhanced Pro */}
+        {/* Layer 2: Golden Particles — subtle ambient sparkle */}
         <div className="absolute inset-0 z-[3] pointer-events-none overflow-hidden">
           {heroParticles.map((p) => (
             <div
@@ -5306,14 +5223,15 @@ export default function App() {
           ))}
         </div>
 
-        {/* Layer 3: Main Content (Text + CTAs) */}
-        <motion.div className="relative z-20 w-full min-h-screen flex items-center px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 py-20 md:py-0">
-          <div className="w-full max-w-2xl">
+        {/* Layer 3: Centered Main Content — Ultra Pro */}
+        <motion.div className="relative z-20 w-full min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-10 py-24 md:py-20">
+          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center">
+
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               className="inline-flex items-center gap-2 mb-6 sm:mb-8 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-md"
               whileHover={{ scale: 1.05 }}
             >
@@ -5326,19 +5244,19 @@ export default function App() {
               <span className="text-xs font-semibold tracking-widest uppercase text-white/90">{copy.heroBadge}</span>
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Main Heading — bigger, centered, with gold glow */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter mb-4 sm:mb-5 leading-[1.05]"
+              transition={{ duration: 0.8, delay: 0.55 }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-black tracking-tighter mb-5 sm:mb-6 leading-[1.02]"
               style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5), 0 4px 40px rgba(0,0,0,0.3)' }}
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-400">
                 {language === 'es' ? 'Impulsamos tu negocio' : 'We Boost Your Business'}
               </span>
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600" style={{ textShadow: '0 0 40px rgba(250,204,21,0.3)' }}>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600" style={{ textShadow: '0 0 40px rgba(250,204,21,0.4), 0 0 80px rgba(250,204,21,0.2)' }}>
                 {language === 'es' ? 'con una web de alto impacto' : 'with a High-Impact Website'}
               </span>
             </motion.h1>
@@ -5347,19 +5265,19 @@ export default function App() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 }}
-              className="text-sm sm:text-base md:text-lg text-neutral-300 mb-8 sm:mb-10 max-w-lg leading-relaxed"
+              transition={{ duration: 0.7, delay: 0.75 }}
+              className="text-sm sm:text-base md:text-lg text-neutral-300 mb-9 sm:mb-10 max-w-2xl leading-relaxed"
               style={{ textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}
             >
               {copy.heroSubtitle}
             </motion.p>
 
-            {/* CTA Buttons — Glass Cyber-Premium */}
+            {/* CTA Buttons — centered, glass cyber-premium */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="flex flex-col sm:flex-row gap-3 max-w-md"
+              transition={{ duration: 0.6, delay: 0.95 }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center"
             >
               {/* Ver Portafolio — Glass Glow CTA */}
               <motion.a
@@ -5367,7 +5285,7 @@ export default function App() {
                 onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="group relative flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
+                className="group relative flex items-center justify-center gap-2 py-3.5 px-8 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
                 style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
               >
                 {/* Shine sweep on hover */}
@@ -5384,41 +5302,56 @@ export default function App() {
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
-                className="h-[48px] px-7 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
+                className="h-[48px] px-8 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
               />
             </motion.div>
 
-            {/* Trust Badges */}
+            {/* Trust Badges — centered row */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.3 }}
-              className="mt-8 sm:mt-10 flex items-center gap-4 sm:gap-6 flex-wrap"
+              transition={{ delay: 1.2 }}
+              className="mt-9 sm:mt-10 flex items-center justify-center gap-5 sm:gap-7 flex-wrap"
             >
               <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Shield size={12} className="text-green-400" /> {copy.tags[0]}</div>
               <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Clock size={12} className="text-yellow-400" /> {copy.tags[1]}</div>
               <div className="flex items-center gap-1.5 text-xs text-neutral-400"><Award size={12} className="text-blue-400" /> {copy.tags[2]}</div>
             </motion.div>
-
-            {/* Live Counter */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.6 }}
-              className="mt-5 inline-flex items-center gap-2.5 px-4 py-2.5 bg-white/5 backdrop-blur-sm rounded-full border border-white/10"
-            >
-              <motion.div
-                animate={{ scale: [1, 1.4, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
-              />
-              <span className="text-xs whitespace-nowrap">
-                <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
-                <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
-              </span>
-            </motion.div>
           </div>
+        </motion.div>
+
+        {/* Asymmetric detail: live projects counter pinned bottom-left */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-6 left-4 sm:left-6 md:bottom-10 md:left-10 z-30 inline-flex items-center gap-2.5 px-4 py-2.5 bg-black/40 backdrop-blur-md rounded-full border border-white/10"
+        >
+          <motion.div
+            animate={{ scale: [1, 1.4, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ background: '#00FF88', boxShadow: '0 0 8px #00FF88, 0 0 16px rgba(0,255,136,0.4)' }}
+          />
+          <span className="text-xs whitespace-nowrap">
+            <span className="font-bold" style={{ color: '#00FF88' }}>{todayBookings}</span>{' '}
+            <span className="text-neutral-400">{language === 'es' ? 'proyectos activos' : 'active projects'}</span>
+          </span>
+        </motion.div>
+
+        {/* Asymmetric detail: scroll hint pinned bottom-right */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8 }}
+          className="absolute bottom-6 right-4 sm:right-6 md:bottom-10 md:right-10 z-30 hidden sm:flex flex-col items-center gap-2 text-white/40"
+        >
+          <span className="text-[10px] uppercase tracking-widest">{language === 'es' ? 'Scroll' : 'Scroll'}</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-[1px] h-8 bg-gradient-to-b from-white/40 to-transparent"
+          />
         </motion.div>
       </section>}
 
