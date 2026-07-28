@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fastpagepro-v5';
+const CACHE_NAME = 'fastpagepro-v6';
 
 // Critical assets to pre-cache during install
 const STATIC_ASSETS = [
@@ -62,21 +62,27 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets (JS, CSS): network-first (always fetch latest, fallback to cache)
+  // Static assets (JS, CSS): stale-while-revalidate.
+  // Vite emits content-hashed filenames (index-AbC123.js), so a cached
+  // response is always byte-identical to the server's; we serve cache
+  // instantly and refresh in the background. This eliminates the
+  // network round-trip on repeat visits.
   if (
     url.pathname.endsWith('.js') ||
     url.pathname.endsWith('.css')
   ) {
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          if (response && response.status === 200) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
+      caches.open(CACHE_NAME).then((cache) =>
+        cache.match(event.request).then((cached) => {
+          const fetched = fetch(event.request).then((response) => {
+            if (response && response.status === 200) {
+              cache.put(event.request, response.clone());
+            }
+            return response;
+          }).catch(() => cached);
+          return cached || fetched;
         })
-        .catch(() => caches.match(event.request))
+      )
     );
     return;
   }

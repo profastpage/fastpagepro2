@@ -43,10 +43,12 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://fastpagepro.com" />
     
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <!-- Preconnect to external domains (only the ones actually used).
+         Google Fonts preconnects removed — the site uses system fonts only
+         (no @import, no <link> to fonts.googleapis.com), so those handshakes
+         were wasted on every visit. -->
+    <link rel="preconnect" href="https://images.pexels.com" />
+    <link rel="preconnect" href="https://prod.spline.design" />
     <link rel="preconnect" href="https://wa.me" />
     
     <!-- Google Analytics: loaded lazily by src/components/Analytics.tsx

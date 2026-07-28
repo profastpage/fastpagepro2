@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue, useAnimationFrame } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useInView, useTransform, useMotionValue } from 'framer-motion';
 import {
   Check,
   MessageCircle,
@@ -4174,7 +4174,7 @@ const MacBookMockup = ({ imageSrc, alt }) => (
     <div className="relative rounded-xl overflow-hidden border-[4px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '16/10' }}>
       {/* Camera notch */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-stone-800 rounded-b-lg z-10" />
-      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover" />
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover" />
     </div>
     {/* Base — slim and modern */}
     <div className="relative h-4 bg-gradient-to-b from-stone-600 to-stone-700 rounded-b-xl mx-3 -mt-px">
@@ -4193,7 +4193,7 @@ const IPhoneMockup = ({ imageSrc, alt, compact = false }) => (
       {/* Dynamic Island */}
       <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-stone-900 rounded-full z-10" />
       {/* Screen */}
-      <img src={imageSrc} alt={alt} onError={handleImageFallback} className="w-full h-full object-cover" />
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover" />
       {/* Home indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-stone-500 rounded-full" />
     </div>
@@ -4546,6 +4546,11 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
+  // Defer Spline 3D mount until the browser is idle — keeps the ~4.5 MB
+  // Spline chunk family from competing with FCP/LCP on first paint.
+  // Mobile already skips Spline entirely (gated below by !isMobile).
+  // Reduced-motion users also skip it (static scene only).
+  const [splineReady, setSplineReady] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
   const [selectedProject, setSelectedProject] = useState(null);
   const [currentView, setCurrentView] = useState(() => {
@@ -4597,6 +4602,20 @@ export default function App() {
       return () => window.removeEventListener('mousemove', handleMouse);
     }
   }, [mouseX, mouseY]);
+
+  // Spline 3D deferral: mount only after the browser is idle (or 1.5s fallback).
+  // Skips entirely on mobile / reduced-motion to save data and respect user prefs.
+  useEffect(() => {
+    if (isMobile || prefersReducedMotion) return;
+    if (typeof window === 'undefined') return;
+    // If the browser is already busy, defer; otherwise schedule immediately.
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500));
+    const handle = ric(() => setSplineReady(true), { timeout: 2000 });
+    return () => {
+      if (window.cancelIdleCallback) window.cancelIdleCallback(handle);
+      else clearTimeout(handle);
+    };
+  }, [isMobile, prefersReducedMotion]);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
   const preloaderComplete = useCallback(() => setShowPreloader(false), []);
@@ -5186,8 +5205,11 @@ export default function App() {
         <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         <Spotlight className="top-10 left-full -translate-x-1/2 md:translate-x-0" fill="purple" />
 
-        {/* Layer 1: Robot — Absolute Immersive Background (Desktop only — prevents 2MB+ Spline load on mobile) */}
-        {!isMobile && (
+        {/* Layer 1: Robot — Absolute Immersive Background (Desktop only).
+            Deferred via requestIdleCallback so the ~4.5 MB Spline chunk
+            family doesn't compete with FCP/LCP. Skipped on mobile and when
+            the user prefers reduced motion. */}
+        {!isMobile && splineReady && (
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           ref={robotContainerRef}
@@ -5204,6 +5226,15 @@ export default function App() {
             />
           </motion.div>
         </div>
+        )}
+
+        {/* Layer 1-Desktop fallback: lightweight WebGL aurora shown BEFORE
+            Spline is ready (or when reduced-motion / mobile). Zero-cost CSS
+            gradient fallback would also be acceptable. */}
+        {!isMobile && !splineReady && (
+          <div className="absolute inset-0 z-[1] pointer-events-none">
+            <AetherHero dprMax={1.5} />
+          </div>
         )}
 
         {/* Layer 1-Mobile: WebGL Aurora/Rays Shader (Mobile only — ultra pro energy backdrop) */}
@@ -5928,8 +5959,10 @@ export default function App() {
         </div>
       </div>
 
-      {/* Glowing Mouse/Touch Particle Trail — All Devices */}
-      <GlowingMouseTrail />
+      {/* Glowing Mouse Particle Trail — desktop-only + respects reduced-motion.
+          Was running on mobile too, attaching touchmove listeners that
+          created DOM nodes on every frame and janked scrolling. */}
+      {!isMobile && !prefersReducedMotion && <GlowingMouseTrail />}
 
       {/* Portfolio Modal */}
       <AnimatePresence>
