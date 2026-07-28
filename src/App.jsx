@@ -67,6 +67,56 @@ import AetherHero from './components/AetherHero';
 const WHATSAPP_NUMBER = "51933667414";
 const PROFASTPAGE_EMAIL = "cotizaciones@fastpagepro.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
+
+// --- CTA Analytics (GA4) ---
+// Lightweight helpers that no-op when gtag is not loaded (no VITE_GA_ID configured),
+// so the site never breaks if analytics is disabled.
+const getDeviceType = () => {
+  if (typeof navigator === 'undefined') return 'unknown';
+  const ua = navigator.userAgent || '';
+  if (/tablet|ipad|playbook|silk/i.test(ua)) return 'tablet';
+  if (/mobi|iphone|ipod|android.*mobile|windows phone/i.test(ua)) return 'mobile';
+  return 'desktop';
+};
+
+// Fire-and-forget event. Uses beacon-style transport when available so the
+// event survives the page unload that happens when window.open() steals focus
+// or when the user is redirected to wa.me / Google Calendar.
+const trackCtaClick = (ctaId, target, extra = {}) => {
+  if (typeof window === 'undefined') return;
+  const gtag = window.gtag;
+  if (typeof gtag !== 'function') return;
+  try {
+    gtag('event', 'cta_click', {
+      cta_id: ctaId,
+      cta_target: target,            // 'whatsapp' | 'google_meet' | 'phone_call' | 'portfolio' | 'contact_form' | 'calendar'
+      device: getDeviceType(),
+      language: typeof document !== 'undefined' && document.documentElement.lang || 'es',
+      ...extra,
+    });
+  } catch {
+    /* no-op — analytics should never break UX */
+  }
+};
+
+// Higher-level event for the booking widget — fires when a lead is actually
+// submitted (not just clicked). Useful for funnel analysis:
+// cta_click (widget_open) → cta_click (widget_meet_select) → lead_submit (meet)
+const trackLeadSubmit = (leadType, extra = {}) => {
+  if (typeof window === 'undefined') return;
+  const gtag = window.gtag;
+  if (typeof gtag !== 'function') return;
+  try {
+    gtag('event', 'lead_submit', {
+      lead_type: leadType,           // 'direct' | 'meet' | 'call' | 'contact_form'
+      device: getDeviceType(),
+      language: typeof document !== 'undefined' && document.documentElement.lang || 'es',
+      ...extra,
+    });
+  } catch {
+    /* no-op */
+  }
+};
 const WA_EMOJI = {
   wave: "👋",
   check: "✅",
@@ -89,7 +139,7 @@ const getWhatsAppLink = (contexto, extra = {}) => {
 
     portafolio: `*¡Hola! Vi su proyecto ${extra.nombre || ""}* ⚡%0A%0AMe gustaría implementar un sistema similar para mi negocio.%0A%0A◈ *Interés:* Reservas por WhatsApp / Diseño de alto impacto%0A◈ *Sector:* ${extra.sector || "Por definir"}%0A%0A¿Podrían brindarme más información? 😊`,
 
-    precios: `*¡Hola! Estoy listo para empezar* 💎%0A%0AQuiero contratar el *Plan ${extra.plan || "Pro"}*.%0A%0A◈ *Servicio:* Diseño Web Pro%0A◈ *Tiempo:* Listo en 2-3 días%0A%0A¿Cuáles son los siguientes pasos? ✅`,
+    precios: `*¡Hola! Estoy listo para empezar* 💎%0A%0AQuiero contratar el *Plan ${extra.plan || "Pro"}*.%0A%0A◈ *Servicio:* Diseño Web Pro%0A◈ *Tiempo estimado:* Según alcance del proyecto%0A%0A¿Cuáles son los siguientes pasos? ✅`,
 
     proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀%0A%0AHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.%0A%0A◈ *Nombre:* ${extra.nombre || "Por completar"}%0A◈ *Negocio:* ${extra.negocio || "Por definir"}%0A%0A¿Tienen disponibilidad esta semana? 📅`,
 
@@ -499,9 +549,9 @@ const COPY = {
     navCta: "Empezar Mi Proyecto",
     notificationTitle: "Nuevo proyecto entregado!",
     notificationSubtitle: "Cotizador Pro SaaS - hace 2 minutos",
-    heroBadge: "Listo en 2-3 dias",
+    heroBadge: "Código Limpio & Personalizado",
     heroTitleTop: "Paginas web profesionales",
-    heroTitleBottom: "listas en 2-3 dias.",
+    heroTitleBottom: "con código limpio y a medida.",
     heroSubtitle: "Diseñamos y desarrollamos webs de alto impacto, tiendas online, apps moviles y proyectos a medida. Calidad premium, rendimiento extremo, entrega en tiempo record.",
     heroPrimaryCta: "Ver Portafolio",
     heroPrimaryMsg: "Quiero ver el portafolio",
@@ -596,7 +646,7 @@ const COPY = {
       invalidPhone: "Ingresa un número de teléfono válido",
       userUnknown: "Usuario desconocido",
       defineLater: "Por definir",
-      meetingNote: "Si el backend está configurado, la reunión se agenda y abre directo automáticamente.",
+      meetingNote: "Al confirmar abriremos Google Calendar con tus datos. Pulsa 'Guardar' para crear el evento y generar tu enlace de Meet automáticamente.",
       saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
       waDirect: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo.`,
       waMeet: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero agendar una *reunión por Google Meet*.\n\n${WA_EMOJI.user} *Usuario:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Fecha y hora:* {{dateTime}}\n\nQuedo atento a su confirmación.`,
@@ -607,9 +657,9 @@ const COPY = {
     navCta: "Start My Project",
     notificationTitle: "New project delivered!",
     notificationSubtitle: "Cotizador Pro SaaS - 2 minutes ago",
-    heroBadge: "Ready in 2-3 Days",
+    heroBadge: "Clean Code & Custom-Built",
     heroTitleTop: "Professional Websites",
-    heroTitleBottom: "delivered in 2-3 days.",
+    heroTitleBottom: "with clean, custom code.",
     heroSubtitle: "We design and build high-impact websites, online stores, mobile apps and custom projects. Premium quality, extreme performance, record-breaking delivery.",
     heroPrimaryCta: "See Portfolio",
     heroPrimaryMsg: "I want to see the portfolio",
@@ -704,7 +754,7 @@ const COPY = {
       invalidPhone: "Please enter a valid phone number",
       userUnknown: "Unknown user",
       defineLater: "To be defined",
-      meetingNote: "If backend is configured, the meeting is scheduled and opened automatically.",
+      meetingNote: "On confirm we'll open Google Calendar with your details pre-filled. Click 'Save' to create the event and auto-generate your Meet link.",
       saveLeadError: "Lead auto-save failed. We will still open WhatsApp.",
       waDirect: `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want information about *websites and WhatsApp booking systems*.\n\n${WA_EMOJI.check} *Goal:* Book a demo.`,
       waMeet: `Hi Fast Page Pro ${WA_EMOJI.wave}\n\nI want to schedule a *Google Meet call*.\n\n${WA_EMOJI.user} *User:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Date and time:* {{dateTime}}\n\nWaiting for your confirmation.`,
@@ -757,7 +807,7 @@ const ElectricBolt = ({ size = 35 }) => {
 
 // --- Helper Components ---
 
-const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal", waContext, waExtra }) => {
+const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal", waContext, waExtra, ctaId }) => {
   const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Tipo de negocio:* Por definir\n\nQuedo atento.`;
   // Use context-aware link if waContext is provided, otherwise fall back to message/href/default
   const url = waContext
@@ -781,12 +831,22 @@ const WhatsAppButton = ({ text, message, href, variant = "primary", className = 
     dark: "bg-stone-950 text-white hover:bg-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] dark:bg-white dark:text-stone-950"
   };
 
+  // Wrap the user-supplied onClick so we can fire analytics first, then chain.
+  // Tracking fires before navigation so GA4 receives the event even when the
+  // browser is about to open wa.me in a new tab.
+  const handleAnalyticsClick = (e) => {
+    if (ctaId) {
+      trackCtaClick(ctaId, 'whatsapp', { wa_context: waContext || 'default' });
+    }
+    if (typeof onClick === 'function') onClick(e);
+  };
+
   return (
     <motion.a 
       href={finalHref}
       target={isExternalLink ? "_blank" : undefined}
       rel={isExternalLink ? "noopener noreferrer" : undefined}
-      onClick={onClick}
+      onClick={handleAnalyticsClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className={`${baseStyle} ${variants[variant]} ${sizeClasses[size]} ${className}`}
@@ -2076,6 +2136,10 @@ const ContactSection = ({ copy, language }) => {
     setStatus("sending");
     const msg = `Hola Fast Page Pro!\n\nNombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.phone}\n\n${formData.message}`;
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+
+    // Fire tracking before opening WhatsApp so the event survives navigation.
+    trackCtaClick('contact_form_submit', 'whatsapp', { form_name: formData.name || 'anon' });
+    trackLeadSubmit('contact_form', { has_email: !!formData.email, has_phone: !!formData.phone });
 
     setTimeout(() => {
       window.open(waUrl, "_blank");
@@ -3703,6 +3767,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
   const [userName, setUserName] = useState('');
   const [userPhone, setUserPhone] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
+  const [bookingStatus, setBookingStatus] = useState('idle'); // 'idle' | 'submitting' | 'success'
 
   // Show tooltip after 5 seconds, only once per session
   useEffect(() => {
@@ -3722,11 +3787,32 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
   const handleTooltipClick = () => {
     dismissTooltip();
     setIsOpen(true);
+    trackCtaClick('widget_open_tooltip', 'widget_open');
   };
 
   const toggleWidget = () => {
-    if (!isOpen) dismissTooltip();
+    if (!isOpen) {
+      // Opening the widget counts as a CTA engagement.
+      trackCtaClick('widget_open', 'widget_open');
+      dismissTooltip();
+    }
     setIsOpen((prev) => !prev);
+  };
+
+  // Popup-blocker-safe URL opener. After async work (await saveLead), the
+  // browser may strip the "user gesture" flag and silently block window.open.
+  // On failure we fall back to same-tab navigation so the user always lands
+  // somewhere useful (especially important on mobile Safari/Chrome).
+  const openUrlSafe = (url) => {
+    try {
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        // Popup blocked — fall back to same-tab navigation.
+        window.location.href = url;
+      }
+    } catch {
+      window.location.href = url;
+    }
   };
   
   // Reset function
@@ -3778,27 +3864,57 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
       }
     };
 
+    // Build a Google Calendar "TEMPLATE" link that pre-fills the user's
+    // calendar with an event they must SAVE. The TEMPLATE endpoint does NOT
+    // auto-create a Meet link by itself — only the Calendar API can do that —
+    // but Google Calendar auto-generates a Meet link when the user clicks
+    // "Save" IF their default setting "Automatically add Google Meet video
+    // conferencing to events I create" is enabled (which is the default for
+    // personal Gmail accounts since 2020).
+    //
+    // We add the user's own email as a guest so the event is also saved to
+    // their calendar (not just the agency's), and we add PROFASTPAGE_EMAIL so
+    // the agency receives the invite as well.
+    //
+    // For a REAL end-to-end integration (auto-created Meet link without any
+    // user "Save" step), set VITE_LEADS_WEBHOOK_URL to a backend that calls
+    // the Google Calendar API to insert an event with
+    // `conferenceData: { createRequest: { requestId: ... } }` and returns
+    // `meetUrl` / `calendarEventUrl` in the response — the submit() function
+    // below consumes those fields with priority over the TEMPLATE fallback.
     const buildGoogleCalendarLink = (bookingType) => {
       const start = new Date(`${selectedDate}T${selectedTime}`);
       const end = new Date(start.getTime() + 30 * 60000);
       const formatGoogleDate = (date) => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
 
       const title = bookingType === "meet" ? "Fast Page Pro - Google Meet" : "Fast Page Pro - Phone Call";
-      const details = [
+      const detailsLines = [
         `Lead: ${userInfo}`,
         userEmail ? `Email: ${userEmail}` : null,
         cleanPhone ? `Phone: ${cleanPhone}` : null,
-        `Requested from web (${language.toUpperCase()})`
-      ]
-        .filter(Boolean)
-        .join("\n");
+        language === "es"
+          ? "Solicitado desde la web de Fast Page Pro (ES)"
+          : "Requested from Fast Page Pro website (EN)",
+        bookingType === "meet"
+          ? (language === "es"
+              ? "Importante: al guardar este evento, Google Calendar generará automáticamente un enlace de Google Meet si tienes activada la opción 'Añadir automáticamente videoconferencias de Google Meet'."
+              : "Important: when you save this event, Google Calendar will auto-generate a Google Meet link if 'Automatically add Google Meet video conferencing' is enabled in your settings.")
+          : null
+      ].filter(Boolean);
+      const details = detailsLines.join("\n");
+
+      // Guests: agency + the lead (so both get the invite and the event is on
+      // both calendars once the user saves).
+      const guests = [PROFASTPAGE_EMAIL, userEmail].filter(Boolean).join(",");
 
       const params = new URLSearchParams({
         action: "TEMPLATE",
         text: title,
         dates: `${formatGoogleDate(start)}/${formatGoogleDate(end)}`,
         details,
-        add: PROFASTPAGE_EMAIL
+        add: guests,
+        trp: "false", // show as Free (less intrusive on the lead's calendar)
+        ctz: Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Lima",
       });
 
       if (bookingType === "meet") {
@@ -3832,7 +3948,34 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
       message = widgetCopy.waCall.replace("{{user}}", userInfo).replace("{{contact}}", `${contactInfo}${phoneInfo}`).replace("{{dateTime}}", formattedDateTime);
     }
 
+    // Build the calendar link up-front so we can:
+    //   1) Open it from submit() (priority: webhook-provided > template fallback).
+    //   2) Embed it in the WhatsApp message so the lead has a one-tap way back
+    //      to the calendar form from inside WhatsApp, AND so the FastPagePro
+    //      team sees the exact proposed time when the lead's message arrives.
+    const calendarLink = (type === 'meet' || type === 'call') ? buildGoogleCalendarLink(type) : null;
+    if (calendarLink) {
+      const calendarLabel = language === 'es'
+        ? `\n\n${WA_EMOJI.calendar} *Crea el evento en tu calendario:*`
+        : `\n\n${WA_EMOJI.calendar} *Create the event in your calendar:*`;
+      message = `${message}${calendarLabel}\n${calendarLink}`;
+    }
+
     const submit = async () => {
+      setBookingStatus('submitting');
+
+      // Fire GA4 lead_submit BEFORE any async work, so the event survives
+      // even if the await below throws or the page loses focus.
+      trackLeadSubmit(type, {
+        has_email: !!userEmail,
+        has_phone: !!cleanPhone,
+        has_date: !!selectedDate,
+        has_time: !!selectedTime,
+      });
+      // Track the confirmation click too (so cta_click funnels line up).
+      const ctaId = type === 'meet' ? 'widget_confirm_meet' : (type === 'call' ? 'widget_confirm_call' : 'widget_confirm_direct');
+      trackCtaClick(ctaId, type === 'meet' ? 'google_meet' : (type === 'call' ? 'phone_call' : 'whatsapp'));
+
       const payload = {
         type,
         language,
@@ -3841,14 +3984,18 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
         phone: cleanPhone,
         preferredDate: selectedDate,
         preferredTime: selectedTime,
+        calendarTemplateUrl: calendarLink,
         source: "fastpagepro-widget"
       };
 
       const leadResult = await saveLead(payload);
       if (!leadResult.ok && !leadResult.skipped) {
-        alert(widgetCopy.saveLeadError);
+        // Don't alert() — it interrupts the flow. The booking still proceeds.
+        console.warn("[FastPagePro] Lead webhook failed, continuing with WhatsApp + calendar.");
       }
 
+      // Open calendar (priority: webhook-provided > template fallback).
+      // For 'direct' type, no calendar is needed — only WhatsApp.
       if (type === "meet" || type === "call") {
         const apiMeetingUrl =
           leadResult.data?.meetUrl ||
@@ -3862,19 +4009,38 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
           leadResult.data?.eventUrl ||
           "";
 
+        let urlToOpen = "";
+        let source = "none";
         if (type === "meet" && apiMeetingUrl) {
-          window.open(apiMeetingUrl, "_blank");
+          urlToOpen = apiMeetingUrl;
+          source = "webhook_meet";
         } else if (apiCalendarUrl) {
-          window.open(apiCalendarUrl, "_blank");
-        } else {
-          const calendarLink = buildGoogleCalendarLink(type);
-          window.open(calendarLink, "_blank");
+          urlToOpen = apiCalendarUrl;
+          source = "webhook_calendar";
+        } else if (calendarLink) {
+          urlToOpen = calendarLink;
+          source = "template";
+        }
+
+        if (urlToOpen) {
+          // Track calendar open separately so we can measure
+          // "user got this far in the funnel" vs. "user actually opened calendar".
+          trackCtaClick(`widget_calendar_open_${type}`, 'calendar', { source });
+          openUrlSafe(urlToOpen);
         }
       }
 
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message).replace(/%20/g, ' ')}`;
-      window.open(url, '_blank');
-      resetWidget();
+      // Open WhatsApp with a small delay when a calendar tab was also opened,
+      // so the browser doesn't race/block the second popup.
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message).replace(/%20/g, ' ')}`;
+      const delay = (type === 'meet' || type === 'call') ? 700 : 0;
+      setTimeout(() => {
+        openUrlSafe(waUrl);
+        setBookingStatus('success');
+        resetWidget();
+        // Auto-dismiss success status after a few seconds.
+        setTimeout(() => setBookingStatus('idle'), 3500);
+      }, delay);
     };
 
     submit();
@@ -3919,7 +4085,7 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
                   <p className="text-stone-300 text-sm mb-4 text-center">{widgetCopy.howContact}</p>
                   
                   <button 
-                    onClick={() => handleBooking('direct')}
+                    onClick={() => { trackCtaClick('widget_direct_select', 'whatsapp'); handleBooking('direct'); }}
                     className="w-full flex items-center gap-3 p-4 rounded-xl bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 transition-colors group text-left"
                   >
                     <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white shadow-lg shadow-green-500/30">
@@ -3932,7 +4098,10 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
                     <ArrowRight size={16} className="ml-auto text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </button>
 
-                  <button onClick={() => setStep('meet')} className="w-full flex items-center gap-3 p-4 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-colors group text-left">
+                  <button
+                    onClick={() => { trackCtaClick('widget_meet_select', 'google_meet'); setStep('meet'); }}
+                    className="w-full flex items-center gap-3 p-4 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-colors group text-left"
+                  >
                     <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
                       <Video size={20} />
                     </div>
@@ -4013,14 +4182,41 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
                     </div>
                   </div>
 
-                  <button 
+                  <button
                     onClick={() => handleBooking(step)}
-                    className="w-full bg-stone-950 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                    disabled={bookingStatus === 'submitting'}
+                    className="w-full bg-stone-950 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
-                    <Calendar size={18} />
-                    {step === 'meet' ? widgetCopy.confirmMeeting : widgetCopy.confirmCall}
+                    {bookingStatus === 'submitting' ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z" />
+                        </svg>
+                        {language === 'es' ? 'Procesando…' : 'Processing…'}
+                      </>
+                    ) : (
+                      <>
+                        <Calendar size={18} />
+                        {step === 'meet' ? widgetCopy.confirmMeeting : widgetCopy.confirmCall}
+                      </>
+                    )}
                   </button>
                   {step === 'meet' && <p className="text-xs text-stone-400 text-center">{widgetCopy.meetingNote}</p>}
+
+                  {bookingStatus === 'success' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-center"
+                    >
+                      <p className="text-green-300 text-xs font-semibold">
+                        {language === 'es'
+                          ? '✓ Hemos abierto Google Calendar y WhatsApp. Guarda el evento en Calendar para generar tu enlace de Meet.'
+                          : '✓ We opened Google Calendar and WhatsApp. Save the event in Calendar to generate your Meet link.'}
+                      </p>
+                    </motion.div>
+                  )}
                 </motion.div>
               )}
             </div>
@@ -5098,7 +5294,7 @@ export default function App() {
                 <span>{language === 'es' ? 'Instalar App' : 'Install App'}</span>
               </motion.button>
             )}
-            <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => scrollToSection(e, 'contacto')} variant="primary" size="small" className="ml-2" />
+            <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => scrollToSection(e, 'contacto')} variant="primary" size="small" className="ml-2" ctaId="nav_top_cta" />
           </div>
           
           {/* Mobile Controls */}
@@ -5127,7 +5323,7 @@ export default function App() {
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
-              <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => { scrollToSection(e, 'contacto'); setMobileMenu(false); }} variant="primary" className="w-full mt-8" size="large" />
+              <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => { scrollToSection(e, 'contacto'); setMobileMenu(false); }} variant="primary" className="w-full mt-8" size="large" ctaId="nav_mobile_cta" />
               {!isAppInstalled && deferredPrompt && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
@@ -5282,7 +5478,7 @@ export default function App() {
               {/* Ver Portafolio — Glass Glow CTA */}
               <motion.a
                 href="/portafolio"
-                onClick={(e) => { e.preventDefault(); navigateToPortfolio(); }}
+                onClick={(e) => { e.preventDefault(); trackCtaClick('hero_portfolio', 'portfolio'); navigateToPortfolio(); }}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 className="group relative flex items-center justify-center gap-2 py-3.5 px-8 rounded-full font-semibold text-sm border border-[#facc15]/50 bg-white/10 backdrop-blur-md text-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.2)] hover:bg-[#facc15] hover:text-black hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:border-[#facc15] transition-all duration-300 overflow-hidden"
@@ -5302,6 +5498,7 @@ export default function App() {
                 text={copy.heroSecondaryCta}
                 message={copy.heroSecondaryMsg}
                 variant="outline"
+                ctaId="hero_quote"
                 className="h-[48px] px-8 text-sm font-semibold border !text-white !border-white/20 hover:!bg-white/10 rounded-full transition-all duration-300"
               />
             </motion.div>
@@ -5624,7 +5821,7 @@ export default function App() {
           <motion.h2 initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9]" style={{ color: 'var(--text-main)' }}>{copy.finalTitle}</motion.h2>
           <motion.p initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-base sm:text-lg md:text-xl mb-10 md:mb-12 max-w-2xl mx-auto font-normal" style={{ color: 'var(--text-muted)' }}>{copy.finalSubtitle}</motion.p>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-            <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" />
+            <WhatsAppButton text={copy.finalCta} className="px-12 md:px-16 py-6 text-lg shadow-[0_30px_60px_-20px_rgba(0,0,0,0.3)]" size="large" ctaId="final_cta" />
           </motion.div>
           <div className="flex justify-center gap-6 md:gap-8 mt-8 md:mt-10 text-xs md:text-sm flex-wrap" style={{ color: 'var(--text-muted)' }}>
             <span className="flex items-center gap-2"><Shield size={16} className="text-green-500" /> {copy.tags[0]}</span>

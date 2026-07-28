@@ -2,6 +2,31 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
+// Inline emoji literals so this component stays self-contained (does not
+// import WA_EMOJI from App.jsx, which would create a circular dependency).
+const WHATSAPP_NUMBER = '51933667414';
+
+// Lightweight GA4 click tracker — no-op when gtag is not loaded so this
+// component is safe to use in isolation (e.g. in unit tests).
+const trackCtaClick = (ctaId: string | undefined, target: string, extra: Record<string, unknown> = {}) => {
+  if (typeof window === 'undefined') return;
+  const gtag = (window as any).gtag;
+  if (typeof gtag !== 'function' || !ctaId) return;
+  try {
+    gtag('event', 'cta_click', {
+      cta_id: ctaId,
+      cta_target: target,
+      device: /mobi|iphone|ipod|android.*mobile|windows phone/i.test(navigator.userAgent || '') ? 'mobile'
+        : /tablet|ipad|playbook|silk/i.test(navigator.userAgent || '') ? 'tablet'
+        : 'desktop',
+      language: typeof document !== 'undefined' ? (document.documentElement.lang || 'es') : 'es',
+      ...extra,
+    });
+  } catch {
+    /* no-op */
+  }
+};
+
 export interface WhatsAppButtonProps {
   text: string;
   message?: string;
@@ -10,6 +35,8 @@ export interface WhatsAppButtonProps {
   className?: string;
   onClick?: () => void;
   size?: 'small' | 'normal' | 'large';
+  /** Unique CTA identifier used for GA4 funnel reporting. */
+  ctaId?: string;
 }
 
 export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
@@ -20,9 +47,10 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   className = '',
   onClick,
   size = 'normal',
+  ctaId,
 }) => {
-  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/51933667414?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
+  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Tipo de negocio:* Por definir\n\nQuedo atento.`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
 
@@ -43,12 +71,17 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     dark: 'bg-stone-950 text-white hover:bg-stone-900 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] dark:bg-white dark:text-stone-950',
   };
 
+  const handleClick = () => {
+    if (ctaId) trackCtaClick(ctaId, 'whatsapp');
+    if (typeof onClick === 'function') onClick();
+  };
+
   return (
     <motion.a
       href={finalHref}
       target={isExternalLink ? '_blank' : undefined}
       rel={isExternalLink ? 'noopener noreferrer' : undefined}
-      onClick={onClick}
+      onClick={handleClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       className={`${baseStyle} ${variants[variant]} ${sizeClasses[size]} ${className}`}
@@ -62,3 +95,5 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
     </motion.a>
   );
 };
+
+export default WhatsAppButton;
