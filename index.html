@@ -49,18 +49,10 @@
     <link rel="preconnect" href="https://images.unsplash.com" />
     <link rel="preconnect" href="https://wa.me" />
     
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
-        page_title: 'Fast Page Pro',
-        page_location: window.location.href
-      });
-    </script>
-    
+    <!-- Google Analytics: loaded lazily by src/components/Analytics.tsx
+         only when VITE_GA_ID env var is set. Prevents wasted requests to
+         googletagmanager.com when no real GA property is configured. -->
+
     <!-- Schema.org JSON-LD — LocalBusiness with Reviews -->
     <script type="application/ld+json">
       {

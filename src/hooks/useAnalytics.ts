@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
 /**
- * Custom hook for Google Analytics event tracking
+ * Custom hook for Google Analytics event tracking.
+ * Safe to call even when GA is not loaded — calls become no-ops.
  */
 export const useAnalytics = () => {
   const trackEvent = (eventName: string, eventParams?: Record<string, any>) => {
@@ -12,10 +13,13 @@ export const useAnalytics = () => {
 
   const trackPageView = (pagePath: string, pageTitle?: string) => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('config', 'G-XXXXXXXXXX', {
-        page_path: pagePath,
-        page_title: pageTitle,
-      });
+      const GA_ID = import.meta.env.VITE_GA_ID as string | undefined;
+      if (GA_ID && !GA_ID.startsWith('G-XXXX')) {
+        (window as any).gtag('config', GA_ID, {
+          page_path: pagePath,
+          page_title: pageTitle,
+        });
+      }
     }
   };
 

@@ -64,8 +64,6 @@ import { Spotlight } from './components/Spotlight';
 // WebGL Shader Background (Mobile Only — Ultra Pro Aurora/Rays)
 import AetherHero from './components/AetherHero';
 
-const _MOTION = motion;
-
 // --- Constants ---
 const WHATSAPP_NUMBER = "51933667414";
 const PROFASTPAGE_EMAIL = "cotizaciones@fastpagepro.com";
