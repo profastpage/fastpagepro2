@@ -1,0 +1,1388 @@
+{
+  "version": "2026.1",
+  "empresa": "Fast Page Pro",
+  "totalProyectos": 35,
+  "normasComerciales": {
+    "politicaPrecios": "Los precios son personalizados según alcance, integraciones y país del cliente.",
+    "peru": "Cotizaciones en Soles (PEN) con medios locales (Yape, Plin, Niubiz) y Facturación SUNAT.",
+    "usa": "Cotizaciones en USD con arquitectura bilingüe (EN/ES), SEO local Google Maps, Stripe, Zelle y factura W-9.",
+    "procedimientoRecomendado": "Agendar una reunión de 15 min en Google Meet para diagnóstico técnico y entrega de propuesta formal con hitos (50% inicio / 50% entrega)."
+  },
+  "proyectos": [
+    {
+      "id": 1,
+      "title": "Vuelo 78 Hotel Tarapoto",
+      "slug": "vuelo-78-hotel",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Hotelería Selva Amazónica",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "WhatsAppEngineAutomatizado",
+        "GaleríaInmersiva",
+        "VercelEdge"
+      ],
+      "highlights": "Aumento de 15 a 42 reservas mensuales directas gracias al sistema automatizado de WhatsApp.",
+      "description": "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel en Tarapoto.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/vuelo-78-hotel",
+      "imageFileName": "vuelo-78-hotel.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/vuelo-78-hotel.webp",
+      "liveUrl": "https://www.vuelo78hotel.com",
+      "whatsappCatalogCopy": "🌟 *VUELO 78 HOTEL TARAPOTO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Hotelería Selva Amazónica\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • WhatsAppEngineAutomatizado • GaleríaInmersiva • VercelEdge\n\n💡 *Lo que resuelve para el negocio:*\nSistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel en Tarapoto.\n\n🎯 *Resultado Clave:*\nAumento de 15 a 42 reservas mensuales directas gracias al sistema automatizado de WhatsApp.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/vuelo-78-hotel\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 2,
+      "title": "CMC LATAM Arquitectura",
+      "slug": "cmc-latam",
+      "category": "Web Profesional",
+      "industry": "corporativo",
+      "industryLabel": "Arquitectura Costera & Construcción",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "Dark/LightMode",
+        "GaleríaArquitectónicaHD",
+        "WhatsAppMulticanal"
+      ],
+      "highlights": "Plataforma bilingüe de arquitectura con modo oscuro/claro y catálogo de residencias de playa.",
+      "description": "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados y galería de proyectos residenciales.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/cmc-latam",
+      "imageFileName": "cmc-latam.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/cmc-latam.webp",
+      "liveUrl": "https://cmc-latam-2.vercel.app/",
+      "whatsappCatalogCopy": "🌟 *CMC LATAM ARQUITECTURA* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Arquitectura Costera & Construcción\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • Dark/LightMode • GaleríaArquitectónicaHD • WhatsAppMulticanal\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados y galería de proyectos residenciales.\n\n🎯 *Resultado Clave:*\nPlataforma bilingüe de arquitectura con modo oscuro/claro y catálogo de residencias de playa.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/cmc-latam\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 3,
+      "title": "Moda Digital Pro",
+      "slug": "moda-digital-pro",
+      "category": "Web Profesional",
+      "industry": "ecommerce",
+      "industryLabel": "Plotters & Maquinaria Textil",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "VideoHero4K",
+        "CatálogoMaquinariaIndustrial",
+        "WhatsAppIndustrial"
+      ],
+      "highlights": "Plataforma con Video Hero 4K y navegación estilo app móvil para venta de maquinaria textil de gran formato.",
+      "description": "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, catálogo de equipos y servicios de sublimación digital.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/moda-digital-pro",
+      "imageFileName": "moda-digital-pro.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/moda-digital-pro.webp",
+      "liveUrl": "https://www.modadigitalpro.com/",
+      "whatsappCatalogCopy": "🌟 *MODA DIGITAL PRO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Plotters & Maquinaria Textil\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • VideoHero4K • CatálogoMaquinariaIndustrial • WhatsAppIndustrial\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, catálogo de equipos y servicios de sublimación digital.\n\n🎯 *Resultado Clave:*\nPlataforma con Video Hero 4K y navegación estilo app móvil para venta de maquinaria textil de gran formato.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/moda-digital-pro\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 4,
+      "title": "Semaltemed Dispositivos Médicos",
+      "slug": "semaltemed",
+      "category": "Web Profesional",
+      "industry": "salud",
+      "industryLabel": "Salud & Equipamiento Clínico",
+      "tier": "Nivel 1",
+      "tierName": "Landing Page / Conversión Directa Ultra Rápida",
+      "pricingLogistics": {
+        "peru": {
+          "min": 890,
+          "max": 1490,
+          "currency": "PEN",
+          "formatted": "S/. 890 - S/. 1,490"
+        },
+        "usa": {
+          "min": 490,
+          "max": 850,
+          "currency": "USD",
+          "formatted": "$490 - $850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "3 - 5 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CatálogoDispositivosMédicos",
+        "TailwindCSS",
+        "CotizadorClínicoWhatsApp"
+      ],
+      "highlights": "Catálogo integral de instrumental y equipamiento médico con especificaciones técnicas para clínicas y hospitales.",
+      "description": "Portal corporativo y catálogo de equipamiento médico y suministros clínicos para hospitales, consultorios y laboratorios.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/semaltemed",
+      "imageFileName": "semaltemed.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/semaltemed.webp",
+      "liveUrl": "https://semaltemed.com",
+      "whatsappCatalogCopy": "🌟 *SEMALTEMED DISPOSITIVOS MÉDICOS* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Salud & Equipamiento Clínico\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CatálogoDispositivosMédicos • TailwindCSS • CotizadorClínicoWhatsApp\n\n💡 *Lo que resuelve para el negocio:*\nPortal corporativo y catálogo de equipamiento médico y suministros clínicos para hospitales, consultorios y laboratorios.\n\n🎯 *Resultado Clave:*\nCatálogo integral de instrumental y equipamiento médico con especificaciones técnicas para clínicas y hospitales.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/semaltemed\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 5,
+      "title": "Gincana Club Campestre",
+      "slug": "gincana-club-campestre",
+      "category": "Web Profesional",
+      "industry": "corporativo",
+      "industryLabel": "Eventos Corporativos & Clubes",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "GaleríaSedesCampestres",
+        "CotizadorDinámicodeEventos",
+        "WhatsAppAPI"
+      ],
+      "highlights": "Gestión de gincanas y paseos campestres para colegios de abogados, empresas corporativas y familias.",
+      "description": "Plataforma especializada en organización de eventos corporativos, gincanas campestres y días de integración laboral en clubes de Lima.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/gincana-club-campestre",
+      "imageFileName": "gincana-club-campestre.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/gincana-club-campestre.webp",
+      "liveUrl": "https://gincanaclubcampestre.com",
+      "whatsappCatalogCopy": "🌟 *GINCANA CLUB CAMPESTRE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Eventos Corporativos & Clubes\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • GaleríaSedesCampestres • CotizadorDinámicodeEventos • WhatsAppAPI\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma especializada en organización de eventos corporativos, gincanas campestres y días de integración laboral en clubes de Lima.\n\n🎯 *Resultado Clave:*\nGestión de gincanas y paseos campestres para colegios de abogados, empresas corporativas y familias.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/gincana-club-campestre\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 6,
+      "title": "Jhon & Asociados Estudio Contable",
+      "slug": "jhon-asociados",
+      "category": "Web Profesional",
+      "industry": "legal",
+      "industryLabel": "Estudio Contable & Tributario SUNAT",
+      "tier": "Nivel 1",
+      "tierName": "Landing Page / Conversión Directa Ultra Rápida",
+      "pricingLogistics": {
+        "peru": {
+          "min": 890,
+          "max": 1490,
+          "currency": "PEN",
+          "formatted": "S/. 890 - S/. 1,490"
+        },
+        "usa": {
+          "min": 490,
+          "max": 850,
+          "currency": "USD",
+          "formatted": "$490 - $850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "3 - 5 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "PreloaderTemático",
+        "SistemaConsultoríasSUNAT",
+        "WhatsAppDinámico"
+      ],
+      "highlights": "Sitio web institucional de 5 subpáginas con enrutamiento de consultorías tributarias.",
+      "description": "Sitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT con preloader temático y WhatsApp dinámico.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/jhon-asociados",
+      "imageFileName": "jhon-asociados.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/jhon-asociados.webp",
+      "liveUrl": "https://www.jhonasociados.com/",
+      "whatsappCatalogCopy": "🌟 *JHON & ASOCIADOS ESTUDIO CONTABLE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Estudio Contable & Tributario SUNAT\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • PreloaderTemático • SistemaConsultoríasSUNAT • WhatsAppDinámico\n\n💡 *Lo que resuelve para el negocio:*\nSitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT con preloader temático y WhatsApp dinámico.\n\n🎯 *Resultado Clave:*\nSitio web institucional de 5 subpáginas con enrutamiento de consultorías tributarias.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/jhon-asociados\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 7,
+      "title": "Cooperativa Unión el Progreso",
+      "slug": "union-el-progreso",
+      "category": "Web Profesional",
+      "industry": "finanzas",
+      "industryLabel": "Cooperativa de Ahorro y Crédito",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "SimuladorCréditoVehicular",
+        "CalculadoraPréstamos",
+        "WhatsAppLeadRouting"
+      ],
+      "highlights": "Simuladores en vivo para préstamos personales, vehiculares y fondos de ahorro mutuo con captación de socios.",
+      "description": "Portal institucional para cooperativa de ahorro y crédito con simulador de préstamos personales, créditos vehiculares y afiliación de nuevos socios.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/union-el-progreso",
+      "imageFileName": "union-el-progreso.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/union-el-progreso.webp",
+      "liveUrl": "https://unionelprogreso.pe",
+      "whatsappCatalogCopy": "🌟 *COOPERATIVA UNIÓN EL PROGRESO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Cooperativa de Ahorro y Crédito\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • SimuladorCréditoVehicular • CalculadoraPréstamos • WhatsAppLeadRouting\n\n💡 *Lo que resuelve para el negocio:*\nPortal institucional para cooperativa de ahorro y crédito con simulador de préstamos personales, créditos vehiculares y afiliación de nuevos socios.\n\n🎯 *Resultado Clave:*\nSimuladores en vivo para préstamos personales, vehiculares y fondos de ahorro mutuo con captación de socios.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/union-el-progreso\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 8,
+      "title": "Intiquilla Adventures Cusco",
+      "slug": "intiquilla-adventures",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Turismo & Trekking Cusco",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "BookingEngineWhatsApp",
+        "GaleríaInmersiva",
+        "SEOTurísticoInternacional"
+      ],
+      "highlights": "Plataforma de expediciones y trekking en Cusco con itinerarios detallados y reservas directas.",
+      "description": "Operador de turismo de aventura y expediciones en Cusco y Machu Picchu. Catálogo de paquetes turísticos, reservas directas a WhatsApp y diseño bilingüe.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/intiquilla-adventures",
+      "imageFileName": "intiquilla-adventures.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/intiquilla-adventures.webp",
+      "liveUrl": "https://intiquilla-adventures.vercel.app",
+      "whatsappCatalogCopy": "🌟 *INTIQUILLA ADVENTURES CUSCO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Turismo & Trekking Cusco\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • BookingEngineWhatsApp • GaleríaInmersiva • SEOTurísticoInternacional\n\n💡 *Lo que resuelve para el negocio:*\nOperador de turismo de aventura y expediciones en Cusco y Machu Picchu. Catálogo de paquetes turísticos, reservas directas a WhatsApp y diseño bilingüe.\n\n🎯 *Resultado Clave:*\nPlataforma de expediciones y trekking en Cusco con itinerarios detallados y reservas directas.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/intiquilla-adventures\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 9,
+      "title": "El Hombre Hotel Huanchaco",
+      "slug": "el-hombre-hotel",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Hotelería & Surf Beachfront",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "MotorReservasDirectas",
+        "GaleríaHabitacionesMarítimas",
+        "WhatsAppBot"
+      ],
+      "highlights": "Hotel boutique y surf camp frente al mar en Huanchaco con reserva directa de habitaciones.",
+      "description": "Hotel boutique frente al mar en Huanchaco. Incluye vista a las olas, restaurante de comida marina, reservas directas por WhatsApp y suites familiares.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/el-hombre-hotel",
+      "imageFileName": "el-hombre-hotel.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/el-hombre-hotel.webp",
+      "liveUrl": "https://elhombrehotel.com",
+      "whatsappCatalogCopy": "🌟 *EL HOMBRE HOTEL HUANCHACO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Hotelería & Surf Beachfront\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • MotorReservasDirectas • GaleríaHabitacionesMarítimas • WhatsAppBot\n\n💡 *Lo que resuelve para el negocio:*\nHotel boutique frente al mar en Huanchaco. Incluye vista a las olas, restaurante de comida marina, reservas directas por WhatsApp y suites familiares.\n\n🎯 *Resultado Clave:*\nHotel boutique y surf camp frente al mar en Huanchaco con reserva directa de habitaciones.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/el-hombre-hotel\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 10,
+      "title": "Rainforest Wild Expeditions",
+      "slug": "rainforest-wild",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Ecoturismo & Expediciones Amazónicas",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "ReservaExpedicionesSelva",
+        "GaleríaFlora&FaunaHD",
+        "WhatsAppBilingüe"
+      ],
+      "highlights": "Promoción de paquetes vivenciales ecológicos y safaris fotográficos en la selva virgen del Perú.",
+      "description": "Plataforma de expediciones ecológicas y lodges en la selva amazónica. Incluye avistamiento de fauna, tours guiados y reserva de paquetes de aventura.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/rainforest-wild",
+      "imageFileName": "rainforest-wild.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/rainforest-wild.webp",
+      "liveUrl": "https://rainforestwild.com",
+      "whatsappCatalogCopy": "🌟 *RAINFOREST WILD EXPEDITIONS* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Ecoturismo & Expediciones Amazónicas\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • ReservaExpedicionesSelva • GaleríaFlora&FaunaHD • WhatsAppBilingüe\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma de expediciones ecológicas y lodges en la selva amazónica. Incluye avistamiento de fauna, tours guiados y reserva de paquetes de aventura.\n\n🎯 *Resultado Clave:*\nPromoción de paquetes vivenciales ecológicos y safaris fotográficos en la selva virgen del Perú.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/rainforest-wild\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 11,
+      "title": "Sertrade Soluciones Industriales",
+      "slug": "sertrade",
+      "category": "Web Profesional",
+      "industry": "logistica",
+      "industryLabel": "Construcción, Electricidad & Suministros",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CatálogoSuministrosIndustriales",
+        "VideoHeroIndustrial",
+        "TailwindCSS"
+      ],
+      "highlights": "Proveedor integral de servicios de construcción, instalaciones eléctricas industriales y comercio comercial.",
+      "description": "Portal corporativo para empresa de servicios de construcción, montajes eléctricos y suministros industriales para obras civiles y mineras.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/sertrade",
+      "imageFileName": "sertrade.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/sertrade.webp",
+      "liveUrl": "https://sertrade.com",
+      "whatsappCatalogCopy": "🌟 *SERTRADE SOLUCIONES INDUSTRIALES* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Construcción, Electricidad & Suministros\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CatálogoSuministrosIndustriales • VideoHeroIndustrial • TailwindCSS\n\n💡 *Lo que resuelve para el negocio:*\nPortal corporativo para empresa de servicios de construcción, montajes eléctricos y suministros industriales para obras civiles y mineras.\n\n🎯 *Resultado Clave:*\nProveedor integral de servicios de construcción, instalaciones eléctricas industriales y comercio comercial.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/sertrade\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 12,
+      "title": "Maia Store",
+      "slug": "maia-store",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "Moda & Retail Femenino",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "SanityCMSHeadless",
+        "PWAMóvil",
+        "CarritoFlotante",
+        "CheckoutWhatsApp"
+      ],
+      "highlights": "Boutique de moda con catálogo autoadministrable semanal en Sanity CMS y checkout ultra veloz.",
+      "description": "Boutique de moda femenina con catálogo autoadministrable en Sanity CMS, carrito flotante interactivo, filtros por talla y color, y finalización de compra optimizada vía WhatsApp.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/maia-store",
+      "imageFileName": "maia-store.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/maia-store.webp",
+      "liveUrl": "https://maia-store.vercel.app",
+      "whatsappCatalogCopy": "🌟 *MAIA STORE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Moda & Retail Femenino\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • SanityCMSHeadless • PWAMóvil • CarritoFlotante • CheckoutWhatsApp\n\n💡 *Lo que resuelve para el negocio:*\nBoutique de moda femenina con catálogo autoadministrable en Sanity CMS, carrito flotante interactivo, filtros por talla y color, y finalización de compra optimizada vía WhatsApp.\n\n🎯 *Resultado Clave:*\nBoutique de moda con catálogo autoadministrable semanal en Sanity CMS y checkout ultra veloz.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/maia-store\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 13,
+      "title": "Gudstor Pack Embalajes",
+      "slug": "gudstor-pack",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "Empaques Industriales & Embalaje B2B",
+      "tier": "Nivel 1",
+      "tierName": "Landing Page / Conversión Directa Ultra Rápida",
+      "pricingLogistics": {
+        "peru": {
+          "min": 890,
+          "max": 1490,
+          "currency": "PEN",
+          "formatted": "S/. 890 - S/. 1,490"
+        },
+        "usa": {
+          "min": 490,
+          "max": 850,
+          "currency": "USD",
+          "formatted": "$490 - $850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "3 - 5 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CatálogoCajas&Cintas",
+        "CotizadorporVolumen",
+        "WhatsAppPedidos"
+      ],
+      "highlights": "Venta mayorista y minorista de cajas de cartón corrugado, film stretch, cintas de embalaje y bolsas industriales.",
+      "description": "E-commerce y catálogo corporativo de empaques industriales, cajas corrugadas, películas stretch y cintas de embalaje para logística y comercio electrónico.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/gudstor-pack",
+      "imageFileName": "gudstor-pack.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/gudstor-pack.webp",
+      "liveUrl": "https://gudstorpack.com",
+      "whatsappCatalogCopy": "🌟 *GUDSTOR PACK EMBALAJES* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Empaques Industriales & Embalaje B2B\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CatálogoCajas&Cintas • CotizadorporVolumen • WhatsAppPedidos\n\n💡 *Lo que resuelve para el negocio:*\nE-commerce y catálogo corporativo de empaques industriales, cajas corrugadas, películas stretch y cintas de embalaje para logística y comercio electrónico.\n\n🎯 *Resultado Clave:*\nVenta mayorista y minorista de cajas de cartón corrugado, film stretch, cintas de embalaje y bolsas industriales.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/gudstor-pack\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 14,
+      "title": "Peru Travel Receptivo",
+      "slug": "peru-travel",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Turismo Receptivo Internacional",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "ToursAmazonía&Costa",
+        "ReservaWhatsApp",
+        "TailwindCSS"
+      ],
+      "highlights": "Paquetes turísticos completos por costa, sierra y selva con tours culturales y homestays vivenciales.",
+      "description": "Agencia de viajes receptiva con circuitos turísticos completos en Cusco, Puno, Arequipa y la selva amazónica.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/peru-travel",
+      "imageFileName": "peru-travel.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/peru-travel.webp",
+      "liveUrl": "https://perutravel.pe",
+      "whatsappCatalogCopy": "🌟 *PERU TRAVEL RECEPTIVO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Turismo Receptivo Internacional\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • ToursAmazonía&Costa • ReservaWhatsApp • TailwindCSS\n\n💡 *Lo que resuelve para el negocio:*\nAgencia de viajes receptiva con circuitos turísticos completos en Cusco, Puno, Arequipa y la selva amazónica.\n\n🎯 *Resultado Clave:*\nPaquetes turísticos completos por costa, sierra y selva con tours culturales y homestays vivenciales.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/peru-travel\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 15,
+      "title": "Camisas en Tallas Grandes (CTG)",
+      "slug": "camisas-tallas-grandes",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "Moda Masculina Plus Size",
+      "tier": "Nivel 1",
+      "tierName": "Landing Page / Conversión Directa Ultra Rápida",
+      "pricingLogistics": {
+        "peru": {
+          "min": 890,
+          "max": 1490,
+          "currency": "PEN",
+          "formatted": "S/. 890 - S/. 1,490"
+        },
+        "usa": {
+          "min": 490,
+          "max": 850,
+          "currency": "USD",
+          "formatted": "$490 - $850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "3 - 5 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "GuíaInteractivadeTallas",
+        "CarritoFlotante",
+        "CheckoutWhatsApp"
+      ],
+      "highlights": "Marca especializada en camisas formales y casuales desde talla XL hasta 6XL con horma anatómica.",
+      "description": "Tienda online de moda masculina de tallas grandes (XL a 6XL). Incluye catálogo con fotos en modelos reales, guía de medidas y compra por WhatsApp.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/camisas-tallas-grandes",
+      "imageFileName": "camisas-tallas-grandes.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/camisas-tallas-grandes.webp",
+      "liveUrl": "https://camisasentallasgrandes.com",
+      "whatsappCatalogCopy": "🌟 *CAMISAS EN TALLAS GRANDES (CTG)* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Moda Masculina Plus Size\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • GuíaInteractivadeTallas • CarritoFlotante • CheckoutWhatsApp\n\n💡 *Lo que resuelve para el negocio:*\nTienda online de moda masculina de tallas grandes (XL a 6XL). Incluye catálogo con fotos en modelos reales, guía de medidas y compra por WhatsApp.\n\n🎯 *Resultado Clave:*\nMarca especializada en camisas formales y casuales desde talla XL hasta 6XL con horma anatómica.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/camisas-tallas-grandes\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 16,
+      "title": "Nueva Vida Centro Médico",
+      "slug": "nueva-vida-centro-medico",
+      "category": "Web Profesional",
+      "industry": "salud",
+      "industryLabel": "Salud Integral & Especialidades Médicas",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "AgendadorCitasMédicas",
+        "StaffMédicoEspecialista",
+        "WhatsAppClínico"
+      ],
+      "highlights": "Centro de salud integral con más de 12 especialidades médicas liderado por el Dr. Ochoa.",
+      "description": "Portal médico para centro de salud integral con catálogo de especialidades, perfiles médicos y sistema de agendamiento de citas presenciales y virtuales.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/nueva-vida-centro-medico",
+      "imageFileName": "nueva-vida-centro-medico.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/nueva-vida-centro-medico.webp",
+      "liveUrl": "https://nuevavidamed.pe",
+      "whatsappCatalogCopy": "🌟 *NUEVA VIDA CENTRO MÉDICO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Salud Integral & Especialidades Médicas\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • AgendadorCitasMédicas • StaffMédicoEspecialista • WhatsAppClínico\n\n💡 *Lo que resuelve para el negocio:*\nPortal médico para centro de salud integral con catálogo de especialidades, perfiles médicos y sistema de agendamiento de citas presenciales y virtuales.\n\n🎯 *Resultado Clave:*\nCentro de salud integral con más de 12 especialidades médicas liderado por el Dr. Ochoa.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/nueva-vida-centro-medico\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 17,
+      "title": "Academia Online El Profe",
+      "slug": "academia-el-profe",
+      "category": "Web Profesional",
+      "industry": "educacion",
+      "industryLabel": "Educación Digital & Preuniversitaria",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "AulasVirtuales",
+        "CatálogoCursosMatemáticas&Ciencias",
+        "WhatsAppMatrículas"
+      ],
+      "highlights": "Plataforma de cursos preuniversitarios y reforzamiento académico con matrícula instantánea.",
+      "description": "Plataforma web de educación preuniversitaria y reforzamiento escolar con catálogo de cursos, horarios de clases en vivo y matrícula online.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/academia-el-profe",
+      "imageFileName": "academia-el-profe.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/academia-el-profe.webp",
+      "liveUrl": "https://academiaelprofe.com",
+      "whatsappCatalogCopy": "🌟 *ACADEMIA ONLINE EL PROFE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Educación Digital & Preuniversitaria\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • AulasVirtuales • CatálogoCursosMatemáticas&Ciencias • WhatsAppMatrículas\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma web de educación preuniversitaria y reforzamiento escolar con catálogo de cursos, horarios de clases en vivo y matrícula online.\n\n🎯 *Resultado Clave:*\nPlataforma de cursos preuniversitarios y reforzamiento académico con matrícula instantánea.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/academia-el-profe\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 18,
+      "title": "Breicorp Soluciones Empresariales",
+      "slug": "breicorp",
+      "category": "Web Profesional",
+      "industry": "corporativo",
+      "industryLabel": "Consultoría Corporativa & Suministros",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "PortafolioClientesB2B",
+        "LicitacionesPrivadas",
+        "WhatsAppCorporativo"
+      ],
+      "highlights": "Consultoría integral en abastecimiento y proyectos corporativos para empresas líderes del Perú.",
+      "description": "Sitio corporativo de consultoría empresarial, logística y servicios de suministros para el sector privado y corporativo.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/breicorp",
+      "imageFileName": "breicorp.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/breicorp.webp",
+      "liveUrl": "https://breicorp.pe",
+      "whatsappCatalogCopy": "🌟 *BREICORP SOLUCIONES EMPRESARIALES* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Consultoría Corporativa & Suministros\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • PortafolioClientesB2B • LicitacionesPrivadas • WhatsAppCorporativo\n\n💡 *Lo que resuelve para el negocio:*\nSitio corporativo de consultoría empresarial, logística y servicios de suministros para el sector privado y corporativo.\n\n🎯 *Resultado Clave:*\nConsultoría integral en abastecimiento y proyectos corporativos para empresas líderes del Perú.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/breicorp\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 19,
+      "title": "Mandi Corp",
+      "slug": "mandi-corp",
+      "category": "Web Profesional",
+      "industry": "finanzas",
+      "industryLabel": "Finanzas & Préstamos Personales",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "SimuladorCuotasFinancieras",
+        "EfectoPartículas",
+        "WhatsAppLeadEngine"
+      ],
+      "highlights": "Simulador interactivo de préstamos con cálculo de intereses en tiempo real y carga en 0.5 segundos.",
+      "description": "Plataforma de préstamos en línea con calculadora inteligente de cuotas, doble menú de navegación, efecto de partículas de animación, integración con WhatsApp para solicitudes instantáneas y diseño premium dorado. Web optimizada para carga en 0.5 segundos con tecnología moderna, SEO avanzado y posicionamiento en Google.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/mandi-corp",
+      "imageFileName": "mandi-corp.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/mandi-corp.webp",
+      "liveUrl": "https://www.mandicorp.com/#inicio",
+      "whatsappCatalogCopy": "🌟 *MANDI CORP* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Finanzas & Préstamos Personales\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • SimuladorCuotasFinancieras • EfectoPartículas • WhatsAppLeadEngine\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma de préstamos en línea con calculadora inteligente de cuotas, doble menú de navegación, efecto de partículas de animación, integración con WhatsApp para solicitudes instantáneas y diseño premium dorado. Web optimizada para carga en 0.5 segundos con tecnología moderna, SEO avanzado y posicionamiento en Google.\n\n🎯 *Resultado Clave:*\nSimulador interactivo de préstamos con cálculo de intereses en tiempo real y carga en 0.5 segundos.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/mandi-corp\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 20,
+      "title": "Editorial Horizonte",
+      "slug": "editorial-horizonte",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "Editorial & Cultura Peruana",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CatálogoDinámico",
+        "PanelAdmin",
+        "CarritoInteractivo",
+        "WhatsAppCheckout"
+      ],
+      "highlights": "Digitalización del fondo editorial de José María Arguedas con catálogo literario interactivo.",
+      "description": "Fondo editorial y tienda literaria oficial fundada en 1970 (con obras de José María Arguedas y ciencias sociales). Catálogo completo con buscador por autores y géneros, panel de control administrativo y pasarela de pedidos directos.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/editorial-horizonte",
+      "imageFileName": "editorial-horizonte.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/editorial-horizonte.webp",
+      "liveUrl": "https://editorial-horizonte.vercel.app",
+      "whatsappCatalogCopy": "🌟 *EDITORIAL HORIZONTE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Editorial & Cultura Peruana\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CatálogoDinámico • PanelAdmin • CarritoInteractivo • WhatsAppCheckout\n\n💡 *Lo que resuelve para el negocio:*\nFondo editorial y tienda literaria oficial fundada en 1970 (con obras de José María Arguedas y ciencias sociales). Catálogo completo con buscador por autores y géneros, panel de control administrativo y pasarela de pedidos directos.\n\n🎯 *Resultado Clave:*\nDigitalización del fondo editorial de José María Arguedas con catálogo literario interactivo.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/editorial-horizonte\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 21,
+      "title": "AMC Soluciones Perú",
+      "slug": "amc-soluciones-peru",
+      "category": "Web Profesional",
+      "industry": "corporativo",
+      "industryLabel": "Ingeniería Electromecánica & Minería",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CatálogoServiciosElectromecánicos",
+        "PortafolioObrasIndustriales",
+        "TailwindCSS"
+      ],
+      "highlights": "Empresa de ingeniería especializada en montajes electromecánicos, mantenimiento preventivo y servicios para minería.",
+      "description": "Portal de ingeniería electromecánica, montajes industriales y mantenimiento especializado para plantas de producción y minería en Perú.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/amc-soluciones-peru",
+      "imageFileName": "amc-soluciones-peru.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/amc-soluciones-peru.webp",
+      "liveUrl": "https://amcsoluciones.pe",
+      "whatsappCatalogCopy": "🌟 *AMC SOLUCIONES PERÚ* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Ingeniería Electromecánica & Minería\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CatálogoServiciosElectromecánicos • PortafolioObrasIndustriales • TailwindCSS\n\n💡 *Lo que resuelve para el negocio:*\nPortal de ingeniería electromecánica, montajes industriales y mantenimiento especializado para plantas de producción y minería en Perú.\n\n🎯 *Resultado Clave:*\nEmpresa de ingeniería especializada en montajes electromecánicos, mantenimiento preventivo y servicios para minería.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/amc-soluciones-peru\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 22,
+      "title": "iTools Perú Ferretería Industrial",
+      "slug": "itools-peru",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "E-commerce & Retail Tecnológico",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "BsaleERPAPI",
+        "SupabasePostgreSQL",
+        "SanityCMS",
+        "PrismaORM",
+        "NextAuth"
+      ],
+      "highlights": "Sincronización en tiempo real de miles de herramientas y facturación electrónica SUNAT automática.",
+      "description": "E-commerce industrial y tecnológico de alto rendimiento con sincronización bidireccional en tiempo real de inventario, stock y facturación electrónica mediante Bsale ERP API. Base de datos PostgreSQL en Supabase, panel administrativo con Sanity CMS y autenticación segura con NextAuth.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/itools-peru",
+      "imageFileName": "itools-peru.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/itools-peru.webp",
+      "liveUrl": "https://i-tools-steel.vercel.app",
+      "whatsappCatalogCopy": "🌟 *ITOOLS PERÚ FERRETERÍA INDUSTRIAL* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* E-commerce & Retail Tecnológico\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • BsaleERPAPI • SupabasePostgreSQL • SanityCMS • PrismaORM • NextAuth\n\n💡 *Lo que resuelve para el negocio:*\nE-commerce industrial y tecnológico de alto rendimiento con sincronización bidireccional en tiempo real de inventario, stock y facturación electrónica mediante Bsale ERP API. Base de datos PostgreSQL en Supabase, panel administrativo con Sanity CMS y autenticación segura con NextAuth.\n\n🎯 *Resultado Clave:*\nSincronización en tiempo real de miles de herramientas y facturación electrónica SUNAT automática.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/itools-peru\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 23,
+      "title": "Impulso Fiscal",
+      "slug": "impulso-fiscal",
+      "category": "Web Profesional",
+      "industry": "legal",
+      "industryLabel": "Consultoría Tributaria & Fiscal",
+      "tier": "Nivel 1",
+      "tierName": "Landing Page / Conversión Directa Ultra Rápida",
+      "pricingLogistics": {
+        "peru": {
+          "min": 890,
+          "max": 1490,
+          "currency": "PEN",
+          "formatted": "S/. 890 - S/. 1,490"
+        },
+        "usa": {
+          "min": 490,
+          "max": 850,
+          "currency": "USD",
+          "formatted": "$490 - $850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "3 - 5 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "BlogSemanaFiscal",
+        "TailwindCSS",
+        "WhatsAppAsesoríaSUNAT"
+      ],
+      "highlights": "Portal tributario con boletín 'Semana Fiscal' y canal de defensa ante contingencias tributarias.",
+      "description": "Firma especializada en consultoría tributaria, contabilidad estratégica y defensa ante fiscalizaciones de SUNAT. Sección de artículos periódicos y contacto directo con tributaristas.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/impulso-fiscal",
+      "imageFileName": "impulso-fiscal.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/impulso-fiscal.webp",
+      "liveUrl": "https://impulsofiscal.com",
+      "whatsappCatalogCopy": "🌟 *IMPULSO FISCAL* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Consultoría Tributaria & Fiscal\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • BlogSemanaFiscal • TailwindCSS • WhatsAppAsesoríaSUNAT\n\n💡 *Lo que resuelve para el negocio:*\nFirma especializada en consultoría tributaria, contabilidad estratégica y defensa ante fiscalizaciones de SUNAT. Sección de artículos periódicos y contacto directo con tributaristas.\n\n🎯 *Resultado Clave:*\nPortal tributario con boletín 'Semana Fiscal' y canal de defensa ante contingencias tributarias.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/impulso-fiscal\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 24,
+      "title": "Medina Almonte - Lawyers Firm",
+      "slug": "medina-almonte-firma-legal",
+      "category": "Web Profesional",
+      "industry": "legal",
+      "industryLabel": "Legal & Corporativo",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "SanityCMSHeadless",
+        "TailwindCSS",
+        "SchemaLegalService",
+        "WhatsAppCloudDirect"
+      ],
+      "highlights": "Firma legal de élite con blog jurídico en tiempo real y agendamiento de consultorías.",
+      "description": "Plataforma institucional de élite para firma legal especializada en derecho civil, penal y corporativo. Incluye preloader corporativo de alto impacto, blog jurídico dinámico administrable con Sanity CMS, sistema de agendamiento de consultorías legales y SEO jurídico geolocalizado.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/medina-almonte-firma-legal",
+      "imageFileName": "medina-almonte-firma-legal.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/medina-almonte-firma-legal.webp",
+      "liveUrl": "https://medinaalmonte.com",
+      "whatsappCatalogCopy": "🌟 *MEDINA ALMONTE - LAWYERS FIRM* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Legal & Corporativo\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • SanityCMSHeadless • TailwindCSS • SchemaLegalService • WhatsAppCloudDirect\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma institucional de élite para firma legal especializada en derecho civil, penal y corporativo. Incluye preloader corporativo de alto impacto, blog jurídico dinámico administrable con Sanity CMS, sistema de agendamiento de consultorías legales y SEO jurídico geolocalizado.\n\n🎯 *Resultado Clave:*\nFirma legal de élite con blog jurídico en tiempo real y agendamiento de consultorías.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/medina-almonte-firma-legal\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 25,
+      "title": "Femar Logistics SAC",
+      "slug": "femar-logistics",
+      "category": "Web Profesional",
+      "industry": "logistica",
+      "industryLabel": "Logística & Fletes Internacionales",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "CotizadorFletesMarítimos",
+        "TailwindCSS",
+        "WhatsAppLogisticsAPI",
+        "EdgeNetwork"
+      ],
+      "highlights": "Cotizador interactivo de fletes marítimos, aéreos y trámites de aduana en el puerto del Callao.",
+      "description": "Portal corporativo para operador logístico integral de comercio exterior (transporte marítimo, aéreo y aduanas). Calculadora interactiva de cubicaje de carga y cotizaciones instantáneas vía WhatsApp.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/femar-logistics",
+      "imageFileName": "femar-logistics.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/femar-logistics.webp",
+      "liveUrl": "https://femar-logistics.vercel.app",
+      "whatsappCatalogCopy": "🌟 *FEMAR LOGISTICS SAC* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Logística & Fletes Internacionales\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • CotizadorFletesMarítimos • TailwindCSS • WhatsAppLogisticsAPI • EdgeNetwork\n\n💡 *Lo que resuelve para el negocio:*\nPortal corporativo para operador logístico integral de comercio exterior (transporte marítimo, aéreo y aduanas). Calculadora interactiva de cubicaje de carga y cotizaciones instantáneas vía WhatsApp.\n\n🎯 *Resultado Clave:*\nCotizador interactivo de fletes marítimos, aéreos y trámites de aduana en el puerto del Callao.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/femar-logistics\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 26,
+      "title": "Hotel Puno Terra",
+      "slug": "hotel-puno-terra",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Hotelería & Lago Titicaca",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "WidgetReservasWhatsApp",
+        "GaleríaInmersivaWebP",
+        "SchemaHotel",
+        "Geolocalización"
+      ],
+      "highlights": "Motor de reservas directas a WhatsApp que ahorra el 18% de comisiones a plataformas intermediarias.",
+      "description": "Plataforma hotelera boutique con motor de reservas directas por WhatsApp que elimina el 18% de comisiones a OTAs (Booking/Expedia). Incluye selector de fechas, disponibilidad de suites, tours al Lago Titicaca, galería fotográfica inmersiva y geolocalización turística.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/hotel-puno-terra",
+      "imageFileName": "hotel-puno-terra.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/hotel-puno-terra.webp",
+      "liveUrl": "https://hotelpunoterra.com",
+      "whatsappCatalogCopy": "🌟 *HOTEL PUNO TERRA* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Hotelería & Lago Titicaca\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • WidgetReservasWhatsApp • GaleríaInmersivaWebP • SchemaHotel • Geolocalización\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma hotelera boutique con motor de reservas directas por WhatsApp que elimina el 18% de comisiones a OTAs (Booking/Expedia). Incluye selector de fechas, disponibilidad de suites, tours al Lago Titicaca, galería fotográfica inmersiva y geolocalización turística.\n\n🎯 *Resultado Clave:*\nMotor de reservas directas a WhatsApp que ahorra el 18% de comisiones a plataformas intermediarias.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/hotel-puno-terra\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 27,
+      "title": "Peru Travel Experts Lujo",
+      "slug": "peru-travel-experts",
+      "category": "Web Profesional",
+      "industry": "hotel",
+      "industryLabel": "Turismo de Lujo & Experiencias VIP",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "ToursExclusivosPrivados",
+        "GaleríaUltraHD",
+        "CotizadordeLujo"
+      ],
+      "highlights": "Paquetes turísticos de lujo con trenes exclusivos a Machu Picchu, hoteles 5 estrellas y guías privados.",
+      "description": "Agencia boutique de turismo de lujo para el mercado receptivo de habla inglesa. Circuitos privados en trenes de lujo, hoteles cinco estrellas y expediciones exclusivas.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/peru-travel-experts",
+      "imageFileName": "peru-travel-experts.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/peru-travel-experts.webp",
+      "liveUrl": "https://perutravelexperts.com",
+      "whatsappCatalogCopy": "🌟 *PERU TRAVEL EXPERTS LUJO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Turismo de Lujo & Experiencias VIP\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • ToursExclusivosPrivados • GaleríaUltraHD • CotizadordeLujo\n\n💡 *Lo que resuelve para el negocio:*\nAgencia boutique de turismo de lujo para el mercado receptivo de habla inglesa. Circuitos privados en trenes de lujo, hoteles cinco estrellas y expediciones exclusivas.\n\n🎯 *Resultado Clave:*\nPaquetes turísticos de lujo con trenes exclusivos a Machu Picchu, hoteles 5 estrellas y guías privados.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/peru-travel-experts\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 28,
+      "title": "Créditos Yadiel",
+      "slug": "creditos-yadiel",
+      "category": "Web Profesional",
+      "industry": "finanzas",
+      "industryLabel": "Microcréditos & Préstamos Rápidos",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "CalculadoraMicrocréditos",
+        "EvaluaciónRápida",
+        "WhatsAppLeadEngine"
+      ],
+      "highlights": "Acceso ágil a financiamiento para pequeños comerciantes y capital de trabajo en menos de 24 horas.",
+      "description": "Plataforma de créditos rápidos para emprendedores y capital de trabajo con simulador de cuotas diarias y semanales.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/creditos-yadiel",
+      "imageFileName": "creditos-yadiel.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/creditos-yadiel.webp",
+      "liveUrl": "https://creditosyadiel.com",
+      "whatsappCatalogCopy": "🌟 *CRÉDITOS YADIEL* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Microcréditos & Préstamos Rápidos\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • CalculadoraMicrocréditos • EvaluaciónRápida • WhatsAppLeadEngine\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma de créditos rápidos para emprendedores y capital de trabajo con simulador de cuotas diarias y semanales.\n\n🎯 *Resultado Clave:*\nAcceso ágil a financiamiento para pequeños comerciantes y capital de trabajo en menos de 24 horas.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/creditos-yadiel\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 29,
+      "title": "ROMA & ABOGADOS",
+      "slug": "roma-abogados",
+      "category": "Web Profesional",
+      "industry": "legal",
+      "industryLabel": "Legal & Tributario SUNAT",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "EdgeRuntime",
+        "VercelServerless",
+        "TailwindCSS",
+        "WhatsAppDynamicRouting"
+      ],
+      "highlights": "Estudio jurídico especializado en defensa ante SUNAT y derecho laboral con carga en 0.5s.",
+      "description": "Estudio jurídico y tributario especializado en defensa estratégica ante SUNAT, derecho laboral y outsourcing contable corporativo. Optimizado para conversión con cotizaciones directas por WhatsApp, diseño institucional sobrio y arquitectura de carga en menos de 0.6 segundos.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/roma-abogados",
+      "imageFileName": "roma-abogados.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/roma-abogados.webp",
+      "liveUrl": "https://romaabogados.pe",
+      "whatsappCatalogCopy": "🌟 *ROMA & ABOGADOS* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Legal & Tributario SUNAT\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • EdgeRuntime • VercelServerless • TailwindCSS • WhatsAppDynamicRouting\n\n💡 *Lo que resuelve para el negocio:*\nEstudio jurídico y tributario especializado en defensa estratégica ante SUNAT, derecho laboral y outsourcing contable corporativo. Optimizado para conversión con cotizaciones directas por WhatsApp, diseño institucional sobrio y arquitectura de carga en menos de 0.6 segundos.\n\n🎯 *Resultado Clave:*\nEstudio jurídico especializado en defensa ante SUNAT y derecho laboral con carga en 0.5s.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/roma-abogados\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 30,
+      "title": "Importaciones USA - Perú (eBay API)",
+      "slug": "importaciones-usa-peru",
+      "category": "Proyecto Personalizado",
+      "industry": "logistica",
+      "industryLabel": "SaaS & Comercio Exterior",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "Next.js15",
+        "eBayRESTAPI",
+        "NeonPostgreSQL",
+        "PrismaORM",
+        "CotizadorArancelesSUNAT",
+        "NextAuth"
+      ],
+      "highlights": "Integración oficial con catálogo de eBay en vivo y cotización arancelaria automatizada.",
+      "description": "Plataforma inteligente de importación de productos desde Estados Unidos con integración directa a la API oficial de eBay en tiempo real. Incluye cotizador automático de aranceles aduaneros e impuestos SUNAT, pasarela logística, gestión de pedidos y rastreo de envíos internacionales.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/importaciones-usa-peru",
+      "imageFileName": "importaciones-usa-peru.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/importaciones-usa-peru.webp",
+      "liveUrl": "https://importaciones-usa-peru.vercel.app",
+      "whatsappCatalogCopy": "🌟 *IMPORTACIONES USA - PERÚ (EBAY API)* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* SaaS & Comercio Exterior\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* Next.js15 • eBayRESTAPI • NeonPostgreSQL • PrismaORM • CotizadorArancelesSUNAT • NextAuth\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma inteligente de importación de productos desde Estados Unidos con integración directa a la API oficial de eBay en tiempo real. Incluye cotizador automático de aranceles aduaneros e impuestos SUNAT, pasarela logística, gestión de pedidos y rastreo de envíos internacionales.\n\n🎯 *Resultado Clave:*\nIntegración oficial con catálogo de eBay en vivo y cotización arancelaria automatizada.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/importaciones-usa-peru\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 31,
+      "title": "E-commerce Builder Pro",
+      "slug": "ecommerce-builder-pro",
+      "category": "Proyecto Personalizado",
+      "industry": "saas",
+      "industryLabel": "SaaS Multi-tenant E-commerce",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "ArquitecturaMulti-tenant",
+        "PanelSuperAdmin",
+        "PanelesIndependientes"
+      ],
+      "highlights": "Plataforma multi-inquilino para creación masiva de tiendas online con panel Super Admin centralizado.",
+      "description": "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/ecommerce-builder-pro",
+      "imageFileName": "ecommerce-builder-pro.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/ecommerce-builder-pro.webp",
+      "liveUrl": "https://tienda-online-oficial.vercel.app/",
+      "whatsappCatalogCopy": "🌟 *E-COMMERCE BUILDER PRO* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* SaaS Multi-tenant E-commerce\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • ArquitecturaMulti-tenant • PanelSuperAdmin • PanelesIndependientes\n\n💡 *Lo que resuelve para el negocio:*\nPlataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.\n\n🎯 *Resultado Clave:*\nPlataforma multi-inquilino para creación masiva de tiendas online con panel Super Admin centralizado.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/ecommerce-builder-pro\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 32,
+      "title": "Atlas Consultor IA",
+      "slug": "atlas",
+      "category": "App Móvil",
+      "industry": "saas",
+      "industryLabel": "IA & Consultoría Estratégica",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "OpenAI/CloudflareWorkers",
+        "PWAMóvil",
+        "ChatInteligente"
+      ],
+      "highlights": "Consultor de negocios con inteligencia artificial para formulación de estrategias y planes de acción.",
+      "description": "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/atlas",
+      "imageFileName": "atlas.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/atlas.webp",
+      "liveUrl": "https://atlas-9mv.pages.dev/",
+      "whatsappCatalogCopy": "🌟 *ATLAS CONSULTOR IA* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* IA & Consultoría Estratégica\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • OpenAI/CloudflareWorkers • PWAMóvil • ChatInteligente\n\n💡 *Lo que resuelve para el negocio:*\nConsultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.\n\n🎯 *Resultado Clave:*\nConsultor de negocios con inteligencia artificial para formulación de estrategias y planes de acción.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/atlas\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 33,
+      "title": "Cotizador Pro SaaS",
+      "slug": "cotizador-pro",
+      "category": "Proyecto Personalizado",
+      "industry": "saas",
+      "industryLabel": "SaaS B2B Multi-tenant",
+      "tier": "Nivel 3",
+      "tierName": "SaaS / Plataforma a Medida / ERP / API Integrations",
+      "pricingLogistics": {
+        "peru": {
+          "min": 4500,
+          "max": 9800,
+          "currency": "PEN",
+          "formatted": "S/. 4,500 - S/. 9,800+"
+        },
+        "usa": {
+          "min": 2500,
+          "max": 6500,
+          "currency": "USD",
+          "formatted": "$2,500 - $6,500+ USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "10 - 20 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "GoogleOAuth",
+        "PWAInstalable",
+        "GeneradordePDFsCotizaciones"
+      ],
+      "highlights": "SaaS B2B para generación masiva de presupuestos comerciales con Google Auth y exportación PDF.",
+      "description": "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/cotizador-pro",
+      "imageFileName": "cotizador-pro.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/cotizador-pro.webp",
+      "liveUrl": "https://cotizador-pro.pages.dev/",
+      "whatsappCatalogCopy": "🌟 *COTIZADOR PRO SAAS* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* SaaS B2B Multi-tenant\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • GoogleOAuth • PWAInstalable • GeneradordePDFsCotizaciones\n\n💡 *Lo que resuelve para el negocio:*\nSaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.\n\n🎯 *Resultado Clave:*\nSaaS B2B para generación masiva de presupuestos comerciales con Google Auth y exportación PDF.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/cotizador-pro\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 34,
+      "title": "La Casona Gourmet",
+      "slug": "la-casona-gourmet",
+      "category": "Web Profesional",
+      "industry": "gastronomia",
+      "industryLabel": "Gastronomía & Restaurante",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "MenúVisualQR",
+        "WhatsAppPedidosOnline",
+        "VercelEdge"
+      ],
+      "highlights": "Menú visual digital y sistema de pedidos por WhatsApp con incremento del 95% en delivery.",
+      "description": "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/la-casona-gourmet",
+      "imageFileName": "la-casona-gourmet.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/la-casona-gourmet.webp",
+      "liveUrl": "https://la-casa-gourmet.vercel.app/",
+      "whatsappCatalogCopy": "🌟 *LA CASONA GOURMET* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Gastronomía & Restaurante\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • MenúVisualQR • WhatsAppPedidosOnline • VercelEdge\n\n💡 *Lo que resuelve para el negocio:*\nSistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.\n\n🎯 *Resultado Clave:*\nMenú visual digital y sistema de pedidos por WhatsApp con incremento del 95% en delivery.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/la-casona-gourmet\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    },
+    {
+      "id": 35,
+      "title": "Urban Style",
+      "slug": "urban-style",
+      "category": "Tienda Online",
+      "industry": "ecommerce",
+      "industryLabel": "Moda Urbana & Streetwear",
+      "tier": "Nivel 2",
+      "tierName": "Web Corporativa / E-Commerce WhatsApp / Sanity CMS",
+      "pricingLogistics": {
+        "peru": {
+          "min": 1890,
+          "max": 3490,
+          "currency": "PEN",
+          "formatted": "S/. 1,890 - S/. 3,490"
+        },
+        "usa": {
+          "min": 990,
+          "max": 1850,
+          "currency": "USD",
+          "formatted": "$990 - $1,850 USD"
+        },
+        "nota": "Precio de referencia logística interna para reutilización de template base. No exponer como precio fijo al cliente final."
+      },
+      "developmentTime": "5 - 8 días hábiles",
+      "techStack": [
+        "React/Vite",
+        "PWANotificacionesPush",
+        "Carrito&Favoritos",
+        "PanelAdmin"
+      ],
+      "highlights": "Tienda online PWA con gestión de favoritos, inventario en tiempo real y pasarela de pago.",
+      "description": "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
+      "caseStudyUrl": "https://fastpagepro.com/portafolio/urban-style",
+      "imageFileName": "urban-style.webp",
+      "imagePath": "PORTAFOLIO_CATALOGO_WHATSAPP/FOTOS_CATALOGO_16x10_WEBP/urban-style.webp",
+      "liveUrl": "https://tienda-online-oficial.vercel.app/demo",
+      "whatsappCatalogCopy": "🌟 *URBAN STYLE* | Solución Web de Alto Rendimiento\n\n📌 *Rubro:* Moda Urbana & Streetwear\n⚡ *Velocidad:* Sub-segundo (< 0.8s) en móviles y PC\n🛠️ *Stack Tecnológico:* React/Vite • PWANotificacionesPush • Carrito&Favoritos • PanelAdmin\n\n💡 *Lo que resuelve para el negocio:*\nTienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.\n\n🎯 *Resultado Clave:*\nTienda online PWA con gestión de favoritos, inventario en tiempo real y pasarela de pago.\n\n🔗 *Ver Caso de Estudio Completo:*\nhttps://fastpagepro.com/portafolio/urban-style\n\n💬 *¿Deseas implementar una arquitectura similar para tu empresa?*\nAgenda una videollamada de 15 minutos en Google Meet para evaluar tu proyecto sin compromiso."
+    }
+  ]
+}

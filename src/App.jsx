@@ -54,7 +54,10 @@ import {
   Download,
   Maximize2,
   Tag,
-  Wrench
+  Wrench,
+  Bot,
+  Copy,
+  Share2
 } from 'lucide-react';
 
 // 21st.dev: Spotlight (Spline 3D Scene removed — was 4.5 MB of JS for a decorative robot)
@@ -67,6 +70,18 @@ import AetherHero from './components/AetherHero';
 const WHATSAPP_NUMBER = "51933667414";
 const PROFASTPAGE_EMAIL = "cotizaciones@fastpagepro.com";
 const LEADS_WEBHOOK_URL = import.meta.env.VITE_LEADS_WEBHOOK_URL || "";
+const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/profastpage/15min";
+
+const openCalendly = () => {
+  trackCtaClick('calendly_open', 'google_meet');
+  if (typeof window !== 'undefined' && window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
+    window.Calendly.initPopupWidget({
+      url: `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=0c0a09&text_color=ffffff&primary_color=eab308`
+    });
+  } else if (typeof window !== 'undefined') {
+    window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer');
+  }
+};
 
 // --- CTA Analytics (GA4) ---
 // Lightweight helpers that no-op when gtag is not loaded (no VITE_GA_ID configured),
@@ -130,31 +145,45 @@ const WA_EMOJI = {
   chat: "💬"
 };
 
-// --- Context-Aware WhatsApp Messages ---
+// --- Official WhatsApp SVG Icon Component (Crisp Brand Vector) ---
+const WhatsAppOfficialIcon = ({ size = 20, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 448 512"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+  </svg>
+);
+
+// --- Context-Aware WhatsApp Messages (100% Universal UTF-8 URI Encoded) ---
 const getWhatsAppLink = (contexto, extra = {}) => {
   const base = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
 
-  const mensajes = {
-    servicios: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero *cotizar mi proyecto web* 🚀%0A%0A◈ *Tipo de proyecto:* Por definir%0A◈ *Necesito:* Web profesional / Tienda online / App%0A◈ *Objetivo:* Impulsar mi negocio online%0A%0AQuedo atento a su respuesta. ✨`,
-
-    portafolio: `*¡Hola! Vi su proyecto ${extra.nombre || ""}* ⚡%0A%0AMe gustaría implementar un sistema similar para mi negocio.%0A%0A◈ *Interés:* Reservas por WhatsApp / Diseño de alto impacto%0A◈ *Sector:* ${extra.sector || "Por definir"}%0A%0A¿Podrían brindarme más información? 😊`,
-
-    precios: `*¡Hola! Estoy listo para empezar* 💎%0A%0AQuiero contratar el *Plan ${extra.plan || "Pro"}*.%0A%0A◈ *Servicio:* Diseño Web Pro%0A◈ *Tiempo estimado:* Según alcance del proyecto%0A%0A¿Cuáles son los siguientes pasos? ✅`,
-
-    proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀%0A%0AHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.%0A%0A◈ *Nombre:* ${extra.nombre || "Por completar"}%0A◈ *Negocio:* ${extra.negocio || "Por definir"}%0A%0A¿Tienen disponibilidad esta semana? 📅`,
-
-    contacto: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero información sobre sus servicios.%0A%0A◈ *Consulta general*%0A%0AQuedo atento a su respuesta. ✨`,
-
-    demo: (mensaje) => encodeURIComponent(mensaje || "").replace(/%20/g, ' '),
-
-    default: `*¡Hola, Fast Page Pro!* 👋%0A%0AQuiero información sobre *webs y sistemas de reservas por WhatsApp*.%0A%0A${WA_EMOJI.check} *Objetivo:* Agendar una demo%0A${WA_EMOJI.hotel} *Tipo de negocio:* Por definir%0A%0AQuedo atento.`
-  };
-
-  if (contexto === "demo" && typeof mensajes.demo === "function") {
-    return base + mensajes.demo(extra.mensaje);
+  if (contexto === "demo") {
+    return base + encodeURIComponent(extra.mensaje || "");
   }
 
-  return base + (mensajes[contexto] || mensajes.default);
+  const mensajes = {
+    servicios: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero *cotizar mi proyecto web* 🚀\n\n- *Tipo de proyecto:* Por definir\n- *Necesito:* Web profesional / Tienda online / App\n- *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta.`,
+
+    portafolio: `*¡Hola! Vi su proyecto ${extra.nombre || ""}* ⚡\n\nMe gustaría implementar un sistema similar para mi negocio.\n\n- *Interés:* Reservas por WhatsApp / Diseño de alto impacto\n- *Sector:* ${extra.sector || "Por definir"}\n\n¿Podrían brindarme más información?`,
+
+    precios: `*¡Hola! Estoy listo para empezar* 🚀\n\nQuiero contratar el *Plan ${extra.plan || "Pro"}*.\n\n- *Servicio:* Diseño Web Pro\n- *Tiempo estimado:* Según alcance del proyecto\n\n¿Cuáles son los siguientes pasos? ✅`,
+
+    proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀\n\nHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.\n\n- *Nombre:* ${extra.nombre || "Por completar"}\n- *Negocio:* ${extra.negocio || "Por definir"}\n\n¿Tienen disponibilidad esta semana? 📅`,
+
+    contacto: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información sobre sus servicios.\n\n- *Consulta general*\n\nQuedo atento a su respuesta.`,
+
+    default: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n- *Tipo de negocio:* Por definir\n\nQuedo atento.`
+  };
+
+  const texto = mensajes[contexto] || mensajes.default;
+  return base + encodeURIComponent(texto);
 };
 
 const IMAGE_FALLBACK = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800' viewBox='0 0 1200 800'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop stop-color='%230b0b0f'/><stop offset='1' stop-color='%23181a24'/></linearGradient></defs><rect width='1200' height='800' fill='url(%23g)'/><text x='50%' y='45%' dominant-baseline='middle' text-anchor='middle' fill='%23f8fafc' font-family='Arial, sans-serif' font-size='56' font-weight='700'>Fast Page Pro</text><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' fill='%23cbd5e1' font-family='Arial, sans-serif' font-size='26'>Webs y reservas por WhatsApp</text></svg>";
@@ -186,199 +215,15 @@ const LATIN_AVATARS = [
   "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=160"
 ];
 
-const PORTFOLIO_CATEGORIES = {
-  es: ["Todos", "Web Profesional", "Tienda Online", "App Móvil", "Proyecto Personalizado"],
-  en: ["All", "Professional Web", "Online Store", "Mobile App", "Custom Project"]
-};
+import {
+  PORTFOLIO_CATEGORIES,
+  PORTFOLIO_BY_LANG,
+  PORTFOLIO_SLUGS,
+  slugToTitle,
+  PORTFOLIO_MODAL_IMAGES,
+  PORTFOLIO_MODAL_MOBILE_IMAGES
+} from './data/portfolioData';
 
-const PORTFOLIO_BY_LANG = {
-  es: [
-    {
-      title: "Vuelo 78 Hotel",
-      location: "Tarapoto, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Sistema de reservas directas por WhatsApp con disponibilidad por fechas y respuesta automatizada del hotel.",
-      image: "/images/03-portafolio/vuelo78hotel.webp",
-      link: "https://www.vuelo78hotel.com"
-    },
-    {
-      title: "Mandi Corp",
-      location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Plataforma de préstamos en línea con calculadora inteligente de cuotas, doble menú de navegación, efecto de partículas de animación, integración con WhatsApp para solicitudes instantáneas y diseño premium dorado. Web optimizada para carga en 0.5 segundos con tecnología moderna, SEO avanzado y posicionamiento en Google.",
-      image: "/images/03-portafolio/MandiCorp.webp",
-      link: "https://www.mandicorp.com/#inicio"
-    },
-    {
-      title: "CMC LATAM",
-      location: "Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Plataforma web bilingüe para empresa de arquitectura y construcción costera. Incluye modo claro/oscuro, WhatsApp dinámico con CTAs personalizados, galería de proyectos, secciones de servicios e interiores, y navegación fluida y profesional.",
-      image: "/images/03-portafolio/CMCLATAM.webp",
-      link: "https://cmc-latam-2.vercel.app/"
-    },
-    {
-      title: "Jhon & Asociados",
-      location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Sitio web completo de 5 subpáginas para estudio contable especializado en tributaria y defensa ante SUNAT. Incluye preloader temático, WhatsApp dinámico con sistema de consultorías por servicio, imágenes profesionales editadas en Photoshop, y diseño corporativo elegante.",
-      image: "/images/03-portafolio/JhonAsociados.webp",
-      link: "https://www.jhonasociados.com/"
-    },
-    {
-      title: "E-commerce Builder Pro",
-      location: "Remoto, Global",
-      category: "Proyecto Personalizado",
-      type: "custom",
-      description: "Plataforma Multi-tenant para la creación masiva de tiendas online. Permite a emprendedores lanzar su ecommerce en minutos con paneles de administración independientes y un Super Admin centralizado para el control total del ecosistema.",
-      image: "/images/03-portafolio/EcommerceBuilder.webp",
-      link: "https://tienda-online-oficial.vercel.app/",
-      demoLink: "https://tienda-online-oficial.vercel.app/demo"
-    },
-    {
-      title: "Atlas",
-      location: "Lima, Perú",
-      category: "App Móvil",
-      type: "app",
-      description: "Consultor estratégico de negocios con IA. Asistente inteligente que analiza tu negocio, sugiere estrategias de crecimiento y crea planes de acción semanales personalizados mediante chat conversacional.",
-      image: "/images/03-portafolio/AtlasHero.webp",
-      link: "https://atlas-9mv.pages.dev/"
-    },
-    {
-      title: "Cotizador Pro",
-      location: "Remoto, Global",
-      category: "Proyecto Personalizado",
-      type: "custom",
-      description: "SaaS multi-tenant con panel Super Admin, Google Auth, PWA instalable, sistema de créditos y automatización de plantillas de cotización.",
-      image: "/images/03-portafolio/CotizadorPro.webp",
-      link: "https://cotizador-pro.pages.dev/"
-    },
-    {
-      title: "Moda Digital Pro",
-      location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Plataforma web para empresa de plotters textiles y equipos de confección. Video Hero profesional, modo claro/oscuro, navegación estilo app con menú superior e inferior. Catálogo de equipos, servicios de impresión digital y sublimación, FAQ interactivo y formulario de contacto.",
-      image: "/images/03-portafolio/ModaDigitalPro.webp",
-      link: "https://www.modadigitalpro.com/"
-    },
-    {
-      title: "La Casona Gourmet",
-      location: "Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      description: "Sistema de reservas y pedidos directos por WhatsApp con menú visual optimizado para aumentar ventas.",
-      image: "/images/03-portafolio/LaCasonaGourmet.webp",
-      link: "https://la-casa-gourmet.vercel.app/"
-    },
-    {
-      title: "Urban Style",
-      location: "Lima, Perú",
-      category: "Tienda Online",
-      type: "tienda",
-      description: "Tienda online completa con carrito de compras, sistema de favoritos, panel de administrador y panel de clientes. Aplicación móvil con notificaciones push, gestión de inventario en tiempo real y pasarela de pagos integrada.",
-      image: "/images/03-portafolio/UrbanStyle.webp",
-      link: "https://tienda-online-oficial.vercel.app/demo"
-    }
-  ],
-  en: [
-    {
-      title: "Vuelo 78 Hotel",
-      location: "Tarapoto, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Direct booking system via WhatsApp with date-based availability and automated hotel response.",
-      image: "/images/03-portafolio/vuelo78hotel.webp",
-      link: "https://www.vuelo78hotel.com"
-    },
-    {
-      title: "Mandi Corp",
-      location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Online lending platform with smart quota calculator, dual navigation menu, particle animation effects, WhatsApp integration for instant loan requests and premium gold design. Website optimized for 0.5-second load times with modern technology, advanced SEO and Google ranking.",
-      image: "/images/03-portafolio/MandiCorp.webp",
-      link: "https://www.mandicorp.com/#inicio"
-    },
-    {
-      title: "CMC LATAM",
-      location: "Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Bilingual web platform for coastal architecture and construction firm. Features dark/light mode, dynamic WhatsApp with custom CTAs, project gallery, services and interiors sections, with fluid professional navigation.",
-      image: "/images/03-portafolio/CMCLATAM.webp",
-      link: "https://cmc-latam-2.vercel.app/"
-    },
-    {
-      title: "Jhon & Asociados",
-      location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Complete 5-page website for accounting firm specialized in tax advisory and SUNAT defense. Features themed preloader, dynamic WhatsApp with per-service consultation system, Photoshop-enhanced professional images, and elegant corporate design.",
-      image: "/images/03-portafolio/JhonAsociados.webp",
-      link: "https://www.jhonasociados.com/"
-    },
-    {
-      title: "E-commerce Builder Pro",
-      location: "Remote, Global",
-      category: "Custom Project",
-      type: "custom",
-      description: "Multi-tenant platform for mass creation of online stores. Allows entrepreneurs to launch their ecommerce in minutes with independent admin panels and a centralized Super Admin for full ecosystem control.",
-      image: "/images/03-portafolio/EcommerceBuilder.webp",
-      link: "https://tienda-online-oficial.vercel.app/",
-      demoLink: "https://tienda-online-oficial.vercel.app/demo"
-    },
-    {
-      title: "Atlas",
-      location: "Lima, Peru",
-      category: "Mobile App",
-      type: "app",
-      description: "AI-powered strategic business consultant. Intelligent assistant that analyzes your business, suggests growth strategies and creates personalized weekly action plans via conversational chat.",
-      image: "/images/03-portafolio/AtlasHero.webp",
-      link: "https://atlas-9mv.pages.dev/"
-    },
-    {
-      title: "Cotizador Pro",
-      location: "Remote, Global",
-      category: "Custom Project",
-      type: "custom",
-      description: "Multi-tenant SaaS with Super Admin panel, Google Auth, installable PWA, credit system and automated quotation templates.",
-      image: "/images/03-portafolio/CotizadorPro.webp",
-      link: "https://cotizador-pro.pages.dev/"
-    },
-    {
-      title: "Moda Digital Pro",
-      location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Website for textile plotter and confection equipment company. Professional video Hero, dark/light mode toggle, app-style navigation with top and bottom menus. Equipment catalog, digital printing and sublimation services, interactive FAQ and contact form.",
-      image: "/images/03-portafolio/ModaDigitalPro.webp",
-      link: "https://www.modadigitalpro.com/"
-    },
-    {
-      title: "La Casona Gourmet",
-      location: "Lima, Peru",
-      category: "Professional Web",
-      type: "web",
-      description: "Reservation and direct order system via WhatsApp with visual menu optimized to increase sales.",
-      image: "/images/03-portafolio/LaCasonaGourmet.webp",
-      link: "https://la-casa-gourmet.vercel.app/"
-    },
-    {
-      title: "Urban Style",
-      location: "Lima, Peru",
-      category: "Online Store",
-      type: "tienda",
-      description: "Complete online store with shopping cart, favorites system, admin panel and customer panel. Mobile app with push notifications, real-time inventory management and integrated payment gateway.",
-      image: "/images/03-portafolio/UrbanStyle.webp",
-      link: "https://tienda-online-oficial.vercel.app/demo"
-    }
-  ]
-};
 
 const TESTIMONIALS_BY_LANG = {
   es: [
@@ -812,7 +657,7 @@ const WhatsAppButton = ({ text, message, href, variant = "primary", className = 
   // Use context-aware link if waContext is provided, otherwise fall back to message/href/default
   const url = waContext
     ? getWhatsAppLink(waContext, waExtra)
-    : `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage).replace(/%20/g, ' ')}`;
+    : `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
   
@@ -1758,7 +1603,7 @@ Could you please confirm availability and final rate?`;
         </div>
 
         <a
-          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage).replace(/%20/g, ' ')}` : "#"}
+          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage)}` : "#"}
           target="_blank"
           rel="noreferrer noopener"
           className={`mt-6 inline-flex w-full h-[60px] justify-center items-center rounded-full px-6 text-base font-semibold transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98] ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
@@ -3119,15 +2964,115 @@ const useGSAPScrollReveal = (ref, options = {}) => {
   }, [ref, y, stagger, delay]);
 };
 
+// --- Master Portfolio Showcase Card (Universal 16:10 Framing) ---
+const PortfolioCard = ({ project, language, onClick, index = 0 }) => {
+  const isEs = language === "es";
+
+  const getTypeBg = (type) => {
+    const bgs = {
+      web: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+      tienda: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+      app: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+      custom: "bg-amber-500/15 text-amber-300 border-amber-500/30"
+    };
+    return bgs[type] || "bg-stone-500/15 text-stone-300 border-stone-500/30";
+  };
+
+  return (
+    <motion.div
+      onClick={onClick}
+      initial={{ opacity: 0, y: 25, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -15, scale: 0.96 }}
+      transition={{ delay: index * 0.04, duration: 0.4 }}
+      whileHover={{ y: -6 }}
+      className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer flex flex-col bg-stone-900/80 border border-white/10 hover:border-yellow-400/50 shadow-xl hover:shadow-[0_20px_50px_rgba(250,204,21,0.15)] transition-all duration-300"
+    >
+      {/* Top Visual Showcase Stage (Natural 16:10 Aspect Ratio) */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-stone-950">
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          onError={handleImageFallback}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+
+        {/* Ambient Top Badges */}
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
+          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold backdrop-blur-md border ${getTypeBg(project.type)}`}>
+            {project.category}
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-stone-950/80 text-emerald-400 backdrop-blur-md border border-emerald-500/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            2026
+          </span>
+        </div>
+
+        {/* Hover Action Overlay */}
+        <div className="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-opacity duration-300 flex items-center justify-center z-10">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-xs sm:text-sm bg-yellow-400 text-stone-950 shadow-lg shadow-yellow-500/40 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+            <span>{isEs ? "Ver Proyecto Pro" : "View Pro Project"}</span>
+            <span className="text-base">⚡</span>
+            <ArrowUpRight size={14} />
+          </span>
+        </div>
+      </div>
+
+      {/* Bottom Editorial Metadata Panel (Dedicated space — never covers the image!) */}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between bg-stone-900/60 border-t border-white/5">
+        <div>
+          <div className="flex items-center gap-1.5 text-[11px] text-stone-400 mb-1.5 font-medium">
+            <MapPin size={12} className="text-yellow-400 shrink-0" />
+            <span className="truncate">{project.location}</span>
+            {project.industryLabel && (
+              <>
+                <span>•</span>
+                <span className="text-stone-300 truncate">{project.industryLabel}</span>
+              </>
+            )}
+          </div>
+
+          <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-yellow-400 transition-colors leading-tight mb-2">
+            {project.title}
+          </h3>
+
+          <p className="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-3">
+            {project.description}
+          </p>
+        </div>
+
+        <div>
+          {/* Micro Tech Tags */}
+          {project.techStack && (
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {project.techStack.slice(0, 3).map((tech, i) => (
+                <span
+                  key={i}
+                  className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/5 text-stone-300 border border-white/5"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Action Footer Link */}
+          <div className="flex items-center justify-between pt-2 border-t border-white/5 text-xs font-semibold text-yellow-400">
+            <span>{isEs ? "Explorar caso de estudio" : "Explore case study"}</span>
+            <span className="group-hover:translate-x-1 transition-transform">⚡ ↗</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 // --- Featured Portfolio Section (Landing — 3 Projects + CTA) ---
 const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProjectClick }) => {
   const sectionRef = useRef(null);
   const featured = projects.slice(0, 3);
-
-  const getTypeColor = (type) => {
-    const colors = { web: "from-blue-500 to-cyan-400", tienda: "from-emerald-500 to-green-400", app: "from-purple-500 to-violet-400", custom: "from-orange-500 to-amber-400" };
-    return colors[type] || "from-stone-500 to-stone-400";
-  };
 
   return (
     <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-20 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
@@ -3137,45 +3082,16 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} compact />
 
         {/* 3 Featured Projects Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-14 max-w-5xl mx-auto">
-          {featured.map((project, index) => {
-            const gradientColor = getTypeColor(project.type);
-            return (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                whileHover={{ y: -8 }}
-                className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block"
-                style={{ aspectRatio: '4/5', perspective: '1000px' }}
-                onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = ''; }}
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = (e.clientX - rect.left) / rect.width - 0.5;
-                  const y = (e.clientY - rect.top) / rect.height - 0.5;
-                  e.currentTarget.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
-                }}
-              >
-                <motion.img
-                  src={project.image} alt={project.title} onError={handleImageFallback}
-                  whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
-                  className="w-full h-full object-cover" loading="lazy" decoding="async"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
-                />
-                <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
-                <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
-                  <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
-                  <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
-                  <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 md:mb-14 max-w-6xl mx-auto">
+          {featured.map((project, index) => (
+            <PortfolioCard
+              key={project.title}
+              project={project}
+              language={language}
+              index={index}
+              onClick={() => { if (onProjectClick) onProjectClick(project); }}
+            />
+          ))}
         </div>
 
         {/* CTA — View All Portfolio */}
@@ -3275,8 +3191,7 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
       <div className="px-4 mb-16 md:mb-24">
         <div className="container mx-auto">
           <div
-            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 md:grid-flow-row"
-            style={{ gridAutoFlow: 'row dense' }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             onTouchStart={(e) => { portfolioTouchStart.current = e.touches[0].clientX; }}
             onTouchEnd={(e) => {
               if (portfolioTouchStart.current === null || window.innerWidth >= 640) return;
@@ -3290,50 +3205,16 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
               portfolioTouchStart.current = null;
             }}
           >
-            <AnimatePresence mode="wait">
-              {filteredProjects.map((project, index) => {
-                const gradientColor = getTypeColor(project.type);
-                return (
-                  <motion.div
-                    key={`${project.title}-${currentFilter}`}
-                    onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = '';
-                    }}
-                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                    transition={{ delay: index * 0.06, duration: 0.5 }}
-                    whileHover={{ y: -8 }}
-                    className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
-                    style={{ aspectRatio: '4/5', perspective: '1000px' }}
-                    onMouseMove={(e) => {
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      const x = (e.clientX - rect.left) / rect.width - 0.5;
-                      const y = (e.clientY - rect.top) / rect.height - 0.5;
-                      e.currentTarget.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-8px) scale(1.02)`;
-                    }}
-                  >
-                    <motion.img
-                      src={project.image} alt={project.title} onError={handleImageFallback}
-                      whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }}
-                      className="w-full h-full object-cover" loading="lazy" decoding="async"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
-                    />
-                    <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
-                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
-                    <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
-                      <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
-                      <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
-                      <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
-                      <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
-                        {language === 'es' ? 'Ver Proyecto Pro ↗' : 'View Pro Project ↗'}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <PortfolioCard
+                  key={`${project.title}-${currentFilter}`}
+                  project={project}
+                  language={language}
+                  index={index}
+                  onClick={() => { if (onProjectClick) onProjectClick(project); }}
+                />
+              ))}
             </AnimatePresence>
           </div>
         </div>
@@ -3758,22 +3639,842 @@ const ThemeToggle = ({ isDark, toggleTheme }) => (
   </motion.button>
 );
 
-// --- Advanced Widget Component (Updated Logic) ---
-const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
-  const [step, setStep] = useState('main'); // main, meet-form, call-form
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userPhone, setUserPhone] = useState('');
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [bookingStatus, setBookingStatus] = useState('idle'); // 'idle' | 'submitting' | 'success'
+// --- Super Intelligent FastPage AI Knowledge & Intent Reasoning Engine ---
+const queryFastPageAI = (rawQuery, language = 'es') => {
+  const isEs = language === 'es';
+  const q = rawQuery
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // remove accents: é -> e, á -> a, etc.
+    .trim();
 
-  // Show tooltip after 5 seconds, only once per session
+  // Helper matcher
+  const has = (...words) => words.some(w => q.includes(w));
+  const allProjects = PORTFOLIO_BY_LANG[language] || PORTFOLIO_BY_LANG.es || [];
+
+  // Helper to format case study markdown link
+  const linkTo = (title, slug) => `[${title}](https://fastpagepro.com/portafolio/${slug})`;
+
+  // 1. GREETINGS & CASUAL CONVERSATION
+  if (
+    has('hola', 'que tal', 'buenas', 'buen dia', 'buenos dias', 'buenas tardes', 'buenas noches', 'hey', 'hello', 'hi', 'como estas', 'que haces', 'quien eres', 'saludos', 'alo', 'oye', 'como va', 'wsp', 'wassap') &&
+    q.length < 40
+  ) {
+    return {
+      text: isEs
+        ? "¡Hola! 👋 Qué gusto saludarte. Soy **FastPage AI**, el asesor de proyectos de **FastPagePro**.\n\nAyudamos a empresas y marcas en **EE.UU., Perú y Latinoamérica** a vender más con ingeniería web de alta velocidad:\n\n• **Páginas Web & Landings de Alto Impacto:** Carga ultrarrápida (< 0.8s en React nativo).\n• **Sistemas de Reservas Directas por WhatsApp:** Hoteles, eco-lodges y clínicas sin comisiones.\n• **Tiendas Online E-Commerce & ERP:** Pasarelas seguras (Stripe, PayPal, Niubiz) y sincronización con Bsale.\n• **Agentes de IA Autónomos:** Atención y captura de clientes calificados 24/7.\n\nCada proyecto se cotiza a medida según tu país y necesidades. ¿De qué rubro es tu empresa o qué proyecto buscas desarrollar?"
+        : "Hello! 👋 Great to meet you. I'm **FastPage AI**, project advisor at **FastPagePro**.\n\nWe engineer custom high-speed web platforms for companies in the **US, Peru, and across the Americas**:\n\n• **High-Conversion Websites:** Sub-second load times engineered with React 19.\n• **Direct WhatsApp Booking Engines:** 0% commission fees for hotels and lodges.\n• **E-Commerce & ERP Sinks:** Stripe, PayPal, and real-time inventory management.\n• **Autonomous AI Agents:** 24/7 client qualification and scheduling.\n\nEvery project is tailored by country and scope. What kind of project do you have in mind?",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'WhatsApp Directo' : 'WhatsApp Direct', action: 'whatsapp' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan los proyectos?",
+        "🏨 Ver proyectos para hoteles",
+        "⚖️ Ver casos de firmas de abogados",
+        "🇺🇸 ¿Cómo trabajan con clientes en USA?"
+      ] : [
+        "💰 How do you price projects?",
+        "🏨 View hotel case studies",
+        "⚖️ View legal web cases",
+        "🇺🇸 How do you work with US clients?"
+      ]
+    };
+  }
+
+  // 2. PRICING, COSTS & CUSTOM PROPOSAL POLICY BY COUNTRY (PERU VS USA)
+  if (
+    has('precio', 'precios', 'costo', 'costos', 'cuanto cobra', 'cuanto cobran', 'cuanto cuesta', 'tarifa', 'tarifas', 'plan', 'planes', 'presupuesto', 'cotizar', 'cotizacion', 'caro', 'barato', 'pago', 'pagos', 'cuotas', 'cuanto sale', 'valor', 'cobran')
+  ) {
+    return {
+      text: isEs
+        ? "💼 **Propuesta y Precios Personalizados según País y Negocio**\n\nEn **FastPagePro** no cobramos precios genéricos cerrados al azar, ya que cada proyecto tiene requerimientos técnicos, objetivos y mercados completamente diferentes:\n\n🌎 **Estructura adaptada a cada mercado:**\n• 🇵🇪 **Para Clientes en Perú (PEN):** Cotización adaptada en Soles o USD, pasarelas de pago peruanas (**Yape, Plin, Niubiz, MercadoPago, BCP/BBVA**) y emisión de factura electrónica SUNAT con crédito fiscal (RUC 20 / RUC 10).\n• 🇺🇸 **Para Clientes en Estados Unidos (Habla Hispana y Bilingüe - USD):** Propuestas en USD con arquitectura bilingüe (Inglés/Español), optimización de SEO local en Google Maps para tu ciudad o estado, métodos de pago norteamericanos (**Zelle, Stripe, transferencias bancarias**) y facturas formales deducibles de impuestos (**W-9**).\n• 🌎 **Para otros países de LATAM (México, Colombia, Chile, etc.):** Cotizaciones en USD con métodos internacionales seguros.\n\n🛡️ **Modalidad de Trabajo Seria y Segura:**\nTrabajamos por hitos: **50% al iniciar y 50% contra entrega final** tras tu completa satisfacción. Cero mensualidades forzadas ni comisiones por ventas.\n\n📌 **¿Por qué es recomendable agendar una videollamada de 15 minutos?**\n**¡Es el estándar más profesional!** No te damos un precio a ciegas porque una landing de conversión rápida requiere una arquitectura distinta a una plataforma con reservas o conexión a ERP. En una **breve llamada de 15 min en Google Meet** evaluamos tus requerimientos y te entregamos una propuesta seria, transparente y con plazos garantizados."
+        : "💼 **Custom Tailored Pricing by Country and Business Scope**\n\nAt **FastPagePro**, we do not provide rigid generic price tags because every project requires distinct engineering tailored to your market:\n\n• 🇵🇪 **Peru & LATAM:** Scoped in Soles (PEN) or USD with local payment gateways (Yape, Plin, Niubiz) and full SUNAT tax compliance.\n• 🇺🇸 **US Clients:** USD scoping with bilingual English/Spanish copywriting, local Google Maps SEO, and compliant payment methods (Zelle, Stripe, Wire) with W-9 invoices.\n• 🛡️ **Milestone Guarantee:** 50% upfront, 50% upon final delivery & complete satisfaction.\n\n📌 **Why schedule a 15-minute call?**\nGiving a blind quote is unprofessional. In a quick **15-minute Google Meet call**, our lead architect evaluates your exact needs and delivers a formal, transparent proposal with guaranteed timelines.",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'Cotizar por WhatsApp' : 'Quote via WhatsApp', action: 'whatsapp' }
+      ],
+      followUps: isEs ? [
+        "⚡ ¿Cuáles son los tiempos de entrega?",
+        "🇺🇸 ¿Cómo trabajan con clientes en USA?",
+        "💼 Ver proyectos realizados",
+        "🤖 ¿Cómo funcionan los Agentes de IA?"
+      ] : [
+        "⚡ What are delivery times?",
+        "🇺🇸 How do you work with US clients?",
+        "💼 View completed case studies",
+        "🤖 How do AI Agents work?"
+      ]
+    };
+  }
+
+  // 3. TARGETING HISPANIC ENTREPRENEURS & CONTRACTORS IN THE USA
+  if (has('usa', 'estados unidos', 'eeuu', 'ee.uu', 'florida', 'texas', 'california', 'miami', 'dolar', 'dolares', 'zelle', 'w9', 'bilingue', 'english', 'us market', 'houston', 'orlando', 'dallas', 'new york', 'contratista')) {
+    return {
+      text: isEs
+        ? "🇺🇸 **Especialistas en Negocios Hispanos en Estados Unidos**\n\nTrabajamos intensamente con dueños de empresas en **Texas, Florida, California, Nueva York, Georgia y más** (contratistas, remodelación, roofing, pintura, limpieza comercial, landscaping, clínicas y servicios profesionales).\n\n✅ **Lo que resolvemos para tu negocio en EE.UU.:**\n• **Sitios Web 100% Bilingües (Inglés / Español):** Captura tanto clientes anglosajones de alto ticket como a la creciente comunidad hispana.\n• **SEO Local en Google Maps:** Optimizamos tu ficha de Google Business para que aparezcas primero cuando busquen tus servicios en tu ciudad o código postal.\n• **Facilidad de Pago en USD:** Aceptamos Zelle, transferencias bancarias de EE.UU., tarjetas de crédito con Stripe e invoices formales deducibles (W-9).\n• **Precios y Propuestas para EE.UU.:** Adaptadas a la rentabilidad del mercado estadounidense con atención directa en español en tu misma zona horaria.\n\n¿En qué estado o ciudad de EE.UU. opera tu empresa?"
+        : "🇺🇸 **Specialized Web Engineering for US Hispanic & Cross-Border Businesses**\n\nWe partner with contractors, restaurants, clinics, and professional firms across Florida, Texas, California, and nationwide.\n\n• **Bilingual English/Spanish Copywriting & UI**\n• **Local Google Maps SEO** for your target city\n• **Direct USD Payments** via Zelle, Stripe & Wire with W-9 invoices\n• Aligned business hours for seamless communication.",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'WhatsApp Directo' : 'Chat on WhatsApp', action: 'whatsapp' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan proyectos para USA?",
+        "⚡ ¿Tiempos de entrega para USA?",
+        "📅 Agendar reunión de 15 min"
+      ] : [
+        "💰 Pricing for US projects?",
+        "⚡ Delivery turnaround?",
+        "📅 Book 15 min call"
+      ]
+    };
+  }
+
+  // 4. LEGAL, LAW FIRMS & TAX ADVISORY
+  if (has('abogado', 'abogados', 'firma legal', 'estudio juridico', 'leyes', 'penal', 'civil', 'litigio', 'notaria', 'derecho', 'roma abogados', 'medina almonte', 'bufete', 'juridico')) {
+    return {
+      text: isEs
+        ? "⚖️ **Plataformas Digitales de Élite para Estudios Jurídicos y Firmas Legales**\n\nDesarrollamos sitios web institucionales con diseño sobrio que proyectan autoridad y convierten visitantes en consultas formales:\n\n• 🏛️ " + linkTo("Medina Almonte - Lawyers Firm", "medina-almonte-firma-legal") + ": Plataforma corporativa para litigio penal y corporativo con blog jurídico dinámico en Sanity CMS y formulario de agendamiento.\n• ⚖️ " + linkTo("ROMA & ABOGADOS", "roma-abogados") + ": Web de alto impacto orientada a defensa tributaria y penal ante SUNAT con enrutamiento de consultas directo a WhatsApp.\n• 📊 " + linkTo("Jhon & Asociados", "jhon-asociados") + " e " + linkTo("Impulso Fiscal", "impulso-fiscal") + ": Consultoría contable y fiscal con boletín 'Semana Fiscal'.\n\n🛡️ **Incluye:** Perfiles de socios, áreas de práctica, agendamiento de citas y SEO jurídico para Google."
+        : "⚖️ **Elite Digital Platforms for Law Firms & Legal Advisory**\n\n• 🏛️ " + linkTo("Medina Almonte - Lawyers Firm", "medina-almonte-firma-legal") + ": Corporate litigation platform with headless legal blog and appointment scheduler.\n• ⚖️ " + linkTo("ROMA & ABOGADOS", "roma-abogados") + ": Tax defense and litigation portal with direct WhatsApp routing.\n• 📊 " + linkTo("Jhon & Asociados", "jhon-asociados") + " & " + linkTo("Impulso Fiscal", "impulso-fiscal") + ": Corporate tax advisory websites.",
+      buttons: [
+        { text: isEs ? 'Ver Medina Almonte' : 'View Medina Almonte', action: 'case-study', slug: 'medina-almonte-firma-legal' },
+        { text: isEs ? 'Ver ROMA Abogados' : 'View ROMA Abogados', action: 'case-study', slug: 'roma-abogados' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan una web para abogados?",
+        "⚡ ¿En cuánto tiempo está lista la web?",
+        "💬 Hablar con un asesor"
+      ] : [
+        "💰 Pricing for law firm web?",
+        "⚡ Delivery turnaround?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 5. HOTELS, TOURISM, LODGES & AMAZON ECO-STAYS
+  if (has('hotel', 'hoteles', 'reserva', 'reservas', 'booking', 'habitacion', 'habitaciones', 'huesped', 'huespedes', 'turismo', 'viajes', 'tours', 'selva', 'tarapoto', 'puno', 'huanchaco', 'cusco', 'machu picchu', 'lodge', 'cabaña', 'cabañas', 'vuelo 78', 'intiquilla', 'rainforest', 'titicaca')) {
+    return {
+      text: isEs
+        ? "🏨 **Sistema de Reservas Directas por WhatsApp (Cero Comisiones para Hoteles y Turismo)**\n\nNuestra solución estrella permite a hoteles y operadores turísticos saltarse el 15% - 20% de comisiones que cobran plataformas como Booking.com o Airbnb:\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Pasó de 15 a 42 reservas directas mensuales con flujo automatizado de disponibilidad y confirmación.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Catálogo de habitaciones en Lago Titicaca con selector de fechas y cálculo automático de noches.\n• 🏄‍♂️ " + linkTo("El Hombre Hotel Huanchaco", "el-hombre-hotel") + ": Hotel boutique de surf frente al mar con reservas directas y galería inmersiva.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Operador de trekking en Cusco y Machu Picchu con itinerarios interactivos.\n• 🦜 " + linkTo("Rainforest Wild", "rainforest-wild") + ": Eco-lodge en la selva de Tambopata con expediciones guiadas.\n• ✈️ " + linkTo("Peru Travel Experts", "peru-travel-experts") + " y " + linkTo("Peru Travel", "peru-travel") + ": Agencias de turismo receptivo con cotización de paquetes a medida.\n\n💡 **0% de comisiones:** El 100% del pago entra directo a la cuenta bancaria de tu negocio."
+        : "🏨 **Direct WhatsApp Booking Engine (0% Commission Fees)**\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Jumped from 15 to 42 direct monthly bookings via automated availability funnels.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Room selector on Lake Titicaca.\n• 🏄‍♂️ " + linkTo("El Hombre Hotel", "el-hombre-hotel") + ": Beachfront surf hotel.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Cusco trekking and adventure portal.",
+      buttons: [
+        { text: isEs ? 'Ver Vuelo 78 Hotel' : 'View Vuelo 78 Hotel', action: 'case-study', slug: 'vuelo-78-hotel' },
+        { text: isEs ? 'Ver Hotel Puno Terra' : 'View Hotel Puno Terra', action: 'case-study', slug: 'hotel-puno-terra' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan el sistema de reservas?",
+        "⚡ ¿Cuánto tardan en implementarlo?",
+        "💬 Hablar por WhatsApp"
+      ] : [
+        "💰 How is this system quoted?",
+        "⚡ Turnaround time?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 6. FASHION, SHOES, CLOTHING, GAMARRA & RETAIL
+  if (has('moda', 'ropa', 'calzado', 'zapatos', 'botas', 'carteras', 'zapatillas', 'textil', 'gamarra', 'camisas', 'tallas grandes', 'urban', 'streetwear', 'boutique', 'vestidos', 'maia store')) {
+    return {
+      text: isEs
+        ? "👠 **Tiendas Online y Catálogos de Alta Conversión para Moda & Calzado**\n\nCreamos experiencias de compra visualmente atractivas optimizadas para celulares (donde ocurre más del 85% de las compras):\n\n• 👡 " + linkTo("Maia Store", "maia-store") + ": Tienda de calzado femenino y carteras con **Sanity CMS** para autogestión de fotos, tallas y promociones sin tocar código.\n• 🧵 " + linkTo("Moda Digital Pro", "moda-digital-pro") + ": Plataforma para fabricantes textiles en Gamarra con catálogo digital y ventas por mayor y menor.\n• 👔 " + linkTo("Camisas en Tallas Grandes", "camisas-tallas-grandes") + ": E-commerce especializado en moda masculina oversize con selector de medidas y checkout ágil.\n• 👟 " + linkTo("Urban Style", "urban-style") + ": Marca de moda urbana con pasarela de pago instantánea y filtros dinámicos.\n\n🛍️ **Incluye:** Checkout a WhatsApp o pasarela segura (Stripe / Niubiz), catálogo visual en WebP y panel administrativo intuitivo."
+        : "👠 **High-Conversion E-Commerce & Catalogs for Fashion & Footwear**\n\n• 👡 " + linkTo("Maia Store", "maia-store") + ": Footwear & handbags store with Sanity headless CMS.\n• 🧵 " + linkTo("Moda Digital Pro", "moda-digital-pro") + ": Gamarra textile fashion e-commerce.\n• 👔 " + linkTo("Camisas en Tallas Grandes", "camisas-tallas-grandes") + ": Big & tall clothing e-commerce.\n• 👟 " + linkTo("Urban Style", "urban-style") + ": Streetwear brand with instant checkout.",
+      buttons: [
+        { text: isEs ? 'Ver Maia Store' : 'View Maia Store', action: 'case-study', slug: 'maia-store' },
+        { text: isEs ? 'Ver Moda Digital Pro' : 'View Moda Digital Pro', action: 'case-study', slug: 'moda-digital-pro' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan una tienda de moda?",
+        "📱 ¿Cómo se autoadministra el catálogo?",
+        "💬 Consultar por WhatsApp"
+      ] : [
+        "💰 Pricing for fashion e-commerce?",
+        "📱 How does self-management work?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 7. FINANCE, LOANS, CREDITS & MORTGAGE GUARANTEES
+  if (has('credito', 'creditos', 'prestamo', 'prestamos', 'garantia', 'hipotecario', 'financiera', 'financiero', 'cuotas', 'simulador', 'interes', 'tasa', 'yadiel', 'mandi')) {
+    return {
+      text: isEs
+        ? "💳 **Plataformas Financieras y Simuladores Inteligentes de Préstamos**\n\nDesarrollamos soluciones digitales para el sector financiero que generan máxima confianza y capturan solicitudes pre-calificadas:\n\n• 🏦 " + linkTo("Créditos Yadiel", "creditos-yadiel") + ": Plataforma de préstamos con garantía hipotecaria con **simulador interactivo de cuotas**, cálculo de plazos y recepción formal de solicitudes.\n• 📊 " + linkTo("Mandi Corp", "mandi-corp") + ": Firma de servicios financieros corporativos en Lima con cotizador en tiempo real y diseño sobrio de alta credibilidad.\n\n💡 **Características clave:** Simulador dinámico sin recargar página, validación de datos del solicitante y enrutamiento directo a ejecutivos de crédito."
+        : "💳 **Financial Platforms & Interactive Loan Calculators**\n\n• 🏦 " + linkTo("Créditos Yadiel", "creditos-yadiel") + ": Mortgage-backed lending portal with interactive live payment simulator.\n• 📊 " + linkTo("Mandi Corp", "mandi-corp") + ": Corporate financial services portal with lead scoring.",
+      buttons: [
+        { text: isEs ? 'Ver Créditos Yadiel' : 'View Créditos Yadiel', action: 'case-study', slug: 'creditos-yadiel' },
+        { text: isEs ? 'Ver Mandi Corp' : 'View Mandi Corp', action: 'case-study', slug: 'mandi-corp' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan una web financiera?",
+        "⚡ ¿Cómo funciona el simulador de cuotas?",
+        "💬 Hablar con un asesor"
+      ] : [
+        "💰 Pricing for financial portal?",
+        "⚡ How does the loan calculator work?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 8. BSALE ERP & INDUSTRIAL HARDWARE INTEGRATION
+  if (has('bsale', 'ferreteria', 'herramientas', 'inventario', 'sincronizar', 'erp', 'itools', 'dewalt', 'bosch', 'milwaukee', 'stock')) {
+    return {
+      text: isEs
+        ? "⚡ **Integración E-Commerce con ERP Bsale en Tiempo Real**\n\nConectamos tu tienda virtual directamente a tu sistema de facturación e inventario físico:\n\n• 🔧 " + linkTo("iTools Perú", "itools-peru") + ": Tienda online de herramientas y maquinaria industrial (DeWalt, Bosch, Milwaukee, Stanley) sincronizada con **Bsale ERP** mediante webhooks. Mantiene el stock unificado entre tiendas físicas y web, actualiza precios al instante y genera comprobantes electrónicos SUNAT automáticamente.\n• 🚀 Stack de máxima potencia: Next.js 15, base de datos PostgreSQL en Supabase y panel visual en Sanity CMS.\n\n¿Manejas Bsale u otro sistema de inventario en tu negocio?"
+        : "⚡ **Real-Time E-Commerce Integration with Bsale ERP**\n\n• 🔧 " + linkTo("iTools Perú", "itools-peru") + ": Industrial hardware e-commerce synchronized with Bsale ERP webhooks, automated electronic invoicing, Supabase PostgreSQL, and Next.js 15.",
+      buttons: [
+        { text: isEs ? 'Ver Caso iTools Perú' : 'View iTools Case', action: 'case-study', slug: 'itools-peru' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan la integración con Bsale?",
+        "⚡ ¿Cuánto tiempo toma conectarlo?",
+        "💬 Consultar por WhatsApp"
+      ] : [
+        "💰 Pricing for Bsale integration?",
+        "⚡ Integration timeline?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 9. CROSS-BORDER IMPORTATION, EBAY API & LOGISTICS
+  if (has('importar', 'importacion', 'importaciones', 'ebay', 'aduanas', 'arancel', 'aranceles', 'traer de usa', 'flete', 'carga', 'femar', 'sertrade', 'cubicaje', 'cbm', 'casillero')) {
+    return {
+      text: isEs
+        ? "🚢 **Sistemas Enterprise de Importación y Conexión con eBay API**\n\nContamos con arquitectura de comercio exterior para empresas de envíos e importaciones desde Estados Unidos:\n\n• 📦 " + linkTo("Importaciones USA - Perú", "importaciones-usa-peru") + ": Integración directa con la **API oficial de eBay**, sincronización de catálogo de subastas y compras directas, calculadora automática de aranceles SUNAT y tracking logístico de paquetes.\n• ⚓ " + linkTo("Femar Logistics SAC", "femar-logistics") + ": Operador de transporte internacional con cotizador interactivo de cubicaje (CBM) para fletes marítimos y aéreos.\n• 🌐 " + linkTo("Sertrade SAC", "sertrade") + ": Plataforma corporativa de comercio exterior y gestión aduanera.\n\n¿Deseas implementar un cotizador aduanero o una plataforma de compras en USA?"
+        : "🚢 **Cross-Border Importation Systems & eBay API Integration**\n\n• 📦 " + linkTo("Importaciones USA - Perú", "importaciones-usa-peru") + ": Real-time official eBay REST API sync, live customs tax estimator, and package tracker.\n• ⚓ " + linkTo("Femar Logistics SAC", "femar-logistics") + ": Global freight forwarder with interactive CBM cargo calculator.\n• 🌐 " + linkTo("Sertrade SAC", "sertrade") + ": International trade and customs platform.",
+      buttons: [
+        { text: isEs ? 'Ver Importaciones USA' : 'View US Imports', action: 'case-study', slug: 'importaciones-usa-peru' },
+        { text: isEs ? 'Ver Femar Logistics' : 'View Femar Logistics', action: 'case-study', slug: 'femar-logistics' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan un sistema con APIs?",
+        "🛠️ ¿Qué tecnologías utilizan?",
+        "💬 Hablar con un ingeniero"
+      ] : [
+        "💰 Pricing for API integrations?",
+        "🛠️ Tech stack details?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 10. PUBLISHING, BOOKS & EDUCATION ACADEMIES
+  if (has('libro', 'libros', 'editorial', 'libreria', 'horizonte', 'academia', 'cursos', 'el profe', 'preuniversitario', 'colegio', 'profesor', 'educacion', 'clases')) {
+    return {
+      text: isEs
+        ? "📚 **Plataformas para Editoriales, Librerías y Academias Educativas**\n\nDesarrollamos soluciones para venta de contenidos, literatura y formación académica:\n\n• 📖 " + linkTo("Editorial Horizonte", "editorial-horizonte") + ": Tienda online literaria con catálogo editorial autogestionable en **Sanity CMS**, buscador de títulos por autor/género y checkout ágil.\n• 🎓 " + linkTo("Academia El Profe", "academia-el-profe") + ": Plataforma educativa orientada a preparación preuniversitaria con catálogo de ciclos académicos, horarios e inscripción directa.\n\n¿Tu proyecto está enfocado en venta de libros o en cursos online?"
+        : "📚 **Platforms for Book Publishers & Educational Academies**\n\n• 📖 " + linkTo("Editorial Horizonte", "editorial-horizonte") + ": Literary e-commerce with Sanity CMS catalog management.\n• 🎓 " + linkTo("Academia El Profe", "academia-el-profe") + ": Higher-ed preparation academy platform with course intake funnels.",
+      buttons: [
+        { text: isEs ? 'Ver Editorial Horizonte' : 'View Editorial Horizonte', action: 'case-study', slug: 'editorial-horizonte' },
+        { text: isEs ? 'Ver Academia El Profe' : 'View Academia El Profe', action: 'case-study', slug: 'academia-el-profe' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 11. HEALTHCARE, CLINICS & MEDICAL SPECIALTIES
+  if (has('clinica', 'medico', 'medica', 'doctor', 'salud', 'paciente', 'pacientes', 'citas', 'nueva vida', 'semaltemed', 'ocupacional', 'dental', 'estetica', 'psicologo', 'odontologo')) {
+    return {
+      text: isEs
+        ? "🩺 **Plataformas de Confianza Médica y Agendamiento de Pacientes**\n\nTransmitimos autoridad clínica y reducimos a cero las ausencias a consultas médicas:\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Portal de salud integral con directorio de especialidades (ginecología, pediatría, odontología) y agendamiento de turnos en línea.\n• 🩺 " + linkTo("Semaltemed", "semaltemed") + ": Soluciones en medicina preventiva y salud ocupacional corporativa para cumplimiento normativo de empresas.\n\n💡 **Incluye:** Flujo de reservas médicas, confirmación automática por WhatsApp y diseño sobrio que transmite paz y rigor sanitario."
+        : "🩺 **Healthcare & Clinical Web Solutions**\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Medical directory with appointment booking.\n• 🩺 " + linkTo("Semaltemed", "semaltemed") + ": Occupational medicine & preventative corporate healthcare.",
+      buttons: [
+        { text: isEs ? 'Ver Centro Médico' : 'View Medical Center', action: 'case-study', slug: 'nueva-vida-centro-medico' },
+        { text: isEs ? 'Ver Semaltemed' : 'View Semaltemed', action: 'case-study', slug: 'semaltemed' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 12. ARCHITECTURE, CONSTRUCTION & RESIDENCES
+  if (has('arquitectura', 'arquitecto', 'construccion', 'constructora', 'edificacion', 'obras', 'cmc', 'breicorp', 'planos', 'playa', 'residencias', 'ingenieria civil')) {
+    return {
+      text: isEs
+        ? "🏗️ **Plataformas de Prestigio para Arquitectura y Construcción**\n\nProyectamos la envergadura y calidad constructiva de tus proyectos ante clientes e inversionistas:\n\n• 🏛️ " + linkTo("CMC LATAM Arquitectura", "cmc-latam") + ": Web bilingüe para firma de diseño y construcción costera con modo claro/oscuro, galería inmersiva de residencias y renderizado HD.\n• 🏗️ " + linkTo("Breicorp Constructora", "breicorp") + ": Empresa de ingeniería civil, obras de infraestructura y proyectos corporativos a gran escala.\n\n¿Buscas una web para mostrar tu portafolio arquitectónico o captar licitaciones?"
+        : "🏗️ **Prestige Platforms for Architecture & Construction**\n\n• 🏛️ " + linkTo("CMC LATAM", "cmc-latam") + ": Bilingual coastal architecture platform with Dark/Light mode and project gallery.\n• 🏗️ " + linkTo("Breicorp", "breicorp") + ": Heavy civil engineering and structural construction firm.",
+      buttons: [
+        { text: isEs ? 'Ver CMC LATAM' : 'View CMC LATAM', action: 'case-study', slug: 'cmc-latam' },
+        { text: isEs ? 'Ver Breicorp' : 'View Breicorp', action: 'case-study', slug: 'breicorp' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 13. COUNTRY CLUBS, EVENTS & RECREATION
+  if (has('club', 'campestre', 'cienequilla', 'gincana', 'eventos', 'piscinas', 'cabañas familiares', 'recreacion', 'bungalows')) {
+    return {
+      text: isEs
+        ? "🎪 **Plataformas para Clubes Campestres y Espacios de Eventos**\n\n• 🌳 " + linkTo("Gincana Club Campestre Cieneguilla", "gincana-club-campestre") + ": Web para centro recreacional y eventos corporativos con reserva de áreas verdes, bungalows, piscinas y cotizador para bodas y aniversarios.\n\n¿Deseas gestionar reservas de eventos o membresías familiares para tu local campestre?"
+        : "🎪 **Platforms for Country Clubs & Event Venues**\n\n• 🌳 " + linkTo("Gincana Club Campestre", "gincana-club-campestre") + ": Country club in Cieneguilla with bungalow bookings and corporate event planning.",
+      buttons: [
+        { text: isEs ? 'Ver Gincana Club' : 'View Gincana Club', action: 'case-study', slug: 'gincana-club-campestre' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 14. PACKAGING, INDUSTRIAL BOXES & AGRIBUSINESS
+  if (has('packaging', 'cajas', 'carton', 'corrugado', 'empaques', 'embalaje', 'gudstor', 'agro', 'agroindustria', 'cooperativa', 'cafe', 'cacao', 'union el progreso')) {
+    return {
+      text: isEs
+        ? "📦 **Soluciones Digitales para Industrias, Packaging y Agroexportación**\n\n• 📦 " + linkTo("Gudstor Pack", "gudstor-pack") + ": Empresa fabricante de empaques industriales y cajas de cartón corrugado a medida con cotizador por volumen.\n• ☕ " + linkTo("Unión el Progreso", "union-el-progreso") + ": Cooperativa agraria cafetalera y cacaotera con trazabilidad de origen y catálogo de exportación para compradores internacionales.\n\n¿Requieres una plataforma con catálogo B2B para pedidos al por mayor?"
+        : "📦 **Digital Solutions for Industrial Packaging & Agribusiness**\n\n• 📦 " + linkTo("Gudstor Pack", "gudstor-pack") + ": Industrial packaging and custom corrugated box solutions.\n• ☕ " + linkTo("Unión el Progreso", "union-el-progreso") + ": Agrarian coffee & cocoa cooperative export portal.",
+      buttons: [
+        { text: isEs ? 'Ver Gudstor Pack' : 'View Gudstor Pack', action: 'case-study', slug: 'gudstor-pack' },
+        { text: isEs ? 'Ver Unión el Progreso' : 'View Unión el Progreso', action: 'case-study', slug: 'union-el-progreso' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 15. GASTRONOMY, RESTAURANTS & QR DIGITAL MENUS
+  if (has('restaurante', 'comida', 'menu', 'carta', 'platos', 'cafeteria', 'bar', 'delivery', 'gastronomia', 'casona gourmet')) {
+    return {
+      text: isEs
+        ? "🍽️ **Solución Integral para Restaurantes y Negocios Gastronómicos**\n\nEliminamos los incómodos PDFs pesados que nadie quiere descargar en su celular:\n\n• 🍲 " + linkTo("La Casona Gourmet", "la-casona-gourmet") + ": Carta digital QR ultrarrápida con fotos apetitosas, alérgenos y envío directo del pedido a WhatsApp de cocina sin comisiones de apps externas.\n• **Gestión de Reservas:** Formulario interactivo con fecha, hora y número de personas sin intermediarios."
+        : "🍽️ **Gastronomy & Restaurant Solutions**\n\n• 🍲 " + linkTo("La Casona Gourmet", "la-casona-gourmet") + ": Ultra-fast QR digital menu and direct WhatsApp kitchen ordering funnel without 3rd-party commissions.",
+      buttons: [
+        { text: isEs ? 'Ver La Casona Gourmet' : 'View La Casona Gourmet', action: 'case-study', slug: 'la-casona-gourmet' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 16. SAAS, SMART QUOTING TOOLS & MULTI-TENANT PLATFORMS
+  if (has('saas', 'cotizador', 'software', 'plataforma', 'dashboard', 'crm', 'cotizador pro', 'ecommerce builder', 'atlas', 'multitienda')) {
+    return {
+      text: isEs
+        ? "💻 **Desarrollo de Software SaaS y Herramientas Web a Medida**\n\nIngeniería full-stack para digitalizar procesos operativos complejos:\n\n• 📋 " + linkTo("Cotizador Pro", "cotizador-pro") + ": Plataforma SaaS interactiva para cálculo y generación instantánea de cotizaciones comerciales con exportación a PDF profesional.\n• 🏪 " + linkTo("E-Commerce Builder Pro", "ecommerce-builder-pro") + ": Ecosistema SaaS multi-tienda con paneles administrativos independientes y gestión centralizada.\n• 📈 " + linkTo("Atlas App", "atlas") + ": Dashboard corporativo de control financiero y métricas de crecimiento empresarial."
+        : "💻 **Custom SaaS Platforms & Enterprise Web Software**\n\n• 📋 " + linkTo("Cotizador Pro", "cotizador-pro") + ": Interactive quote generator SaaS with automated PDF downloads.\n• 🏪 " + linkTo("E-Commerce Builder Pro", "ecommerce-builder-pro") + ": Multi-tenant e-commerce platform.\n• 📈 " + linkTo("Atlas App", "atlas") + ": Enterprise growth metrics and analytics dashboard.",
+      buttons: [
+        { text: isEs ? 'Ver Cotizador Pro' : 'View Cotizador Pro', action: 'case-study', slug: 'cotizador-pro' },
+        { text: isEs ? 'Ver E-Commerce Builder' : 'View E-Commerce Builder', action: 'case-study', slug: 'ecommerce-builder-pro' },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 17. AI AGENTS & AUTOMATIONS (CAPABILITIES & FEATURES)
+  if (has('ia', 'agente', 'agentes', 'inteligencia', 'ai', 'bot', 'chatbot', 'automatizar', 'automatizacion', 'gpt', '24/7', 'asistente')) {
+    return {
+      text: isEs
+        ? "🤖 **Agentes de Inteligencia Artificial Autónomos para tu Negocio**\n\nDesarrollamos asistentes de IA avanzados programados con la documentación, catálogo, tarifas y políticas de tu empresa.\n\n🔥 **Lo que logran nuestros Agentes de IA:**\n• **Atención Inmediata 24/7 en Web y WhatsApp:** Responden consultas complejas al instante en tono humano, cordial y profesional.\n• **Calificación Automática de Prospectos:** Filtran curiosos y capturan nombre, teléfono, presupuesto y necesidad exacta.\n• **Agendamiento Autónomo de Citas:** Conectados en tiempo real a tu Google Calendar o CRM para agendar reuniones.\n• **Ahorro Masivo de Costos:** Trabajan día y noche sin sueldos fijos, feriados ni bajas de personal.\n\n¿Te gustaría ver una demo de cómo funcionaría para tu rubro?"
+        : "🤖 **Custom Enterprise AI Agents**\n\nWe build autonomous AI agents trained on your business data, catalogs, and workflows.\n\n• 24/7 Instant Responses on Website & WhatsApp\n• Lead Intake & Qualification\n• Direct Google Calendar Scheduling\n• Massive reduction in routine support costs.",
+      buttons: [
+        { text: isEs ? 'Agendar Demo de IA (15 min)' : 'Book AI Demo Call', action: 'calendly' },
+        { text: isEs ? 'Consultar por WhatsApp' : 'Inquire on WhatsApp', action: 'whatsapp' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan la implementación de IA?",
+        "📱 ¿Cómo se conecta con mi WhatsApp?",
+        "📅 Agendar videollamada para demo"
+      ] : [
+        "💰 How do you price AI Agents?",
+        "📱 How does WhatsApp integration work?",
+        "📅 Schedule demo call"
+      ]
+    };
+  }
+
+  // 18. TIME, DEADLINES & AGILE METHODOLOGY
+  if (has('tiempo', 'tiempos', 'tarda', 'tardan', 'demora', 'demoran', 'plazo', 'plazos', 'cuanto tiempo', 'dias', 'urgente', 'proceso', 'pasos', 'metodologia')) {
+    return {
+      text: isEs
+        ? "⚡ **Tiempos Récord y Metodología de Entrega Ágil**\n\nNo tardamos meses como las agencias lentas tradicionales. Al programar con código limpio en React nativo y arquitectura moderna, entregamos con rapidez absoluta:\n\n⏱️ **Tiempos de entrega promedio:**\n• **Landing Page de Conversión:** 3 a 5 días hábiles.\n• **Web Corporativa o Reservas:** 5 a 8 días hábiles.\n• **Tienda Online E-Commerce:** 7 a 12 días hábiles.\n• **Agentes de IA Personalizados:** 5 a 10 días hábiles según integraciones.\n\n📋 **Nuestro Proceso en 4 Pasos:**\n1. **Descubrimiento (15 min):** Videollamada por Google Meet para definir alcance, objetivos y país.\n2. **Diseño y Prototipo:** Revisamos la maqueta interactiva antes de programar.\n3. **Desarrollo & Conexiones:** Programación en React, integración de WhatsApp, pasarelas y SEO.\n4. **Pruebas y Lanzamiento:** Publicación en dominio propio con capacitación incluida."
+        : "⚡ **Record Turnaround & Agile Methodology**\n\n• **Landing Page:** 3 - 5 business days\n• **Corporate / Booking Web:** 5 - 8 business days\n• **E-Commerce Store:** 7 - 12 business days\n• **Custom AI Agents:** 5 - 10 business days\n\n📋 4-Step Process: Discovery (15 min) ➔ Prototype ➔ Code & Integrations ➔ Launch.",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min de Inicio' : 'Book Kickoff Call', action: 'calendly' },
+        { text: isEs ? 'Consultar por WhatsApp' : 'Inquire on WhatsApp', action: 'whatsapp' }
+      ]
+    };
+  }
+
+  // 19. TECH STACK, SPEED & GOOGLE SEO
+  if (has('tecnologia', 'tecnologias', 'stack', 'react', 'wordpress', 'wix', 'shopify', 'velocidad', 'rapido', 'pagespeed', 'google', 'seo', 'hosting', 'codigo')) {
+    return {
+      text: isEs
+        ? "🛠️ **Ingeniería y Tecnología: Por qué superamos a WordPress y Wix**\n\nLa mayoría de sitios en WordPress usan decenas de plugins pesados, tardan 4 a 7 segundos en cargar y sufren constantes hackeos. Más del **50% de usuarios abandona una web** que tarda más de 3 segundos.\n\n⚡ **La ventaja técnica de FastPagePro:**\n• **Stack Moderno:** React 19 + Vite + Tailwind CSS (código nativo, ultraligero y escalable).\n• **Carga Instantánea (< 0.8s):** Puntuación 95-100 en Google PageSpeed tanto en móvil como en escritorio.\n• **SEO Técnico para Google:** Estructura semántica, metadatos enriquecidos, OpenGraph y WebP para liderar búsquedas orgánicas.\n• **Hosting Global Edge CDN:** Servidores de alta disponibilidad con certificado SSL y copias de seguridad automáticas.\n• **100% Propiedad del Código:** Cero ataduras de plataforma; el código y dominio son tuyos."
+        : "🛠️ **Next-Gen Architecture vs WordPress & Wix**\n\n• React 19 + Vite + Tailwind CSS native engine\n• Sub-second load time & 95-100 PageSpeed scores\n• Technical SEO & Schema markup included\n• Global Edge CDN hosting with SSL\n• 100% code ownership.",
+      buttons: [
+        { text: isEs ? 'Ver Portafolio' : 'View Portfolio', action: 'portfolio' },
+        { text: isEs ? 'Agendar 15 min' : 'Book 15 min Call', action: 'calendly' }
+      ]
+    };
+  }
+
+  // 20. SELF-MANAGEMENT & SANITY CMS ("¿Puedo editarlo yo mismo?")
+  if (has('editar', 'cambiar', 'actualizar', 'autoadministrable', 'panel', 'yo mismo', 'administrar', 'subir fotos', 'cambiar precios', 'cms', 'sanity')) {
+    return {
+      text: isEs
+        ? "✏️ **Panel Autoadministrable Sencillo con Sanity CMS**\n\n¡Totalmente! Diseñamos nuestras plataformas para que tengas **independencia total**:\n\n• **Panel Visual Intuitivo:** Puedes cambiar textos, fotos, precios, promociones o agregar nuevos productos en segundos.\n• **Cero necesidad de programar:** No requieres conocimientos técnicos ni pagarle a un programador por cada cambio menor.\n• **Capacitación en Video Incluida:** Al entregar tu web, te entregamos una guía rápida en video para que tú o tu equipo administren el sitio con soltura.\n\n¿Te gustaría ver una demo de cómo funciona el panel de administración?"
+        : "✏️ **Intuitive Self-Management Control Panel**\n\nYes! You get complete independence to update texts, images, pricing, and products without touching code.\n\n• User-friendly admin dashboard\n• Video walkthrough included at launch\n• Zero monthly maintenance fees just to change basic text.",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'Consultar por WhatsApp' : 'Inquire on WhatsApp', action: 'whatsapp' }
+      ]
+    };
+  }
+
+  // 21. WARRANTY, CONTRACTS & CODE OWNERSHIP
+  if (has('garantia', 'soporte', 'mantenimiento', 'propiedad', 'dueno', 'contrato', 'confianza', 'hitos')) {
+    return {
+      text: isEs
+        ? "🛡️ **Garantía Técnica, Contratos y Propiedad Total**\n\n• **Garantía Post-Lanzamiento:** Tu proyecto incluye garantía técnica contra cualquier error o bug sin costo adicional.\n• **100% Propiedad del Cliente:** Todo el código fuente, dominio y accesos te pertenecen exclusivamente a ti.\n• **Contrato Formal & Facturación:** Emitimos contrato con entregables detallados y facturas formales (SUNAT en Perú / Invoices en EE.UU.).\n• **Soporte Directo:** Hablas directamente con los ingenieros que programaron tu web, sin intermediarios ni burocracia."
+        : "🛡️ **Warranty, Contracts & 100% Code Ownership**\n\n• Post-launch technical bug warranty included\n• 100% client code ownership (no lock-in)\n• Legally binding contracts & formal invoices (SUNAT in Peru / W-9 compliant in USA)\n• Direct communication with core engineers.",
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'WhatsApp Directo' : 'WhatsApp Direct', action: 'whatsapp' }
+      ]
+    };
+  }
+
+  // 22. MEETINGS & DISCOVERY CALL
+  if (has('reunion', 'agendar', 'meet', 'calendly', 'llamada', 'cita', 'contacto', 'telefono', 'hablar', 'conversar', 'book', 'call', 'agendamos')) {
+    return {
+      text: isEs
+        ? "📅 **¡Excelente! Agendemos una videollamada de 15 minutos por Google Meet**\n\nEs 100% gratuita y sin compromiso. En esta breve sesión:\n\n1. Revisaremos tu caso, requerimientos y objetivos de venta.\n2. Te mostraremos opciones visuales y casos de éxito de tu mismo rubro.\n3. Te entregaremos una propuesta clara con cotización formal adaptada a tu país y plazos garantizados.\n\nElige el horario que más te convenga en nuestro calendario oficial:"
+        : "📅 **Let's schedule a 15-minute Google Meet discovery call!**\n\n100% free with no commitment. We will evaluate your project, review relevant case studies, and give you an exact quote and delivery timeline.",
+      buttons: [
+        { text: isEs ? 'Elegir Horario en Calendly' : 'Choose Time on Calendly', action: 'calendly' },
+        { text: isEs ? 'O escribir por WhatsApp' : 'Or chat on WhatsApp', action: 'whatsapp' }
+      ]
+    };
+  }
+
+  // 23. DYNAMIC SEARCH ACROSS ALL 35 PORTFOLIO PROJECTS
+  const matchingProjects = allProjects.filter((p) => {
+    const textToSearch = `${p.title} ${p.description || ''} ${p.industryLabel || ''} ${p.industry || ''} ${(p.techStack || []).join(' ')}`
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    const tokens = q.split(/\s+/).filter(t => t.length > 3);
+    return tokens.some(tok => textToSearch.includes(tok));
+  });
+
+  if (matchingProjects.length > 0) {
+    const topMatches = matchingProjects.slice(0, 3);
+    const projectBullets = topMatches
+      .map(
+        (p) =>
+          `• 🚀 ${linkTo(p.title, p.slug)}: ${p.highlights || p.description}`
+      )
+      .join('\n');
+
+    return {
+      text: isEs
+        ? `💼 **Casos de Éxito Relacionados con tu Búsqueda:**\n\nEncontramos proyectos activos en nuestro portafolio que se alinean con lo que necesitas:\n\n${projectBullets}\n\n📌 **Cotización a Medida:**\nCada desarrollo se adapta a la escala de tu negocio en **EE.UU., Perú o LATAM**. Para evaluar tu alcance técnico y entregarte una propuesta formal, te recomendamos agendar una **breve reunión de 15 min en Google Meet**.`
+        : `💼 **Relevant Case Studies from our Portfolio:**\n\nWe found matching active projects in our database:\n\n${projectBullets}\n\nEvery solution is custom-tailored to your market. We recommend booking a **15-minute Google Meet call** to review your goals and receive a formal proposal.`,
+      buttons: [
+        { text: isEs ? `Ver ${topMatches[0].title}` : `View ${topMatches[0].title}`, action: 'case-study', slug: topMatches[0].slug },
+        { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'Consultar por WhatsApp' : 'Chat on WhatsApp', action: 'whatsapp' }
+      ],
+      followUps: isEs ? [
+        "💰 ¿Cómo cotizan un proyecto similar?",
+        "⚡ ¿Cuáles son los tiempos de entrega?",
+        "💬 Hablar con un asesor"
+      ] : [
+        "💰 How do you quote a similar project?",
+        "⚡ Delivery timelines?",
+        "💬 Chat on WhatsApp"
+      ]
+    };
+  }
+
+  // 24. INTELLIGENT CONTEXTUAL FALLBACK
+  return {
+    text: isEs
+      ? `Comprendo perfectamente lo que necesitas respecto a **"${rawQuery}"**.\n\nEn **FastPagePro** no vendemos plantillas genéricas al azar; construimos cada proyecto con ingeniería web a medida (código nativo en React 19, velocidad récord < 0.8s y funnels enfocados en ventas).\n\nCada solución se cotiza de forma personalizada según el país donde operas (**EE.UU., Perú o LATAM**) y la complejidad técnica de tu negocio.\n\n📌 **Propuesta Seria y Formal:**\nPara entregarte una cotización seria, transparente y adaptada a tus objetivos, lo más recomendable es tener una **breve videollamada de 15 minutos por Google Meet** con nuestro equipo técnico, o si prefieres, escríbenos directamente por WhatsApp.`
+      : `I understand your goal regarding **"${rawQuery}"**.\n\nAt **FastPagePro**, every digital asset is custom-engineered with modern web standards (sub-second load time, conversion-focused layout, and automated customer funnels).\n\nEvery project is custom-scoped based on your country and business scale.\n\nWould you like to review your project in a quick 15-minute Google Meet call, or do you prefer to chat directly via WhatsApp?`,
+    buttons: [
+      { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+      { text: isEs ? 'WhatsApp Directo' : 'WhatsApp Direct', action: 'whatsapp' }
+    ],
+    followUps: isEs ? [
+      "💰 ¿Cómo cotizan los proyectos?",
+      "🏨 Ver proyectos para hoteles",
+      "🇺🇸 ¿Cómo trabajan con clientes en USA?",
+      "⚡ ¿Cuáles son los tiempos de entrega?"
+    ] : [
+      "💰 How do you price projects?",
+      "🏨 View hotel case studies",
+      "🇺🇸 How do you work with US clients?",
+      "⚡ What are delivery times?"
+    ]
+  };
+};
+
+// --- Formatted AI Message with Markdown Highlights, Links & Custom Bullets ---
+const FormattedAIMessage = ({ text, isStreaming, onClose }) => {
+  const paragraphs = text.split('\n\n');
+
+  const renderInlineContent = (str) => {
+    // Regex splits by markdown links [label](url) and bold **text**
+    const parts = str.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g);
+    return parts.map((part, partIdx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <strong key={partIdx} className="text-yellow-400 font-bold">
+            {part.slice(2, -2)}
+          </strong>
+        );
+      }
+      const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (linkMatch) {
+        const label = linkMatch[1];
+        const url = linkMatch[2];
+        const isCaseStudy = url.includes('/portafolio/');
+        return (
+          <a
+            key={partIdx}
+            href={url}
+            onClick={(e) => {
+              if (isCaseStudy) {
+                e.preventDefault();
+                const slugMatch = url.match(/\/portafolio\/([a-zA-Z0-9_-]+)/);
+                const slug = slugMatch ? slugMatch[1] : '';
+                if (slug && typeof window !== 'undefined') {
+                  if (onClose) onClose();
+                  try {
+                    window.history.pushState(null, '', `/portafolio/${slug}`);
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                  } catch {}
+                }
+              }
+            }}
+            target={isCaseStudy ? undefined : "_blank"}
+            rel={isCaseStudy ? undefined : "noopener noreferrer"}
+            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-yellow-400 hover:text-stone-950 hover:bg-yellow-400 font-bold underline decoration-yellow-400/50 transition-all mx-0.5 text-xs shadow-sm cursor-pointer"
+          >
+            <span>{label}</span>
+            <ArrowUpRight size={11} className="shrink-0 inline" />
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
+  return (
+    <div className="space-y-2 leading-relaxed text-stone-200 text-xs sm:text-sm">
+      {paragraphs.map((para, pIdx) => {
+        const lines = para.split('\n');
+        return (
+          <div key={pIdx} className="space-y-1">
+            {lines.map((line, lIdx) => {
+              const isBullet = line.startsWith('• ') || line.startsWith('- ');
+              const cleanLine = isBullet ? line.replace(/^[•\-]\s*/, '') : line;
+              const content = renderInlineContent(cleanLine);
+
+              if (isBullet) {
+                return (
+                  <div key={lIdx} className="flex items-start gap-2 ml-1 text-stone-300">
+                    <span className="text-yellow-400 font-black text-xs mt-0.5 select-none">▸</span>
+                    <span className="flex-1">{content}</span>
+                  </div>
+                );
+              }
+
+              return <p key={lIdx}>{content}</p>;
+            })}
+          </div>
+        );
+      })}
+      {isStreaming && (
+        <span className="inline-block w-1.5 h-3.5 ml-1 bg-yellow-400 animate-pulse align-middle" />
+      )}
+    </div>
+  );
+};
+
+// --- FastPage AI Assistant Component (Super Intelligent with High-Speed Streaming) ---
+const FastPageAIAssistant = ({ language, isOpen, onClose, openCalendly }) => {
+  const isEs = language === 'es';
+  const initialMsg = isEs
+    ? "¡Hola! 👋 Soy **FastPage AI**, el asesor de proyectos de **FastPagePro**.\n\nDiseñamos **webs de alta velocidad**, tiendas online y **agentes de IA autónomos** para empresas en EE.UU., Perú y Latinoamérica.\n\n¿Tienes alguna idea o proyecto en mente para tu negocio?"
+    : "Hello! 👋 I'm **FastPage AI**, project advisor at **FastPagePro**.\n\nWe build **high-speed websites**, e-commerce platforms, and **autonomous AI agents** for businesses across the US and Latin America.\n\nWhat kind of project are you thinking about?";
+
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      sender: 'ai',
+      text: initialMsg,
+      isStreaming: false,
+      buttons: [
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
+        { text: isEs ? 'WhatsApp Directo' : 'WhatsApp Direct', action: 'whatsapp' }
+      ]
+    }
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [quickQuestions, setQuickQuestions] = useState(
+    isEs ? [
+      "🇺🇸 ¿Cómo trabajan con clientes en USA?",
+      "💰 ¿Precios y paquetes disponibles?",
+      "🤖 ¿Qué pueden hacer sus Agentes de IA?",
+      "⚡ ¿Cuáles son los tiempos de entrega?",
+      "📅 Quiero agendar una reunión"
+    ] : [
+      "🇺🇸 How do you work with US clients?",
+      "💰 What are your prices & plans?",
+      "🤖 What can your AI Agents do?",
+      "⚡ What are your delivery times?",
+      "📅 I'd like to book a 15-min call"
+    ]
+  );
+
+  const messagesEndRef = useRef(null);
+  const streamingIntervalRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isTyping, isOpen]);
+
+  // Clean up streaming timer on unmount
+  useEffect(() => {
+    return () => {
+      if (streamingIntervalRef.current) {
+        clearInterval(streamingIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const handleSendMessage = (textToSend) => {
+    const text = (textToSend || inputValue).trim();
+    if (!text) return;
+
+    // Clear any previous ongoing stream
+    if (streamingIntervalRef.current) {
+      clearInterval(streamingIntervalRef.current);
+    }
+
+    const userMsg = { id: Date.now(), sender: 'user', text };
+    setMessages(prev => [...prev, userMsg]);
+    if (!textToSend) setInputValue('');
+    setIsTyping(true);
+
+    // Snappy intelligent inference (instant start)
+    setTimeout(() => {
+      const aiResult = queryFastPageAI(text, language);
+      setIsTyping(false);
+
+      const aiMsgId = Date.now() + 1;
+      const fullText = aiResult.text;
+      const tokens = fullText.split(' ');
+      let currentTokenIndex = 0;
+
+      // Initial empty AI message in streaming state
+      setMessages(prev => [
+        ...prev,
+        {
+          id: aiMsgId,
+          sender: 'ai',
+          text: '',
+          isStreaming: true,
+          buttons: []
+        }
+      ]);
+
+      // Ultra-rapid, natural streaming (16ms per token)
+      streamingIntervalRef.current = setInterval(() => {
+        currentTokenIndex += 2; // Stream 2 words per tick for high-speed fluidity
+        if (currentTokenIndex >= tokens.length) {
+          clearInterval(streamingIntervalRef.current);
+          streamingIntervalRef.current = null;
+          setMessages(prev =>
+            prev.map(m =>
+              m.id === aiMsgId
+                ? { ...m, text: fullText, isStreaming: false, buttons: aiResult.buttons }
+                : m
+            )
+          );
+          if (aiResult.followUps && aiResult.followUps.length > 0) {
+            setQuickQuestions(aiResult.followUps);
+          }
+        } else {
+          const partialText = tokens.slice(0, currentTokenIndex).join(' ');
+          setMessages(prev =>
+            prev.map(m =>
+              m.id === aiMsgId
+                ? { ...m, text: partialText }
+                : m
+            )
+          );
+        }
+      }, 20);
+    }, 150);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9, y: 20 }}
+      className="fixed bottom-24 right-4 md:bottom-28 md:right-8 z-50 w-[calc(100vw-2rem)] max-w-[395px] h-[550px] bg-stone-950/95 backdrop-blur-2xl border border-yellow-500/30 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-white"
+    >
+      {/* Header */}
+      <div className="bg-gradient-to-r from-stone-900 via-stone-900 to-stone-950 p-4 border-b border-stone-800 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-stone-950 shadow-lg shadow-yellow-500/20">
+              <Bot size={22} className="stroke-[2.2]" />
+            </div>
+            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-stone-950" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-sm text-white">FastPage AI</h3>
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-yellow-400/20 text-yellow-400 border border-yellow-400/30">PRO</span>
+            </div>
+            <p className="text-[11px] text-stone-400">{isEs ? 'Asesor de Proyectos • USA & LATAM' : 'Project Advisor • US & LATAM'}</p>
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="text-stone-400 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+          aria-label="Cerrar asistente"
+        >
+          <X size={18} />
+        </button>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar text-sm">
+        {messages.map(msg => (
+          <div
+            key={msg.id}
+            className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+          >
+            <div
+              className={`p-3.5 rounded-2xl max-w-[90%] leading-relaxed ${
+                msg.sender === 'user'
+                  ? 'bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 font-medium rounded-br-none shadow-md'
+                  : 'bg-stone-900/90 border border-stone-800 text-stone-200 rounded-bl-none shadow-sm'
+              }`}
+            >
+              {msg.sender === 'ai' ? (
+                <FormattedAIMessage text={msg.text} isStreaming={msg.isStreaming} onClose={onClose} />
+              ) : (
+                msg.text
+              )}
+            </div>
+            {msg.buttons && msg.buttons.length > 0 && !msg.isStreaming && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {msg.buttons.map((btn, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (btn.action === 'calendly') openCalendly();
+                      if (btn.action === 'whatsapp') window.open(getWhatsAppLink('contacto'), '_blank', 'noopener,noreferrer');
+                      if (btn.action === 'portfolio') {
+                        onClose();
+                        const el = document.getElementById('portafolio');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }
+                      if (btn.action === 'case-study' && btn.slug) {
+                        onClose();
+                        try {
+                          window.history.pushState(null, '', `/portafolio/${btn.slug}`);
+                          window.dispatchEvent(new PopStateEvent('popstate'));
+                        } catch {}
+                      }
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer ${
+                      btn.action === 'case-study'
+                        ? 'bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-black shadow-yellow-500/20'
+                        : btn.action === 'whatsapp'
+                        ? 'bg-[#25D366] hover:bg-[#20bd5a] text-white border border-white/20'
+                        : btn.action === 'calendly'
+                        ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 hover:brightness-110 shadow-yellow-500/20'
+                        : 'bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700'
+                    }`}
+                  >
+                    {btn.action === 'case-study' && <ExternalLink size={13} className="text-stone-950 shrink-0" />}
+                    {btn.action === 'whatsapp' && <WhatsAppOfficialIcon size={13} className="fill-white shrink-0" />}
+                    {btn.action === 'calendly' && <Video size={13} className="text-stone-950 shrink-0" />}
+                    {btn.action === 'portfolio' && <Briefcase size={13} className="text-yellow-400 shrink-0" />}
+                    <span>{btn.text}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {isTyping && (
+          <div className="flex items-center gap-1.5 bg-stone-900 border border-stone-800 p-3 rounded-2xl rounded-bl-none w-fit">
+            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Quick Prompts */}
+      <div className="px-3 py-2 border-t border-stone-800/80 bg-stone-900/40 overflow-x-auto flex gap-2 no-scrollbar">
+        {quickQuestions.map((q, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleSendMessage(q)}
+            className="whitespace-nowrap px-3 py-1.5 rounded-full text-[11px] font-medium bg-stone-800/90 hover:bg-stone-700 text-stone-300 border border-stone-700/60 hover:border-yellow-400/40 hover:text-yellow-400 transition-colors shrink-0 cursor-pointer"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="p-3 bg-stone-900 border-t border-stone-800 flex items-center gap-2">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+          placeholder={isEs ? 'Escribe tu pregunta sobre tu proyecto...' : 'Ask about your project...'}
+          className="flex-1 bg-stone-950 border border-stone-700 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-yellow-400"
+        />
+        <button
+          onClick={() => handleSendMessage()}
+          disabled={!inputValue.trim()}
+          className="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 text-stone-950 flex items-center justify-center font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:brightness-110 transition-all shrink-0 cursor-pointer"
+          aria-label="Enviar mensaje"
+        >
+          <Send size={16} />
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+// --- Modern Desktop Floating Action Hub ---
+const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
+  const isEs = language === 'es';
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [isAiOpen, setIsAiOpen] = useState(false);
+
   useEffect(() => {
     const dismissed = sessionStorage.getItem('fp_tooltip_dismissed');
     if (!dismissed) {
-      const timer = setTimeout(() => setShowTooltip(true), 5000);
+      const timer = setTimeout(() => setShowTooltip(true), 4000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -3783,853 +4484,687 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
     sessionStorage.setItem('fp_tooltip_dismissed', 'true');
   };
 
-  // Auto-open widget + dismiss tooltip on tooltip click
-  const handleTooltipClick = () => {
-    dismissTooltip();
-    setIsOpen(true);
-    trackCtaClick('widget_open_tooltip', 'widget_open');
-  };
-
-  const toggleWidget = () => {
-    if (!isOpen) {
-      // Opening the widget counts as a CTA engagement.
-      trackCtaClick('widget_open', 'widget_open');
-      dismissTooltip();
-    }
-    setIsOpen((prev) => !prev);
-  };
-
-  // Popup-blocker-safe URL opener. After async work (await saveLead), the
-  // browser may strip the "user gesture" flag and silently block window.open.
-  // On failure we fall back to same-tab navigation so the user always lands
-  // somewhere useful (especially important on mobile Safari/Chrome).
-  const openUrlSafe = (url) => {
-    try {
-      const win = window.open(url, '_blank', 'noopener,noreferrer');
-      if (!win) {
-        // Popup blocked — fall back to same-tab navigation.
-        window.location.href = url;
-      }
-    } catch {
-      window.location.href = url;
-    }
-  };
-  
-  // Reset function
-  const resetWidget = () => {
-    setStep('main');
-    setSelectedDate('');
-    setSelectedTime('');
-    setUserEmail('');
-    setUserName('');
-    setUserPhone('');
-  };
-
-  // Handle close button specifically
-  const handleCloseClick = (e) => {
-    e.stopPropagation(); // Prevent triggering other clicks
-    setIsOpen(false); // THIS IS THE KEY FIX
-  };
-
-  const handleBooking = (type) => {
-    let message = "";
-    const locale = language === "es" ? "es-PE" : "en-US";
-    const formattedDateTime = selectedDate && selectedTime 
-      ? new Date(`${selectedDate}T${selectedTime}`).toLocaleString(locale, { dateStyle: 'full', timeStyle: 'short' })
-      : widgetCopy.defineLater;
-
-    const userInfo = userName ? `${userName}` : widgetCopy.userUnknown;
-    const cleanPhone = userPhone.trim();
-    const validPhone = /^[+\d][\d\s-]{7,}$/.test(cleanPhone);
-    const contactInfo = userEmail ? `\n${WA_EMOJI.email} Email: ${userEmail}` : "";
-    const phoneInfo = cleanPhone ? `\n${WA_EMOJI.phone} ${language === "es" ? "Teléfono" : "Phone"}: ${cleanPhone}` : "";
-
-    const saveLead = async (payload) => {
-      if (!LEADS_WEBHOOK_URL) return { ok: false, skipped: true, data: {} };
-      try {
-        const res = await fetch(LEADS_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        let data = {};
-        try {
-          data = await res.json();
-        } catch {
-          data = {};
-        }
-        return { ok: res.ok, skipped: false, data };
-      } catch {
-        return { ok: false, skipped: false, data: {} };
-      }
-    };
-
-    // Build a Google Calendar "TEMPLATE" link that pre-fills the user's
-    // calendar with an event they must SAVE. The TEMPLATE endpoint does NOT
-    // auto-create a Meet link by itself — only the Calendar API can do that —
-    // but Google Calendar auto-generates a Meet link when the user clicks
-    // "Save" IF their default setting "Automatically add Google Meet video
-    // conferencing to events I create" is enabled (which is the default for
-    // personal Gmail accounts since 2020).
-    //
-    // We add the user's own email as a guest so the event is also saved to
-    // their calendar (not just the agency's), and we add PROFASTPAGE_EMAIL so
-    // the agency receives the invite as well.
-    //
-    // For a REAL end-to-end integration (auto-created Meet link without any
-    // user "Save" step), set VITE_LEADS_WEBHOOK_URL to a backend that calls
-    // the Google Calendar API to insert an event with
-    // `conferenceData: { createRequest: { requestId: ... } }` and returns
-    // `meetUrl` / `calendarEventUrl` in the response — the submit() function
-    // below consumes those fields with priority over the TEMPLATE fallback.
-    const buildGoogleCalendarLink = (bookingType) => {
-      const start = new Date(`${selectedDate}T${selectedTime}`);
-      const end = new Date(start.getTime() + 30 * 60000);
-      const formatGoogleDate = (date) => date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
-
-      const title = bookingType === "meet" ? "Fast Page Pro - Google Meet" : "Fast Page Pro - Phone Call";
-      const detailsLines = [
-        `Lead: ${userInfo}`,
-        userEmail ? `Email: ${userEmail}` : null,
-        cleanPhone ? `Phone: ${cleanPhone}` : null,
-        language === "es"
-          ? "Solicitado desde la web de Fast Page Pro (ES)"
-          : "Requested from Fast Page Pro website (EN)",
-        bookingType === "meet"
-          ? (language === "es"
-              ? "Importante: al guardar este evento, Google Calendar generará automáticamente un enlace de Google Meet si tienes activada la opción 'Añadir automáticamente videoconferencias de Google Meet'."
-              : "Important: when you save this event, Google Calendar will auto-generate a Google Meet link if 'Automatically add Google Meet video conferencing' is enabled in your settings.")
-          : null
-      ].filter(Boolean);
-      const details = detailsLines.join("\n");
-
-      // Guests: agency + the lead (so both get the invite and the event is on
-      // both calendars once the user saves).
-      const guests = [PROFASTPAGE_EMAIL, userEmail].filter(Boolean).join(",");
-
-      const params = new URLSearchParams({
-        action: "TEMPLATE",
-        text: title,
-        dates: `${formatGoogleDate(start)}/${formatGoogleDate(end)}`,
-        details,
-        add: guests,
-        trp: "false", // show as Free (less intrusive on the lead's calendar)
-        ctz: Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Lima",
-      });
-
-      if (bookingType === "meet") {
-        params.set("location", "Google Meet");
-      }
-
-      return `https://calendar.google.com/calendar/render?${params.toString()}`;
-    };
-
-    if (type === 'direct') {
-      message = widgetCopy.waDirect;
-    } else if (type === 'meet') {
-      if (!formattedDateTime || formattedDateTime.includes("Invalid")) {
-        alert(widgetCopy.invalidDateTime);
-        return;
-      }
-      if (!validPhone) {
-        alert(widgetCopy.invalidPhone);
-        return;
-      }
-      message = widgetCopy.waMeet.replace("{{user}}", userInfo).replace("{{contact}}", `${contactInfo}${phoneInfo}`).replace("{{dateTime}}", formattedDateTime);
-    } else if (type === 'call') {
-      if (!formattedDateTime || formattedDateTime.includes("Invalid")) {
-        alert(widgetCopy.invalidDateTime);
-        return;
-      }
-      if (!validPhone) {
-        alert(widgetCopy.invalidPhone);
-        return;
-      }
-      message = widgetCopy.waCall.replace("{{user}}", userInfo).replace("{{contact}}", `${contactInfo}${phoneInfo}`).replace("{{dateTime}}", formattedDateTime);
-    }
-
-    // Build the calendar link up-front so we can:
-    //   1) Open it from submit() (priority: webhook-provided > template fallback).
-    //   2) Embed it in the WhatsApp message so the lead has a one-tap way back
-    //      to the calendar form from inside WhatsApp, AND so the FastPagePro
-    //      team sees the exact proposed time when the lead's message arrives.
-    const calendarLink = (type === 'meet' || type === 'call') ? buildGoogleCalendarLink(type) : null;
-    if (calendarLink) {
-      const calendarLabel = language === 'es'
-        ? `\n\n${WA_EMOJI.calendar} *Crea el evento en tu calendario:*`
-        : `\n\n${WA_EMOJI.calendar} *Create the event in your calendar:*`;
-      message = `${message}${calendarLabel}\n${calendarLink}`;
-    }
-
-    const submit = async () => {
-      setBookingStatus('submitting');
-
-      // Fire GA4 lead_submit BEFORE any async work, so the event survives
-      // even if the await below throws or the page loses focus.
-      trackLeadSubmit(type, {
-        has_email: !!userEmail,
-        has_phone: !!cleanPhone,
-        has_date: !!selectedDate,
-        has_time: !!selectedTime,
-      });
-      // Track the confirmation click too (so cta_click funnels line up).
-      const ctaId = type === 'meet' ? 'widget_confirm_meet' : (type === 'call' ? 'widget_confirm_call' : 'widget_confirm_direct');
-      trackCtaClick(ctaId, type === 'meet' ? 'google_meet' : (type === 'call' ? 'phone_call' : 'whatsapp'));
-
-      const payload = {
-        type,
-        language,
-        name: userName,
-        email: userEmail,
-        phone: cleanPhone,
-        preferredDate: selectedDate,
-        preferredTime: selectedTime,
-        calendarTemplateUrl: calendarLink,
-        source: "fastpagepro-widget"
-      };
-
-      const leadResult = await saveLead(payload);
-      if (!leadResult.ok && !leadResult.skipped) {
-        // Don't alert() — it interrupts the flow. The booking still proceeds.
-        console.warn("[FastPagePro] Lead webhook failed, continuing with WhatsApp + calendar.");
-      }
-
-      // Open calendar (priority: webhook-provided > template fallback).
-      // For 'direct' type, no calendar is needed — only WhatsApp.
-      if (type === "meet" || type === "call") {
-        const apiMeetingUrl =
-          leadResult.data?.meetUrl ||
-          leadResult.data?.meetingUrl ||
-          leadResult.data?.googleMeetUrl ||
-          leadResult.data?.googleMeetLink ||
-          "";
-
-        const apiCalendarUrl =
-          leadResult.data?.calendarEventUrl ||
-          leadResult.data?.eventUrl ||
-          "";
-
-        let urlToOpen = "";
-        let source = "none";
-        if (type === "meet" && apiMeetingUrl) {
-          urlToOpen = apiMeetingUrl;
-          source = "webhook_meet";
-        } else if (apiCalendarUrl) {
-          urlToOpen = apiCalendarUrl;
-          source = "webhook_calendar";
-        } else if (calendarLink) {
-          urlToOpen = calendarLink;
-          source = "template";
-        }
-
-        if (urlToOpen) {
-          // Track calendar open separately so we can measure
-          // "user got this far in the funnel" vs. "user actually opened calendar".
-          trackCtaClick(`widget_calendar_open_${type}`, 'calendar', { source });
-          openUrlSafe(urlToOpen);
-        }
-      }
-
-      // Open WhatsApp with a small delay when a calendar tab was also opened,
-      // so the browser doesn't race/block the second popup.
-      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message).replace(/%20/g, ' ')}`;
-      const delay = (type === 'meet' || type === 'call') ? 700 : 0;
-      setTimeout(() => {
-        openUrlSafe(waUrl);
-        setBookingStatus('success');
-        resetWidget();
-        // Auto-dismiss success status after a few seconds.
-        setTimeout(() => setBookingStatus('idle'), 3500);
-      }, delay);
-    };
-
-    submit();
-  };
-
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-3 md:gap-4">
+    <>
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="w-[calc(100vw-1.5rem)] max-w-[340px] bg-stone-950 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] border border-stone-700 overflow-hidden"
-          >
-            {/* Header - With Functional Close Button */}
-            <div className="bg-stone-900 p-4 flex items-center justify-between border-b border-stone-800">
-              <div className="flex items-center gap-3">
-                {/* Gold Logo Only in Widget */}
-                <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center shadow-lg shadow-yellow-500/30">
-                  <Zap size={18} className="fill-stone-950 text-stone-950" />
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-sm">FastPagePro</h3>
-                  <p className="text-stone-400 text-xs">{widgetCopy.assistant}</p>
-                </div>
-              </div>
-              <motion.button 
-                onClick={handleCloseClick} 
-                className="text-stone-400 hover:text-white transition-colors"
-                whileHover={{ rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <X size={18} />
-              </motion.button>
-            </div>
-
-            {/* Content */}
-            <div className="p-4 max-h-[500px] overflow-y-auto custom-scrollbar">
-              {step === 'main' && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                  <p className="text-stone-300 text-sm mb-4 text-center">{widgetCopy.howContact}</p>
-                  
-                  <button 
-                    onClick={() => { trackCtaClick('widget_direct_select', 'whatsapp'); handleBooking('direct'); }}
-                    className="w-full flex items-center gap-3 p-4 rounded-xl bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 transition-colors group text-left"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white shadow-lg shadow-green-500/30">
-                      <MessageCircle size={20} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-white text-sm">{widgetCopy.directChat}</div>
-                      <div className="text-xs text-stone-400">{widgetCopy.talkNow}</div>
-                    </div>
-                    <ArrowRight size={16} className="ml-auto text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
-
-                  <button
-                    onClick={() => { trackCtaClick('widget_meet_select', 'google_meet'); setStep('meet'); }}
-                    className="w-full flex items-center gap-3 p-4 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 transition-colors group text-left"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-                      <Video size={20} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-white text-sm">Google Meet</div>
-                      <div className="text-xs text-stone-400">{widgetCopy.scheduleMeet}</div>
-                    </div>
-                    <ArrowRight size={16} className="ml-auto text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </button>
-                </motion.div>
-              )}
-
-              {(step === 'meet' || step === 'call') && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <button onClick={() => setStep('main')} className="flex items-center gap-2 text-stone-400 hover:text-white text-sm">
-                      <ChevronLeft size={16} /> {widgetCopy.back}
-                    </button>
-                    <span className="text-white font-bold text-sm">
-                      {step === 'meet' ? 'Google Meet' : widgetCopy.phoneCall}
-                    </span>
-                  </div>
-                  
-                  {/* Inputs */}
-                  <div className="bg-stone-800 p-4 rounded-xl border border-stone-700 space-y-4">
-                    <div>
-                      <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourName}</label>
-                      <input 
-                        type="text" 
-                        placeholder={widgetCopy.enterName}
-                        className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white placeholder-stone-500 focus:border-stone-500 focus:outline-none"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                      />
-                    </div>
-                    
-                    {step === 'meet' && (
-                      <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourGmail}</label>
-                        <input 
-                          type="email" 
-                          placeholder="ejemplo@gmail.com"
-                          className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white placeholder-stone-500 focus:border-stone-500 focus:outline-none"
-                          value={userEmail}
-                          onChange={(e) => setUserEmail(e.target.value)}
-                        />
-                      </div>
-                    )}
-
-                    <div>
-                      <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.yourPhone}</label>
-                      <input
-                        type="tel"
-                        placeholder={widgetCopy.enterPhone}
-                        className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white placeholder-stone-500 focus:border-stone-500 focus:outline-none"
-                        value={userPhone}
-                        onChange={(e) => setUserPhone(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.date}</label>
-                        <input 
-                          type="date" 
-                          className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white focus:border-stone-500 focus:outline-none [color-scheme:dark]"
-                          onChange={(e) => setSelectedDate(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold text-stone-400 uppercase mb-1">{widgetCopy.time}</label>
-                        <input 
-                          type="time" 
-                          className="w-full bg-stone-900 border border-stone-600 rounded-lg p-2.5 text-sm text-white focus:border-stone-500 focus:outline-none [color-scheme:dark]"
-                          onChange={(e) => setSelectedTime(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleBooking(step)}
-                    disabled={bookingStatus === 'submitting'}
-                    className="w-full bg-stone-950 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-                  >
-                    {bookingStatus === 'submitting' ? (
-                      <>
-                        <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z" />
-                        </svg>
-                        {language === 'es' ? 'Procesando…' : 'Processing…'}
-                      </>
-                    ) : (
-                      <>
-                        <Calendar size={18} />
-                        {step === 'meet' ? widgetCopy.confirmMeeting : widgetCopy.confirmCall}
-                      </>
-                    )}
-                  </button>
-                  {step === 'meet' && <p className="text-xs text-stone-400 text-center">{widgetCopy.meetingNote}</p>}
-
-                  {bookingStatus === 'success' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-green-500/10 border border-green-500/30 rounded-xl p-3 text-center"
-                    >
-                      <p className="text-green-300 text-xs font-semibold">
-                        {language === 'es'
-                          ? '✓ Hemos abierto Google Calendar y WhatsApp. Guarda el evento en Calendar para generar tu enlace de Meet.'
-                          : '✓ We opened Google Calendar and WhatsApp. Save the event in Calendar to generate your Meet link.'}
-                      </p>
-                    </motion.div>
-                  )}
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
+        {isAiOpen && (
+          <FastPageAIAssistant
+            language={language}
+            isOpen={isAiOpen}
+            onClose={() => setIsAiOpen(false)}
+            openCalendly={openCalendly}
+          />
         )}
       </AnimatePresence>
 
-      {/* Proactive Tooltip */}
-      <AnimatePresence>
-        {showTooltip && !isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.5, y: 10 }}
-            transition={{ delay: 0, type: "spring", stiffness: 400, damping: 20 }}
-            onClick={handleTooltipClick}
-            className="absolute bottom-full right-0 mb-3 cursor-pointer z-50"
-            style={{ marginBottom: '12px' }}
-          >
-            <div
-              className="relative px-4 py-2 text-[13px] font-bold shadow-lg flex items-center gap-2"
-              style={{
-                background: 'white',
-                color: 'black',
-                borderRadius: '15px',
-                whiteSpace: 'nowrap',
-                boxShadow: '0px 4px 15px rgba(0,0,0,0.2)'
-              }}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {/* Proactive Tooltip */}
+        <AnimatePresence>
+          {showTooltip && !isAiOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 10 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              className="mb-1 cursor-pointer"
+              onClick={() => { dismissTooltip(); openCalendly(); }}
             >
-              {language === 'es' ? '¿Necesitas ayuda?' : 'Need help?'}
-              <button
-                onClick={(e) => { e.stopPropagation(); dismissTooltip(); }}
-                className="ml-1 text-stone-400 hover:text-stone-700 transition-colors flex items-center justify-center"
-                aria-label="Dismiss tooltip"
-              >
-                <X size={14} strokeWidth={2.5} />
-              </button>
-              {/* Arrow */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-5px',
-                  right: '20px',
-                  width: '10px',
-                  height: '10px',
-                  background: 'white',
-                  transform: 'rotate(45deg)',
-                  boxShadow: '2px 2px 4px rgba(0,0,0,0.1)'
-                }}
-              />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="relative px-3.5 py-2 text-xs font-bold rounded-2xl shadow-xl flex items-center gap-2 bg-white text-stone-950 border border-stone-200">
+                <span className="flex h-2 w-2 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
+                </span>
+                <span>{isEs ? '📅 ¿Hablamos 15 min en Google Meet?' : '📅 15-min Google Meet call?'}</span>
+                <button
+                  onClick={(e) => { e.stopPropagation(); dismissTooltip(); }}
+                  className="ml-1 text-stone-400 hover:text-stone-700"
+                  aria-label="Cerrar tooltip"
+                >
+                  <X size={13} strokeWidth={2.5} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      {/* Toggle Button - Main Trigger with shake vibration */}
-      <motion.div
-        animate={!isOpen ? {
-          x: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 2, -2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        } : { x: 0 }}
-        transition={{
-          x: { repeat: Infinity, duration: 20, ease: "linear" }
-        }}
-      >
-        <motion.button 
-          onClick={toggleWidget}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-full shadow-[0_10px_40px_-10px_rgba(251,191,36,0.6)] flex items-center justify-center text-stone-900 z-50"
-        >
-          <AnimatePresence mode="wait">
-            {isOpen ? (
-              <motion.div
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-              >
-                <X size={32} strokeWidth={2.5} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="open"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-              >
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.button>
-      </motion.div>
-    </div>
+        {/* Dual Floating Buttons Hub */}
+        <div className="flex items-center gap-3">
+          {/* AI Assistant Button */}
+          <motion.button
+            whileHover={{ scale: 1.06, y: -2 }}
+            whileTap={{ scale: 0.94 }}
+            onClick={() => {
+              dismissTooltip();
+              setIsAiOpen(prev => !prev);
+              trackCtaClick('widget_ai_toggle', 'ai_assistant');
+            }}
+            className="group flex items-center gap-2 px-4 py-3.5 rounded-full bg-stone-900/90 hover:bg-stone-850 text-white border border-purple-500/40 hover:border-purple-400/80 shadow-[0_8px_25px_rgba(168,85,247,0.25)] backdrop-blur-xl transition-all duration-300"
+            aria-label="Abrir Asistente de IA"
+          >
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white shadow-sm shadow-purple-500/50">
+              <Sparkles size={14} className="animate-pulse" />
+            </div>
+            <span className="text-xs font-bold tracking-tight">FastPage AI</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+          </motion.button>
+
+          {/* Primary Calendly Direct CTA Button */}
+          <motion.button
+            whileHover={{ scale: 1.06, y: -2 }}
+            whileTap={{ scale: 0.94 }}
+            onClick={() => {
+              dismissTooltip();
+              openCalendly();
+            }}
+            className="group relative flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-500 text-stone-950 font-black text-xs uppercase tracking-tight shadow-[0_10px_35px_-5px_rgba(234,179,8,0.6)] hover:shadow-[0_15px_45px_-5px_rgba(234,179,8,0.8)] transition-all duration-300 border border-yellow-300/60"
+            aria-label="Agendar reunión de 15 minutos en Google Meet"
+          >
+            <div className="w-6 h-6 rounded-full bg-stone-950 flex items-center justify-center text-yellow-400 shadow-inner">
+              <Video size={13} className="fill-yellow-400" />
+            </div>
+            <span>{isEs ? 'Agendar 15 min' : 'Book 15 min'}</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </motion.button>
+        </div>
+      </div>
+    </>
   );
 };
 
 // --- Main Application ---
 
-// Portfolio slug mapping and image mapping
-const PORTFOLIO_SLUGS = {
-  "Urban Style": "urban-style",
-  "Vuelo 78 Hotel": "vuelo-78-hotel",
-  "CMC LATAM": "cmc-latam",
-  "Jhon & Asociados": "jhon-asociados",
-  "La Casona Gourmet": "la-casona-gourmet",
-  "Growth Consulting Perú": "growth-consulting-peru",
-  "Growth Consulting Peru": "growth-consulting-peru",
-  "E-commerce Builder Pro": "ecommerce-builder-pro",
-  "Cotizador Pro": "cotizador-pro",
-  "Moda Digital Pro": "moda-digital-pro",
-  "Atlas": "atlas",
-  "Mandi Corp": "mandi-corp"
-};
-
-const PORTFOLIO_MODAL_IMAGES = {
-  "Urban Style": "/images/03-portafolio/UrbanStyle.webp",
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-modal.webp",
-  "CMC LATAM": "/images/03-portafolio/CMCLATAM.webp",
-  "Jhon & Asociados": "/images/03-portafolio/JhonAsociados.webp",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-modal.webp",
-  "Growth Consulting Perú": "/images/03-portafolio/GrowthConsultingPerú.webp",
-  "Growth Consulting Peru": "/images/03-portafolio/GrowthConsultingPerú.webp",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-modal.webp",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-modal.webp",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-modal.webp",
-  "Atlas": "/images/03-portafolio/AtlasDesktop.webp",
-  "Mandi Corp": "/images/03-portafolio/MandiCorp-modal.webp"
-};
-
-const PORTFOLIO_MODAL_MOBILE_IMAGES = {
-  "Vuelo 78 Hotel": "/images/03-portafolio/vuelo78hotel-mobile.webp",
-  "La Casona Gourmet": "/images/03-portafolio/LaCasonaGourmet-mobile.webp",
-  "E-commerce Builder Pro": "/images/03-portafolio/EcommerceBuilder-mobile.webp",
-  "Cotizador Pro": "/images/03-portafolio/CotizadorPro-mobile.webp",
-  "Moda Digital Pro": "/images/03-portafolio/ModaDigitalPro-mobile.webp",
-  "Atlas": "/images/03-portafolio/AtlasApp.webp",
-  "Mandi Corp": "/images/03-portafolio/MandiCorp-mobile.webp"
-};
-
-const slugToTitle = {};
-Object.entries(PORTFOLIO_SLUGS).forEach(([title, slug]) => { slugToTitle[slug] = title; });
-
 // MacBook CSS Mockup — Thin modern bezels
 const MacBookMockup = ({ imageSrc, alt }) => (
-  <div className="relative mx-auto" style={{ maxWidth: '580px' }}>
+  <div className="relative mx-auto w-full" style={{ maxWidth: '640px' }}>
     {/* Screen — thin 4px bezels, rounded corners */}
-    <div className="relative rounded-xl overflow-hidden border-[4px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '16/10' }}>
+    <div className="relative rounded-2xl overflow-hidden border-[4px] border-stone-800 bg-stone-950 shadow-2xl" style={{ aspectRatio: '16/10' }}>
       {/* Camera notch */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-stone-800 rounded-b-lg z-10" />
-      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-14 h-3 bg-stone-900 rounded-b-lg z-10 flex items-center justify-center">
+        <div className="w-1.5 h-1.5 rounded-full bg-stone-700" />
+      </div>
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
     </div>
     {/* Base — slim and modern */}
-    <div className="relative h-4 bg-gradient-to-b from-stone-600 to-stone-700 rounded-b-xl mx-3 -mt-px">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-[2px] bg-stone-500 rounded-full" />
+    <div className="relative h-4 bg-gradient-to-b from-stone-700 via-stone-800 to-stone-900 rounded-b-xl mx-3 -mt-px shadow-md">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-[2px] bg-stone-600 rounded-full" />
     </div>
     {/* Bottom hinge — thin */}
-    <div className="mx-auto w-[70%] h-[6px] bg-gradient-to-b from-stone-500 to-stone-600 rounded-b-2xl -mt-px" />
+    <div className="mx-auto w-[65%] h-[5px] bg-gradient-to-b from-stone-600 to-stone-800 rounded-b-2xl -mt-px" />
   </div>
 );
 
-// iPhone CSS Mockup — Straight, no tilt
+// iPhone CSS Mockup — Modern dynamic island frame
 const IPhoneMockup = ({ imageSrc, alt, compact = false }) => (
-  <div className="relative mx-auto" style={{ maxWidth: compact ? '200px' : '280px' }}>
+  <div className="relative mx-auto w-full" style={{ maxWidth: compact ? '200px' : '260px' }}>
     {/* Frame — thin bezels */}
-    <div className="relative rounded-[2rem] overflow-hidden border-[4px] border-stone-700 bg-stone-900 shadow-2xl" style={{ aspectRatio: '9/19' }}>
+    <div className="relative rounded-[2.5rem] overflow-hidden border-[5px] border-stone-800 bg-stone-950 shadow-2xl ring-1 ring-white/10" style={{ aspectRatio: '9/19' }}>
       {/* Dynamic Island */}
-      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 bg-stone-900 rounded-full z-10" />
+      <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-20 h-5 bg-stone-950 rounded-full z-10 flex items-center justify-between px-2 border border-white/5">
+        <div className="w-2.5 h-2.5 rounded-full bg-stone-900 ring-1 ring-blue-500/30" />
+        <div className="w-2 h-2 rounded-full bg-stone-900" />
+      </div>
       {/* Screen */}
-      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+      <img src={imageSrc} alt={alt} onError={handleImageFallback} loading="lazy" decoding="async" className="w-full h-full object-cover object-top" />
       {/* Home indicator */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-stone-500 rounded-full" />
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-24 h-1 bg-stone-400/60 rounded-full" />
     </div>
-    {/* Side button */}
-    <div className="absolute -right-[2px] top-24 w-[3px] h-10 bg-stone-600 rounded-r" />
+    {/* Side buttons */}
+    <div className="absolute -left-[3px] top-24 w-[2px] h-7 bg-stone-700 rounded-l" />
+    <div className="absolute -left-[3px] top-34 w-[2px] h-7 bg-stone-700 rounded-l" />
+    <div className="absolute -right-[3px] top-28 w-[2px] h-10 bg-stone-700 rounded-r" />
   </div>
 );
 
-// Portfolio Modal Component — Redesigned: description first, expandable images, new tab links
-const PortfolioModal = ({ project, language, onClose }) => {
-  const modalRef = useRef(null);
+// --- Dedicated Full-Page Case Study Experience (Apple / Vercel Pro Style) ---
+const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject }) => {
   const [expandedImage, setExpandedImage] = useState(null);
+  const [copied, setCopied] = useState(false);
 
-  const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.image;
-  const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || modalImage;
-  const liveLabel = language === "es"
-    ? ({ tienda: "Ver Tienda Profesional", web: "Ver Web Profesional", app: "Ver App en Vivo", custom: "Ver Proyecto" })[project.type] || "Ver Proyecto"
-    : ({ tienda: "View Live Store", web: "View Live Website", app: "View Live App", custom: "View Project" })[project.type] || "View Project";
-  const descLabel = language === "es" ? "Sobre este proyecto" : "About this project";
-  const tapLabel = language === "es" ? "Toca la imagen para ampliar" : "Tap image to expand";
+  const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.modalImage || project.image;
+  const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || project.modalMobileImage || modalImage;
 
-  useEffect(() => {
-    const handleEsc = (e) => {
-      if (expandedImage) { setExpandedImage(null); return; }
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleEsc);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = '';
-    };
-  }, [onClose, expandedImage]);
+  const isEs = language === "es";
+  const liveLabel = isEs
+    ? ({ tienda: "Ver Tienda Oficial", web: "Ver Web Oficial", app: "Ver App en Vivo", custom: "Ver Proyecto en Vivo" })[project.type] || "Ver Proyecto en Vivo"
+    : ({ tienda: "View Live Store", web: "View Live Website", app: "View Live App", custom: "View Live Project" })[project.type] || "View Live Project";
+
+  const tapLabel = isEs ? "Toca cualquier captura para ampliar en alta definición" : "Tap any mockup to enlarge in HD";
+
+  // All projects list for smooth sequential navigation
+  const allProjects = PORTFOLIO_BY_LANG[language] || [];
+  const currentIndex = allProjects.findIndex(p => (p.slug && p.slug === project.slug) || p.title === project.title);
+  const prevProject = currentIndex > 0 ? allProjects[currentIndex - 1] : (allProjects.length > 0 ? allProjects[allProjects.length - 1] : null);
+  const nextProject = currentIndex >= 0 && currentIndex < allProjects.length - 1 ? allProjects[currentIndex + 1] : (allProjects.length > 0 ? allProjects[0] : null);
+
+  // Related projects from same industry or type
+  const relatedProjects = useMemo(() => {
+    const all = PORTFOLIO_BY_LANG[language] || [];
+    const sameIndustry = all.filter(p => p.industry && p.industry === project.industry && p.title !== project.title);
+    if (sameIndustry.length >= 3) return sameIndustry.slice(0, 3);
+    const sameType = all.filter(p => p.type === project.type && p.title !== project.title && !sameIndustry.some(s => s.title === p.title));
+    return [...sameIndustry, ...sameType].slice(0, 3);
+  }, [project, language]);
 
   const getTypeBg = (type) => {
     const bgs = {
-      web: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-      tienda: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-      app: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-      custom: "bg-orange-500/10 text-orange-400 border-orange-500/20"
+      web: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+      tienda: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+      app: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+      custom: "bg-amber-500/15 text-amber-300 border-amber-500/30"
     };
-    return bgs[type] || "bg-stone-500/10 text-stone-400 border-stone-500/20";
+    return bgs[type] || "bg-stone-500/15 text-stone-300 border-stone-500/30";
   };
+
+  const copyCaseStudyLink = () => {
+    const url = `https://fastpagepro.com/portafolio/${project.slug || ''}`;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url);
+      } else {
+        const input = document.createElement('input');
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {}
+  };
+
+  const shareViaWhatsApp = () => {
+    const url = `https://fastpagepro.com/portafolio/${project.slug || ''}`;
+    const text = encodeURIComponent(`Hola, te comparto el caso de éxito de *${project.title}* en Fast Page Pro: ${url}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer');
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (expandedImage) {
+        if (e.key === 'Escape') setExpandedImage(null);
+        return;
+      }
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowLeft') {
+        if (prevProject && onSelectProject) {
+          onSelectProject(prevProject);
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+      } else if (e.key === 'ArrowRight') {
+        if (nextProject && onSelectProject) {
+          onSelectProject(nextProject);
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose, expandedImage, prevProject, nextProject, onSelectProject]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100] overflow-y-auto bg-stone-950 text-white selection:bg-yellow-400 selection:text-stone-950 [scrollbar-width:thin] [scrollbar-color:rgba(250,204,21,0.3)_rgba(15,15,15,0.9)]"
     >
-      {/* Backdrop */}
-      <motion.div
-        className="absolute inset-0 bg-black/80 backdrop-blur-xl"
-        onClick={() => { if (expandedImage) setExpandedImage(null); else onClose(); }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      />
-
-      {/* Expanded Image Overlay */}
+      {/* Lightbox HD Overlay */}
       <AnimatePresence>
         {expandedImage && (
           <motion.div
-            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => setExpandedImage(null)}
           >
-            <motion.div
-              className="absolute inset-0 bg-black/95"
-              onClick={() => setExpandedImage(null)}
-            />
             <motion.img
               src={expandedImage}
               alt={project.title}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="relative z-10 max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl cursor-pointer"
-              onClick={() => setExpandedImage(null)}
+              className="relative z-10 max-w-[96vw] max-h-[92vh] object-contain rounded-2xl shadow-2xl cursor-pointer border border-white/10"
+              onClick={(e) => e.stopPropagation()}
             />
-            <motion.button
+            <button
               onClick={() => setExpandedImage(null)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="absolute top-4 right-4 z-20 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white border border-white/20 hover:bg-white/20 transition-colors"
+              className="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 transition-all cursor-pointer"
+              aria-label="Cerrar imagen"
             >
-              <X size={24} />
-            </motion.button>
+              <X size={22} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Modal Content */}
-      <motion.div
-        ref={modalRef}
-        className="relative bg-white dark:bg-stone-950 w-full sm:max-w-4xl sm:mx-4 max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl border border-white/10 shadow-2xl"
-        initial={{ y: '100%', opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: '100%', opacity: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close button */}
-        <motion.button
-          onClick={onClose}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-900/80 dark:bg-white/10 backdrop-blur-sm flex items-center justify-center text-white border border-white/10 hover:bg-stone-800 dark:hover:bg-white/20 transition-colors"
-          aria-label="Close modal"
-        >
-          <X size={20} />
-        </motion.button>
-
-        {/* Mobile drag indicator */}
-        <div className="sm:hidden flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 rounded-full bg-stone-400" />
-        </div>
-
-        {/* Header + Description + CTAs — FOCUS FIRST */}
-        <div className="p-6 sm:p-8 md:p-10">
-          {/* Badge & Meta */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold tracking-wide border ${getTypeBg(project.type)}`}>
-                {project.category}
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-300">
-                <MapPin size={12} />
-                {project.location}
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-900 dark:text-white mb-4">{project.title}</h2>
-          </motion.div>
-
-          {/* Description — SHOWN FIRST */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="mb-6"
-          >
-            <div className="text-xs uppercase tracking-widest text-stone-400 dark:text-stone-500 font-semibold mb-3">{descLabel}</div>
-            <p className="text-stone-600 dark:text-stone-300 leading-relaxed text-sm md:text-base">{project.description}</p>
-          </motion.div>
-
-          {/* CTA Buttons — SHOWN FIRST */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-3 mb-8"
-          >
-            <button
-              onClick={() => { try { window.open(project.link, '_blank', 'noopener,noreferrer'); } catch { window.location.href = project.link; } }}
-              className="inline-flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-stone-950 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(250,204,21,0.5)] hover:-translate-y-0.5 text-sm cursor-pointer"
-            >
-              {liveLabel}
-              <ExternalLink size={16} />
-            </button>
-            {project.demoLink && (
-              <button
-                onClick={() => { try { window.open(project.demoLink, '_blank', 'noopener,noreferrer'); } catch { window.location.href = project.demoLink; } }}
-                className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 px-8 rounded-full transition-all duration-200 shadow-[0_10px_40px_-10px_rgba(59,130,246,0.4)] hover:shadow-[0_20px_50px_-10px_rgba(59,130,246,0.5)] hover:-translate-y-0.5 text-sm cursor-pointer"
-              >
-                {language === "es" ? "Probar Demo" : "Try Demo"}
-                <ExternalLink size={16} />
-              </button>
-            )}
+      {/* Top Sticky Navigation Bar */}
+      <header className="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={onClose}
-              className="inline-flex items-center justify-center gap-2 bg-stone-100 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 text-stone-700 dark:text-stone-300 font-semibold py-3.5 px-8 rounded-full transition-all duration-200 border border-stone-200 dark:border-white/10 text-sm"
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white/5 hover:bg-white/15 text-stone-200 border border-white/10 transition-all cursor-pointer hover:scale-105 active:scale-95 shrink-0"
             >
-              {language === "es" ? "Volver al Portafolio" : "Back to Portfolio"}
+              <ArrowLeft size={16} />
+              <span className="hidden sm:inline">{isEs ? "Volver al Portafolio" : "Back to Portfolio"}</span>
+              <span className="sm:hidden">{isEs ? "Volver" : "Back"}</span>
             </button>
-          </motion.div>
 
-          {/* Mockups Area — Clickable to expand */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 20 }}
-            className="relative bg-stone-100 dark:bg-stone-900 rounded-2xl px-3 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 border border-stone-200 dark:border-white/10 overflow-hidden"
-          >
-            {/* Expand hint */}
-            <div className="text-center mb-3">
-              <span className="text-[10px] sm:text-xs text-stone-400 dark:text-stone-500 flex items-center justify-center gap-1.5">
-                <Maximize2 size={12} /> {tapLabel}
+            {/* Previous / Next Case study quick jump */}
+            <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+              <button
+                onClick={() => {
+                  if (prevProject && onSelectProject) {
+                    onSelectProject(prevProject);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }
+                }}
+                disabled={!prevProject}
+                title={isEs ? `Caso anterior (tecla ←): ${prevProject?.title || ''}` : `Previous case (← key)`}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
+                aria-label="Proyecto anterior"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <span className="text-[10px] text-stone-400 font-mono px-1 select-none hidden md:inline">
+                {currentIndex + 1}/{allProjects.length}
               </span>
+              <button
+                onClick={() => {
+                  if (nextProject && onSelectProject) {
+                    onSelectProject(nextProject);
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }
+                }}
+                disabled={!nextProject}
+                title={isEs ? `Caso siguiente (tecla →): ${nextProject?.title || ''}` : `Next case (→ key)`}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
+                aria-label="Proyecto siguiente"
+              >
+                <ChevronRight size={16} />
+              </button>
             </div>
 
-            {/* Subtle grid background */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] pointer-events-none" />
-
-            {/* Mobile viewport → Smartphone only */}
-            <div className="flex md:hidden justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35, duration: 0.5 }}
-                className="cursor-pointer"
-                onClick={() => setExpandedImage(modalMobileImage)}
-              >
-                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-              </motion.div>
+            {/* Breadcrumb */}
+            <div className="hidden lg:flex items-center gap-2 text-xs text-stone-400 truncate max-w-xs xl:max-w-md">
+              <span className="text-stone-500 shrink-0">Fast Page Pro</span>
+              <span>/</span>
+              <span className="text-stone-400 shrink-0">{isEs ? "Portafolio" : "Portfolio"}</span>
+              <span>/</span>
+              <span className="text-yellow-400 font-semibold truncate">{project.title}</span>
             </div>
+          </div>
 
-            {/* Desktop viewport → Laptop + Smartphone side by side, both clickable */}
-            <div className="hidden md:flex items-center justify-center gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.35, duration: 0.5 }}
-                className="flex-1 flex justify-center cursor-pointer"
-                onClick={() => setExpandedImage(modalImage)}
-              >
-                <MacBookMockup imageSrc={modalImage} alt={project.title} />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.45, duration: 0.5 }}
-                className="cursor-pointer"
-                onClick={() => setExpandedImage(modalMobileImage)}
-              >
-                <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
-              </motion.div>
-            </div>
-          </motion.div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Copiar Enlace Button */}
+            <button
+              onClick={copyCaseStudyLink}
+              title={isEs ? "Copiar enlace permanente del caso de estudio" : "Copy permanent link"}
+              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
+                copied
+                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
+                  : "bg-white/5 hover:bg-white/10 border-white/10 text-stone-300 hover:text-white"
+              }`}
+            >
+              {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+              <span className="hidden md:inline">{copied ? (isEs ? "¡Enlace Copiado!" : "Copied!") : (isEs ? "Copiar Enlace" : "Copy Link")}</span>
+            </button>
+
+            {/* Compartir WhatsApp Button */}
+            <button
+              onClick={shareViaWhatsApp}
+              title={isEs ? "Compartir este caso por WhatsApp" : "Share via WhatsApp"}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] transition-all cursor-pointer"
+            >
+              <WhatsAppOfficialIcon size={14} className="fill-[#25D366]" />
+              <span className="hidden md:inline">{isEs ? "Compartir" : "Share"}</span>
+            </button>
+
+            <span className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              {isEs ? "En Producción 2026" : "Live in Production"}
+            </span>
+
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full font-bold text-xs sm:text-sm text-stone-950 transition-all shadow-[0_4px_20px_rgba(250,204,21,0.3)] hover:scale-105 active:scale-95 shrink-0"
+              style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)' }}
+            >
+              <span>{isEs ? "Ver Proyecto Pro" : "View Pro Project"}</span>
+              <span className="text-sm">⚡</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
         </div>
-      </motion.div>
+      </header>
+
+      {/* Main Full-Width Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 md:py-16">
+        {/* Hero Section */}
+        <div className="mb-12">
+          {/* Badges Row */}
+          <div className="flex flex-wrap items-center gap-2.5 mb-5">
+            <span className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide border ${getTypeBg(project.type)}`}>
+              {project.category}
+            </span>
+            {project.architectureLevel && (
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-yellow-400/10 text-yellow-300 border border-yellow-400/25">
+                <Sparkles size={13} className="text-yellow-400" />
+                {project.architectureLevel}
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs text-stone-400 bg-white/5 border border-white/10">
+              <MapPin size={13} className="text-yellow-400" />
+              {project.location}
+            </span>
+            {project.industryLabel && (
+              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs text-stone-300 bg-white/5 border border-white/10">
+                {project.industryLabel}
+              </span>
+            )}
+          </div>
+
+          {/* Title & Description */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-8">
+            <div className="max-w-4xl">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-5">
+                {project.title}
+              </h1>
+              <p className="text-base sm:text-lg md:text-xl text-stone-300 leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            {/* Quick Actions */}
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-bold text-stone-950 text-sm tracking-wide transition-all duration-300 shadow-[0_10px_35px_rgba(250,204,21,0.35)] hover:shadow-[0_15px_45px_rgba(250,204,21,0.55)] hover:scale-105 active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)' }}
+              >
+                <span>{liveLabel}</span>
+                <span className="text-base">⚡</span>
+                <ExternalLink size={16} />
+              </a>
+
+              <button
+                onClick={() => {
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! Vi el proyecto de *${project.title}* en su portafolio y me gustaría cotizar una solución similar para mi negocio.`);
+                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <WhatsAppOfficialIcon size={18} />
+                <span>{isEs ? "Cotizar Sistema Similar" : "Quote Similar System"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Dual Responsive Mockup Showcase (Full Width Cinema Canvas) */}
+        <div className="relative mb-16 bg-gradient-to-b from-stone-900/90 to-stone-950 p-6 sm:p-12 md:p-16 rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+          {/* Ambient Lighting Background */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-yellow-500/10 rounded-full blur-[140px] pointer-events-none" />
+
+          <div className="text-center mb-6">
+            <span className="inline-flex items-center gap-1.5 text-xs text-stone-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
+              <Maximize2 size={13} className="text-yellow-400" />
+              {tapLabel}
+            </span>
+          </div>
+
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14">
+            {/* Desktop Mockup */}
+            <div
+              className="w-full md:w-3/5 cursor-pointer transform hover:scale-[1.02] transition-transform duration-300"
+              onClick={() => setExpandedImage(modalImage)}
+            >
+              <div className="text-center text-[11px] text-stone-400 mb-2 font-mono uppercase tracking-widest">
+                {isEs ? "— Vista Desktop / Laptop Retina —" : "— Desktop Retina View —"}
+              </div>
+              <MacBookMockup imageSrc={modalImage} alt={project.title} />
+            </div>
+
+            {/* Mobile Mockup */}
+            <div
+              className="w-full md:w-2/5 flex flex-col items-center cursor-pointer transform hover:scale-[1.03] transition-transform duration-300"
+              onClick={() => setExpandedImage(modalMobileImage)}
+            >
+              <div className="text-center text-[11px] text-stone-400 mb-2 font-mono uppercase tracking-widest">
+                {isEs ? "— Vista Smartphone PWA —" : "— Smartphone PWA View —"}
+              </div>
+              <IPhoneMockup imageSrc={modalMobileImage} alt={project.title} />
+            </div>
+          </div>
+        </div>
+
+        {/* Technical Architecture & Specs */}
+        <div className="mb-14 grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Stack Tecnológico */}
+          <div className="p-8 rounded-3xl bg-stone-900/70 border border-white/10">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Code size={20} className="text-yellow-400" />
+              <h2 className="text-base font-bold uppercase tracking-wider text-white">
+                {isEs ? "Arquitectura Edge & Stack Tecnológico" : "Edge Architecture & Tech Stack"}
+              </h2>
+            </div>
+            <div className="flex flex-wrap gap-2 mb-5">
+              {(project.techStack || ["Next.js 15", "Edge Runtime", "Vercel Enterprise", "Sanity CMS", "Tailwind CSS"]).map((tech, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-stone-200 border border-white/10 transition-colors"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                  {tech}
+                </span>
+              ))}
+            </div>
+            <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
+              {isEs
+                ? "Arquitectura de última generación con renderizado híbrido en servidores Edge distribuidos globalmente, cero dependencias lentas de WordPress y tiempos de respuesta ultra-rápidos en cualquier dispositivo."
+                : "Next-generation hybrid Edge rendering across globally distributed servers with zero legacy CMS bloat and lightning TTFB on all devices."}
+            </p>
+          </div>
+
+          {/* Métricas de Calidad */}
+          <div className="p-8 rounded-3xl bg-stone-900/70 border border-white/10">
+            <div className="flex items-center gap-2.5 mb-4">
+              <Zap size={20} className="text-yellow-400" />
+              <h2 className="text-base font-bold uppercase tracking-wider text-white">
+                {isEs ? "Métricas de Rendimiento & Auditoría" : "Performance & Quality Metrics"}
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 gap-3.5 mb-5">
+              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
+                <div className="text-xs text-stone-400">{isEs ? "Tiempo de Carga" : "Load Time"}</div>
+                <div className="text-lg font-bold text-emerald-400">⚡ &lt; 0.6s TTFB</div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
+                <div className="text-xs text-stone-400">{isEs ? "Mobile First" : "Mobile Score"}</div>
+                <div className="text-lg font-bold text-yellow-400">📱 100% PWA</div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
+                <div className="text-xs text-stone-400">{isEs ? "SEO Local Google" : "SEO Ranking"}</div>
+                <div className="text-lg font-bold text-blue-400">🔍 Indexado IA</div>
+              </div>
+              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
+                <div className="text-xs text-stone-400">{isEs ? "Seguridad" : "Security"}</div>
+                <div className="text-lg font-bold text-purple-400">🔒 Edge SSL A+</div>
+              </div>
+            </div>
+            <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
+              {isEs
+                ? "Optimizado para máxima conversión publicitaria en Meta Ads y Google Ads, con Schema.org estructurado para IA y Google Search."
+                : "Optimized for maximum conversion on Google Ads and Meta Ads with rich Schema.org metadata for search engines and AI."}
+            </p>
+          </div>
+        </div>
+
+        {/* Reto & Solución */}
+        {(project.challenge || project.solution) && (
+          <div className="mb-14 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {project.challenge && (
+              <div className="p-8 rounded-3xl bg-red-950/20 border border-red-500/25">
+                <div className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">
+                  {isEs ? "⚠️ El Desafío del Cliente" : "⚠️ The Client Challenge"}
+                </div>
+                <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
+                  {project.challenge}
+                </p>
+              </div>
+            )}
+            {project.solution && (
+              <div className="p-8 rounded-3xl bg-emerald-950/20 border border-emerald-500/25">
+                <div className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-3">
+                  {isEs ? "💡 Solución de Ingeniería Entregada" : "💡 Engineering Solution Delivered"}
+                </div>
+                <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
+                  {project.solution}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Secondary Conversion Banner */}
+        <div className="mb-16 p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-stone-900 via-stone-850 to-stone-900 border border-yellow-500/30 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-[0_20px_50px_rgba(250,204,21,0.12)]">
+          <div className="max-w-2xl text-center lg:text-left">
+            <span className="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-2 block">
+              {isEs ? "¿Buscas una solución similar?" : "Looking for a similar solution?"}
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+              {isEs
+                ? "¿Deseas implementar esta arquitectura en tu negocio?"
+                : "Want to deploy this architecture for your company?"}
+            </h3>
+            <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
+              {isEs
+                ? "Evaluamos los requerimientos de tu empresa y te entregamos una propuesta personalizada con cotización formal en menos de 24 horas."
+                : "We evaluate your company's scope and provide a formal customized proposal within 24 hours."}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+            <button
+              onClick={() => { onClose(); openCalendly(); }}
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-400 hover:bg-yellow-300 text-stone-950 transition-all hover:scale-105 cursor-pointer shadow-lg shadow-yellow-500/25"
+            >
+              <Video size={16} />
+              <span>{isEs ? "Agendar 15 min en Meet" : "Book 15 min Call"}</span>
+            </button>
+            <button
+              onClick={() => {
+                onClose();
+                const msg = encodeURIComponent(`¡Hola Fast Page Pro! Me interesa implementar un sistema similar al de *${project.title}*. ¿Podríamos coordinar una propuesta?`);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+              }}
+              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 cursor-pointer"
+            >
+              <WhatsAppOfficialIcon size={18} />
+              <span>WhatsApp Directo</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Sequential Case Study Navigator (Previous / Next) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
+          {prevProject && (
+            <button
+              onClick={() => {
+                if (onSelectProject) onSelectProject(prevProject);
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }}
+              className="group flex items-center gap-4 p-4 sm:p-5 rounded-2xl bg-stone-900/60 hover:bg-stone-900 border border-white/10 hover:border-yellow-400/40 text-left transition-all cursor-pointer"
+            >
+              <div className="w-11 h-11 rounded-xl bg-white/5 group-hover:bg-yellow-400/10 text-stone-400 group-hover:text-yellow-400 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-yellow-400/30 transition-all">
+                <ChevronLeft size={20} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-[11px] uppercase tracking-wider text-stone-400 block mb-0.5 font-semibold">
+                  {isEs ? "← Caso Anterior" : "← Previous Case"}
+                </span>
+                <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-yellow-400 truncate transition-colors">
+                  {prevProject.title}
+                </h4>
+                <p className="text-xs text-stone-400 truncate">{prevProject.category}</p>
+              </div>
+            </button>
+          )}
+          {nextProject && (
+            <button
+              onClick={() => {
+                if (onSelectProject) onSelectProject(nextProject);
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }}
+              className="group flex items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-stone-900/60 hover:bg-stone-900 border border-white/10 hover:border-yellow-400/40 text-right transition-all cursor-pointer"
+            >
+              <div className="min-w-0 flex-1">
+                <span className="text-[11px] uppercase tracking-wider text-stone-400 block mb-0.5 font-semibold">
+                  {isEs ? "Caso Siguiente →" : "Next Case →"}
+                </span>
+                <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-yellow-400 truncate transition-colors">
+                  {nextProject.title}
+                </h4>
+                <p className="text-xs text-stone-400 truncate">{nextProject.category}</p>
+              </div>
+              <div className="w-11 h-11 rounded-xl bg-white/5 group-hover:bg-yellow-400/10 text-stone-400 group-hover:text-yellow-400 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-yellow-400/30 transition-all">
+                <ChevronRight size={20} />
+              </div>
+            </button>
+          )}
+        </div>
+
+        {/* Proyectos Recomendados del Mismo Rubro */}
+        {relatedProjects.length > 0 && (
+          <div>
+            <div className="mb-6">
+              <span className="text-xs font-bold uppercase tracking-widest text-yellow-400 block mb-1">
+                {isEs ? "Casos de Éxito Relacionados" : "Related Case Studies"}
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                {isEs ? "Proyectos Recomendados del Mismo Rubro" : "Recommended Projects in this Industry"}
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedProjects.map((rel, idx) => (
+                <PortfolioCard
+                  key={rel.title}
+                  project={rel}
+                  language={language}
+                  index={idx}
+                  onClick={() => {
+                    if (onSelectProject) onSelectProject(rel);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Case Study Footer */}
+      <footer className="border-t border-white/10 py-12 px-4 sm:px-8 bg-stone-950 text-center text-xs text-stone-500">
+        <p className="mb-2">© 2026 Fast Page Pro. Todos los derechos reservados.</p>
+        <p className="text-stone-600">Desarrollo Web de Alto Rendimiento • Sanity CMS Headless • Edge Runtime • Next.js 15</p>
+      </footer>
     </motion.div>
   );
 };
+
+// Backwards-compatible alias for any external caller
+const PortfolioModal = FullProjectCaseStudyPage;
+
 
 // --- Pull-to-refresh visual indicator (mobile PWA) ---
 const PullToRefreshIndicator = () => {
@@ -5271,6 +5806,21 @@ export default function App() {
               <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} whileHover={{ y: -2 }} className="nav-link text-sm font-medium text-white/60 hover:text-white transition-colors px-4 py-2 rounded-lg hover:bg-white/10">{item.label}</motion.a>
             ))}
             <div className="w-px h-5 bg-white/15 mx-2" />
+            {/* Real Official WhatsApp Button — Desktop */}
+            <motion.a
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              href={getWhatsAppLink('contacto')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCtaClick('nav_top_whatsapp', 'whatsapp')}
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold transition-all duration-300 shadow-[0_2px_14px_rgba(37,211,102,0.4)] border border-white/20 shrink-0"
+              aria-label="Contactar por WhatsApp"
+            >
+              <WhatsAppOfficialIcon size={16} className="fill-white shrink-0" />
+              <span>WhatsApp</span>
+            </motion.a>
+            <div className="w-px h-5 bg-white/15 mx-1" />
             {/* Language Toggle — No container */}
             <motion.button
               onClick={toggleLanguage}
@@ -5299,6 +5849,19 @@ export default function App() {
           
           {/* Mobile Controls */}
           <div className="md:hidden flex items-center gap-2">
+            {/* Real Official WhatsApp Button — Mobile Header */}
+            <motion.a
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              href={getWhatsAppLink('contacto')}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCtaClick('nav_mobile_whatsapp', 'whatsapp')}
+              className="w-10 h-10 rounded-full bg-[#25D366] active:bg-[#20bd5a] text-white flex items-center justify-center shadow-[0_2px_14px_rgba(37,211,102,0.5)] border-2 border-white/20 transition-transform shrink-0"
+              aria-label="Contactar por WhatsApp"
+            >
+              <WhatsAppOfficialIcon size={22} className="fill-white shrink-0" />
+            </motion.a>
             <motion.button
               onClick={toggleLanguage}
               whileTap={{ scale: 0.94 }}
@@ -5323,7 +5886,24 @@ export default function App() {
               {navItems.map((item, index) => (
                 <motion.a key={item.id} href={`#${item.id}`} onClick={(e) => scrollToSection(e, item.id)} initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }} className="text-3xl font-bold text-white py-4 border-b border-white/10">{item.label}</motion.a>
               ))}
-              <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => { scrollToSection(e, 'contacto'); setMobileMenu(false); }} variant="primary" className="w-full mt-8" size="large" ctaId="nav_mobile_cta" />
+              <button
+                onClick={() => { setMobileMenu(false); openCalendly(); }}
+                className="w-full mt-6 flex items-center justify-center gap-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 font-bold py-4 px-6 rounded-full text-base shadow-[0_10px_30px_rgba(234,179,8,0.4)] transition-transform active:scale-95"
+              >
+                <Video size={20} />
+                <span>{language === 'es' ? 'Agendar Reunión (15 min)' : 'Book 15 min Call'}</span>
+              </button>
+              <a
+                href={getWhatsAppLink('contacto')}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => { setMobileMenu(false); trackCtaClick('nav_mobile_drawer_whatsapp', 'whatsapp'); }}
+                className="w-full mt-2 flex items-center justify-center gap-2.5 bg-[#25D366] active:bg-[#20bd5a] text-white font-bold py-4 px-6 rounded-full text-base shadow-[0_8px_25px_rgba(37,211,102,0.4)] transition-transform active:scale-95"
+              >
+                <WhatsAppOfficialIcon size={22} className="fill-white shrink-0" />
+                <span>{language === 'es' ? 'Chat Directo en WhatsApp' : 'Chat on WhatsApp'}</span>
+              </a>
+              <WhatsAppButton text={copy.navCta} href="#contacto" onClick={(e) => { scrollToSection(e, 'contacto'); setMobileMenu(false); }} variant="primary" className="w-full mt-2" size="large" ctaId="nav_mobile_cta" />
               {!isAppInstalled && deferredPrompt && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
@@ -5964,22 +6544,22 @@ export default function App() {
             </div>
           </motion.div>
 
-          {/* Compact WhatsApp notification tooltip — reduced for better UX */}
+          {/* Compact Notification Tooltip — focused on scheduling & projects */}
           <div className="absolute bottom-full left-0 right-0 flex justify-center pb-1 pointer-events-none">
             <AnimatePresence>
               {waNotifIndex >= 0 && (() => {
                 const waNotifs = language === 'es' ? [
-                  '\u00bfNecesitas ayuda?',
-                  '\u00bfCotizar mi web?',
-                  '\u00bfCrear mi app?',
-                  '\u00bfDesarrollar mi negocio?',
-                  '\u00bfPlataforma digital?'
+                  '📅 Agendar 15 min (Google Meet)',
+                  '🚀 ¿Cotizar mi web o tienda?',
+                  '🤖 ¿Crear mi Agente de IA?',
+                  '💬 Consulta por WhatsApp',
+                  '🇺🇸 Proyectos para USA y LATAM'
                 ] : [
-                  'Need help?',
-                  'Get a quote?',
-                  'Build my app?',
-                  'Grow my business?',
-                  'Digital platform?'
+                  '📅 Book 15 min Google Meet',
+                  '🚀 Get web / store quote',
+                  '🤖 Build my AI Agent',
+                  '💬 Chat via WhatsApp',
+                  '🇺🇸 US & LATAM Projects'
                 ];
                 return (
                   <motion.div
@@ -5988,12 +6568,12 @@ export default function App() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.95 }}
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                    className="bg-white/95 backdrop-blur-sm rounded-full shadow-lg px-3 py-1.5 flex items-center gap-2 max-w-[200px]"
+                    className="bg-white/95 backdrop-blur-sm rounded-full shadow-lg px-3 py-1.5 flex items-center gap-2 max-w-[220px]"
                   >
-                    <div className="w-5 h-5 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 text-stone-950">
+                      <Video size={11} className="fill-stone-950" />
                     </div>
-                    <p className="text-stone-700 text-[11px] font-medium">{waNotifs[waNotifIndex % waNotifs.length]}</p>
+                    <p className="text-stone-800 text-[11px] font-semibold">{waNotifs[waNotifIndex % waNotifs.length]}</p>
                   </motion.div>
                 );
               })()}
@@ -6040,20 +6620,18 @@ export default function App() {
               <span className="text-[10px] font-medium">{language === 'es' ? 'Servicios' : 'Services'}</span>
             </motion.button>
 
-            {/* WhatsApp — real icon, elevated, pro vibration effect */}
+            {/* Calendly 15 min — Central Hero CTA for Google Meet */}
             <div className="relative flex flex-col items-center">
-              <motion.a
+              <motion.button
                 whileTap={{ scale: 0.9 }}
                 whileHover={{ scale: 1.08 }}
-                href={getWhatsAppLink('default')}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={openCalendly}
                 animate={{
                   boxShadow: [
-                    '0 6px 24px -4px rgba(37,211,102,0.7)',
-                    '0 4px 20px -4px rgba(37,211,102,0.5)',
-                    '0 8px 28px -4px rgba(37,211,102,0.8)',
-                    '0 6px 24px -4px rgba(37,211,102,0.7)',
+                    '0 6px 24px -4px rgba(250,204,21,0.7)',
+                    '0 4px 20px -4px rgba(250,204,21,0.5)',
+                    '0 8px 28px -4px rgba(250,204,21,0.85)',
+                    '0 6px 24px -4px rgba(250,204,21,0.7)',
                   ]
                 }}
                 transition={{
@@ -6061,17 +6639,18 @@ export default function App() {
                   repeat: Infinity,
                   ease: 'easeInOut'
                 }}
-                className="relative z-10 flex items-center justify-center w-[56px] h-[56px] -mt-5 rounded-full bg-[#25D366] shadow-[0_6px_24px_-4px_rgba(37,211,102,0.7)] hover:shadow-[0_10px_36px_-4px_rgba(37,211,102,0.8)] transition-colors duration-300"
+                className="relative z-10 flex flex-col items-center justify-center w-[58px] h-[58px] -mt-5 rounded-full bg-gradient-to-br from-yellow-400 via-amber-500 to-yellow-500 text-stone-950 shadow-[0_6px_24px_-4px_rgba(250,204,21,0.7)] transition-all duration-300 border-2 border-stone-900"
+                aria-label="Agendar reunión de 15 minutos en Google Meet"
               >
                 {/* Inner glow ring */}
-                <div className="absolute inset-0 rounded-full border-2 border-white/20" />
-                <div className="absolute inset-[2px] rounded-full border border-white/10" />
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                {/* Verification badge */}
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(34,197,94,0.6)] border-2 border-black">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <div className="absolute inset-0 rounded-full border-2 border-white/30 pointer-events-none" />
+                <Video size={22} className="text-stone-950 stroke-[2.3]" />
+                <span className="text-[9px] font-black uppercase tracking-tight leading-none mt-0.5">15 min</span>
+                {/* Live Meet Badge */}
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(37,99,235,0.8)] border-2 border-stone-950">
+                  <Calendar size={10} className="text-white" />
                 </div>
-              </motion.a>
+              </motion.button>
             </div>
 
             {/* Precios */}
@@ -6129,6 +6708,13 @@ export default function App() {
             project={selectedProject}
             language={language}
             onClose={closePortfolioModal}
+            onSelectProject={(nextProject) => {
+              setSelectedProject(nextProject);
+              const slug = PORTFOLIO_SLUGS[nextProject.title];
+              if (slug) {
+                try { history.pushState(null, '', `/portafolio/${slug}`); } catch {}
+              }
+            }}
           />
         )}
       </AnimatePresence>
