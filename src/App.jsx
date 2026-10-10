@@ -57,7 +57,8 @@ import {
   Wrench,
   Bot,
   Copy,
-  Share2
+  Share2,
+  ShieldCheck
 } from 'lucide-react';
 
 // 21st.dev: Spotlight (Spline 3D Scene removed — was 4.5 MB of JS for a decorative robot)
@@ -217,6 +218,7 @@ const LATIN_AVATARS = [
 
 import {
   PORTFOLIO_CATEGORIES,
+  PORTFOLIO_INDUSTRIES,
   PORTFOLIO_BY_LANG,
   PORTFOLIO_SLUGS,
   slugToTitle,
@@ -2986,7 +2988,7 @@ const PortfolioCard = ({ project, language, onClick, index = 0 }) => {
       exit={{ opacity: 0, y: -15, scale: 0.96 }}
       transition={{ delay: index * 0.04, duration: 0.4 }}
       whileHover={{ y: -6 }}
-      className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer flex flex-col bg-stone-900/80 border border-white/10 hover:border-yellow-400/50 shadow-xl hover:shadow-[0_20px_50px_rgba(250,204,21,0.15)] transition-all duration-300"
+      className="portfolio-card group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer flex flex-col bg-stone-900/80 border border-white/10 hover:border-yellow-400/50 shadow-xl hover:shadow-[0_20px_50px_rgba(250,204,21,0.15)] transition-all duration-300"
     >
       {/* Top Visual Showcase Stage (Natural 16:10 Aspect Ratio) */}
       <div className="relative w-full aspect-[16/10] overflow-hidden bg-stone-950">
@@ -3069,10 +3071,44 @@ const PortfolioCard = ({ project, language, onClick, index = 0 }) => {
   );
 };
 
-// --- Featured Portfolio Section (Landing — 3 Projects + CTA) ---
+// --- Featured Portfolio Section (Landing — Interactive Search & Industry Filters) ---
 const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProjectClick }) => {
   const sectionRef = useRef(null);
-  const featured = projects.slice(0, 3);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIndustry, setSelectedIndustry] = useState("all");
+
+  const industries = PORTFOLIO_INDUSTRIES[language] || PORTFOLIO_INDUSTRIES.es;
+  const isFiltering = searchQuery.trim() !== "" || selectedIndustry !== "all";
+
+  const displayedProjects = useMemo(() => {
+    if (!isFiltering) {
+      return projects.slice(0, 3);
+    }
+    return projects.filter(p => {
+      if (selectedIndustry !== "all" && p.industry !== selectedIndustry) {
+        return false;
+      }
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchesTitle = p.title?.toLowerCase().includes(query);
+        const matchesClient = p.clientName?.toLowerCase().includes(query);
+        const matchesLocation = p.location?.toLowerCase().includes(query);
+        const matchesIndustry = p.industryLabel?.toLowerCase().includes(query);
+        const matchesDesc = p.description?.toLowerCase().includes(query);
+        const matchesHighlights = p.highlights?.toLowerCase().includes(query);
+        const matchesTech = p.techStack?.some(t => t.toLowerCase().includes(query));
+        if (!matchesTitle && !matchesClient && !matchesLocation && !matchesIndustry && !matchesDesc && !matchesHighlights && !matchesTech) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [projects, isFiltering, selectedIndustry, searchQuery]);
+
+  const resetFilters = () => {
+    setSearchQuery("");
+    setSelectedIndustry("all");
+  };
 
   return (
     <section id="portafolio" className="pt-6 pb-16 md:pt-10 md:pb-20 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
@@ -3081,18 +3117,97 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} compact />
 
-        {/* 3 Featured Projects Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 md:mb-14 max-w-6xl mx-auto">
-          {featured.map((project, index) => (
-            <PortfolioCard
-              key={project.title}
-              project={project}
-              language={language}
-              index={index}
-              onClick={() => { if (onProjectClick) onProjectClick(project); }}
+        {/* Real-time Search Bar */}
+        <div className="max-w-xl mx-auto mb-5">
+          <div className="relative flex items-center">
+            <Search size={18} className="absolute left-4 text-stone-400 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={language === 'es' ? "Buscar por cliente, rubro, tecnología, ciudad..." : "Search by client, industry, tech stack, city..."}
+              className="w-full pl-11 pr-10 py-3 rounded-full bg-stone-900/80 border border-white/10 hover:border-yellow-400/40 focus:border-yellow-400 text-sm text-white placeholder-stone-400 outline-none backdrop-blur-md transition-all shadow-lg"
             />
-          ))}
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3.5 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                title={language === 'es' ? "Limpiar búsqueda" : "Clear search"}
+              >
+                <X size={13} />
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Filtro por Rubro / Industry Pills */}
+        <div className="flex justify-center mb-5">
+          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-2 py-1 max-w-5xl">
+            {industries.map((ind) => (
+              <button
+                key={ind.id}
+                onClick={() => setSelectedIndustry(ind.id)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer border ${
+                  selectedIndustry === ind.id
+                    ? "bg-yellow-400 text-stone-950 border-yellow-400 shadow-md shadow-yellow-400/25 font-bold scale-105"
+                    : "bg-stone-900/70 hover:bg-stone-850 text-stone-300 hover:text-white border-white/10 hover:border-white/20"
+                }`}
+              >
+                {ind.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Filter Feedback and Result Count */}
+        {isFiltering && (
+          <div className="flex items-center justify-center gap-3 text-xs text-stone-400 mb-8">
+            <span>
+              {language === 'es'
+                ? `Mostrando ${displayedProjects.length} de ${projects.length} proyectos`
+                : `Showing ${displayedProjects.length} of ${projects.length} projects`}
+            </span>
+            <button
+              onClick={resetFilters}
+              className="text-yellow-400 hover:text-yellow-300 underline font-semibold cursor-pointer transition-colors"
+            >
+              {language === 'es' ? "Restablecer filtros" : "Reset filters"}
+            </button>
+          </div>
+        )}
+
+        {/* Projects Grid or Empty State */}
+        {displayedProjects.length === 0 ? (
+          <div className="text-center py-16 px-6 rounded-3xl bg-stone-900/40 border border-white/10 max-w-md mx-auto mb-10">
+            <Search size={36} className="text-stone-500 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-white mb-2">
+              {language === 'es' ? "No se encontraron proyectos" : "No projects found"}
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-400 mb-5 leading-relaxed">
+              {language === 'es'
+                ? `No encontramos proyectos con esos filtros. Prueba con otro término o restablece la búsqueda.`
+                : `No projects match your current filters. Try another keyword or clear search.`}
+            </p>
+            <button
+              onClick={resetFilters}
+              className="px-5 py-2.5 rounded-full bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-yellow-500/20"
+            >
+              {language === 'es' ? "Restablecer Filtros" : "Reset Filters"}
+            </button>
+          </div>
+        ) : (
+          <div className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 md:mb-14 ${isFiltering ? 'max-w-7xl' : 'max-w-6xl'} mx-auto`}>
+            {displayedProjects.map((project, index) => (
+              <PortfolioCard
+                key={`${project.title}-${selectedIndustry}-${searchQuery}`}
+                project={project}
+                language={language}
+                index={index}
+                onClick={() => { if (onProjectClick) onProjectClick(project); }}
+              />
+            ))}
+          </div>
+        )}
 
         {/* CTA — View All Portfolio */}
         <div className="text-center">
@@ -3100,7 +3215,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
             onClick={() => { if (onViewAll) onViewAll(); }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold tracking-wide transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-bold tracking-wide transition-all duration-300 cursor-pointer"
             style={{
               background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
               color: '#0A0A0A',
@@ -3108,7 +3223,7 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
             }}
           >
             <LayoutGrid size={18} />
-            {language === 'es' ? 'Ver Portafolio Completo' : 'View Full Portfolio'}
+            {language === 'es' ? `Explorar los ${projects.length} Proyectos` : `Explore All ${projects.length} Projects`}
             <ArrowRight size={18} />
           </motion.button>
         </div>
@@ -3121,17 +3236,40 @@ const FeaturedPortfolioSection = ({ copy, projects, language, onViewAll, onProje
 const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIndustry, setSelectedIndustry] = useState("all");
   const sectionRef = useRef(null);
   const portfolioTouchStart = useRef(null);
 
   const categories = PORTFOLIO_CATEGORIES[language] || PORTFOLIO_CATEGORIES.es;
+  const industries = PORTFOLIO_INDUSTRIES[language] || PORTFOLIO_INDUSTRIES.es;
   const currentFilter = language === "en" ? activeFilterEn : activeFilter;
   const setCurrentFilter = language === "en" ? setActiveFilterEn : setActiveFilter;
 
-  const filteredProjects = projects.filter(p => {
-    if (currentFilter === "Todos" || currentFilter === "All") return true;
-    return p.category === currentFilter;
-  });
+  const filteredProjects = useMemo(() => {
+    return projects.filter(p => {
+      if (currentFilter !== "Todos" && currentFilter !== "All") {
+        if (p.category !== currentFilter) return false;
+      }
+      if (selectedIndustry !== "all") {
+        if (p.industry !== selectedIndustry) return false;
+      }
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchesTitle = p.title?.toLowerCase().includes(query);
+        const matchesClient = p.clientName?.toLowerCase().includes(query);
+        const matchesLocation = p.location?.toLowerCase().includes(query);
+        const matchesIndustry = p.industryLabel?.toLowerCase().includes(query);
+        const matchesDesc = p.description?.toLowerCase().includes(query);
+        const matchesHighlights = p.highlights?.toLowerCase().includes(query);
+        const matchesTech = p.techStack?.some(t => t.toLowerCase().includes(query));
+        if (!matchesTitle && !matchesClient && !matchesLocation && !matchesIndustry && !matchesDesc && !matchesHighlights && !matchesTech) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [projects, currentFilter, selectedIndustry, searchQuery]);
 
   const getCategoryIcon = (category) => {
     if (category.includes("Web")) return Monitor;
@@ -3140,9 +3278,12 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
     return Code;
   };
 
-  const getTypeColor = (type) => {
-    const colors = { web: "from-blue-500 to-cyan-400", tienda: "from-emerald-500 to-green-400", app: "from-purple-500 to-violet-400", custom: "from-orange-500 to-amber-400" };
-    return colors[type] || "from-stone-500 to-stone-400";
+  const hasActiveFilters = searchQuery.trim() !== "" || selectedIndustry !== "all" || (currentFilter !== "Todos" && currentFilter !== "All");
+
+  const resetAllFilters = () => {
+    setSearchQuery("");
+    setSelectedIndustry("all");
+    setCurrentFilter(language === "en" ? "All" : "Todos");
   };
 
   return (
@@ -3165,24 +3306,83 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
             </motion.div>
           </div>
 
-          {/* Category Filters */}
-          <div className="flex justify-center">
-            <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full">
+          {/* Interactive Search Bar */}
+          <div className="max-w-2xl mx-auto mb-6">
+            <div className="relative flex items-center">
+              <Search size={18} className="absolute left-4 text-stone-400 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={language === 'es' ? "Buscar por cliente, rubro, tecnología, ciudad..." : "Search by client, industry, tech stack, city..."}
+                className="w-full pl-11 pr-10 py-3 rounded-full bg-stone-900/80 border border-white/10 hover:border-yellow-400/40 focus:border-yellow-400 text-sm text-white placeholder-stone-400 outline-none backdrop-blur-md transition-all shadow-lg"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3.5 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                  title={language === 'es' ? "Limpiar búsqueda" : "Clear search"}
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Filtro por Rubro / Industry Pills */}
+          <div className="flex justify-center mb-4">
+            <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-2 py-1 max-w-5xl">
+              {industries.map((ind) => (
+                <button
+                  key={ind.id}
+                  onClick={() => setSelectedIndustry(ind.id)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer border ${
+                    selectedIndustry === ind.id
+                      ? "bg-yellow-400 text-stone-950 border-yellow-400 shadow-md shadow-yellow-400/25 font-bold scale-105"
+                      : "bg-stone-900/70 hover:bg-stone-850 text-stone-300 hover:text-white border-white/10 hover:border-white/20"
+                  }`}
+                >
+                  {ind.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Category Type Filters */}
+          <div className="flex justify-center mb-5">
+            <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full">
               {categories.map((cat) => (
                 <motion.button
                   key={cat}
                   onClick={() => setCurrentFilter(cat)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`portfolio-filter-btn ${currentFilter === cat ? 'active' : ''} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-semibold tracking-wide`}
+                  className={`portfolio-filter-btn ${currentFilter === cat ? 'active' : ''} px-3 sm:px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wide`}
                 >
-                  <span className="flex items-center gap-1.5 sm:gap-2">
-                    {cat !== "Todos" && cat !== "All" && (() => { const Icon = getCategoryIcon(cat); return <Icon size={13} />; })()}
+                  <span className="flex items-center gap-1.5">
+                    {cat !== "Todos" && cat !== "All" && (() => { const Icon = getCategoryIcon(cat); return <Icon size={12} />; })()}
                     {cat}
                   </span>
                 </motion.button>
               ))}
             </div>
+          </div>
+
+          {/* Live Result Counter & Reset Button */}
+          <div className="flex items-center justify-center gap-3 text-xs text-stone-400 mb-6">
+            <span>
+              {language === 'es'
+                ? `Mostrando ${filteredProjects.length} de ${projects.length} proyectos`
+                : `Showing ${filteredProjects.length} of ${projects.length} projects`}
+            </span>
+            {hasActiveFilters && (
+              <button
+                onClick={resetAllFilters}
+                className="text-yellow-400 hover:text-yellow-300 underline font-semibold cursor-pointer transition-colors"
+              >
+                {language === 'es' ? "Limpiar todos los filtros" : "Clear all filters"}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -3190,33 +3390,53 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
       {/* Full Portfolio Grid — swipeable on mobile */}
       <div className="px-4 mb-16 md:mb-24">
         <div className="container mx-auto">
-          <div
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-            onTouchStart={(e) => { portfolioTouchStart.current = e.touches[0].clientX; }}
-            onTouchEnd={(e) => {
-              if (portfolioTouchStart.current === null || window.innerWidth >= 640) return;
-              const diff = portfolioTouchStart.current - e.changedTouches[0].clientX;
-              if (Math.abs(diff) > 50) {
-                const cats = categories;
-                const currentIdx = cats.indexOf(currentFilter);
-                const nextIdx = diff > 0 ? Math.min(cats.length - 1, currentIdx + 1) : Math.max(0, currentIdx - 1);
-                setCurrentFilter(cats[nextIdx]);
-              }
-              portfolioTouchStart.current = null;
-            }}
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
-                <PortfolioCard
-                  key={`${project.title}-${currentFilter}`}
-                  project={project}
-                  language={language}
-                  index={index}
-                  onClick={() => { if (onProjectClick) onProjectClick(project); }}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+          {filteredProjects.length === 0 ? (
+            <div className="text-center py-16 px-6 rounded-3xl bg-stone-900/40 border border-white/10 max-w-md mx-auto">
+              <Search size={36} className="text-stone-500 mx-auto mb-3" />
+              <h3 className="text-lg font-bold text-white mb-2">
+                {language === 'es' ? "No se encontraron proyectos" : "No projects found"}
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-400 mb-5 leading-relaxed">
+                {language === 'es'
+                  ? `No encontramos proyectos que coincidan con tus filtros actuales. Prueba con otro término o limpia la búsqueda.`
+                  : `No projects match your current filters. Try another keyword or clear search.`}
+              </p>
+              <button
+                onClick={resetAllFilters}
+                className="px-5 py-2.5 rounded-full bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-yellow-500/20"
+              >
+                {language === 'es' ? "Restablecer Filtros" : "Reset Filters"}
+              </button>
+            </div>
+          ) : (
+            <div
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+              onTouchStart={(e) => { portfolioTouchStart.current = e.touches[0].clientX; }}
+              onTouchEnd={(e) => {
+                if (portfolioTouchStart.current === null || window.innerWidth >= 640) return;
+                const diff = portfolioTouchStart.current - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                  const cats = categories;
+                  const currentIdx = cats.indexOf(currentFilter);
+                  const nextIdx = diff > 0 ? Math.min(cats.length - 1, currentIdx + 1) : Math.max(0, currentIdx - 1);
+                  setCurrentFilter(cats[nextIdx]);
+                }
+                portfolioTouchStart.current = null;
+              }}
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((project, index) => (
+                  <PortfolioCard
+                    key={`${project.title}-${currentFilter}-${selectedIndustry}-${searchQuery}`}
+                    project={project}
+                    language={language}
+                    index={index}
+                    onClick={() => { if (onProjectClick) onProjectClick(project); }}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
         </div>
       </div>
 
@@ -3253,16 +3473,39 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
 const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
   const [activeFilter, setActiveFilter] = useState("Todos");
   const [activeFilterEn, setActiveFilterEn] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIndustry, setSelectedIndustry] = useState("all");
   const sectionRef = useRef(null);
 
   const categories = PORTFOLIO_CATEGORIES[language] || PORTFOLIO_CATEGORIES.es;
+  const industries = PORTFOLIO_INDUSTRIES[language] || PORTFOLIO_INDUSTRIES.es;
   const currentFilter = language === "en" ? activeFilterEn : activeFilter;
   const setCurrentFilter = language === "en" ? setActiveFilterEn : setActiveFilter;
 
-  const filteredProjects = projects.filter(p => {
-    if (currentFilter === "Todos" || currentFilter === "All") return true;
-    return p.category === currentFilter;
-  });
+  const filteredProjects = useMemo(() => {
+    return projects.filter(p => {
+      if (currentFilter !== "Todos" && currentFilter !== "All") {
+        if (p.category !== currentFilter) return false;
+      }
+      if (selectedIndustry !== "all") {
+        if (p.industry !== selectedIndustry) return false;
+      }
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        const matchesTitle = p.title?.toLowerCase().includes(query);
+        const matchesClient = p.clientName?.toLowerCase().includes(query);
+        const matchesLocation = p.location?.toLowerCase().includes(query);
+        const matchesIndustry = p.industryLabel?.toLowerCase().includes(query);
+        const matchesDesc = p.description?.toLowerCase().includes(query);
+        const matchesHighlights = p.highlights?.toLowerCase().includes(query);
+        const matchesTech = p.techStack?.some(t => t.toLowerCase().includes(query));
+        if (!matchesTitle && !matchesClient && !matchesLocation && !matchesIndustry && !matchesDesc && !matchesHighlights && !matchesTech) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [projects, currentFilter, selectedIndustry, searchQuery]);
 
   useGSAPScrollReveal(sectionRef, { y: 50, stagger: 0.1 });
 
@@ -3285,14 +3528,12 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
     return colors[type] || "from-stone-500 to-stone-400";
   };
 
-  const getTypeBg = (type) => {
-    const bgs = {
-      web: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-      tienda: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-      app: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-      custom: "bg-orange-500/10 text-orange-400 border-orange-500/20"
-    };
-    return bgs[type] || "bg-stone-500/10 text-stone-400 border-stone-500/20";
+  const hasActiveFilters = searchQuery.trim() !== "" || selectedIndustry !== "all" || (currentFilter !== "Todos" && currentFilter !== "All");
+
+  const resetAllFilters = () => {
+    setSearchQuery("");
+    setSelectedIndustry("all");
+    setCurrentFilter(language === "en" ? "All" : "Todos");
   };
 
   return (
@@ -3303,10 +3544,52 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
       
       <div ref={sectionRef} className="container mx-auto px-4 relative z-10">
         <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} badge={copy.portfolioBadge} compact />
+
+        {/* Real-time Search Bar */}
+        <div className="max-w-xl mx-auto mb-5">
+          <div className="relative flex items-center">
+            <Search size={18} className="absolute left-4 text-stone-400 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={language === 'es' ? "Buscar por cliente, rubro, tecnología, ciudad..." : "Search by client, industry, tech stack, city..."}
+              className="w-full pl-11 pr-10 py-3 rounded-full bg-stone-900/80 border border-white/10 hover:border-yellow-400/40 focus:border-yellow-400 text-sm text-white placeholder-stone-400 outline-none backdrop-blur-md transition-all shadow-lg"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3.5 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-stone-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                title={language === 'es' ? "Limpiar búsqueda" : "Clear search"}
+              >
+                <X size={13} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Filtro por Rubro / Industry Pills */}
+        <div className="flex justify-center mb-4">
+          <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-2 py-1 max-w-5xl">
+            {industries.map((ind) => (
+              <button
+                key={ind.id}
+                onClick={() => setSelectedIndustry(ind.id)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all cursor-pointer border ${
+                  selectedIndustry === ind.id
+                    ? "bg-yellow-400 text-stone-950 border-yellow-400 shadow-md shadow-yellow-400/25 font-bold scale-105"
+                    : "bg-stone-900/70 hover:bg-stone-850 text-stone-300 hover:text-white border-white/10 hover:border-white/20"
+                }`}
+              >
+                {ind.label}
+              </button>
+            ))}
+          </div>
+        </div>
         
         {/* Category Filter — Glassmorphism floating pill */}
-        <div className="flex justify-center mb-8 md:mb-12 gsap-reveal">
-          <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-3 rounded-full">
+        <div className="flex justify-center mb-4 md:mb-5">
+          <div className="portfolio-filter-glass inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full">
             {categories.map((cat) => (
               <motion.button
                 key={cat}
@@ -3326,61 +3609,98 @@ const PortfolioSection = ({ copy, projects, language, onProjectClick }) => {
             ))}
           </div>
         </div>
-      
-        {/* Portfolio Grid */}
-        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
-          <AnimatePresence mode="wait">
-            {filteredProjects.map((project, index) => {
-              const Icon = getCategoryIcon(project.category);
-              const gradientColor = getTypeColor(project.type);
 
-              return (
-                <motion.div
-                  key={`${project.title}-${activeFilter}`}
-                  onClick={() => {
-                    if (onProjectClick) onProjectClick(project);
-                  }}
-                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                  transition={{ delay: index * 0.06, duration: 0.5 }}
-                  whileHover={{ y: -8 }}
-                  className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
-                  style={{ aspectRatio: '4/5' }}
-                >
-                  {/* Image with zoom-in on hover */}
-                  <motion.img 
-                    src={project.image} 
-                    alt={project.title} 
-                    onError={handleImageFallback}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-full h-full object-cover"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
-                    loading="lazy" decoding="async"
-                  />
-                  
-                  {/* Bottom gradient overlay — always dark for text legibility */}
-                  <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
-
-                  {/* Top gradient accent bar */}
-                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
-
-                  {/* Content overlay at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
-                    <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
-                    <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
-                    <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
-                    <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
-                    <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
-                      {language === 'es' ? 'Ver Proyecto Pro ↗' : 'View Pro Project ↗'}
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+        {/* Active Results Counter & Reset */}
+        <div className="flex items-center justify-center gap-3 text-xs text-stone-400 mb-8">
+          <span>
+            {language === 'es'
+              ? `Mostrando ${filteredProjects.length} de ${projects.length} proyectos`
+              : `Showing ${filteredProjects.length} of ${projects.length} projects`}
+          </span>
+          {hasActiveFilters && (
+            <button
+              onClick={resetAllFilters}
+              className="text-yellow-400 hover:text-yellow-300 underline font-semibold cursor-pointer transition-colors"
+            >
+              {language === 'es' ? "Limpiar todos los filtros" : "Clear all filters"}
+            </button>
+          )}
         </div>
+      
+        {/* Portfolio Grid or Empty State */}
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-16 px-6 rounded-3xl bg-stone-900/40 border border-white/10 max-w-md mx-auto mb-12">
+            <Search size={36} className="text-stone-500 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-white mb-2">
+              {language === 'es' ? "No se encontraron proyectos" : "No projects found"}
+            </h3>
+            <p className="text-xs sm:text-sm text-stone-400 mb-5 leading-relaxed">
+              {language === 'es'
+                ? `No encontramos proyectos con esos filtros. Prueba con otro término o limpia la búsqueda.`
+                : `No projects match your current filters. Try another keyword or clear search.`}
+            </p>
+            <button
+              onClick={resetAllFilters}
+              className="px-5 py-2.5 rounded-full bg-yellow-400 hover:bg-yellow-300 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-yellow-500/20"
+            >
+              {language === 'es' ? "Restablecer Filtros" : "Reset Filters"}
+            </button>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
+            <AnimatePresence mode="wait">
+              {filteredProjects.map((project, index) => {
+                const Icon = getCategoryIcon(project.category);
+                const gradientColor = getTypeColor(project.type);
+
+                return (
+                  <motion.div
+                    key={`${project.title}-${currentFilter}-${selectedIndustry}-${searchQuery}`}
+                    onClick={() => {
+                      if (onProjectClick) onProjectClick(project);
+                    }}
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                    transition={{ delay: index * 0.04, duration: 0.4 }}
+                    whileHover={{ y: -8 }}
+                    className="group relative portfolio-card rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer block no-underline"
+                    style={{ aspectRatio: '4/5' }}
+                  >
+                    {/* Image with zoom-in on hover */}
+                    <motion.img 
+                      src={project.image} 
+                      alt={project.title} 
+                      onError={handleImageFallback}
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.6 }}
+                      className="w-full h-full object-cover"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center' }}
+                      loading="lazy" decoding="async"
+                    />
+                    
+                    {/* Bottom gradient overlay — always dark for text legibility */}
+                    <div className="absolute inset-0 portfolio-card-overlay pointer-events-none" />
+
+                    {/* Top gradient accent bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${gradientColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10`} />
+
+                    {/* Content overlay at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 z-10" style={{ padding: '28px 22px 36px 22px' }}>
+                      <p className="text-[11px] sm:text-xs font-bold tracking-wide uppercase mb-1.5" style={{ color: '#FFD700' }}>{project.category}</p>
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
+                      <p className="text-[11px] sm:text-sm mb-2" style={{ color: 'rgba(255,255,255,0.7)' }}>{project.location}</p>
+                      <p className="text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-3" style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
+                      <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold transition-all duration-300 hover:gap-3" style={{ color: '#FFD700' }}>
+                        {language === 'es' ? 'Ver Proyecto Pro ↗' : 'View Pro Project ↗'}
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        )}
         
         {/* Stats Social Proof — Immersive floating style, no card background */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-14">
@@ -4619,6 +4939,7 @@ const IPhoneMockup = ({ imageSrc, alt, compact = false }) => (
 const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject }) => {
   const [expandedImage, setExpandedImage] = useState(null);
   const [copied, setCopied] = useState(false);
+  const containerRef = useRef(null);
 
   const modalImage = PORTFOLIO_MODAL_IMAGES[project.title] || project.modalImage || project.image;
   const modalMobileImage = PORTFOLIO_MODAL_MOBILE_IMAGES[project.title] || project.modalMobileImage || modalImage;
@@ -4629,6 +4950,29 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
     : ({ tienda: "View Live Store", web: "View Live Website", app: "View Live App", custom: "View Live Project" })[project.type] || "View Live Project";
 
   const tapLabel = isEs ? "Toca cualquier captura para ampliar en alta definición" : "Tap any mockup to enlarge in HD";
+
+  // Dedicated selection handler: switch project AND instantly reset modal container scroll
+  const handleSelectCase = useCallback((nextProj) => {
+    if (!nextProj) return;
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+    if (onSelectProject) {
+      onSelectProject(nextProj);
+    }
+  }, [onSelectProject]);
+
+  // When project prop changes to a DIFFERENT project, reset modal scroll
+  const prevSlugRef = useRef(project?.slug || project?.title);
+  useEffect(() => {
+    const currentSlug = project?.slug || project?.title;
+    if (prevSlugRef.current !== currentSlug) {
+      prevSlugRef.current = currentSlug;
+      if (containerRef.current) {
+        containerRef.current.scrollTop = 0;
+      }
+    }
+  }, [project?.slug, project?.title]);
 
   // All projects list for smooth sequential navigation
   const allProjects = PORTFOLIO_BY_LANG[language] || [];
@@ -4679,33 +5023,35 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
     window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
+  // Keyboard navigation for Left/Right and Escape (strictly reactive to keydown)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (expandedImage) {
-        if (e.key === 'Escape') setExpandedImage(null);
-        return;
-      }
       if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'ArrowLeft') {
-        if (prevProject && onSelectProject) {
-          onSelectProject(prevProject);
-          window.scrollTo({ top: 0, behavior: 'instant' });
+        if (expandedImage) {
+          setExpandedImage(null);
+        } else {
+          onClose();
         }
-      } else if (e.key === 'ArrowRight') {
-        if (nextProject && onSelectProject) {
-          onSelectProject(nextProject);
-          window.scrollTo({ top: 0, behavior: 'instant' });
-        }
+      } else if (e.key === 'ArrowLeft' && !expandedImage && prevProject) {
+        handleSelectCase(prevProject);
+      } else if (e.key === 'ArrowRight' && !expandedImage && nextProject) {
+        handleSelectCase(nextProject);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    window.scrollTo({ top: 0, behavior: 'instant' });
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose, expandedImage, prevProject, nextProject, onSelectProject]);
+  }, [onClose, expandedImage, prevProject, nextProject, handleSelectCase]);
+
+  const activeMetrics = project.metrics && project.metrics.length > 0 ? project.metrics : [
+    { label: isEs ? "Tiempo de Carga" : "Load Time", value: "⚡ < 0.6s TTFB", note: "Edge Vercel" },
+    { label: isEs ? "Mobile First" : "Mobile Score", value: "📱 100% PWA", note: "Next-gen Web" },
+    { label: isEs ? "SEO Local Google" : "SEO Ranking", value: "🔍 Indexado IA", note: "Schema.org" },
+    { label: isEs ? "Seguridad" : "Security", value: "🔒 Edge SSL A+", note: "TLS 1.3" }
+  ];
 
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -4759,12 +5105,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
             {/* Previous / Next Case study quick jump */}
             <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
               <button
-                onClick={() => {
-                  if (prevProject && onSelectProject) {
-                    onSelectProject(prevProject);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
-                  }
-                }}
+                onClick={() => handleSelectCase(prevProject)}
                 disabled={!prevProject}
                 title={isEs ? `Caso anterior (tecla ←): ${prevProject?.title || ''}` : `Previous case (← key)`}
                 className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
@@ -4776,12 +5117,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                 {currentIndex + 1}/{allProjects.length}
               </span>
               <button
-                onClick={() => {
-                  if (nextProject && onSelectProject) {
-                    onSelectProject(nextProject);
-                    window.scrollTo({ top: 0, behavior: 'instant' });
-                  }
-                }}
+                onClick={() => handleSelectCase(nextProject)}
                 disabled={!nextProject}
                 title={isEs ? `Caso siguiente (tecla →): ${nextProject?.title || ''}` : `Next case (→ key)`}
                 className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
@@ -4849,9 +5185,9 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
       {/* Main Full-Width Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 md:py-16">
         {/* Hero Section */}
-        <div className="mb-12">
+        <div className="mb-14">
           {/* Badges Row */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-5">
+          <div className="flex flex-wrap items-center gap-2.5 mb-6">
             <span className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide border ${getTypeBg(project.type)}`}>
               {project.category}
             </span>
@@ -4875,10 +5211,10 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           {/* Title & Description */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-8">
             <div className="max-w-4xl">
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight mb-5">
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-tight mb-6">
                 {project.title}
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-stone-300 leading-relaxed">
+              <p className="text-lg sm:text-xl text-stone-300 leading-relaxed font-light">
                 {project.description}
               </p>
             </div>
@@ -4902,7 +5238,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                   const msg = encodeURIComponent(`¡Hola Fast Page Pro! Vi el proyecto de *${project.title}* en su portafolio y me gustaría cotizar una solución similar para mi negocio.`);
                   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/20"
               >
                 <WhatsAppOfficialIcon size={18} />
                 <span>{isEs ? "Cotizar Sistema Similar" : "Quote Similar System"}</span>
@@ -4911,19 +5247,19 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           </div>
         </div>
 
-        {/* Dual Responsive Mockup Showcase (Full Width Cinema Canvas) */}
-        <div className="relative mb-16 bg-gradient-to-b from-stone-900/90 to-stone-950 p-6 sm:p-12 md:p-16 rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+        {/* Dual Responsive Mockup Showcase (Immersive Cinema Stage — No Box Bounds) */}
+        <div className="relative my-10 py-8 overflow-hidden">
           {/* Ambient Lighting Background */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-yellow-500/10 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[500px] bg-yellow-500/10 rounded-full blur-[170px] pointer-events-none" />
 
-          <div className="text-center mb-6">
-            <span className="inline-flex items-center gap-1.5 text-xs text-stone-400 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
+          <div className="text-center mb-8 relative z-10">
+            <span className="inline-flex items-center gap-1.5 text-xs text-stone-400 bg-white/[0.04] px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
               <Maximize2 size={13} className="text-yellow-400" />
               {tapLabel}
             </span>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-14 relative z-10">
             {/* Desktop Mockup */}
             <div
               className="w-full md:w-3/5 cursor-pointer transform hover:scale-[1.02] transition-transform duration-300"
@@ -4948,142 +5284,188 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           </div>
         </div>
 
-        {/* Technical Architecture & Specs */}
-        <div className="mb-14 grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Stack Tecnológico */}
-          <div className="p-8 rounded-3xl bg-stone-900/70 border border-white/10">
-            <div className="flex items-center gap-2.5 mb-4">
-              <Code size={20} className="text-yellow-400" />
-              <h2 className="text-base font-bold uppercase tracking-wider text-white">
-                {isEs ? "Arquitectura Edge & Stack Tecnológico" : "Edge Architecture & Tech Stack"}
-              </h2>
-            </div>
-            <div className="flex flex-wrap gap-2 mb-5">
-              {(project.techStack || ["Next.js 15", "Edge Runtime", "Vercel Enterprise", "Sanity CMS", "Tailwind CSS"]).map((tech, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-stone-200 border border-white/10 transition-colors"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-                  {tech}
+        {/* Open-Air Performance Metrics Ribbon (Zero Box Backgrounds, Apple-Grade Impact) */}
+        <div className="py-12 border-y border-white/10 my-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+            {activeMetrics.map((m, idx) => (
+              <div key={idx} className="flex flex-col items-start border-l border-white/10 pl-5">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-stone-400 mb-2">
+                  {m.label}
                 </span>
-              ))}
-            </div>
-            <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
-              {isEs
-                ? "Arquitectura de última generación con renderizado híbrido en servidores Edge distribuidos globalmente, cero dependencias lentas de WordPress y tiempos de respuesta ultra-rápidos en cualquier dispositivo."
-                : "Next-generation hybrid Edge rendering across globally distributed servers with zero legacy CMS bloat and lightning TTFB on all devices."}
-            </p>
-          </div>
-
-          {/* Métricas de Calidad */}
-          <div className="p-8 rounded-3xl bg-stone-900/70 border border-white/10">
-            <div className="flex items-center gap-2.5 mb-4">
-              <Zap size={20} className="text-yellow-400" />
-              <h2 className="text-base font-bold uppercase tracking-wider text-white">
-                {isEs ? "Métricas de Rendimiento & Auditoría" : "Performance & Quality Metrics"}
-              </h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3.5 mb-5">
-              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-xs text-stone-400">{isEs ? "Tiempo de Carga" : "Load Time"}</div>
-                <div className="text-lg font-bold text-emerald-400">⚡ &lt; 0.6s TTFB</div>
+                <span className="text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r from-yellow-300 via-amber-200 to-yellow-500 bg-clip-text text-transparent tracking-tight">
+                  {m.value}
+                </span>
+                {m.note && (
+                  <span className="text-xs text-stone-400 mt-2 font-mono flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    {m.note}
+                  </span>
+                )}
               </div>
-              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-xs text-stone-400">{isEs ? "Mobile First" : "Mobile Score"}</div>
-                <div className="text-lg font-bold text-yellow-400">📱 100% PWA</div>
-              </div>
-              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-xs text-stone-400">{isEs ? "SEO Local Google" : "SEO Ranking"}</div>
-                <div className="text-lg font-bold text-blue-400">🔍 Indexado IA</div>
-              </div>
-              <div className="p-3.5 rounded-xl bg-white/5 border border-white/5">
-                <div className="text-xs text-stone-400">{isEs ? "Seguridad" : "Security"}</div>
-                <div className="text-lg font-bold text-purple-400">🔒 Edge SSL A+</div>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
-              {isEs
-                ? "Optimizado para máxima conversión publicitaria en Meta Ads y Google Ads, con Schema.org estructurado para IA y Google Search."
-                : "Optimized for maximum conversion on Google Ads and Meta Ads with rich Schema.org metadata for search engines and AI."}
-            </p>
+            ))}
           </div>
         </div>
 
-        {/* Reto & Solución */}
+        {/* Editorial Split Narrative: El Desafío vs Solución de Ingeniería (Zero Colored Box Backgrounds) */}
         {(project.challenge || project.solution) && (
-          <div className="mb-14 grid grid-cols-1 md:grid-cols-2 gap-8">
-            {project.challenge && (
-              <div className="p-8 rounded-3xl bg-red-950/20 border border-red-500/25">
-                <div className="text-xs font-bold uppercase tracking-widest text-red-400 mb-3">
-                  {isEs ? "⚠️ El Desafío del Cliente" : "⚠️ The Client Challenge"}
+          <div className="my-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+              {project.challenge && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                    <span className="text-xs font-mono font-semibold uppercase tracking-widest text-red-400">
+                      {isEs ? "01 / El Desafío Inicial" : "01 / The Initial Challenge"}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    {isEs ? "Problemática y Fricción Previa" : "Business Problem & Bottlenecks"}
+                  </h3>
+                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+                    {project.challenge}
+                  </p>
                 </div>
-                <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
-                  {project.challenge}
-                </p>
-              </div>
-            )}
-            {project.solution && (
-              <div className="p-8 rounded-3xl bg-emerald-950/20 border border-emerald-500/25">
-                <div className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-3">
-                  {isEs ? "💡 Solución de Ingeniería Entregada" : "💡 Engineering Solution Delivered"}
+              )}
+
+              {project.solution && (
+                <div className="space-y-4 lg:border-l lg:border-white/10 lg:pl-16">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-mono font-semibold uppercase tracking-widest text-emerald-400">
+                      {isEs ? "02 / Solución de Ingeniería" : "02 / Engineering Solution"}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    {isEs ? "Arquitectura y Desarrollo Desplegado" : "Deployed Architecture & Engineering"}
+                  </h3>
+                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+                    {project.solution}
+                  </p>
                 </div>
-                <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
-                  {project.solution}
-                </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         )}
 
-        {/* Secondary Conversion Banner */}
-        <div className="mb-16 p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-stone-900 via-stone-850 to-stone-900 border border-yellow-500/30 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-[0_20px_50px_rgba(250,204,21,0.12)]">
-          <div className="max-w-2xl text-center lg:text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-yellow-400 mb-2 block">
-              {isEs ? "¿Buscas una solución similar?" : "Looking for a similar solution?"}
+        {/* Módulos y Entregables Clave de Ingeniería (Clean Technical Blueprint — No Box Enclosures) */}
+        {project.keyDeliverables && project.keyDeliverables.length > 0 && (
+          <div className="my-20 pt-16 border-t border-white/10">
+            <div className="max-w-3xl mb-10">
+              <div className="flex items-center gap-2 text-yellow-400 text-xs font-mono uppercase tracking-widest mb-3">
+                <Layers size={14} />
+                <span>{isEs ? "Ingeniería de Software" : "Software Engineering"}</span>
+              </div>
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                {isEs ? "Módulos y Entregables Clave Desplegados" : "Key Engineering Modules Deployed"}
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+              {project.keyDeliverables.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-4 py-4 border-b border-white/10 group">
+                  <span className="text-yellow-400 font-mono text-xs font-bold mt-1 shrink-0 opacity-80 group-hover:opacity-100">
+                    0{idx + 1}.
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-base sm:text-lg text-stone-200 group-hover:text-white transition-colors leading-relaxed font-normal">
+                      {item}
+                    </p>
+                  </div>
+                  <Check size={16} className="text-emerald-400 shrink-0 mt-1.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Arquitectura Edge & Stack Tecnológico (Clean Editorial Spec — No Box Fills) */}
+        <div className="my-20 pt-16 border-t border-white/10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="lg:col-span-5 space-y-4">
+              <div className="flex items-center gap-2 text-yellow-400 text-xs font-mono uppercase tracking-widest">
+                <Code size={14} />
+                <span>{isEs ? "Infraestructura & Edge" : "Infrastructure & Edge"}</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                {isEs ? "Stack Tecnológico de Alta Concurrencia" : "High-Concurrency Tech Stack"}
+              </h3>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {(project.techStack || ["Next.js 15", "Edge Runtime", "Vercel Enterprise", "Sanity CMS", "Tailwind CSS"]).map((tech, i) => (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono text-stone-300 border border-white/15 bg-white/[0.03] hover:border-yellow-400/40 transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 lg:border-l lg:border-white/10 lg:pl-12 space-y-4">
+              <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+                {project.architectureSummary || (isEs
+                  ? "Arquitectura de última generación con renderizado híbrido en servidores Edge distribuidos globalmente, cero dependencias lentas de WordPress y tiempos de respuesta ultra-rápidos en cualquier dispositivo."
+                  : "Next-generation hybrid Edge rendering across globally distributed servers with zero legacy CMS bloat and lightning TTFB on all devices.")}
+              </p>
+              <div className="flex items-center gap-2.5 text-xs text-stone-400 font-mono pt-2">
+                <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
+                <span>{isEs ? "Auditoría de seguridad TLS 1.3 + CDN Global Vercel Edge" : "TLS 1.3 Security Audit + Vercel Edge Global CDN"}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Immersive Ambient Conversion Section (No Boxed Container) */}
+        <div className="relative my-24 py-16 border-y border-white/10 overflow-hidden">
+          {/* Ambient Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-yellow-400/10 rounded-full blur-[140px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest text-yellow-300 border border-yellow-400/30 bg-yellow-400/5">
+              <Sparkles size={12} className="text-yellow-400" />
+              {isEs ? "Escala tu Negocio" : "Scale your Business"}
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
               {isEs
                 ? "¿Deseas implementar esta arquitectura en tu negocio?"
                 : "Want to deploy this architecture for your company?"}
             </h3>
-            <p className="text-sm sm:text-base text-stone-300 leading-relaxed">
+            <p className="text-stone-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light">
               {isEs
                 ? "Evaluamos los requerimientos de tu empresa y te entregamos una propuesta personalizada con cotización formal en menos de 24 horas."
                 : "We evaluate your company's scope and provide a formal customized proposal within 24 hours."}
             </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-            <button
-              onClick={() => { onClose(); openCalendly(); }}
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-400 hover:bg-yellow-300 text-stone-950 transition-all hover:scale-105 cursor-pointer shadow-lg shadow-yellow-500/25"
-            >
-              <Video size={16} />
-              <span>{isEs ? "Agendar 15 min en Meet" : "Book 15 min Call"}</span>
-            </button>
-            <button
-              onClick={() => {
-                onClose();
-                const msg = encodeURIComponent(`¡Hola Fast Page Pro! Me interesa implementar un sistema similar al de *${project.title}*. ¿Podríamos coordinar una propuesta?`);
-                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
-              }}
-              className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 cursor-pointer"
-            >
-              <WhatsAppOfficialIcon size={18} />
-              <span>WhatsApp Directo</span>
-            </button>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <button
+                onClick={() => { onClose(); openCalendly(); }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-400 hover:bg-yellow-300 text-stone-950 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-[0_10px_35px_rgba(250,204,21,0.35)]"
+              >
+                <Video size={16} />
+                <span>{isEs ? "Agendar 15 min en Meet" : "Book 15 min Call"}</span>
+              </button>
+              <button
+                onClick={() => {
+                  onClose();
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! Me interesa implementar un sistema similar al de *${project.title}*. ¿Podríamos coordinar una propuesta?`);
+                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/25"
+              >
+                <WhatsAppOfficialIcon size={18} />
+                <span>WhatsApp Directo</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Sequential Case Study Navigator (Previous / Next) */}
+        {/* Sequential Case Study Navigator (Previous / Next — Sleek Open Cards) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
           {prevProject && (
             <button
-              onClick={() => {
-                if (onSelectProject) onSelectProject(prevProject);
-                window.scrollTo({ top: 0, behavior: 'instant' });
-              }}
-              className="group flex items-center gap-4 p-4 sm:p-5 rounded-2xl bg-stone-900/60 hover:bg-stone-900 border border-white/10 hover:border-yellow-400/40 text-left transition-all cursor-pointer"
+              onClick={() => handleSelectCase(prevProject)}
+              className="group flex items-center gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-left transition-all cursor-pointer"
             >
               <div className="w-11 h-11 rounded-xl bg-white/5 group-hover:bg-yellow-400/10 text-stone-400 group-hover:text-yellow-400 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-yellow-400/30 transition-all">
                 <ChevronLeft size={20} />
@@ -5101,11 +5483,8 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           )}
           {nextProject && (
             <button
-              onClick={() => {
-                if (onSelectProject) onSelectProject(nextProject);
-                window.scrollTo({ top: 0, behavior: 'instant' });
-              }}
-              className="group flex items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-stone-900/60 hover:bg-stone-900 border border-white/10 hover:border-yellow-400/40 text-right transition-all cursor-pointer"
+              onClick={() => handleSelectCase(nextProject)}
+              className="group flex items-center justify-between gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-right transition-all cursor-pointer"
             >
               <div className="min-w-0 flex-1">
                 <span className="text-[11px] uppercase tracking-wider text-stone-400 block mb-0.5 font-semibold">
@@ -5126,12 +5505,12 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
         {/* Proyectos Recomendados del Mismo Rubro */}
         {relatedProjects.length > 0 && (
           <div>
-            <div className="mb-6">
-              <span className="text-xs font-bold uppercase tracking-widest text-yellow-400 block mb-1">
+            <div className="mb-8">
+              <span className="text-xs font-mono uppercase tracking-widest text-yellow-400 block mb-2">
                 {isEs ? "Casos de Éxito Relacionados" : "Related Case Studies"}
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white">
-                {isEs ? "Proyectos Recomendados del Mismo Rubro" : "Recommended Projects in this Industry"}
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                {isEs ? "Proyectos Recomendados en este Rubro" : "Recommended Projects in this Industry"}
               </h3>
             </div>
 
@@ -5142,10 +5521,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                   project={rel}
                   language={language}
                   index={idx}
-                  onClick={() => {
-                    if (onSelectProject) onSelectProject(rel);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
+                  onClick={() => handleSelectCase(rel)}
                 />
               ))}
             </div>
@@ -5550,6 +5926,16 @@ export default function App() {
   const closePortfolioModal = useCallback(() => {
     setSelectedProject(null);
     try { history.pushState(null, '', '/portafolio'); } catch {}
+  }, []);
+
+  // Select project from modal with stable callback
+  const handleSelectProjectFromModal = useCallback((nextProject) => {
+    if (!nextProject) return;
+    setSelectedProject(nextProject);
+    const slug = PORTFOLIO_SLUGS[nextProject.title];
+    if (slug) {
+      try { history.pushState(null, '', `/portafolio/${slug}`); } catch {}
+    }
   }, []);
 
   // Open project from slug
@@ -6708,13 +7094,7 @@ export default function App() {
             project={selectedProject}
             language={language}
             onClose={closePortfolioModal}
-            onSelectProject={(nextProject) => {
-              setSelectedProject(nextProject);
-              const slug = PORTFOLIO_SLUGS[nextProject.title];
-              if (slug) {
-                try { history.pushState(null, '', `/portafolio/${slug}`); } catch {}
-              }
-            }}
+            onSelectProject={handleSelectProjectFromModal}
           />
         )}
       </AnimatePresence>
