@@ -43,6 +43,7 @@ export const PORTFOLIO_BY_LANG = {
     // - Rainforest Wild (rainforest-wild)
     // - Gudstor Pack (gudstor-pack)
     // - Peru Travel Receptivo (peru-travel)
+    // - Impulso Fiscal (impulso-fiscal)
     // =========================================================================
 
     // --- 1. VUELO 78 HOTEL TARAPOTO ---
@@ -462,7 +463,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/academia-el-profe.webp",
       modalImage: "/images/03-portafolio/AcademiaElProfe.webp",
       modalMobileImage: "/images/03-portafolio/AcademiaElProfe.webp",
-      link: "https://academiaelprofe.com"
+      link: "https://www.academiaelprofeoficial.com/"
     },
 
     // --- 18. BREICORP ---
@@ -497,7 +498,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/breicorp.webp",
       modalImage: "/images/03-portafolio/Breicorp-hero.png",
       modalMobileImage: "/images/03-portafolio/Breicorp.webp",
-      link: "https://breicorp.pe"
+      link: "https://breicorp.com.pe/"
     },
 
     // --- 19. MANDICORP ---
@@ -567,7 +568,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/editorial-horizonte.webp",
       modalImage: "/images/03-portafolio/EditorialHorizonte-hero.png",
       modalMobileImage: "/images/03-portafolio/EditorialHorizonte-mobile.webp",
-      link: "https://editorial-horizonte.vercel.app"
+      link: "https://editorial-horizonte-five.vercel.app/"
     },
 
     // --- 21. AMC SOLUCIONES PERÚ ---
@@ -602,7 +603,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/amc-soluciones-peru.webp",
       modalImage: "/images/03-portafolio/AMCSoluciones-hero.png",
       modalMobileImage: "/images/03-portafolio/AMCSoluciones.webp",
-      link: "https://amcsoluciones.pe"
+      link: "https://www.amcsolucionesperu.com/"
     },
 
     // --- 22. ITOOLS PERÚ ---
@@ -637,45 +638,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/itools-peru.webp",
       modalImage: "/images/03-portafolio/iTools-modal.webp",
       modalMobileImage: "/images/03-portafolio/iTools-mobile.webp",
-      link: "https://i-tools-steel.vercel.app"
+      link: "https://i-tools-steel.vercel.app/"
     },
 
-    // --- 23. IMPULSO FISCAL ---
-    {
-      title: "Impulso Fiscal",
-      slug: "impulso-fiscal",
-      clientName: "Impulso Fiscal Consultores",
-      location: "San Isidro, Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      industry: "legal",
-      industryLabel: "Consultoría Tributaria, SUNAT & Boletín Semana Fiscal",
-      architectureLevel: "Nivel 2: Portal Tributario con Boletín & Auditoría Preventiva",
-      techStack: ["Next.js 15", "Blog Jurídico Semana Fiscal", "Descarga de Boletines PDF", "Tailwind CSS", "WhatsApp Asesoría SUNAT"],
-      highlights: "Portal de planeamiento fiscal y auditoría preventiva con publicación del boletín 'Semana Fiscal', logrando un aumento del 165% en consultas de empresas fiscalizadas.",
-      challenge: "Directores financieros y gerentes de empresas medianas necesitaban interpretación ágil de los cambios tributarios de SUNAT y un canal de respuesta inmediata ante fiscalizaciones.",
-      solution: "Plataforma institucional de análisis normativo con suscripción digital a 'Semana Fiscal', diagnóstico preliminar de contingencias y enlace directo con tributaristas senior.",
-      description: "Firma especializada en consultoría tributaria, contabilidad estratégica y defensa ante fiscalizaciones de SUNAT. Sección de artículos periódicos y contacto directo con tributaristas.",
-      architectureSummary: "Next.js 15 con generación estática de artículos legales para indexación preferente en Google ante consultas sobre resoluciones del Tribunal Fiscal y decretos tributarios.",
-      keyDeliverables: [
-        "Boletín periódico 'Semana Fiscal' con análisis de casos y jurisprudencia",
-        "Módulo de solicitud de auditoría preventiva y diagnóstico tributario",
-        "Áreas de especialidad: Planeamiento tributario, Precios de transferencia y Laboral",
-        "Canal confidencial de WhatsApp directo con abogados tributaristas"
-      ],
-      metrics: [
-        { label: "Consultas B2B", value: "+165%", note: "Empresas en proceso de revisión SUNAT" },
-        { label: "Lectores Boletín", value: "2,800+/mes", note: "Directores de finanzas y contadores" },
-        { label: "SEO Tributario", value: "Top 3", note: "Búsquedas de resoluciones del Tribunal" },
-        { label: "Velocidad Carga", value: "0.49s", note: "Lectura instantánea de artículos" }
-      ],
-      image: "/images/03-portafolio/framed/impulso-fiscal.webp",
-      modalImage: "/images/03-portafolio/ImpulsoFiscal.webp",
-      modalMobileImage: "/images/03-portafolio/ImpulsoFiscal.webp",
-      link: "https://impulsofiscal.com"
-    },
-
-    // --- 24. MEDINA ALMONTE FIRMA LEGAL ---
+    // --- 23. MEDINA ALMONTE FIRMA LEGAL ---
     {
       title: "Medina Almonte - Lawyers Firm",
       slug: "medina-almonte-firma-legal",
@@ -707,10 +673,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/medina-almonte-firma-legal.webp",
       modalImage: "/images/03-portafolio/MedinaAlmonte-desktop.webp",
       modalMobileImage: "/images/03-portafolio/MedinaAlmonte-mobile.webp",
-      link: "https://medinaalmonte.com"
+      link: "https://www.medinaalmontelawyers.com/"
     },
 
-    // --- 25. FEMAR LOGISTICS SAC ---
+    // --- 24. FEMAR LOGISTICS SAC ---
     {
       title: "Femar Logistics SAC",
       slug: "femar-logistics",
@@ -777,7 +743,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/hotel-puno-terra.webp",
       modalImage: "/images/03-portafolio/HotelPunoTerra-modal.webp",
       modalMobileImage: "/images/03-portafolio/HotelPunoTerra-mobile.webp",
-      link: "https://hotelpunoterra.com"
+      link: "https://www.punoterra.com/"
     },
 
     // --- 27. PERU TRAVEL EXPERTS ---
@@ -847,7 +813,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/creditos-yadiel.webp",
       modalImage: "/images/03-portafolio/CreditosYadiel-prestamos.png",
       modalMobileImage: "/images/03-portafolio/CreditosYadiel.webp",
-      link: "https://creditosyadiel.com"
+      link: "https://creditosyadiel.vercel.app/#inicio"
     },
 
     // --- 29. ROMA & ABOGADOS ---
@@ -917,7 +883,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/importaciones-usa-peru.webp",
       modalImage: "/images/03-portafolio/ImportacionesEbay-modal.webp",
       modalMobileImage: "/images/03-portafolio/ImportacionesEbay-mobile.webp",
-      link: "https://importaciones-usa-peru.vercel.app"
+      link: "https://importaciones-pro-business.vercel.app/login"
     },
 
     // --- 31. E-COMMERCE BUILDER PRO ---
