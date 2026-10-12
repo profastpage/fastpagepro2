@@ -170,17 +170,19 @@ const getWhatsAppLink = (contexto, extra = {}) => {
   }
 
   const mensajes = {
-    servicios: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero *cotizar mi proyecto web* 🚀\n\n- *Tipo de proyecto:* Por definir\n- *Necesito:* Web profesional / Tienda online / App\n- *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta.`,
+    servicios: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero *cotizar mi proyecto o sistema web* 🚀\n\n- *Modalidad de interés:* ${extra.modalidad || "Por definir (Base del portafolio con descuento / Proyecto desde cero / Sistema con Base de Datos)"}\n- *Objetivo:* Optimizar y escalar mi negocio\n\nQuedo atento a su asesoría.`,
 
-    portafolio: `*¡Hola! Vi su proyecto ${extra.nombre || ""}* ⚡\n\nMe gustaría implementar un sistema similar para mi negocio.\n\n- *Interés:* Reservas por WhatsApp / Diseño de alto impacto\n- *Sector:* ${extra.sector || "Por definir"}\n\n¿Podrían brindarme más información?`,
+    portafolio: `*¡Hola, Fast Page Pro!* ⚡\n\nMe gustó su proyecto *${extra.nombre || ""}* del portafolio y quiero implementarlo en mi negocio.\n\n- *Beneficio solicitado:* Tarifa preferencial + Descuento especial para próximo desarrollo\n- *Rubro:* ${extra.sector || "Por definir"}\n\n¿Me brindan los detalles y cotización?`,
 
-    precios: `*¡Hola! Estoy listo para empezar* 🚀\n\nQuiero contratar el *Plan ${extra.plan || "Pro"}*.\n\n- *Servicio:* Diseño Web Pro\n- *Tiempo estimado:* Según alcance del proyecto\n\n¿Cuáles son los siguientes pasos? ✅`,
+    precios: `*¡Hola, Fast Page Pro!* 🚀\n\nQuiero consultar la cotización del *Plan ${extra.plan || "PRO"}*.\n\n- *Modalidad:* ${extra.modalidad || "A consultar según requerimientos de mi negocio"}\n- *Beneficio:* Información sobre descuento por arquitectura preconstruida o desarrollo a medida\n\n¿Podemos conversar sobre mi proyecto? ✅`,
+
+    sistema_bd: `*¡Hola, Fast Page Pro!* 🗄️🚀\n\nNecesito cotizar un *Sistema a Medida con Base de Datos* para mi negocio.\n\n- *Objetivo:* Optimizar y automatizar procesos operativos\n- *Requerimiento:* Sistema funcional personalizado${extra.proyecto ? ` (inspirado en ${extra.proyecto})` : ""}\n\nQuedo atento para evaluar mi requerimiento.`,
 
     proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀\n\nHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.\n\n- *Nombre:* ${extra.nombre || "Por completar"}\n- *Negocio:* ${extra.negocio || "Por definir"}\n\n¿Tienen disponibilidad esta semana? 📅`,
 
-    contacto: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información sobre sus servicios.\n\n- *Consulta general*\n\nQuedo atento a su respuesta.`,
+    contacto: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero cotizar una solución para mi negocio:\n\n1️⃣ Adaptar una página/sistema preconstruido (con descuento especial)\n2️⃣ Proyecto totalmente nuevo a personalización\n3️⃣ Sistema a medida con Base de Datos para automatizar procesos\n\nQuedo atento a su respuesta.`,
 
-    default: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n- *Tipo de negocio:* Por definir\n\nQuedo atento.`
+    default: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información y cotización sobre *páginas web, tiendas online y sistemas a medida con bases de datos*.\n\nQuedo atento a su respuesta.`
   };
 
   const texto = mensajes[contexto] || mensajes.default;
@@ -256,66 +258,72 @@ const PLANS_BY_LANG = {
   es: [
     {
       name: "START",
-      price: "900",
-      period: "pago único",
+      subtitle: "Base Preconstruida / Web Express",
+      price: "",
+      priceLabel: "A Consultar",
+      period: "🔥 Descuento especial si eliges una web del portafolio",
+      waModalidad: "Adaptar página preconstruida del portafolio (con descuento especial) o Web Corporativa Start",
       features: [
-        "Web completa de hasta 5 subpáginas",
-        "5 correos corporativos incluidos",
-        "Certificado SSL seguro",
-        "Hosting ultra rápido Edge",
-        "Dominio incluido",
-        "Sistema de Reservas o Pedidos por WhatsApp",
-        "Diseño Responsivo (Móvil, PC, Tablet)"
+        "Adaptación de página preconstruida del portafolio o web hasta 5 secciones",
+        "🎁 Descuento especial garantizado en tu próximo desarrollo",
+        "5 correos corporativos + Dominio y Certificado SSL",
+        "Hosting ultra rápido Edge de carga en < 0.6s",
+        "Sistema de Reservas o Pedidos directos a WhatsApp",
+        "Diseño 100% Responsivo (Móvil, PC, Tablet)"
       ],
       highlight: false
     },
     {
       name: "PRO",
-      price: "1300",
-      period: "pago único",
+      subtitle: "Web Autoadministrable / Catálogo Pro",
+      price: "",
+      priceLabel: "A Cotizar",
+      period: "🎁 Incluye descuento especial para tu próximo desarrollo",
+      waModalidad: "Plan PRO (Web Autoadministrable / Tienda o Proyecto Personalizado)",
       features: [
-        "Todo lo del Plan START",
-        "Panel CMS autoadministrable incluido",
-        "100 GB almacenamiento alta velocidad",
-        "Edición visual intuitiva",
-        "Capacitaciones incluidas",
-        "SEO Intermedio Optimizado",
-        "Diseño Premium Personalizado",
-        "Funciones avanzadas",
-        "Tienda online con pagos integrados (Yape, Plin, tarjetas)"
+        "Todo lo del Plan START + Personalización a tu marca",
+        "🎁 Beneficio de descuento exclusivo en tu siguiente fase o módulo",
+        "Panel CMS autoadministrable intuitivo con capacitación",
+        "100 GB almacenamiento de alta velocidad",
+        "SEO Optimizado para posicionar en Google y Google Maps",
+        "Tienda online o catálogo con pagos (Yape, Plin, Tarjetas)",
+        "Funciones comerciales avanzadas para tu rubro"
       ],
       highlight: true
     },
     {
       name: "BUSINESS",
-      price: "1800",
-      period: "pago único",
+      subtitle: "E-Commerce Pro + App PWA",
+      price: "",
+      priceLabel: "A Cotizar",
+      period: "⚡ Escala comercial + Beneficio en siguientes desarrollos",
+      waModalidad: "Plan BUSINESS (E-Commerce Completo + App PWA + Super Admin)",
       features: [
-        "Todo lo del Plan PRO",
-        "App PWA instalable en todos los dispositivos",
-        "Modo claro y oscuro",
-        "Panel Super Administración",
-        "Soporte Inmediato 24/7",
-        "SEO Profesional Máximo",
-        "Optimización 95%+ PageSpeed",
-        "Pagos: Yape, Plin, tarjetas crédito/débito",
-        "Tienda online completa con pasarela de pagos"
+        "Todo lo del Plan PRO + Arquitectura de alta conversión",
+        "🎁 Descuento preferencial en tu próximo sistema o expansión",
+        "App PWA instalable en todos los celulares y PC",
+        "Panel Super Administración para control total",
+        "Pasarela de pagos completa (Yape, Plin, Tarjetas crédito/débito)",
+        "SEO Profesional Máximo + Optimización 95%+ PageSpeed",
+        "Modo claro y oscuro + Soporte Prioritario 24/7"
       ],
       highlight: false
     },
     {
       name: "PERSONALIZADO",
+      subtitle: "Sistemas a Medida & Bases de Datos",
       price: "",
-      period: "Cotizar",
+      priceLabel: "A Medida",
+      period: "🗄️ Sistemas funcionales con Bases de Datos y Automatización",
+      waModalidad: "Sistema a Medida con Base de Datos / Proyecto Nuevo desde Cero",
       features: [
-        "Sistemas personalizados a medida",
-        "Aplicaciones web y móviles",
-        "CRMs y ERPs custom",
-        "Agentes de Inteligencia Artificial",
-        "Plataformas SaaS multi-tenant",
-        "Integraciones y APIs",
-        "Automatización inteligente",
-        "Escalabilidad total"
+        "Sistemas a medida con Bases de Datos relacionales (PostgreSQL / Cloud)",
+        "Optimización y automatización de procesos operativos de tu negocio",
+        "Proyectos 100% nuevos cotizados a personalización según requerimiento",
+        "CRMs, ERPs, Inventarios, Citas, Cotizadores y Facturación",
+        "Plataformas SaaS multi-tenant con roles de usuario",
+        "Agentes de Inteligencia Artificial e integraciones API",
+        "Escalabilidad total para empresas en crecimiento"
       ],
       highlight: false,
       custom: true
@@ -324,66 +332,72 @@ const PLANS_BY_LANG = {
   en: [
     {
       name: "START",
-      price: "900",
-      period: "one-time payment",
+      subtitle: "Pre-Built Base / Express Web",
+      price: "",
+      priceLabel: "Request Quote",
+      period: "🔥 Special discount when choosing a pre-built portfolio base",
+      waModalidad: "Adapt pre-built portfolio template (with special discount) or Start Website",
       features: [
-        "Complete website up to 5 subpages",
-        "5 corporate emails included",
-        "Secure SSL Certificate",
-        "Ultra-fast Edge Hosting",
-        "Domain included",
+        "Adapt a pre-built portfolio architecture or website up to 5 sections",
+        "🎁 Guaranteed special discount on your next development",
+        "5 corporate emails + Domain & SSL Certificate included",
+        "Ultra-fast Edge Hosting (< 0.6s load time)",
         "Direct Booking or Orders via WhatsApp",
-        "Responsive Design (Mobile, PC, Tablet)"
+        "100% Responsive Design (Mobile, PC, Tablet)"
       ],
       highlight: false
     },
     {
       name: "PRO",
-      price: "1300",
-      period: "one-time payment",
+      subtitle: "Self-Managed Web / Pro Store",
+      price: "",
+      priceLabel: "Custom Quote",
+      period: "🎁 Includes special discount for your next development",
+      waModalidad: "PRO Plan (Self-Managed CMS / Online Store)",
       features: [
-        "Everything in START",
-        "Self-managed CMS panel included",
-        "100 GB high-speed storage",
-        "Intuitive visual editing",
-        "Training sessions included",
-        "Optimized Intermediate SEO",
-        "Premium Custom Design",
-        "Advanced features",
-        "Online store with integrated payments (Yape, Plin, cards)"
+        "Everything in START + Custom brand tailoring",
+        "🎁 Exclusive discount benefit for future modules or phases",
+        "Intuitive self-managed CMS panel with training included",
+        "100 GB high-speed cloud storage",
+        "Optimized SEO for Google Search & Local Maps",
+        "Online store or catalog with integrated payments",
+        "Advanced commercial features tailored to your industry"
       ],
       highlight: true
     },
     {
       name: "BUSINESS",
-      price: "1800",
-      period: "one-time payment",
+      subtitle: "Full E-Commerce + PWA App",
+      price: "",
+      priceLabel: "Custom Quote",
+      period: "⚡ Business scale + Next-development discount benefit",
+      waModalidad: "BUSINESS Plan (Full E-Commerce + PWA + Super Admin)",
       features: [
-        "Everything in PRO",
-        "Installable PWA app on all devices",
-        "Light and dark mode",
-        "Super Admin Panel",
-        "Immediate 24/7 Support",
-        "Maximum Professional SEO",
-        "95%+ PageSpeed Optimization",
-        "Payments: Yape, Plin, credit/debit cards",
-        "Full online store with payment gateway"
+        "Everything in PRO + High-conversion architecture",
+        "🎁 Preferential discount on your next system or expansion",
+        "Installable PWA app across all mobile & desktop devices",
+        "Super Admin Panel for complete business control",
+        "Full payment gateway integration (Cards, Wallets, Transfers)",
+        "Maximum Professional SEO + 95%+ PageSpeed Optimization",
+        "Light/Dark mode + Immediate 24/7 Priority Support"
       ],
       highlight: false
     },
     {
       name: "CUSTOM",
+      subtitle: "Bespoke Systems & Databases",
       price: "",
-      period: "Get Quote",
+      priceLabel: "Bespoke Quote",
+      period: "🗄️ Functional Database Systems & Business Automation",
+      waModalidad: "Custom System with Database / Brand-New Bespoke Project",
       features: [
-        "Custom-built systems",
-        "Web and mobile applications",
-        "Custom CRMs and ERPs",
-        "AI Agents",
-        "Multi-tenant SaaS platforms",
-        "Integrations and APIs",
-        "Intelligent automation",
-        "Total scalability"
+        "Custom-built systems with relational Databases (PostgreSQL / Cloud)",
+        "Optimization & automation of your core business processes",
+        "100% new projects quoted to your exact custom requirements",
+        "Custom CRMs, ERPs, Inventory, Scheduling & Billing systems",
+        "Multi-tenant SaaS platforms with role-based access",
+        "AI Agents, webhooks & external API integrations",
+        "Total enterprise scalability"
       ],
       highlight: false,
       custom: true
@@ -454,17 +468,18 @@ const COPY = {
     testimonialsSubtitle: "Negocios que ya están generando clientes con este sistema",
     testimonialsBadge: "Testimonios",
     pricingTitle: "Invierte una vez. Vende todos los días.",
-    pricingSubtitle: "Un sistema que sigue generando clientes incluso cuando no estás",
+    pricingSubtitle: "Elige una arquitectura preconstruida con descuento especial, un proyecto desde cero o un sistema a medida con base de datos",
     popularTag: "Más Popular",
-    selectPlan: "Seleccionar Plan",
+    selectPlan: "Consultar en WhatsApp",
     faqTitle: "Preguntas Frecuentes",
     faqSubtitle: "Transparencia total antes de empezar",
     faq: [
-      { q: "¿Necesito conocimientos técnicos?", a: "Absolutamente no. Nos encargamos de toda la infraestructura técnica, diseño y configuración." },
-      { q: "¿Puedo actualizar el contenido?", a: "Sí. Tendrás acceso a un panel intuitivo para gestionar tus fotos y textos." },
-      { q: "¿Existe permanencia mínima?", a: "No. Creemos en la calidad de nuestro servicio, por lo que no atamos a nuestros clientes con contratos forzosos." },
-      { q: "¿Incluyen dominio y hosting?", a: "Sí. Podemos gestionar dominio, hosting y SSL para que tu web salga lista para vender desde el día 1." },
-      { q: "¿En cuánto tiempo estará lista mi web?", a: "Depende del proyecto, pero en promedio entre 7 y 15 días hábiles con revisiones incluidas." }
+      { q: "¿Qué beneficio obtengo si elijo una página o sistema ya preconstruido?", a: "Si eliges alguna de nuestras páginas o sistemas ya preconstruidos del portafolio para tu negocio, accedes a una tarifa preferencial de despliegue rápido y obtienes un descuento especial garantizado por tu próximo desarrollo." },
+      { q: "¿Cómo cotizan un proyecto totalmente nuevo o un sistema con base de datos?", a: "Si es un proyecto totalmente nuevo se cotiza a personalización dependiendo de lo que requieras. Además, creamos sistemas a medida con bases de datos para negocios totalmente funcionales, optimizando y automatizando los procesos de tu empresa." },
+      { q: "¿Necesito conocimientos técnicos?", a: "Absolutamente no. Nos encargamos de toda la infraestructura técnica, base de datos, diseño y configuración." },
+      { q: "¿Puedo actualizar el contenido y administrar mi sistema?", a: "Sí. Tendrás acceso a un panel intuitivo autoadministrable con capacitación incluida para gestionar tu negocio." },
+      { q: "¿Existe permanencia mínima o comisiones?", a: "No. Cero comisiones por tus ventas y sin contratos forzosos." },
+      { q: "¿En cuánto tiempo estará listo mi proyecto?", a: "Si eliges una base preconstruida puede estar lista en pocos días; los proyectos y sistemas a medida toman en promedio entre 7 y 15 días hábiles según el alcance." }
     ],
     finalTitle: "Empieza a recibir clientes hoy",
     finalSubtitle: "Tus clientes ya están buscando. Solo necesitas el sistema correcto para convertirlos.",
@@ -495,7 +510,7 @@ const COPY = {
       defineLater: "Por definir",
       meetingNote: "Al confirmar abriremos Google Calendar con tus datos. Pulsa 'Guardar' para crear el evento y generar tu enlace de Meet automáticamente.",
       saveLeadError: "No se pudo registrar el lead automático. Igual abriremos WhatsApp.",
-      waDirect: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo.`,
+      waDirect: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs, páginas preconstruidas con descuento y sistemas a medida con bases de datos*.\n\n${WA_EMOJI.check} *Objetivo:* Cotizar mi proyecto.`,
       waMeet: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero agendar una *reunión por Google Meet*.\n\n${WA_EMOJI.user} *Usuario:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Fecha y hora:* {{dateTime}}\n\nQuedo atento a su confirmación.`,
       waCall: `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero agendar una *llamada telefónica*.\n\n${WA_EMOJI.user} *Usuario:* {{user}}{{contact}}\n${WA_EMOJI.calendar} *Fecha y hora preferente:* {{dateTime}}\n\nQuedo atento a su llamada.`
     }
@@ -562,17 +577,18 @@ const COPY = {
     testimonialsSubtitle: "Businesses already generating customers with this system",
     testimonialsBadge: "Testimonials",
     pricingTitle: "Invest once. Sell every day.",
-    pricingSubtitle: "A system that keeps generating customers even when you're not around",
+    pricingSubtitle: "Choose a pre-built portfolio base with a special discount, a brand-new custom project, or a bespoke database system",
     popularTag: "Most Popular",
-    selectPlan: "Select Plan",
+    selectPlan: "Ask on WhatsApp",
     faqTitle: "Frequently Asked Questions",
     faqSubtitle: "Full transparency before we start",
     faq: [
-      { q: "Do I need technical knowledge?", a: "Absolutely not. We handle all infrastructure, design, and setup." },
-      { q: "Can I update my content?", a: "Yes. You will get access to an intuitive panel to manage photos and text." },
-      { q: "Is there a minimum contract?", a: "No. We believe in service quality, so we do not lock clients into forced contracts." },
-      { q: "Do you include domain and hosting?", a: "Yes. We can handle domain, hosting and SSL so your site launches ready to sell." },
-      { q: "How long does delivery take?", a: "Depending on the scope, most projects are delivered in 7 to 15 business days including revisions." }
+      { q: "What benefit do I get if I choose a pre-built page or system?", a: "If you choose any of our pre-built portfolio pages or systems for your business, you unlock preferential fast-track pricing plus a guaranteed special discount on your next development." },
+      { q: "How do you quote brand-new projects or custom database systems?", a: "Brand-new projects are quoted to customization depending on your exact needs. We also build fully functional bespoke database systems to optimize and automate your business processes." },
+      { q: "Do I need technical knowledge?", a: "Absolutely not. We handle all infrastructure, database setup, design, and deployment." },
+      { q: "Can I update my content and manage my system?", a: "Yes. You will get access to an intuitive self-managed admin panel with training included." },
+      { q: "Is there a minimum contract or commission?", a: "No. Zero sales commissions and no forced contracts." },
+      { q: "How long does delivery take?", a: "Pre-built architectures can be ready in just a few days; custom projects and database systems take 7 to 15 business days depending on scope." }
     ],
     finalTitle: "Start getting customers today",
     finalSubtitle: "Your customers are already searching. You just need the right system to convert them.",
@@ -3287,11 +3303,11 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
   };
 
   return (
-    <div className="min-h-screen relative" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
+    <div className="min-h-screen w-full max-w-[100vw] overflow-x-hidden relative" style={{ backgroundColor: 'var(--bg-global)', transition: 'background-color 0.5s ease' }}>
       {/* Section Title + Filters — No Hero */}
       <div className="pt-28 pb-4 md:pt-32 md:pb-6 px-4">
         <div className="container mx-auto">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5 md:mb-6">
             <div>
               <SectionTitle title={copy.portfolioTitle} subtitle={copy.portfolioSubtitle} compact />
             </div>
@@ -3304,6 +3320,18 @@ const FullPortfolioPage = ({ copy, projects, language, onBack, onProjectClick })
               <Briefcase size={15} />
               {projects.length} {language === 'es' ? 'proyectos' : 'projects'}
             </motion.div>
+          </div>
+
+          {/* Beneficio Comercial en Portafolio */}
+          <div className="max-w-4xl mx-auto mb-6 px-4 py-3 rounded-2xl bg-stone-900/90 border border-yellow-400/25 text-center">
+            <p className="text-xs sm:text-sm text-stone-200 leading-relaxed">
+              <span className="text-yellow-400 font-bold">
+                {language === 'es' ? '🎁 Beneficio Exclusivo:' : '🎁 Exclusive Benefit:'}
+              </span>{' '}
+              {language === 'es'
+                ? 'Si eliges alguna de nuestras páginas o sistemas ya preconstruidos para tu negocio, obtienes un descuento especial por próximo desarrollo. También cotizamos proyectos totalmente nuevos a personalización y sistemas a medida con bases de datos.'
+                : 'Choose any pre-built page or system from our portfolio and get a special discount on your next development. We also quote brand-new custom projects and bespoke database systems.'}
+            </p>
           </div>
 
           {/* Interactive Search Bar */}
@@ -4002,17 +4030,17 @@ const queryFastPageAI = (rawQuery, language = 'es') => {
     };
   }
 
-  // 2. PRICING, COSTS & CUSTOM PROPOSAL POLICY BY COUNTRY (PERU VS USA)
+  // 2. PRICING, COSTS, PRE-BUILT DISCOUNT & CUSTOM DATABASE SYSTEMS
   if (
-    has('precio', 'precios', 'costo', 'costos', 'cuanto cobra', 'cuanto cobran', 'cuanto cuesta', 'tarifa', 'tarifas', 'plan', 'planes', 'presupuesto', 'cotizar', 'cotizacion', 'caro', 'barato', 'pago', 'pagos', 'cuotas', 'cuanto sale', 'valor', 'cobran')
+    has('precio', 'precios', 'costo', 'costos', 'cuanto cobra', 'cuanto cobran', 'cuanto cuesta', 'tarifa', 'tarifas', 'plan', 'planes', 'presupuesto', 'cotizar', 'cotizacion', 'caro', 'barato', 'pago', 'pagos', 'cuotas', 'cuanto sale', 'valor', 'cobran', 'descuento', 'preconstruida', 'preconstruido', 'plantilla', 'base de datos', 'bases de datos', 'sistema a medida')
   ) {
     return {
       text: isEs
-        ? "💼 **Propuesta y Precios Personalizados según País y Negocio**\n\nEn **FastPagePro** no cobramos precios genéricos cerrados al azar, ya que cada proyecto tiene requerimientos técnicos, objetivos y mercados completamente diferentes:\n\n🌎 **Estructura adaptada a cada mercado:**\n• 🇵🇪 **Para Clientes en Perú (PEN):** Cotización adaptada en Soles o USD, pasarelas de pago peruanas (**Yape, Plin, Niubiz, MercadoPago, BCP/BBVA**) y emisión de factura electrónica SUNAT con crédito fiscal (RUC 20 / RUC 10).\n• 🇺🇸 **Para Clientes en Estados Unidos (Habla Hispana y Bilingüe - USD):** Propuestas en USD con arquitectura bilingüe (Inglés/Español), optimización de SEO local en Google Maps para tu ciudad o estado, métodos de pago norteamericanos (**Zelle, Stripe, transferencias bancarias**) y facturas formales deducibles de impuestos (**W-9**).\n• 🌎 **Para otros países de LATAM (México, Colombia, Chile, etc.):** Cotizaciones en USD con métodos internacionales seguros.\n\n🛡️ **Modalidad de Trabajo Seria y Segura:**\nTrabajamos por hitos: **50% al iniciar y 50% contra entrega final** tras tu completa satisfacción. Cero mensualidades forzadas ni comisiones por ventas.\n\n📌 **¿Por qué es recomendable agendar una videollamada de 15 minutos?**\n**¡Es el estándar más profesional!** No te damos un precio a ciegas porque una landing de conversión rápida requiere una arquitectura distinta a una plataforma con reservas o conexión a ERP. En una **breve llamada de 15 min en Google Meet** evaluamos tus requerimientos y te entregamos una propuesta seria, transparente y con plazos garantizados."
-        : "💼 **Custom Tailored Pricing by Country and Business Scope**\n\nAt **FastPagePro**, we do not provide rigid generic price tags because every project requires distinct engineering tailored to your market:\n\n• 🇵🇪 **Peru & LATAM:** Scoped in Soles (PEN) or USD with local payment gateways (Yape, Plin, Niubiz) and full SUNAT tax compliance.\n• 🇺🇸 **US Clients:** USD scoping with bilingual English/Spanish copywriting, local Google Maps SEO, and compliant payment methods (Zelle, Stripe, Wire) with W-9 invoices.\n• 🛡️ **Milestone Guarantee:** 50% upfront, 50% upon final delivery & complete satisfaction.\n\n📌 **Why schedule a 15-minute call?**\nGiving a blind quote is unprofessional. In a quick **15-minute Google Meet call**, our lead architect evaluates your exact needs and delivers a formal, transparent proposal with guaranteed timelines.",
+        ? "💼 **3 Modalidades de Desarrollo & Cotización Personalizada**\n\nEn **FastPagePro** cotizamos cada solución según lo que tu negocio necesita para generar resultados reales:\n\n1️⃣ **Páginas y Sistemas Preconstruidos (Con Descuento Especial):**\nSi eliges alguna de nuestras páginas o sistemas ya preconstruidos del portafolio para tu negocio, accedes a una tarifa preferencial de despliegue rápido y un **descuento especial garantizado por tu próximo desarrollo**.\n\n2️⃣ **Proyecto Totalmente Nuevo (A Personalización):**\nSi es un proyecto 100% nuevo desde cero, se cotiza a personalización dependiendo de las funciones, diseño exclusivo y alcance que requieras.\n\n3️⃣ **Sistemas a Medida con Bases de Datos:**\nCreamos sistemas empresariales a medida con **bases de datos totalmente funcionales** (ERPs, CRMs, inventarios, reservas, paneles administrativos), optimizando y automatizando los procesos de tu negocio.\n\n🌎 **Atención en Perú (PEN/USD), EE.UU. (USD) y LATAM:**\nTrabajamos por hitos (**50% al iniciar y 50% contra entrega final**). Escríbenos por **WhatsApp** o agenda **15 minutos en Google Meet** para darte tu cotización exacta."
+        : "💼 **3 Development Modalities & Tailored Quotes**\n\nAt **FastPagePro**, we scope every solution according to your business goals:\n\n1️⃣ **Pre-Built Pages & Systems (With Special Discount):**\nIf you choose any of our pre-built portfolio pages or systems for your business, you get preferential fast-track pricing plus a **special discount on your next development**.\n\n2️⃣ **Brand-New Project (Custom Quoted):**\nIf it is a completely new project built from scratch, it is quoted to customization depending on your exact requirements.\n\n3️⃣ **Bespoke Systems with Databases:**\nWe build fully functional custom systems with **relational databases** (ERPs, CRMs, inventory, booking, multi-role admin panels), optimizing and automating your business processes.\n\n🛡️ **Milestone Guarantee:** 50% upfront, 50% upon final delivery. Chat with us on **WhatsApp** or book a **15-minute Google Meet** call for your formal quote.",
       buttons: [
-        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' },
-        { text: isEs ? 'Cotizar por WhatsApp' : 'Quote via WhatsApp', action: 'whatsapp' }
+        { text: isEs ? 'Consultar en WhatsApp' : 'Ask on WhatsApp', action: 'whatsapp' },
+        { text: isEs ? 'Agendar 15 min en Google Meet' : 'Book 15 min Call', action: 'calendly' }
       ],
       followUps: isEs ? [
         "⚡ ¿Cuáles son los tiempos de entrega?",
@@ -5054,7 +5082,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[100] overflow-y-auto bg-stone-950 text-white selection:bg-yellow-400 selection:text-stone-950 [scrollbar-width:thin] [scrollbar-color:rgba(250,204,21,0.3)_rgba(15,15,15,0.9)]"
+      className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden overscroll-y-contain w-full max-w-[100vw] bg-stone-950 text-white selection:bg-yellow-400 selection:text-stone-950 [scrollbar-width:thin] [scrollbar-color:rgba(250,204,21,0.3)_rgba(15,15,15,0.9)]"
     >
       {/* Lightbox HD Overlay */}
       <AnimatePresence>
@@ -5087,21 +5115,21 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
         )}
       </AnimatePresence>
 
-      {/* Top Sticky Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-2 sm:gap-4">
+      {/* Top Sticky Navigation Bar — 100% Fit on Mobile (320px-430px) & Desktop */}
+      <header className="sticky top-0 z-40 w-full max-w-full overflow-hidden bg-stone-950/90 backdrop-blur-xl border-b border-white/10 px-3 sm:px-8 py-2.5 sm:py-3.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-4 min-w-0">
+          <div className="flex items-center gap-1.5 sm:gap-4 min-w-0 shrink-0">
             <button
               onClick={onClose}
-              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-white/5 hover:bg-white/15 text-stone-200 border border-white/10 transition-all cursor-pointer hover:scale-105 active:scale-95 shrink-0"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold bg-white/5 hover:bg-white/15 text-stone-200 border border-white/10 transition-all cursor-pointer hover:scale-105 active:scale-95 shrink-0"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={15} />
               <span className="hidden sm:inline">{isEs ? "Volver al Portafolio" : "Back to Portfolio"}</span>
               <span className="sm:hidden">{isEs ? "Volver" : "Back"}</span>
             </button>
 
             {/* Previous / Next Case study quick jump */}
-            <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
+            <div className="flex items-center gap-0.5 sm:gap-1 bg-white/5 rounded-full p-0.5 sm:p-1 border border-white/10 shrink-0">
               <button
                 onClick={() => handleSelectCase(prevProject)}
                 disabled={!prevProject}
@@ -5109,7 +5137,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                 className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
                 aria-label="Proyecto anterior"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={15} />
               </button>
               <span className="text-[10px] text-stone-400 font-mono px-1 select-none hidden md:inline">
                 {currentIndex + 1}/{allProjects.length}
@@ -5121,7 +5149,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                 className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-stone-300 hover:text-white hover:bg-white/15 transition-all disabled:opacity-30 cursor-pointer"
                 aria-label="Proyecto siguiente"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={15} />
               </button>
             </div>
 
@@ -5135,12 +5163,12 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             {/* Copiar Enlace Button */}
             <button
               onClick={copyCaseStudyLink}
               title={isEs ? "Copiar enlace permanente del caso de estudio" : "Copy permanent link"}
-              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer ${
+              className={`inline-flex items-center justify-center gap-1.5 w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-full text-xs font-semibold border transition-all cursor-pointer shrink-0 ${
                 copied
                   ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
                   : "bg-white/5 hover:bg-white/10 border-white/10 text-stone-300 hover:text-white"
@@ -5154,7 +5182,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
             <button
               onClick={shareViaWhatsApp}
               title={isEs ? "Compartir este caso por WhatsApp" : "Share via WhatsApp"}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-1.5 w-8 h-8 sm:w-auto sm:h-auto sm:px-3 sm:py-2 rounded-full text-xs font-semibold bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/30 text-[#25D366] transition-all cursor-pointer shrink-0"
             >
               <WhatsAppOfficialIcon size={14} className="fill-[#25D366]" />
               <span className="hidden md:inline">{isEs ? "Compartir" : "Share"}</span>
@@ -5169,61 +5197,62 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full font-bold text-xs sm:text-sm text-stone-950 transition-all shadow-[0_4px_20px_rgba(250,204,21,0.3)] hover:scale-105 active:scale-95 shrink-0"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-[11px] sm:text-sm text-stone-950 transition-all shadow-[0_4px_20px_rgba(250,204,21,0.3)] hover:scale-105 active:scale-95 shrink-0 whitespace-nowrap"
               style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)' }}
             >
-              <span>{isEs ? "Ver Proyecto Pro" : "View Pro Project"}</span>
-              <span className="text-sm">⚡</span>
-              <ExternalLink size={14} />
+              <span className="sm:hidden">{isEs ? "Ver en Vivo" : "Live Site"}</span>
+              <span className="hidden sm:inline">{isEs ? "Ver Proyecto Pro" : "View Pro Project"}</span>
+              <span className="text-xs sm:text-sm">⚡</span>
+              <ExternalLink size={12} className="sm:w-[14px] sm:h-[14px]" />
             </a>
           </div>
         </div>
       </header>
 
-      {/* Main Full-Width Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-10 md:py-16">
+      {/* Main Full-Width Content — Strictly Contained Vertically */}
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-8 py-8 sm:py-12 md:py-16 overflow-x-hidden">
         {/* Hero Section */}
-        <div className="mb-14">
+        <div className="mb-12 sm:mb-14">
           {/* Badges Row */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            <span className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide border ${getTypeBg(project.type)}`}>
+          <div className="flex flex-wrap items-center gap-2 mb-5 sm:mb-6">
+            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold tracking-wide border ${getTypeBg(project.type)}`}>
               {project.category}
             </span>
             {project.architectureLevel && (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-yellow-400/10 text-yellow-300 border border-yellow-400/25">
-                <Sparkles size={13} className="text-yellow-400" />
-                {project.architectureLevel}
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-2xl sm:rounded-full text-xs font-semibold bg-yellow-400/10 text-yellow-300 border border-yellow-400/25 max-w-full break-words leading-snug">
+                <Sparkles size={13} className="text-yellow-400 shrink-0" />
+                <span>{project.architectureLevel}</span>
               </span>
             )}
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs text-stone-400 bg-white/5 border border-white/10">
-              <MapPin size={13} className="text-yellow-400" />
-              {project.location}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs text-stone-400 bg-white/5 border border-white/10">
+              <MapPin size={13} className="text-yellow-400 shrink-0" />
+              <span>{project.location}</span>
             </span>
             {project.industryLabel && (
-              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs text-stone-300 bg-white/5 border border-white/10">
+              <span className="inline-flex items-center px-3 py-1.5 rounded-2xl sm:rounded-full text-xs text-stone-300 bg-white/5 border border-white/10 max-w-full break-words leading-snug">
                 {project.industryLabel}
               </span>
             )}
           </div>
 
           {/* Title & Description */}
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-8">
-            <div className="max-w-4xl">
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-tight mb-6">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8 mb-8">
+            <div className="max-w-4xl min-w-0">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] mb-4 sm:mb-6 break-words">
                 {project.title}
               </h1>
-              <p className="text-lg sm:text-xl text-stone-300 leading-relaxed font-light">
+              <p className="text-base sm:text-xl text-stone-300 leading-relaxed font-light break-words">
                 {project.description}
               </p>
             </div>
 
             {/* Quick Actions */}
-            <div className="flex flex-wrap gap-3 shrink-0">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 w-full lg:w-auto shrink-0">
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full font-bold text-stone-950 text-sm tracking-wide transition-all duration-300 shadow-[0_10px_35px_rgba(250,204,21,0.35)] hover:shadow-[0_15px_45px_rgba(250,204,21,0.55)] hover:scale-105 active:scale-95"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-full font-bold text-stone-950 text-sm tracking-wide transition-all duration-300 shadow-[0_10px_35px_rgba(250,204,21,0.35)] hover:shadow-[0_15px_45px_rgba(250,204,21,0.55)] hover:scale-105 active:scale-95"
                 style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)' }}
               >
                 <span>{liveLabel}</span>
@@ -5233,27 +5262,27 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
               <button
                 onClick={() => {
-                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! Vi el proyecto de *${project.title}* en su portafolio y me gustaría cotizar una solución similar para mi negocio.`);
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Vi el proyecto *${project.title}* en su portafolio y quiero elegir esta arquitectura preconstruida para mi negocio con el *Descuento Especial + Beneficio para próximo desarrollo*. ¿Me brindan la cotización?`);
                   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/20"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/20"
               >
-                <WhatsAppOfficialIcon size={18} />
-                <span>{isEs ? "Cotizar Sistema Similar" : "Quote Similar System"}</span>
+                <WhatsAppOfficialIcon size={18} className="shrink-0" />
+                <span>{isEs ? "Elegir Base (Con Descuento)" : "Choose Base (With Discount)"}</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Dual Responsive Mockup Showcase (Immersive Cinema Stage — No Box Bounds) */}
-        <div className="relative my-10 py-8 overflow-hidden">
+        <div className="relative my-8 sm:my-10 py-6 sm:py-8 overflow-hidden">
           {/* Ambient Lighting Background */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[500px] bg-yellow-500/10 rounded-full blur-[170px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[850px] h-[320px] sm:h-[500px] bg-yellow-500/10 rounded-full blur-[120px] sm:blur-[170px] pointer-events-none" />
 
-          <div className="text-center mb-8 relative z-10">
-            <span className="inline-flex items-center gap-1.5 text-xs text-stone-400 bg-white/[0.04] px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm">
-              <Maximize2 size={13} className="text-yellow-400" />
-              {tapLabel}
+          <div className="text-center mb-8 relative z-10 px-2">
+            <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs text-stone-400 bg-white/[0.04] px-3.5 sm:px-4 py-1.5 rounded-full border border-white/10 backdrop-blur-sm max-w-full">
+              <Maximize2 size={13} className="text-yellow-400 shrink-0" />
+              <span className="truncate">{tapLabel}</span>
             </span>
           </div>
 
@@ -5283,20 +5312,20 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
         </div>
 
         {/* Open-Air Performance Metrics Ribbon (Zero Box Backgrounds, Apple-Grade Impact) */}
-        <div className="py-12 border-y border-white/10 my-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+        <div className="py-10 sm:py-12 border-y border-white/10 my-12 sm:my-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-6">
             {activeMetrics.map((m, idx) => (
-              <div key={idx} className="flex flex-col items-start border-l border-white/10 pl-5">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-stone-400 mb-2">
+              <div key={idx} className="flex flex-col items-start border-l border-white/10 pl-3.5 sm:pl-5 min-w-0">
+                <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-widest text-stone-400 mb-1.5 sm:mb-2 break-words">
                   {m.label}
                 </span>
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r from-yellow-300 via-amber-200 to-yellow-500 bg-clip-text text-transparent tracking-tight">
+                <span className="text-2xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-r from-yellow-300 via-amber-200 to-yellow-500 bg-clip-text text-transparent tracking-tight break-words leading-tight">
                   {m.value}
                 </span>
                 {m.note && (
-                  <span className="text-xs text-stone-400 mt-2 font-mono flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    {m.note}
+                  <span className="text-[11px] sm:text-xs text-stone-400 mt-1.5 sm:mt-2 font-mono flex items-center gap-1.5 break-words">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                    <span>{m.note}</span>
                   </span>
                 )}
               </div>
@@ -5306,37 +5335,37 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
         {/* Editorial Split Narrative: El Desafío vs Solución de Ingeniería (Zero Colored Box Backgrounds) */}
         {(project.challenge || project.solution) && (
-          <div className="my-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="my-16 sm:my-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-start">
               {project.challenge && (
-                <div className="space-y-4">
+                <div className="space-y-4 min-w-0">
                   <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shrink-0" />
                     <span className="text-xs font-mono font-semibold uppercase tracking-widest text-red-400">
                       {isEs ? "01 / El Desafío Inicial" : "01 / The Initial Challenge"}
                     </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight break-words">
                     {isEs ? "Problemática y Fricción Previa" : "Business Problem & Bottlenecks"}
                   </h3>
-                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light break-words">
                     {project.challenge}
                   </p>
                 </div>
               )}
 
               {project.solution && (
-                <div className="space-y-4 lg:border-l lg:border-white/10 lg:pl-16">
+                <div className="space-y-4 lg:border-l lg:border-white/10 lg:pl-16 min-w-0">
                   <div className="flex items-center gap-2.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                     <span className="text-xs font-mono font-semibold uppercase tracking-widest text-emerald-400">
                       {isEs ? "02 / Solución de Ingeniería" : "02 / Engineering Solution"}
                     </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight break-words">
                     {isEs ? "Arquitectura y Desarrollo Desplegado" : "Deployed Architecture & Engineering"}
                   </h3>
-                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+                  <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light break-words">
                     {project.solution}
                   </p>
                 </div>
@@ -5347,25 +5376,25 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
         {/* Módulos y Entregables Clave de Ingeniería (Clean Technical Blueprint — No Box Enclosures) */}
         {project.keyDeliverables && project.keyDeliverables.length > 0 && (
-          <div className="my-20 pt-16 border-t border-white/10">
-            <div className="max-w-3xl mb-10">
+          <div className="my-16 sm:my-20 pt-12 sm:pt-16 border-t border-white/10">
+            <div className="max-w-3xl mb-8 sm:mb-10">
               <div className="flex items-center gap-2 text-yellow-400 text-xs font-mono uppercase tracking-widest mb-3">
-                <Layers size={14} />
+                <Layers size={14} className="shrink-0" />
                 <span>{isEs ? "Ingeniería de Software" : "Software Engineering"}</span>
               </div>
-              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight break-words">
                 {isEs ? "Módulos y Entregables Clave Desplegados" : "Key Engineering Modules Deployed"}
               </h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
               {project.keyDeliverables.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-4 py-4 border-b border-white/10 group">
+                <div key={idx} className="flex items-start gap-4 py-4 border-b border-white/10 group min-w-0">
                   <span className="text-yellow-400 font-mono text-xs font-bold mt-1 shrink-0 opacity-80 group-hover:opacity-100">
                     0{idx + 1}.
                   </span>
-                  <div className="flex-1">
-                    <p className="text-base sm:text-lg text-stone-200 group-hover:text-white transition-colors leading-relaxed font-normal">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-base sm:text-lg text-stone-200 group-hover:text-white transition-colors leading-relaxed font-normal break-words">
                       {item}
                     </p>
                   </div>
@@ -5377,14 +5406,14 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
         )}
 
         {/* Arquitectura Edge & Stack Tecnológico (Clean Editorial Spec — No Box Fills) */}
-        <div className="my-20 pt-16 border-t border-white/10">
+        <div className="my-16 sm:my-20 pt-12 sm:pt-16 border-t border-white/10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-5 space-y-4">
+            <div className="lg:col-span-5 space-y-4 min-w-0">
               <div className="flex items-center gap-2 text-yellow-400 text-xs font-mono uppercase tracking-widest">
-                <Code size={14} />
+                <Code size={14} className="shrink-0" />
                 <span>{isEs ? "Infraestructura & Edge" : "Infrastructure & Edge"}</span>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight break-words">
                 {isEs ? "Stack Tecnológico de Alta Concurrencia" : "High-Concurrency Tech Stack"}
               </h3>
               <div className="flex flex-wrap gap-2 pt-2">
@@ -5393,15 +5422,15 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
                     key={i}
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono text-stone-300 border border-white/15 bg-white/[0.03] hover:border-yellow-400/40 transition-colors"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
-                    {tech}
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0" />
+                    <span>{tech}</span>
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="lg:col-span-7 lg:border-l lg:border-white/10 lg:pl-12 space-y-4">
-              <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light">
+            <div className="lg:col-span-7 lg:border-l lg:border-white/10 lg:pl-12 space-y-4 min-w-0">
+              <p className="text-stone-300 text-base sm:text-lg leading-relaxed font-light break-words">
                 {project.architectureSummary || (isEs
                   ? "Arquitectura de última generación con renderizado híbrido en servidores Edge distribuidos globalmente, cero dependencias lentas de WordPress y tiempos de respuesta ultra-rápidos en cualquier dispositivo."
                   : "Next-generation hybrid Edge rendering across globally distributed servers with zero legacy CMS bloat and lightning TTFB on all devices.")}
@@ -5414,45 +5443,53 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           </div>
         </div>
 
-        {/* Immersive Ambient Conversion Section (No Boxed Container) */}
-        <div className="relative my-24 py-16 border-y border-white/10 overflow-hidden">
+        {/* Immersive Ambient Conversion Section (With Pre-built Discount & Custom Database Options) */}
+        <div className="relative my-16 sm:my-24 py-12 sm:py-16 border-y border-white/10 overflow-hidden">
           {/* Ambient Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-yellow-400/10 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[650px] h-[280px] sm:h-[320px] bg-yellow-400/10 rounded-full blur-[120px] sm:blur-[140px] pointer-events-none" />
 
-          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+          <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 px-2">
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-widest text-yellow-300 border border-yellow-400/30 bg-yellow-400/5">
-              <Sparkles size={12} className="text-yellow-400" />
-              {isEs ? "Escala tu Negocio" : "Scale your Business"}
+              <Sparkles size={12} className="text-yellow-400 shrink-0" />
+              <span>{isEs ? "Beneficio Exclusivo de Desarrollo" : "Exclusive Development Benefit"}</span>
             </span>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+            <h3 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight break-words">
               {isEs
-                ? "¿Deseas implementar esta arquitectura en tu negocio?"
-                : "Want to deploy this architecture for your company?"}
+                ? "¿Te gustaría esta estructura para tu negocio o un sistema a medida?"
+                : "Want this structure for your business or a custom-built system?"}
             </h3>
-            <p className="text-stone-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-light">
+            <p className="text-stone-300 text-sm sm:text-lg max-w-3xl mx-auto leading-relaxed font-light break-words">
               {isEs
-                ? "Evaluamos los requerimientos de tu empresa y te entregamos una propuesta personalizada con cotización formal en menos de 24 horas."
-                : "We evaluate your company's scope and provide a formal customized proposal within 24 hours."}
+                ? "Si eliges esta página o sistema preconstruido para tu empresa, accedes a una tarifa preferencial y un descuento especial garantizado para tu próximo desarrollo. Si requieres un proyecto totalmente nuevo, se cotiza a personalización, y también creamos sistemas a medida con bases de datos totalmente funcionales para optimizar y automatizar los procesos de tu negocio."
+                : "Choose this pre-built architecture for preferential pricing plus a guaranteed special discount on your next development. We also quote brand-new bespoke projects and engineer custom database systems to automate your business operations."}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 pt-4">
               <button
-                onClick={() => { onClose(); openCalendly(); }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-400 hover:bg-yellow-300 text-stone-950 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-[0_10px_35px_rgba(250,204,21,0.35)]"
+                onClick={() => {
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Quiero elegir la página/sistema preconstruido de *${project.title}* para mi negocio y aplicar al *Descuento Especial por próximo desarrollo*. ¿Me brindan información?`);
+                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/25"
               >
-                <Video size={16} />
-                <span>{isEs ? "Agendar 15 min en Meet" : "Book 15 min Call"}</span>
+                <WhatsAppOfficialIcon size={18} className="shrink-0" />
+                <span>{isEs ? "Elegir esta Base con Descuento" : "Claim Pre-Built Discount"}</span>
               </button>
               <button
                 onClick={() => {
-                  onClose();
-                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! Me interesa implementar un sistema similar al de *${project.title}*. ¿Podríamos coordinar una propuesta?`);
-                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                  window.open(getWhatsAppLink('sistema_bd', { proyecto: project.title }), '_blank', 'noopener,noreferrer');
                 }}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/25"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-yellow-400 hover:bg-yellow-300 text-stone-950 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-[0_10px_35px_rgba(250,204,21,0.35)]"
               >
-                <WhatsAppOfficialIcon size={18} />
-                <span>WhatsApp Directo</span>
+                <Layers size={16} className="shrink-0" />
+                <span>{isEs ? "Cotizar Proyecto / Sistema con BD" : "Quote Custom / DB System"}</span>
+              </button>
+              <button
+                onClick={() => { onClose(); openCalendly(); }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-white/10 hover:bg-white/15 text-white border border-white/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <Video size={16} className="shrink-0 text-yellow-400" />
+                <span>{isEs ? "Agendar 15 min en Meet" : "Book 15 min Call"}</span>
               </button>
             </div>
           </div>
@@ -5463,7 +5500,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           {prevProject && (
             <button
               onClick={() => handleSelectCase(prevProject)}
-              className="group flex items-center gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-left transition-all cursor-pointer"
+              className="group flex items-center gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-left transition-all cursor-pointer min-w-0"
             >
               <div className="w-11 h-11 rounded-xl bg-white/5 group-hover:bg-yellow-400/10 text-stone-400 group-hover:text-yellow-400 flex items-center justify-center shrink-0 border border-white/10 group-hover:border-yellow-400/30 transition-all">
                 <ChevronLeft size={20} />
@@ -5482,7 +5519,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
           {nextProject && (
             <button
               onClick={() => handleSelectCase(nextProject)}
-              className="group flex items-center justify-between gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-right transition-all cursor-pointer"
+              className="group flex items-center justify-between gap-4 p-5 rounded-2xl bg-transparent hover:bg-white/[0.03] border border-white/10 hover:border-yellow-400/40 text-right transition-all cursor-pointer min-w-0"
             >
               <div className="min-w-0 flex-1">
                 <span className="text-[11px] uppercase tracking-wider text-stone-400 block mb-0.5 font-semibold">
@@ -5507,7 +5544,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
               <span className="text-xs font-mono uppercase tracking-widest text-yellow-400 block mb-2">
                 {isEs ? "Casos de Éxito Relacionados" : "Related Case Studies"}
               </span>
-              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight break-words">
                 {isEs ? "Proyectos Recomendados en este Rubro" : "Recommended Projects in this Industry"}
               </h3>
             </div>
@@ -5530,7 +5567,7 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
       {/* Case Study Footer */}
       <footer className="border-t border-white/10 py-12 px-4 sm:px-8 bg-stone-950 text-center text-xs text-stone-500">
         <p className="mb-2">© 2026 Fast Page Pro. Todos los derechos reservados.</p>
-        <p className="text-stone-600">Desarrollo Web de Alto Rendimiento • Sanity CMS Headless • Edge Runtime • Next.js 15</p>
+        <p className="text-stone-600">Desarrollo Web de Alto Rendimiento • Sistemas con Bases de Datos • Edge Runtime • Next.js 15</p>
       </footer>
     </motion.div>
   );
@@ -6668,93 +6705,201 @@ export default function App() {
       {/* TESTIMONIALS — Hybrid Carousel (Auto + Manual) */}
       <TestimonialCarousel testimonials={testimonials} copy={copy} />
 
-      {/* PRICING - Updated with 4 plans */}
+      {/* PRICING - Updated with 3 Development Modalities + 4 Custom Quote Plans via WhatsApp */}
       <section id="planes" className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-global)' }}>
         <div className="container mx-auto px-4">
           <SectionTitle title={copy.pricingTitle} subtitle={copy.pricingSubtitle} />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 max-w-7xl mx-auto mt-10 md:mt-16">
+
+          {/* 3 Modalidades Estratégicas de Desarrollo & Beneficios Exclusivos */}
+          <div className="max-w-7xl mx-auto mt-10 mb-14">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+              {/* Modalidad 1: Preconstruidas con Descuento */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="relative p-6 rounded-3xl border border-yellow-400/30 bg-gradient-to-br from-stone-900/95 via-stone-900/80 to-stone-950 text-white shadow-xl flex flex-col justify-between"
+              >
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-yellow-400/15 text-yellow-400 border border-yellow-400/30 mb-4">
+                    <Zap size={13} className="fill-yellow-400" />
+                    <span>{language === 'es' ? 'Opción 1 • Beneficio Exclusivo' : 'Option 1 • Exclusive Benefit'}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5">
+                    {language === 'es'
+                      ? 'Páginas y Sistemas Preconstruidos'
+                      : 'Pre-Built Pages & Systems'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-5">
+                    {language === 'es'
+                      ? 'Si eliges alguna de nuestras páginas o sistemas ya preconstruidos del portafolio para tu negocio, accedes a una tarifa preferencial de despliegue rápido y un '
+                      : 'If you choose any of our pre-built portfolio websites or systems for your business, you unlock preferential fast-track pricing plus a '}
+                    <span className="text-yellow-400 font-semibold">
+                      {language === 'es'
+                        ? 'descuento especial garantizado para tu próximo desarrollo.'
+                        : 'guaranteed special discount on your next development.'}
+                    </span>
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-white/10">
+                  <a
+                    href={getWhatsAppLink('servicios', { modalidad: 'Elegir página/sistema preconstruido con descuento especial por próximo desarrollo' })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold text-yellow-400 hover:text-yellow-300 transition-colors"
+                  >
+                    <WhatsAppOfficialIcon size={15} className="fill-[#25D366]" />
+                    <span>{language === 'es' ? 'Solicitar descuento en WhatsApp →' : 'Claim discount on WhatsApp →'}</span>
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Modalidad 2: Proyecto Totalmente Nuevo a Personalización */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="relative p-6 rounded-3xl border border-white/10 bg-stone-900/90 text-white shadow-xl flex flex-col justify-between"
+              >
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-300 border border-blue-500/30 mb-4">
+                    <Sparkles size={13} className="text-blue-400" />
+                    <span>{language === 'es' ? 'Opción 2 • 100% Exclusivo' : 'Option 2 • 100% Bespoke'}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5">
+                    {language === 'es'
+                      ? 'Proyecto Nuevo a Personalización'
+                      : 'Brand-New Custom Project'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-5">
+                    {language === 'es'
+                      ? 'Si requieres un proyecto totalmente nuevo desde cero, se cotiza a personalización dependiendo exactamente de lo que tu negocio requiera: arquitectura única, diseño UX/UI inédito y módulos específicos.'
+                      : 'If you need a brand-new project built from scratch, we quote it to your exact customization needs: unique architecture, bespoke UX/UI design, and tailored features.'}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-white/10">
+                  <a
+                    href={getWhatsAppLink('servicios', { modalidad: 'Proyecto totalmente nuevo cotizado a personalización' })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  >
+                    <WhatsAppOfficialIcon size={15} className="fill-[#25D366]" />
+                    <span>{language === 'es' ? 'Cotizar a personalización →' : 'Quote custom project →'}</span>
+                  </a>
+                </div>
+              </motion.div>
+
+              {/* Modalidad 3: Sistemas a Medida con Bases de Datos */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="relative p-6 rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-stone-900/95 via-stone-900/80 to-stone-950 text-white shadow-xl flex flex-col justify-between"
+              >
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 mb-4">
+                    <Layers size={13} className="text-emerald-400" />
+                    <span>{language === 'es' ? 'Opción 3 • Ingeniería & BD' : 'Option 3 • Engineering & DB'}</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5">
+                    {language === 'es'
+                      ? 'Sistemas con Bases de Datos'
+                      : 'Custom Database Systems'}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-5">
+                    {language === 'es'
+                      ? 'Creamos sistemas a medida con bases de datos para negocios totalmente funcionales (ERPs, CRMs, inventarios, reservas, paneles multi-rol), optimizando y automatizando los procesos de tu empresa.'
+                      : 'We engineer fully functional custom database systems for businesses (ERPs, CRMs, inventory, booking, multi-role dashboards), optimizing and automating your daily operations.'}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-white/10">
+                  <a
+                    href={getWhatsAppLink('sistema_bd')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  >
+                    <WhatsAppOfficialIcon size={15} className="fill-[#25D366]" />
+                    <span>{language === 'es' ? 'Cotizar sistema con Base de Datos →' : 'Quote database system →'}</span>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-6 max-w-7xl mx-auto">
             {plans.map((plan, i) => {
-              const mpLinks = {
-                START: "https://mpago.la/2jScw4A",
-                PRO: "https://mpago.la/28BQCLQ",
-                BUSINESS: "https://mpago.la/1GY3yPf"
-              };
-              const cuotas = {
-                START: "300",
-                PRO: "433.33",
-                BUSINESS: "600"
-              };
-              const isCustom = plan.custom || !plan.price;
+              const isCustom = plan.custom;
 
               return (
                 <motion.div
                   key={i}
                   className={`relative p-6 sm:p-7 md:p-8 rounded-[1.5rem] sm:rounded-[2rem] border text-center flex flex-col ${plan.highlight ? 'bg-stone-900 text-white lg:scale-105 shadow-[0_50px_100px_-30px_rgba(0,0,0,0.2)] dark:bg-white dark:text-stone-950 dark:shadow-[0_50px_100px_-30px_rgba(255,255,255,0.15)] z-10 border-stone-900 dark:border-white' : isCustom ? 'bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 border-stone-700 text-white dark:from-stone-800 dark:via-stone-700 dark:to-stone-800 dark:border-yellow-400/30' : 'bg-white border-stone-200 text-stone-900 dark:bg-stone-900/50 dark:border-stone-800 dark:text-white'}`}
-                  whileHover={{ y: -10, scale: plan.highlight ? 1.07 : 1.03 }}
+                  whileHover={{ y: -8, scale: plan.highlight ? 1.06 : 1.02 }}
                 >
                   {plan.highlight && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg whitespace-nowrap">
                       {copy.popularTag}
                     </div>
                   )}
                   {isCustom && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg shadow-yellow-500/30">
-                      {language === 'es' ? 'A Medida' : 'Bespoke'}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-lg shadow-yellow-500/30 whitespace-nowrap">
+                      {language === 'es' ? 'Sistemas & BD' : 'Systems & DB'}
                     </div>
                   )}
-                  <h3 className={`text-sm md:text-base mb-2 uppercase tracking-widest ${plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-yellow-400' : 'opacity-60'}`}>{plan.name}</h3>
-                  {isCustom ? (
-                    <div className="mb-2">
-                      <Sparkles className="inline-block text-yellow-400 mb-2" size={28} />
-                      <div className={`text-xl md:text-2xl font-bold tracking-tight text-yellow-400`}>{language === 'es' ? 'Cotización' : 'Custom Quote'}</div>
+                  <h3 className={`text-sm md:text-base font-bold mb-1 uppercase tracking-widest ${plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-yellow-400' : 'opacity-70'}`}>{plan.name}</h3>
+                  {plan.subtitle && (
+                    <div className={`text-[11px] font-medium mb-3 ${plan.highlight ? 'text-yellow-400 dark:text-amber-600' : isCustom ? 'text-stone-300' : 'text-stone-500 dark:text-stone-400'}`}>
+                      {plan.subtitle}
                     </div>
-                  ) : (
-                    <>
-                      <div className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 tracking-tight ${plan.highlight ? 'text-white dark:text-stone-950' : ''}`}>S/ {plan.price}</div>
-                    </>
                   )}
-                  <div className={`text-xs md:text-sm mb-7 md:mb-8 ${plan.highlight ? 'text-white/70 dark:text-stone-950/70' : isCustom ? 'text-yellow-400/60' : 'opacity-50 sm:opacity-40'}`}>{plan.period}</div>
 
-                  <ul className="space-y-2.5 md:space-y-3 mb-8 md:mb-10 flex-1 text-left">
+                  <div className="my-2">
+                    <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${plan.highlight ? 'text-white dark:text-stone-950' : isCustom ? 'text-yellow-400' : 'text-stone-900 dark:text-white'}`}>
+                      {plan.priceLabel || (language === 'es' ? 'A Consultar' : 'Request Quote')}
+                    </div>
+                  </div>
+
+                  <div className={`text-xs mb-6 px-3 py-1.5 rounded-xl font-medium ${plan.highlight ? 'bg-white/10 text-yellow-300 dark:bg-stone-950/10 dark:text-stone-800' : isCustom ? 'bg-yellow-400/10 text-yellow-300 border border-yellow-400/20' : 'bg-stone-100 text-stone-700 dark:bg-white/5 dark:text-stone-300'}`}>
+                    {plan.period}
+                  </div>
+
+                  <ul className="space-y-2.5 md:space-y-3 mb-8 flex-1 text-left">
                     {plan.features.map((f, j) => (
                       <li key={j} className="flex items-start gap-2.5 text-xs md:text-sm">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.highlight ? 'bg-yellow-400 text-stone-950' : isCustom ? 'bg-yellow-400/20 text-yellow-400' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${plan.highlight ? 'bg-yellow-400 text-stone-950' : isCustom ? 'bg-yellow-400/20 text-yellow-400' : 'bg-stone-100 text-stone-700 dark:bg-white/10 dark:text-white'}`}>
                           <Check size={12} strokeWidth={3} />
                         </div>
-                        <span className={plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-white/80' : 'text-stone-600 dark:text-stone-300'}>{f}</span>
+                        <span className={plan.highlight ? 'text-white/90 dark:text-stone-950/90' : isCustom ? 'text-white/85' : 'text-stone-600 dark:text-stone-300'}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  {isCustom ? (
-                    <a
-                      href={getWhatsAppLink('precios', { plan: 'Personalizado' })}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 hover:from-yellow-500 hover:to-amber-600 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]"
-                    >
-                      <span className="flex items-center gap-2 relative z-10">
-                        <MessageCircle size={18} />
-                        {language === 'es' ? 'Solicitar Cotización' : 'Request Quote'}
+
+                  <a
+                    href={getWhatsAppLink('precios', { plan: plan.name, modalidad: plan.waModalidad })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackCtaClick(`plan_${plan.name.toLowerCase()}_whatsapp`, 'whatsapp')}
+                    className={`w-full inline-flex items-center justify-center font-bold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-6 py-3.5 md:px-8 md:py-4 text-xs sm:text-sm ${
+                      plan.highlight
+                        ? 'bg-yellow-400 text-stone-950 hover:bg-yellow-300 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]'
+                        : isCustom
+                        ? 'bg-gradient-to-r from-yellow-400 to-amber-500 text-stone-950 hover:from-yellow-500 hover:to-amber-600 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]'
+                        : 'bg-[#25D366] text-white hover:bg-[#20bd5a] shadow-[0_8px_25px_-6px_rgba(37,211,102,0.45)]'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2 relative z-10">
+                      <WhatsAppOfficialIcon size={17} className="fill-current shrink-0" />
+                      <span>
+                        {isCustom
+                          ? (language === 'es' ? 'Cotizar Sistema a Medida' : 'Quote Custom System')
+                          : (language === 'es' ? 'Consultar en WhatsApp' : 'Ask on WhatsApp')}
                       </span>
-                    </a>
-                  ) : (
-                    <>
-                      <a
-                        href={mpLinks[plan.name]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`w-full inline-flex items-center justify-center font-semibold transition-all duration-200 ease-out rounded-full tracking-wide relative overflow-hidden group px-7 py-3.5 md:px-10 md:py-5 text-sm md:text-base ${plan.highlight ? 'bg-yellow-400 text-stone-950 hover:bg-yellow-500 shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)]' : 'bg-stone-900 text-white hover:bg-stone-800 dark:bg-white dark:text-stone-950 dark:hover:bg-stone-100'}`}
-                      >
-                        <span className="flex items-center gap-2 relative z-10">
-                          {copy.selectPlan}
-                          {!plan.highlight && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
-                        </span>
-                      </a>
-                      <div className="mt-2 text-center">
-                        <p className={`text-xs ${plan.highlight ? 'text-white/60 dark:text-stone-950/60' : 'text-stone-500 dark:text-stone-300'}`}>{language === 'es' ? '3 cuotas sin interés:' : '3 interest-free installments:'} <span className={`font-semibold ${plan.highlight ? 'text-white/80 dark:text-stone-950/80' : 'text-stone-700 dark:text-stone-200'}`}>S/ {cuotas[plan.name]}/{language === 'es' ? 'mes' : 'mo'}</span></p>
-                      </div>
-                    </>
-                  )}
+                    </span>
+                  </a>
                 </motion.div>
               );
             })}
