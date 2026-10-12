@@ -35,6 +35,16 @@ export const PORTFOLIO_INDUSTRIES = {
 
 export const PORTFOLIO_BY_LANG = {
   es: [
+    // =========================================================================
+    // REGLA FUNDAMENTAL DE NEGOCIO (INSTRUCCIÓN DIRECTA DEL USUARIO):
+    // LOS PROYECTOS REMOVIDOS NUNCA DEBEN VOLVER A AGREGARSE SALVO ORDEN EXPRESA:
+    // - Semaltemed (semaltemed)
+    // - El Hombre Hotel (el-hombre-hotel)
+    // - Rainforest Wild (rainforest-wild)
+    // - Gudstor Pack (gudstor-pack)
+    // - Peru Travel Receptivo (peru-travel)
+    // =========================================================================
+
     // --- 1. VUELO 78 HOTEL TARAPOTO ---
     {
       title: "Vuelo 78 Hotel Tarapoto",
@@ -102,7 +112,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/cmc-latam.webp",
       modalImage: "/images/03-portafolio/CMCLATAM.webp",
       modalMobileImage: "/images/03-portafolio/CMCLATAM.webp",
-      link: "https://cmc-latam-2.vercel.app/"
+      link: "https://www.cmclatam.pe/"
     },
 
     // --- 3. MODA DIGITAL PRO ---
@@ -140,42 +150,7 @@ export const PORTFOLIO_BY_LANG = {
       link: "https://www.modadigitalpro.com/"
     },
 
-    // --- 4. SEMALTEMED ---
-    {
-      title: "Semaltemed Dispositivos Médicos",
-      slug: "semaltemed",
-      clientName: "Semaltemed S.A.C.",
-      location: "San Borja, Lima, Perú",
-      category: "Web Profesional",
-      type: "web",
-      industry: "salud",
-      industryLabel: "Equipamiento Médico & Suministros Hospitalarios",
-      architectureLevel: "Nivel 2: Catálogo Institucional Clínico",
-      techStack: ["Next.js 15 App Router", "Catálogo Clínico por Especialidad", "Fichas Técnicas DIGEMID", "Tailwind CSS", "WhatsApp Hospitalario"],
-      highlights: "Plataforma institucional de instrumental quirúrgico y suministros hospitalarios con incremento del 170% en solicitudes de clínicas privadas.",
-      challenge: "Jefaturas de compras de clínicas, hospitales y centros quirúrgicos requerían verificar certificaciones sanitarias (DIGEMID), especificaciones técnicas y disponibilidad de stock en segundos.",
-      solution: "Estructuración de catálogo por especialidades (cirugía laparoscópica, cuidados intensivos, monitoreo y diagnóstico), fichas descargables y cotización formal por WhatsApp.",
-      description: "Portal corporativo y catálogo de equipamiento médico y suministros clínicos para hospitales, consultorios y laboratorios acreditados.",
-      architectureSummary: "Renderizado híbrido en Next.js 15 con Server-Side Generation para las fichas de equipamiento médico. Estructura de navegación accesible y SEO para términos de suministros médicos hospitalarios.",
-      keyDeliverables: [
-        "Directorio clínico clasificado por especialidad médica quirúrgica",
-        "Descarga instantánea de fichas técnicas y certificados DIGEMID",
-        "Módulo de solicitud de presupuesto formal para instituciones de salud",
-        "Indexación SEO de insumos y equipos hospitalarios de alta demanda"
-      ],
-      metrics: [
-        { label: "Solicitudes B2B", value: "+170%", note: "Clínicas privadas y centros de salud" },
-        { label: "Descarga de Fichas", value: "850+/mes", note: "Especificaciones DIGEMID verificadas" },
-        { label: "Velocidad de Carga", value: "0.49s", note: "Server Components Next.js 15" },
-        { label: "Tiempo de Respuesta", value: "< 10 min", note: "Equipo comercial clínico" }
-      ],
-      image: "/images/03-portafolio/framed/semaltemed.webp",
-      modalImage: "/images/03-portafolio/Semaltemed.webp",
-      modalMobileImage: "/images/03-portafolio/Semaltemed.webp",
-      link: "https://semaltemed.com"
-    },
-
-    // --- 5. GINCANA CLUB CAMPESTRE ---
+    // --- 4. GINCANA CLUB CAMPESTRE ---
     {
       title: "Gincana Club Campestre",
       slug: "gincana-club-campestre",
@@ -207,7 +182,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/gincana-club-campestre.webp",
       modalImage: "/images/03-portafolio/GincanaClub.webp",
       modalMobileImage: "/images/03-portafolio/GincanaClub.webp",
-      link: "https://gincanaclubcampestre.com"
+      link: "https://www.gincanasclubescampestres.com/"
     },
 
     // --- 6. JHON & ASOCIADOS ---
@@ -277,10 +252,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/union-el-progreso.webp",
       modalImage: "/images/03-portafolio/UnionProgreso-hero.webp",
       modalMobileImage: "/images/03-portafolio/UnionProgreso.webp",
-      link: "https://creditoselprogreso.com/"
+      link: "https://www.unionelprogreso.com/"
     },
 
-    // --- 8. INTIQUILLA ADVENTURES ---
+    // --- 7. INTIQUILLA ADVENTURES ---
     {
       title: "Intiquilla Adventures Cusco",
       slug: "intiquilla-adventures",
@@ -312,77 +287,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/intiquilla-adventures.webp",
       modalImage: "/images/03-portafolio/IntiquillaAdventures.webp",
       modalMobileImage: "/images/03-portafolio/IntiquillaAdventures.webp",
-      link: "https://intiquilla-adventures.vercel.app"
-    },
-
-    // --- 9. EL HOMBRE HOTEL ---
-    {
-      title: "El Hombre Hotel Huanchaco",
-      slug: "el-hombre-hotel",
-      clientName: "El Hombre Hotel & Surf Camp",
-      location: "Huanchaco, Trujillo, La Libertad, Perú",
-      category: "Web Profesional",
-      type: "web",
-      industry: "hotel",
-      industryLabel: "Hotelería Frente al Mar & Surf Camp",
-      architectureLevel: "Nivel 2: Motor de Reservas Beachfront Directas",
-      techStack: ["React / Vite", "Motor Reservas Marítimas", "Galería Suites Oceánicas", "Tailwind CSS", "WhatsApp Surf Concierge"],
-      highlights: "Hotel boutique frente a la rompiente de olas de Huanchaco con incremento del 130% en reservas directas de habitaciones con vista al mar.",
-      challenge: "Posicionar el hotel frente a la competencia tradicional de Huanchaco, resaltando su ubicación privilegiada sobre el mar y sus servicios para amantes del surf y familias.",
-      solution: "Galería visual panorámica del atardecer marino, detalle de amenidades de cada suite, menú del restaurante marino y motor de reservas directas sin cobros extra de agencias intermediarias.",
-      description: "Hotel boutique frente al mar en Huanchaco. Incluye vista a las olas, restaurante de comida marina, reservas directas por WhatsApp y suites familiares.",
-      architectureSummary: "Diseño enfocado en micro-conversiones visuales con paleta náutica refinada, carga diferida de fotografías marítimas en formato WebP y botón persistente de reserva con confirmación inmediata.",
-      keyDeliverables: [
-        "Catálogo fotográfico de suites familiares y matrimoniales frente al mar",
-        "Motor de reserva directa con consulta de fechas y paquetes surf",
-        "Integración de carta marina del restaurante cevichería del hotel",
-        "Geolocalización interactiva con puntos de interés y escuelas de surf"
-      ],
-      metrics: [
-        { label: "Reservas Directas", value: "+130%", note: "Eliminación de comisiones OTAs" },
-        { label: "Ocupación Fines de Sem.", value: "96%", note: "Suites con balcón oceánico" },
-        { label: "Carga de Galería", value: "0.48s", note: "Imágenes WebP ultra-optimizadas" },
-        { label: "Tiempo de Respuesta", value: "< 2 min", note: "Recepción por WhatsApp 24/7" }
-      ],
-      image: "/images/03-portafolio/framed/el-hombre-hotel.webp",
-      modalImage: "/images/03-portafolio/ElHombreHotel.webp",
-      modalMobileImage: "/images/03-portafolio/ElHombreHotel.webp",
-      link: "https://elhombrehotel.com"
-    },
-
-    // --- 10. RAINFOREST WILD ---
-    {
-      title: "Rainforest Wild Expeditions",
-      slug: "rainforest-wild",
-      clientName: "Rainforest Wild Ecolodge",
-      location: "Puerto Maldonado / Tambopata, Madre de Dios, Perú",
-      category: "Web Profesional",
-      type: "web",
-      industry: "hotel",
-      industryLabel: "Ecoturismo, Lodges & Safaris Amazónicos",
-      architectureLevel: "Nivel 2: Plataforma Ecoturística Directa",
-      techStack: ["Next.js 15 App Router", "Guía de Biodiversidad HD", "Paquetes All-Inclusive Selva", "Tailwind CSS", "WhatsApp Bilingüe"],
-      highlights: "Captación directa de viajeros internacionales interesados en avistamiento de fauna y expediciones en la selva virgen con aumento del 175% en reservas.",
-      challenge: "Los viajeros extranjeros desconfiaban de páginas turísticas sin información clara sobre traslados fluviales, vacunas recomendadas y compromiso real con la sostenibilidad ambiental.",
-      solution: "Diseño documental inmersivo de biodiversidad amazónica, itinerarios detallados todo incluido desde el aeropuerto de Puerto Maldonado y atención personalizada multilingüe.",
-      description: "Plataforma de expediciones ecológicas y lodges en la selva amazónica de Tambopata. Avistamiento de fauna, tours guiados y reserva de paquetes de aventura.",
-      architectureSummary: "Next.js 15 con prerenderizado estático de expediciones para un puntaje de SEO del 100% en búsquedas en inglés como 'Tambopata eco lodge' y 'Amazon wildlife tours Peru'.",
-      keyDeliverables: [
-        "Fichas completas de paquetes con navegación fluvial y comidas incluidas",
-        "Guía visual de fauna (guacamayos, nutrias gigantes, jaguares y caimanes)",
-        "Protocolos de bioseguridad, vacunas y recomendaciones de equipaje",
-        "Enrutador de reservas con agentes especializados en ecoturismo"
-      ],
-      metrics: [
-        { label: "Reservas Receptivas", value: "+175%", note: "Clientes de EE.UU. y Europa" },
-        { label: "SEO Ecoturismo", value: "Top 5", note: "Palabras clave de Tambopata en Google" },
-        { label: "Tiempo de Carga", value: "0.47s", note: "Server-side rendering Next.js 15" },
-        { label: "Satisfacción Viajero", value: "4.9/5", note: "Calificación promedio de expedición" }
-      ],
-      image: "/images/03-portafolio/framed/rainforest-wild.webp",
-      modalImage: "/images/03-portafolio/RainforestWild.webp",
-      modalMobileImage: "/images/03-portafolio/RainforestWild.webp",
-      link: "https://rainforestwild.com"
+      link: "https://www.intiquilladventures.com/"
     },
 
     // --- 11. SERTRADE ---
@@ -417,10 +322,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/sertrade.webp",
       modalImage: "/images/03-portafolio/Sertrade.webp",
       modalMobileImage: "/images/03-portafolio/Sertrade.webp",
-      link: "https://sertrade.com"
+      link: "https://www.sertradeproyectos.com/"
     },
 
-    // --- 12. MAIA STORE ---
+    // --- 9. MAIA STORE ---
     {
       title: "Maia Store",
       slug: "maia-store",
@@ -452,80 +357,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/maia-store.webp",
       modalImage: "/images/03-portafolio/MaiaStore-desktop.png",
       modalMobileImage: "/images/03-portafolio/MaiaStore-mobile-real.png",
-      link: "https://maia-store.vercel.app"
+      link: "https://maia-store.vercel.app/"
     },
 
-    // --- 13. GUDSTOR PACK ---
-    {
-      title: "Gudstor Pack Embalajes",
-      slug: "gudstor-pack",
-      clientName: "GUDSTOR PACK S.A.C.",
-      location: "Lima, Perú",
-      category: "Tienda Online",
-      type: "tienda",
-      industry: "logistica",
-      industryLabel: "Cajas de Cartón Corrugado & Empaques B2B",
-      architectureLevel: "Nivel 2: Catálogo B2B Mayorista con Cotizador",
-      techStack: ["Next.js 16", "Calculadora de Medidas Cajas", "Cotizador por Millar", "Tailwind CSS 4", "WhatsApp B2B Express"],
-      highlights: "Digitalización de pedidos mayoristas de cajas de cartón, rollos de film stretch y cintas de embalaje con incremento del 180% en clientes industriales.",
-      challenge: "Empresas de e-commerce y almacenes de distribución requerían cotizaciones urgentes según las dimensiones exactas de sus productos y gramajes de resistencia.",
-      solution: "Plataforma de alta velocidad con cotizador de cajas por medidas personalizadas, calculadora de volumen por millar y contacto prioritario con asesores de planta.",
-      description: "E-commerce y catálogo corporativo de empaques industriales, cajas corrugadas, películas stretch y cintas de embalaje para logística y comercio electrónico.",
-      architectureSummary: "Next.js 16 con Tailwind CSS 4 con paleta Kraft y Teal corporativo. Componentes del cliente aislados para la calculadora de empaques con caché inmutable en Vercel.",
-      keyDeliverables: [
-        "Cotizador por millar de cajas de cartón corrugado y cintas industriales",
-        "Calculadora interactiva de cubicaje y resistencia de empaque",
-        "Catálogo completo de suministros: film stretch, burbujas y esquineros",
-        "Canal de atención express para compras al por mayor y pedidos corporativos"
-      ],
-      metrics: [
-        { label: "Clientes Industriales", value: "+180%", note: "Almacenes, operadores y e-commerce" },
-        { label: "Cotizaciones Emitidas", value: "600+/mes", note: "Cálculo instantáneo por medidas" },
-        { label: "Tiempo de Cotización", value: "< 45s", note: "Simulador por millar sin esperas" },
-        { label: "Velocidad de Carga", value: "0.48s", note: "Optimización de assets y tipografía" }
-      ],
-      image: "/images/03-portafolio/framed/gudstor-pack.webp",
-      modalImage: "/images/03-portafolio/GudstorPack.webp",
-      modalMobileImage: "/images/03-portafolio/GudstorPack.webp",
-      link: "https://gudstorpack.com"
-    },
-
-    // --- 14. PERU TRAVEL ---
-    {
-      title: "Peru Travel Receptivo",
-      slug: "peru-travel",
-      clientName: "Peru Travel Agency",
-      location: "Lima / Cusco / Puno / Ica, Perú",
-      category: "Web Profesional",
-      type: "web",
-      industry: "hotel",
-      industryLabel: "Circuitos Turísticos Nacionales & Receptivo",
-      architectureLevel: "Nivel 2: Plataforma Multidestino con Favoritos",
-      techStack: ["Next.js 15", "Sistema de Favoritos Interactivo", "Galería Retina Lightbox", "Tailwind CSS", "WhatsApp Booking"],
-      highlights: "Circuitos completos por Paracas, Huacachina, Machu Picchu y el Lago Titicaca con incremento del 150% en ventas de paquetes turísticos.",
-      challenge: "Los viajeros querían comparar múltiples paquetes turísticos de costa, sierra y selva, guardar sus favoritos en el móvil y cotizar en un solo paso.",
-      solution: "Implementación de sistema de favoritos en memoria local, lightbox fotográfico en alta definición y reservas de paquetes por WhatsApp con asesores turísticos.",
-      description: "Agencia de viajes receptiva con circuitos turísticos completos en Cusco, Puno, Arequipa y la selva amazónica.",
-      architectureSummary: "Next.js 15 con persistencia de favoritos en navegador, menú móvil superpuesto sin colisiones de capas z-index y carga progresiva de fotografías de paisajes peruanos.",
-      keyDeliverables: [
-        "Catálogo de paquetes clasificados por región: Costa, Andes y Selva",
-        "Sistema interactivo para guardar tours favoritos y cotizarlos en lote",
-        "Visor lightbox de alta fidelidad con rutas, hoteles y guías incluidos",
-        "Atención personalizada multilingüe con confirmación de reservas"
-      ],
-      metrics: [
-        { label: "Ventas de Paquetes", value: "+150%", note: "Circuitos combinados costa y sierra" },
-        { label: "Tours en Favoritos", value: "1,200+/mes", note: "Planificación de viajes por usuarios" },
-        { label: "Tiempo Navegación", value: "4m 15s", note: "Exploración de itinerarios detallados" },
-        { label: "Lighthouse Score", value: "98/100", note: "Core Web Vitals óptimos" }
-      ],
-      image: "/images/03-portafolio/framed/peru-travel.webp",
-      modalImage: "/images/03-portafolio/PeruTravel.webp",
-      modalMobileImage: "/images/03-portafolio/PeruTravel.webp",
-      link: "https://perutravel.pe"
-    },
-
-    // --- 15. CAMISAS EN TALLAS GRANDES ---
+    // --- 10. CAMISAS EN TALLAS GRANDES ---
     {
       title: "Camisas en Tallas Grandes (CTG)",
       slug: "camisas-tallas-grandes",
@@ -557,10 +392,10 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/camisas-tallas-grandes.webp",
       modalImage: "/images/03-portafolio/UrbanStyle.webp",
       modalMobileImage: "/images/03-portafolio/UrbanStyle.webp",
-      link: "https://camisasentallasgrandes.com"
+      link: "https://camisasentallasgrandes.vercel.app/#inicio"
     },
 
-    // --- 16. NUEVA VIDA CENTRO MÉDICO ---
+    // --- 11. NUEVA VIDA CENTRO MÉDICO ---
     {
       title: "Nueva Vida Centro Médico",
       slug: "nueva-vida-centro-medico",
@@ -592,7 +427,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/nueva-vida-centro-medico.webp",
       modalImage: "/images/03-portafolio/NuevaVida.webp",
       modalMobileImage: "/images/03-portafolio/NuevaVida.webp",
-      link: "https://nuevavidamed.pe"
+      link: "https://nueva-vida-consultorio.vercel.app/#inicio"
     },
 
     // --- 17. ACADEMIA EL PROFE ---
@@ -977,7 +812,7 @@ export const PORTFOLIO_BY_LANG = {
       image: "/images/03-portafolio/framed/peru-travel-experts.webp",
       modalImage: "/images/03-portafolio/PeruTravelExperts.webp",
       modalMobileImage: "/images/03-portafolio/PeruTravelExperts.webp",
-      link: "https://perutravelexperts.com"
+      link: "https://www.perutravelexpertsb.com/"
     },
 
     // --- 28. CRÉDITOS YADIEL ---

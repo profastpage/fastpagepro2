@@ -4073,12 +4073,12 @@ const queryFastPageAI = (rawQuery, language = 'es') => {
     };
   }
 
-  // 5. HOTELS, TOURISM, LODGES & AMAZON ECO-STAYS
-  if (has('hotel', 'hoteles', 'reserva', 'reservas', 'booking', 'habitacion', 'habitaciones', 'huesped', 'huespedes', 'turismo', 'viajes', 'tours', 'selva', 'tarapoto', 'puno', 'huanchaco', 'cusco', 'machu picchu', 'lodge', 'cabaña', 'cabañas', 'vuelo 78', 'intiquilla', 'rainforest', 'titicaca')) {
+  // 5. HOTELS, TOURISM, LODGES & TRAVEL
+  if (has('hotel', 'hoteles', 'reserva', 'reservas', 'booking', 'habitacion', 'habitaciones', 'huesped', 'huespedes', 'turismo', 'viajes', 'tours', 'selva', 'tarapoto', 'puno', 'cusco', 'machu picchu', 'lodge', 'cabaña', 'cabañas', 'vuelo 78', 'intiquilla', 'titicaca')) {
     return {
       text: isEs
-        ? "🏨 **Sistema de Reservas Directas por WhatsApp (Cero Comisiones para Hoteles y Turismo)**\n\nNuestra solución estrella permite a hoteles y operadores turísticos saltarse el 15% - 20% de comisiones que cobran plataformas como Booking.com o Airbnb:\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Pasó de 15 a 42 reservas directas mensuales con flujo automatizado de disponibilidad y confirmación.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Catálogo de habitaciones en Lago Titicaca con selector de fechas y cálculo automático de noches.\n• 🏄‍♂️ " + linkTo("El Hombre Hotel Huanchaco", "el-hombre-hotel") + ": Hotel boutique de surf frente al mar con reservas directas y galería inmersiva.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Operador de trekking en Cusco y Machu Picchu con itinerarios interactivos.\n• 🦜 " + linkTo("Rainforest Wild", "rainforest-wild") + ": Eco-lodge en la selva de Tambopata con expediciones guiadas.\n• ✈️ " + linkTo("Peru Travel Experts", "peru-travel-experts") + " y " + linkTo("Peru Travel", "peru-travel") + ": Agencias de turismo receptivo con cotización de paquetes a medida.\n\n💡 **0% de comisiones:** El 100% del pago entra directo a la cuenta bancaria de tu negocio."
-        : "🏨 **Direct WhatsApp Booking Engine (0% Commission Fees)**\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Jumped from 15 to 42 direct monthly bookings via automated availability funnels.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Room selector on Lake Titicaca.\n• 🏄‍♂️ " + linkTo("El Hombre Hotel", "el-hombre-hotel") + ": Beachfront surf hotel.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Cusco trekking and adventure portal.",
+        ? "🏨 **Sistema de Reservas Directas por WhatsApp (Cero Comisiones para Hoteles y Turismo)**\n\nNuestra solución estrella permite a hoteles y operadores turísticos saltarse el 15% - 20% de comisiones que cobran plataformas como Booking.com o Airbnb:\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Pasó de 15 a 42 reservas directas mensuales con flujo automatizado de disponibilidad y confirmación.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Catálogo de habitaciones en Lago Titicaca con selector de fechas y cálculo automático de noches.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Operador de trekking en Cusco y Machu Picchu con itinerarios interactivos.\n• ✈️ " + linkTo("Peru Travel Experts", "peru-travel-experts") + ": Agencia de turismo receptivo VIP con itinerarios de lujo y cotización a medida.\n\n💡 **0% de comisiones:** El 100% del pago entra directo a la cuenta bancaria de tu negocio."
+        : "🏨 **Direct WhatsApp Booking Engine (0% Commission Fees)**\n\n• 🌴 " + linkTo("Vuelo 78 Hotel Tarapoto", "vuelo-78-hotel") + ": Jumped from 15 to 42 direct monthly bookings via automated availability funnels.\n• 🌊 " + linkTo("Hotel Puno Terra", "hotel-puno-terra") + ": Room selector on Lake Titicaca.\n• 🏔️ " + linkTo("Intiquilla Adventures", "intiquilla-adventures") + ": Cusco trekking and adventure portal.\n• ✈️ " + linkTo("Peru Travel Experts", "peru-travel-experts") + ": Luxury inbound travel agency.",
       buttons: [
         { text: isEs ? 'Ver Vuelo 78 Hotel' : 'View Vuelo 78 Hotel', action: 'case-study', slug: 'vuelo-78-hotel' },
         { text: isEs ? 'Ver Hotel Puno Terra' : 'View Hotel Puno Terra', action: 'case-study', slug: 'hotel-puno-terra' },
@@ -4202,14 +4202,13 @@ const queryFastPageAI = (rawQuery, language = 'es') => {
   }
 
   // 11. HEALTHCARE, CLINICS & MEDICAL SPECIALTIES
-  if (has('clinica', 'medico', 'medica', 'doctor', 'salud', 'paciente', 'pacientes', 'citas', 'nueva vida', 'semaltemed', 'ocupacional', 'dental', 'estetica', 'psicologo', 'odontologo')) {
+  if (has('clinica', 'medico', 'medica', 'doctor', 'salud', 'paciente', 'pacientes', 'citas', 'nueva vida', 'dental', 'estetica', 'psicologo', 'odontologo')) {
     return {
       text: isEs
-        ? "🩺 **Plataformas de Confianza Médica y Agendamiento de Pacientes**\n\nTransmitimos autoridad clínica y reducimos a cero las ausencias a consultas médicas:\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Portal de salud integral con directorio de especialidades (ginecología, pediatría, odontología) y agendamiento de turnos en línea.\n• 🩺 " + linkTo("Semaltemed", "semaltemed") + ": Soluciones en medicina preventiva y salud ocupacional corporativa para cumplimiento normativo de empresas.\n\n💡 **Incluye:** Flujo de reservas médicas, confirmación automática por WhatsApp y diseño sobrio que transmite paz y rigor sanitario."
-        : "🩺 **Healthcare & Clinical Web Solutions**\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Medical directory with appointment booking.\n• 🩺 " + linkTo("Semaltemed", "semaltemed") + ": Occupational medicine & preventative corporate healthcare.",
+        ? "🩺 **Plataformas de Confianza Médica y Agendamiento de Pacientes**\n\nTransmitimos autoridad clínica y reducimos a cero las ausencias a consultas médicas:\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Portal de salud integral con directorio de especialidades (ginecología, pediatría, odontología) y agendamiento de turnos en línea con confirmación inmediata.\n\n💡 **Incluye:** Flujo de reservas médicas, recordatorio automatizado por WhatsApp y diseño sobrio que transmite paz y rigor sanitario."
+        : "🩺 **Healthcare & Clinical Web Solutions**\n\n• 🏥 " + linkTo("Centro Médico Nueva Vida", "nueva-vida-centro-medico") + ": Medical directory with appointment booking and automated WhatsApp reminders.",
       buttons: [
         { text: isEs ? 'Ver Centro Médico' : 'View Medical Center', action: 'case-study', slug: 'nueva-vida-centro-medico' },
-        { text: isEs ? 'Ver Semaltemed' : 'View Semaltemed', action: 'case-study', slug: 'semaltemed' },
         { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
       ]
     };
@@ -4242,14 +4241,13 @@ const queryFastPageAI = (rawQuery, language = 'es') => {
     };
   }
 
-  // 14. PACKAGING, INDUSTRIAL BOXES & AGRIBUSINESS
-  if (has('packaging', 'cajas', 'carton', 'corrugado', 'empaques', 'embalaje', 'gudstor', 'agro', 'agroindustria', 'cooperativa', 'cafe', 'cacao', 'union el progreso')) {
+  // 14. AGRIBUSINESS, COOPERATIVES & EXPORTS
+  if (has('agro', 'agroindustria', 'cooperativa', 'cafe', 'cacao', 'union el progreso', 'exportacion', 'trazabilidad')) {
     return {
       text: isEs
-        ? "📦 **Soluciones Digitales para Industrias, Packaging y Agroexportación**\n\n• 📦 " + linkTo("Gudstor Pack", "gudstor-pack") + ": Empresa fabricante de empaques industriales y cajas de cartón corrugado a medida con cotizador por volumen.\n• ☕ " + linkTo("Unión el Progreso", "union-el-progreso") + ": Cooperativa agraria cafetalera y cacaotera con trazabilidad de origen y catálogo de exportación para compradores internacionales.\n\n¿Requieres una plataforma con catálogo B2B para pedidos al por mayor?"
-        : "📦 **Digital Solutions for Industrial Packaging & Agribusiness**\n\n• 📦 " + linkTo("Gudstor Pack", "gudstor-pack") + ": Industrial packaging and custom corrugated box solutions.\n• ☕ " + linkTo("Unión el Progreso", "union-el-progreso") + ": Agrarian coffee & cocoa cooperative export portal.",
+        ? "☕ **Soluciones Digitales para Cooperativas y Agroexportación**\n\n• 🌿 " + linkTo("Unión el Progreso", "union-el-progreso") + ": Cooperativa agraria cafetalera y cacaotera con trazabilidad de origen y catálogo de exportación para compradores internacionales.\n\n¿Requieres una plataforma con catálogo B2B para pedidos al por mayor o trazabilidad de cosecha?"
+        : "☕ **Digital Solutions for Agricultural Cooperatives & Agribusiness**\n\n• 🌿 " + linkTo("Unión el Progreso", "union-el-progreso") + ": Agrarian coffee & cocoa cooperative export portal with origin traceability.",
       buttons: [
-        { text: isEs ? 'Ver Gudstor Pack' : 'View Gudstor Pack', action: 'case-study', slug: 'gudstor-pack' },
         { text: isEs ? 'Ver Unión el Progreso' : 'View Unión el Progreso', action: 'case-study', slug: 'union-el-progreso' },
         { text: isEs ? 'Agendar 15 min en Meet' : 'Book 15 min Call', action: 'calendly' }
       ]
@@ -4370,7 +4368,7 @@ const queryFastPageAI = (rawQuery, language = 'es') => {
     };
   }
 
-  // 23. DYNAMIC SEARCH ACROSS ALL 35 PORTFOLIO PROJECTS
+  // 23. DYNAMIC SEARCH ACROSS ALL PORTFOLIO PROJECTS
   const matchingProjects = allProjects.filter((p) => {
     const textToSearch = `${p.title} ${p.description || ''} ${p.industryLabel || ''} ${p.industry || ''} ${(p.techStack || []).join(' ')}`
       .toLowerCase()
