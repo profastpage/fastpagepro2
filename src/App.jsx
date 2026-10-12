@@ -161,28 +161,30 @@ const WhatsAppOfficialIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
-// --- Context-Aware WhatsApp Messages (100% Universal UTF-8 URI Encoded) ---
+// --- Context-Aware WhatsApp Messages (100% Universal UTF-8 URI Encoded via api.whatsapp.com/send) ---
 const getWhatsAppLink = (contexto, extra = {}) => {
-  const base = `https://wa.me/${WHATSAPP_NUMBER}?text=`;
+  // Using api.whatsapp.com/send directly instead of wa.me because wa.me's 302 redirector
+  // corrupts 4-byte UTF-8 emojis into %EF%BF%BD (replacement character ) on WhatsApp Web.
+  const base = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=`;
 
   if (contexto === "demo") {
     return base + encodeURIComponent(extra.mensaje || "");
   }
 
   const mensajes = {
-    servicios: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero *cotizar mi proyecto o sistema web* 🚀\n\n- *Modalidad de interés:* ${extra.modalidad || "Por definir (Base del portafolio con descuento / Proyecto desde cero / Sistema con Base de Datos)"}\n- *Objetivo:* Optimizar y escalar mi negocio\n\nQuedo atento a su asesoría.`,
+    servicios: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero *cotizar mi proyecto o sistema web* 🚀\n\n• *Modalidad de interés:* ${extra.modalidad || "Por definir (Base del portafolio con descuento / Proyecto desde cero / Sistema con Base de Datos)"}\n• *Objetivo:* Optimizar y escalar mi negocio\n\nQuedo atento a su asesoría. ✨`,
 
-    portafolio: `*¡Hola, Fast Page Pro!* ⚡\n\nMe gustó su proyecto *${extra.nombre || ""}* del portafolio y quiero implementarlo en mi negocio.\n\n- *Beneficio solicitado:* Tarifa preferencial + Descuento especial para próximo desarrollo\n- *Rubro:* ${extra.sector || "Por definir"}\n\n¿Me brindan los detalles y cotización?`,
+    portafolio: `*¡Hola, Fast Page Pro!* ⚡\n\nMe gustó su proyecto *${extra.nombre || ""}* del portafolio y quiero implementarlo en mi negocio.\n\n• *Beneficio solicitado:* Tarifa preferencial + Descuento especial para próximo desarrollo\n• *Rubro:* ${extra.sector || "Por definir"}\n\n¿Me brindan los detalles y cotización? ✅`,
 
-    precios: `*¡Hola, Fast Page Pro!* 🚀\n\nQuiero consultar la cotización del *Plan ${extra.plan || "PRO"}*.\n\n- *Modalidad:* ${extra.modalidad || "A consultar según requerimientos de mi negocio"}\n- *Beneficio:* Información sobre descuento por arquitectura preconstruida o desarrollo a medida\n\n¿Podemos conversar sobre mi proyecto? ✅`,
+    precios: `*¡Hola, Fast Page Pro!* 🚀\n\nQuiero consultar la cotización del *Plan ${extra.plan || "PRO"}*.\n\n• *Modalidad:* ${extra.modalidad || "A consultar según requerimientos de mi negocio"}\n• *Beneficio:* Información sobre descuento por arquitectura preconstruida o desarrollo a medida\n\n¿Podemos conversar sobre mi proyecto? ✅`,
 
-    sistema_bd: `*¡Hola, Fast Page Pro!* 🗄️🚀\n\nNecesito cotizar un *Sistema a Medida con Base de Datos* para mi negocio.\n\n- *Objetivo:* Optimizar y automatizar procesos operativos\n- *Requerimiento:* Sistema funcional personalizado${extra.proyecto ? ` (inspirado en ${extra.proyecto})` : ""}\n\nQuedo atento para evaluar mi requerimiento.`,
+    sistema_bd: `*¡Hola, Fast Page Pro!* 🗄️🚀\n\nNecesito cotizar un *Sistema a Medida con Base de Datos* para mi negocio.\n\n• *Objetivo:* Optimizar y automatizar procesos operativos\n• *Requerimiento:* Sistema funcional personalizado${extra.proyecto ? ` (inspirado en ${extra.proyecto})` : ""}\n\nQuedo atento para evaluar mi requerimiento. ✅`,
 
-    proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀\n\nHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.\n\n- *Nombre:* ${extra.nombre || "Por completar"}\n- *Negocio:* ${extra.negocio || "Por definir"}\n\n¿Tienen disponibilidad esta semana? 📅`,
+    proceso: `*¡Hola! Quiero comenzar mi proyecto* 🚀\n\nHe visto su proceso de trabajo y me gustaría agendar una reunión de *Descubrimiento*.\n\n• *Nombre:* ${extra.nombre || "Por completar"}\n• *Negocio:* ${extra.negocio || "Por definir"}\n\n¿Tienen disponibilidad esta semana? 📅`,
 
-    contacto: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero cotizar una solución para mi negocio:\n\n1️⃣ Adaptar una página/sistema preconstruido (con descuento especial)\n2️⃣ Proyecto totalmente nuevo a personalización\n3️⃣ Sistema a medida con Base de Datos para automatizar procesos\n\nQuedo atento a su respuesta.`,
+    contacto: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero cotizar una solución para mi negocio:\n\n1️⃣ Adaptar una página/sistema preconstruido (con descuento especial)\n2️⃣ Proyecto totalmente nuevo a personalización\n3️⃣ Sistema a medida con Base de Datos para automatizar procesos\n\nQuedo atento a su respuesta. ✨`,
 
-    default: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información y cotización sobre *páginas web, tiendas online y sistemas a medida con bases de datos*.\n\nQuedo atento a su respuesta.`
+    default: `*¡Hola, Fast Page Pro!* 👋\n\nQuiero información y cotización sobre *páginas web, tiendas online y sistemas a medida con bases de datos*.\n\nQuedo atento a su respuesta. ✨`
   };
 
   const texto = mensajes[contexto] || mensajes.default;
@@ -417,7 +419,7 @@ const COPY = {
     heroPrimaryCta: "Ver Portafolio",
     heroPrimaryMsg: "Quiero ver el portafolio",
     heroSecondaryCta: "Cotizar Mi Proyecto",
-    heroSecondaryMsg: `Hola Fast Page Pro \ud83d\udc4b\n\nQuiero *cotizar mi proyecto web* \ud83d\ude80\n\n\ud83d\udcbc *Tipo de proyecto:* Por definir\n\ud83c\udf10 *Necesito:* Web profesional / Tienda online / App\n\n\ud83d\udcc8 *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta. \u2728`,
+    heroSecondaryMsg: `Hola Fast Page Pro 👋\n\nQuiero *cotizar mi proyecto web* 🚀\n\n💼 *Tipo de proyecto:* Por definir\n🌐 *Necesito:* Web profesional / Tienda online / Sistema con BD\n\n📈 *Objetivo:* Impulsar mi negocio online\n\nQuedo atento a su respuesta. ✨`,
     trustTitle: "Negocios Asociados",
     stats: ["Proyectos entregados", "Años de experiencia", "Satisfacción garantizada"],
     portfolioTitle: "Nuestro Portafolio",
@@ -526,7 +528,7 @@ const COPY = {
     heroPrimaryCta: "See Portfolio",
     heroPrimaryMsg: "I want to see the portfolio",
     heroSecondaryCta: "Get a Quote",
-    heroSecondaryMsg: `Hi Fast Page Pro \ud83d\udc4b\n\nI want to *get a quote for my web project* \ud83d\ude80\n\n\ud83d\udcbc *Project type:* To be defined\n\ud83c\udf10 *I need:* Professional website / Online store / App\n\n\ud83d\udcc8 *Goal:* Boost my business online\n\nLooking forward to your response. \u2728`,
+    heroSecondaryMsg: `Hi Fast Page Pro 👋\n\nI want to *get a quote for my web project* 🚀\n\n💼 *Project type:* To be defined\n🌐 *I need:* Professional website / Online store / DB System\n\n📈 *Goal:* Boost my business online\n\nLooking forward to your response. ✨`,
     trustTitle: "Partner Businesses",
     stats: ["Projects delivered", "Years of experience", "Satisfaction guaranteed"],
     portfolioTitle: "Our Portfolio",
@@ -671,11 +673,11 @@ const ElectricBolt = ({ size = 35 }) => {
 // --- Helper Components ---
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal", waContext, waExtra, ctaId }) => {
-  const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n${WA_EMOJI.check} *Objetivo:* Agendar una demo\n${WA_EMOJI.hotel} *Tipo de negocio:* Por definir\n\nQuedo atento.`;
+  const defaultMessage = `Hola Fast Page Pro ${WA_EMOJI.wave}\n\nQuiero información sobre *webs profesionales, páginas preconstruidas con descuento y sistemas a medida con bases de datos*.\n\n${WA_EMOJI.check} *Objetivo:* Cotizar mi proyecto\n\nQuedo atento. ✨`;
   // Use context-aware link if waContext is provided, otherwise fall back to message/href/default
   const url = waContext
     ? getWhatsAppLink(waContext, waExtra)
-    : `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
+    : `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
   
@@ -1621,7 +1623,7 @@ Could you please confirm availability and final rate?`;
         </div>
 
         <a
-          href={canGenerate ? `https://wa.me/${businessPhoneDigits}?text=${encodeURIComponent(demoMessage)}` : "#"}
+          href={canGenerate ? `https://api.whatsapp.com/send?phone=${businessPhoneDigits}&text=${encodeURIComponent(demoMessage)}` : "#"}
           target="_blank"
           rel="noreferrer noopener"
           className={`mt-6 inline-flex w-full h-[60px] justify-center items-center rounded-full px-6 text-base font-semibold transition-all duration-200 ease-out hover:scale-[1.02] active:scale-[0.98] ${canGenerate ? "bg-stone-950 text-white hover:bg-stone-800" : "bg-stone-300 text-stone-500 cursor-not-allowed pointer-events-none"}`}
@@ -1997,8 +1999,8 @@ const ContactSection = ({ copy, language }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("sending");
-    const msg = `Hola Fast Page Pro!\n\nNombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.phone}\n\n${formData.message}`;
-    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    const msg = `¡Hola Fast Page Pro! 👋\n\n👤 *Nombre:* ${formData.name}\n📧 *Email:* ${formData.email}\n📱 *Teléfono:* ${formData.phone}\n\n💬 *Mensaje:*\n${formData.message}`;
+    const waUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(msg)}`;
 
     // Fire tracking before opening WhatsApp so the event survives navigation.
     trackCtaClick('contact_form_submit', 'whatsapp', { form_name: formData.name || 'anon' });
@@ -5045,8 +5047,8 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
   const shareViaWhatsApp = () => {
     const url = `https://fastpagepro.com/portafolio/${project.slug || ''}`;
-    const text = encodeURIComponent(`Hola, te comparto el caso de éxito de *${project.title}* en Fast Page Pro: ${url}`);
-    window.open(`https://wa.me/?text=${text}`, '_blank', 'noopener,noreferrer');
+    const text = encodeURIComponent(`Hola 👋, te comparto el caso de éxito de *${project.title}* en Fast Page Pro: ${url}`);
+    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank', 'noopener,noreferrer');
   };
 
   // Keyboard navigation for Left/Right and Escape (strictly reactive to keydown)
@@ -5262,8 +5264,8 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
               <button
                 onClick={() => {
-                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Vi el proyecto *${project.title}* en su portafolio y quiero elegir esta arquitectura preconstruida para mi negocio con el *Descuento Especial + Beneficio para próximo desarrollo*. ¿Me brindan la cotización?`);
-                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Vi el proyecto *${project.title}* en su portafolio y quiero elegir esta arquitectura preconstruida para mi negocio con el *Descuento Especial + Beneficio para próximo desarrollo* 🚀. ¿Me brindan la cotización? ✨`);
+                  window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${msg}`, '_blank', 'noopener,noreferrer');
                 }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/20"
               >
@@ -5467,8 +5469,8 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
             <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 pt-4">
               <button
                 onClick={() => {
-                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Quiero elegir la página/sistema preconstruido de *${project.title}* para mi negocio y aplicar al *Descuento Especial por próximo desarrollo*. ¿Me brindan información?`);
-                  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener,noreferrer');
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Quiero elegir la página/sistema preconstruido de *${project.title}* para mi negocio y aplicar al *Descuento Especial por próximo desarrollo* 🚀. ¿Me brindan información? ✨`);
+                  window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${msg}`, '_blank', 'noopener,noreferrer');
                 }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-full font-bold text-xs uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/25"
               >

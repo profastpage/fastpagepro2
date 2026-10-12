@@ -49,8 +49,8 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   size = 'normal',
   ctaId,
 }) => {
-  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Tipo de negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message || defaultMessage)}`;
+  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs profesionales, páginas preconstruidas con descuento y sistemas a medida con bases de datos*.\n\n✅ *Objetivo:* Cotizar mi proyecto\n\nQuedo atento. ✨`;
+  const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
 

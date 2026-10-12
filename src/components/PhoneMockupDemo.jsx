@@ -376,7 +376,7 @@ Could you confirm availability?`;
             </div>
 
             <motion.a
-              href={showMessage ? `https://wa.me/51933667414?text=${encodeURIComponent(demoMessage)}` : "#"}
+              href={showMessage ? `https://api.whatsapp.com/send?phone=51933667414&text=${encodeURIComponent(demoMessage)}` : "#"}
               target="_blank"
               rel="noreferrer noopener"
               whileHover={showMessage ? { scale: 1.02 } : {}}

@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const WhatsAppButton = ({ text, message, href, variant = "primary", className = "", onClick, size = "normal" }) => {
-  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs y sistemas de reservas por WhatsApp*.\n\n✅ *Objetivo:* Agendar una demo\n🏨 *Negocio:* Por definir\n\nQuedo atento.`;
-  const url = `https://wa.me/51933667414?text=${encodeURIComponent(message || defaultMessage)}`;
+  const defaultMessage = `Hola Fast Page Pro 👋\n\nQuiero información sobre *webs profesionales, páginas preconstruidas con descuento y sistemas a medida con bases de datos*.\n\n✅ *Objetivo:* Cotizar mi proyecto\n\nQuedo atento. ✨`;
+  const url = `https://api.whatsapp.com/send?phone=51933667414&text=${encodeURIComponent(message || defaultMessage)}`;
   const finalHref = href || url;
   const isExternalLink = /^https?:\/\//.test(finalHref);
 
