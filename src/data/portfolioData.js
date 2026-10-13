@@ -76,8 +76,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Velocidad TTFB", value: "0.45s", note: "Edge CDN distribuida globalmente" }
       ],
       image: "/images/03-portafolio/framed/vuelo-78-hotel.webp",
-      modalImage: "/images/03-portafolio/vuelo78hotel-modal.webp",
-      modalMobileImage: "/images/03-portafolio/vuelo78hotel-mobile.webp",
+      modalImage: "/images/03-portafolio/real/vuelo-78-hotel-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/vuelo-78-hotel-mobile.webp",
       link: "https://www.vuelo78hotel.com"
     },
 
@@ -111,8 +111,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Carga de Imágenes", value: "< 0.5s", note: "Compresión WebP lossless adaptativa" }
       ],
       image: "/images/03-portafolio/framed/cmc-latam.webp",
-      modalImage: "/images/03-portafolio/CMCLATAM.webp",
-      modalMobileImage: "/images/03-portafolio/CMCLATAM.webp",
+      modalImage: "/images/03-portafolio/real/cmc-latam-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/cmc-latam-mobile.webp",
       link: "https://www.cmclatam.pe/"
     },
 
@@ -146,8 +146,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Leads Técnicos", value: "3.5x", note: "Canal directo con ingenieros" }
       ],
       image: "/images/03-portafolio/framed/moda-digital-pro.webp",
-      modalImage: "/images/03-portafolio/ModaDigitalPro-modal.webp",
-      modalMobileImage: "/images/03-portafolio/ModaDigitalPro-mobile.webp",
+      modalImage: "/images/03-portafolio/real/moda-digital-pro-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/moda-digital-pro-mobile.webp",
       link: "https://www.modadigitalpro.com/"
     },
 
@@ -181,8 +181,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Conversión a Reserva", value: "38%", note: "Cierre comercial por WhatsApp" }
       ],
       image: "/images/03-portafolio/framed/gincana-club-campestre.webp",
-      modalImage: "/images/03-portafolio/GincanaClub.webp",
-      modalMobileImage: "/images/03-portafolio/GincanaClub.webp",
+      modalImage: "/images/03-portafolio/real/gincana-club-campestre-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/gincana-club-campestre-mobile.webp",
       link: "https://www.gincanasclubescampestres.com/"
     },
 
@@ -216,8 +216,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Retención en Sitio", value: "3m 40s", note: "Lectura de servicios tributarios" }
       ],
       image: "/images/03-portafolio/framed/jhon-asociados.webp",
-      modalImage: "/images/03-portafolio/JhonAsociados.webp",
-      modalMobileImage: "/images/03-portafolio/JhonAsociados.webp",
+      modalImage: "/images/03-portafolio/real/jhon-asociados-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/jhon-asociados-mobile.webp",
       link: "https://www.jhonasociados.com/"
     },
 
@@ -251,8 +251,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Seguridad de Datos", value: "TLS 1.3", note: "Protección de información financiera" }
       ],
       image: "/images/03-portafolio/framed/union-el-progreso.webp",
-      modalImage: "/images/03-portafolio/UnionProgreso-hero.webp",
-      modalMobileImage: "/images/03-portafolio/UnionProgreso.webp",
+      modalImage: "/images/03-portafolio/real/union-el-progreso-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/union-el-progreso-mobile.webp",
       link: "https://www.unionelprogreso.com/"
     },
 
@@ -286,8 +286,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Consultas de Trekking", value: "4.2x", note: "Salkantay y Camino Inca directo" }
       ],
       image: "/images/03-portafolio/framed/intiquilla-adventures.webp",
-      modalImage: "/images/03-portafolio/IntiquillaAdventures.webp",
-      modalMobileImage: "/images/03-portafolio/IntiquillaAdventures.webp",
+      modalImage: "/images/03-portafolio/real/intiquilla-adventures-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/intiquilla-adventures-mobile.webp",
       link: "https://www.intiquilladventures.com/"
     },
 
@@ -321,8 +321,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Velocidad de Carga", value: "0.50s", note: "Renderizado estático de alto rendimiento" }
       ],
       image: "/images/03-portafolio/framed/sertrade.webp",
-      modalImage: "/images/03-portafolio/Sertrade.webp",
-      modalMobileImage: "/images/03-portafolio/Sertrade.webp",
+      modalImage: "/images/03-portafolio/real/sertrade-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/sertrade-mobile.webp",
       link: "https://www.sertradeproyectos.com/"
     },
 
@@ -356,8 +356,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Ticket Promedio", value: "+32%", note: "Venta cruzada calzado + carteras" }
       ],
       image: "/images/03-portafolio/framed/maia-store.webp",
-      modalImage: "/images/03-portafolio/MaiaStore-desktop.png",
-      modalMobileImage: "/images/03-portafolio/MaiaStore-mobile-real.png",
+      modalImage: "/images/03-portafolio/real/maia-store-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/maia-store-mobile.webp",
       link: "https://maia-store.vercel.app/"
     },
 
@@ -391,8 +391,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Carga Smartphones", value: "0.49s", note: "Optimización total para móviles" }
       ],
       image: "/images/03-portafolio/framed/camisas-tallas-grandes.webp",
-      modalImage: "/images/03-portafolio/UrbanStyle.webp",
-      modalMobileImage: "/images/03-portafolio/UrbanStyle.webp",
+      modalImage: "/images/03-portafolio/real/camisas-tallas-grandes-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/camisas-tallas-grandes-mobile.webp",
       link: "https://camisasentallasgrandes.vercel.app/#inicio"
     },
 
@@ -426,8 +426,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Carga Móvil", value: "0.51s", note: "Bajo consumo de datos para pacientes" }
       ],
       image: "/images/03-portafolio/framed/nueva-vida-centro-medico.webp",
-      modalImage: "/images/03-portafolio/NuevaVida.webp",
-      modalMobileImage: "/images/03-portafolio/NuevaVida.webp",
+      modalImage: "/images/03-portafolio/real/nueva-vida-centro-medico-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/nueva-vida-centro-medico-mobile.webp",
       link: "https://nueva-vida-consultorio.vercel.app/#inicio"
     },
 
@@ -461,8 +461,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Tasa Ingreso UNI", value: "Alta Tasa", note: "Efectividad del método Prof. Kike" }
       ],
       image: "/images/03-portafolio/framed/academia-el-profe.webp",
-      modalImage: "/images/03-portafolio/AcademiaElProfe.webp",
-      modalMobileImage: "/images/03-portafolio/AcademiaElProfe.webp",
+      modalImage: "/images/03-portafolio/real/academia-el-profe-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/academia-el-profe-mobile.webp",
       link: "https://www.academiaelprofeoficial.com/"
     },
 
@@ -496,8 +496,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Acreditación", value: "Homologado", note: "Cumplimiento normativo para empresas" }
       ],
       image: "/images/03-portafolio/framed/breicorp.webp",
-      modalImage: "/images/03-portafolio/Breicorp-hero.png",
-      modalMobileImage: "/images/03-portafolio/Breicorp.webp",
+      modalImage: "/images/03-portafolio/real/breicorp-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/breicorp-mobile.webp",
       link: "https://breicorp.com.pe/"
     },
 
@@ -531,8 +531,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Evaluación Rápida", value: "< 24h", note: "Pre-aprobación crediticia express" }
       ],
       image: "/images/03-portafolio/framed/mandi-corp.webp",
-      modalImage: "/images/03-portafolio/MandiCorp-modal.webp",
-      modalMobileImage: "/images/03-portafolio/MandiCorp-mobile.webp",
+      modalImage: "/images/03-portafolio/real/mandi-corp-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/mandi-corp-mobile.webp",
       link: "https://www.mandicorp.com/#inicio"
     },
 
@@ -566,8 +566,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Velocidad TTFB", value: "0.47s", note: "Edge rendering con Next.js 15" }
       ],
       image: "/images/03-portafolio/framed/editorial-horizonte.webp",
-      modalImage: "/images/03-portafolio/EditorialHorizonte-hero.png",
-      modalMobileImage: "/images/03-portafolio/EditorialHorizonte-mobile.webp",
+      modalImage: "/images/03-portafolio/real/editorial-horizonte-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/editorial-horizonte-mobile.webp",
       link: "https://editorial-horizonte-five.vercel.app/"
     },
 
@@ -601,8 +601,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Carga en Móviles", value: "0.50s", note: "Optimizado para ingenieros en campo" }
       ],
       image: "/images/03-portafolio/framed/amc-soluciones-peru.webp",
-      modalImage: "/images/03-portafolio/AMCSoluciones-hero.png",
-      modalMobileImage: "/images/03-portafolio/AMCSoluciones.webp",
+      modalImage: "/images/03-portafolio/real/amc-soluciones-peru-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/amc-soluciones-peru-mobile.webp",
       link: "https://www.amcsolucionesperu.com/"
     },
 
@@ -636,8 +636,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Lighthouse Móvil", value: "99/100", note: "Next.js 15 con Server Components" }
       ],
       image: "/images/03-portafolio/framed/itools-peru.webp",
-      modalImage: "/images/03-portafolio/iTools-modal.webp",
-      modalMobileImage: "/images/03-portafolio/iTools-mobile.webp",
+      modalImage: "/images/03-portafolio/real/itools-peru-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/itools-peru-mobile.webp",
       link: "https://i-tools-steel.vercel.app/"
     },
 
@@ -671,8 +671,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Autoridad Legal", value: "Élite", note: "Percepción de alta firma en Lima" }
       ],
       image: "/images/03-portafolio/framed/medina-almonte-firma-legal.webp",
-      modalImage: "/images/03-portafolio/MedinaAlmonte-desktop.webp",
-      modalMobileImage: "/images/03-portafolio/MedinaAlmonte-mobile.webp",
+      modalImage: "/images/03-portafolio/real/medina-almonte-firma-legal-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/medina-almonte-firma-legal-mobile.webp",
       link: "https://www.medinaalmontelawyers.com/"
     },
 
@@ -706,8 +706,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Velocidad Carga", value: "0.47s", note: "Next.js 15 con caché perimetral" }
       ],
       image: "/images/03-portafolio/framed/femar-logistics.webp",
-      modalImage: "/images/03-portafolio/FemarLogistics-modal.webp",
-      modalMobileImage: "/images/03-portafolio/FemarLogistics-mobile.webp",
+      modalImage: "/images/03-portafolio/real/femar-logistics-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/femar-logistics-mobile.webp",
       link: "https://femar-logistics.vercel.app"
     },
 
@@ -741,8 +741,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Puntaje en Móvil", value: "99/100", note: "Optimización total en smartphones" }
       ],
       image: "/images/03-portafolio/framed/hotel-puno-terra.webp",
-      modalImage: "/images/03-portafolio/HotelPunoTerra-modal.webp",
-      modalMobileImage: "/images/03-portafolio/HotelPunoTerra-mobile.webp",
+      modalImage: "/images/03-portafolio/real/hotel-puno-terra-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/hotel-puno-terra-mobile.webp",
       link: "https://www.punoterra.com/"
     },
 
@@ -776,8 +776,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Satisfacción VIP", value: "5.0/5", note: "Calificación perfecta de viajeros" }
       ],
       image: "/images/03-portafolio/framed/peru-travel-experts.webp",
-      modalImage: "/images/03-portafolio/PeruTravelExperts.webp",
-      modalMobileImage: "/images/03-portafolio/PeruTravelExperts.webp",
+      modalImage: "/images/03-portafolio/real/peru-travel-experts-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/peru-travel-experts-mobile.webp",
       link: "https://www.perutravelexpertsb.com/"
     },
 
@@ -811,8 +811,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Tasa Desembolso", value: "74%", note: "Leads prefiltrados con el simulador" }
       ],
       image: "/images/03-portafolio/framed/creditos-yadiel.webp",
-      modalImage: "/images/03-portafolio/CreditosYadiel-prestamos.png",
-      modalMobileImage: "/images/03-portafolio/CreditosYadiel.webp",
+      modalImage: "/images/03-portafolio/real/creditos-yadiel-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/creditos-yadiel-mobile.webp",
       link: "https://creditosyadiel.vercel.app/#inicio"
     },
 
@@ -846,8 +846,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Tasa Retención", value: "88%", note: "Estructura sobria de alta credibilidad" }
       ],
       image: "/images/03-portafolio/framed/roma-abogados.webp",
-      modalImage: "/images/03-portafolio/RomaAbogados-modal.webp",
-      modalMobileImage: "/images/03-portafolio/RomaAbogados-mobile.webp",
+      modalImage: "/images/03-portafolio/real/roma-abogados-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/roma-abogados-mobile.webp",
       link: "https://romaabogados.pe"
     },
 
@@ -881,8 +881,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Órdenes Procesadas", value: "+230%", note: "Importaciones seguras puerta a puerta" }
       ],
       image: "/images/03-portafolio/framed/importaciones-usa-peru.webp",
-      modalImage: "/images/03-portafolio/ImportacionesEbay-modal.webp",
-      modalMobileImage: "/images/03-portafolio/ImportacionesEbay-mobile.webp",
+      modalImage: "/images/03-portafolio/real/importaciones-usa-peru-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/importaciones-usa-peru-mobile.webp",
       link: "https://importaciones-pro-business.vercel.app/login"
     },
 
@@ -916,8 +916,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Velocidad Carga", value: "0.45s", note: "Edge rendering global" }
       ],
       image: "/images/03-portafolio/framed/ecommerce-builder-pro.webp",
-      modalImage: "/images/03-portafolio/EcommerceBuilder-modal.webp",
-      modalMobileImage: "/images/03-portafolio/EcommerceBuilder-mobile.webp",
+      modalImage: "/images/03-portafolio/real/ecommerce-builder-pro-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/ecommerce-builder-pro-mobile.webp",
       link: "https://tienda-online-oficial.vercel.app/",
       demoLink: "https://tienda-online-oficial.vercel.app/demo"
     },
@@ -952,8 +952,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Adopción Tareas", value: "94%", note: "Ejecución de planes por usuarios" }
       ],
       image: "/images/03-portafolio/framed/atlas.webp",
-      modalImage: "/images/03-portafolio/AtlasDesktop.webp",
-      modalMobileImage: "/images/03-portafolio/AtlasApp.webp",
+      modalImage: "/images/03-portafolio/real/atlas-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/atlas-mobile.webp",
       link: "https://atlas-9mv.pages.dev/"
     },
 
@@ -987,8 +987,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Tiempo Ahorrado", value: "8h/sem", note: "Por cada ejecutivo de ventas" }
       ],
       image: "/images/03-portafolio/framed/cotizador-pro.webp",
-      modalImage: "/images/03-portafolio/CotizadorPro-modal.webp",
-      modalMobileImage: "/images/03-portafolio/CotizadorPro-mobile.webp",
+      modalImage: "/images/03-portafolio/real/cotizador-pro-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/cotizador-pro-mobile.webp",
       link: "https://cotizador-pro.pages.dev/"
     },
 
@@ -1022,8 +1022,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Rotación Mesas", value: "+22%", note: "Atención ágil sin esperas por la carta" }
       ],
       image: "/images/03-portafolio/framed/la-casona-gourmet.webp",
-      modalImage: "/images/03-portafolio/LaCasonaGourmet-modal.webp",
-      modalMobileImage: "/images/03-portafolio/LaCasonaGourmet-mobile.webp",
+      modalImage: "/images/03-portafolio/real/la-casona-gourmet-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/la-casona-gourmet-mobile.webp",
       link: "https://la-casa-gourmet.vercel.app/"
     },
 
@@ -1057,8 +1057,8 @@ export const PORTFOLIO_BY_LANG = {
         { label: "Tasa Conversión", value: "5.2%", note: "Checkout rápido sin contraseñas" }
       ],
       image: "/images/03-portafolio/framed/urban-style.webp",
-      modalImage: "/images/03-portafolio/UrbanStyle.webp",
-      modalMobileImage: "/images/03-portafolio/UrbanStyle.webp",
+      modalImage: "/images/03-portafolio/real/urban-style-desktop.webp",
+      modalMobileImage: "/images/03-portafolio/real/urban-style-mobile.webp",
       link: "https://tienda-online-oficial.vercel.app/demo"
     }
   ],
