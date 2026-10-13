@@ -75,6 +75,18 @@ const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/
 
 const openCalendly = () => {
   trackCtaClick('calendly_open', 'google_meet');
+  const isMobileOrTablet = typeof window !== 'undefined' && (
+    /mobi|iphone|ipod|android.*mobile|windows phone|ipad|tablet/i.test(navigator.userAgent || '') ||
+    window.innerWidth < 768
+  );
+
+  // On mobile/tablets, direct clean tab avoids cross-origin iframe lag & sandbox stalls (loads in ~1.2s)
+  if (isMobileOrTablet) {
+    window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer');
+    return;
+  }
+
+  // On desktop: use popup if Calendly library is ready, otherwise direct tab
   if (typeof window !== 'undefined' && window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
     window.Calendly.initPopupWidget({
       url: `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=0c0a09&text_color=ffffff&primary_color=eab308`
@@ -4676,7 +4688,7 @@ const FastPageAIAssistant = ({ language, isOpen, onClose, openCalendly }) => {
       initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9, y: 20 }}
-      className="fixed bottom-24 right-4 md:bottom-28 md:right-8 z-50 w-[calc(100vw-2rem)] max-w-[395px] h-[550px] bg-stone-950/95 backdrop-blur-2xl border border-yellow-500/30 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-white"
+      className="fixed inset-x-3 bottom-20 sm:inset-x-auto sm:bottom-28 sm:right-6 md:bottom-28 md:right-8 z-[110] w-auto sm:w-[395px] max-w-[395px] h-[75vh] sm:h-[550px] max-h-[620px] bg-stone-950/98 backdrop-blur-2xl border border-yellow-500/30 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-white"
     >
       {/* Header */}
       <div className="bg-gradient-to-r from-stone-900 via-stone-900 to-stone-950 p-4 border-b border-stone-800 flex items-center justify-between">
@@ -4814,10 +4826,9 @@ const FastPageAIAssistant = ({ language, isOpen, onClose, openCalendly }) => {
 };
 
 // --- Modern Desktop Floating Action Hub ---
-const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
+const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen, isAiOpen, setIsAiOpen }) => {
   const isEs = language === 'es';
   const [showTooltip, setShowTooltip] = useState(false);
-  const [isAiOpen, setIsAiOpen] = useState(false);
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem('fp_tooltip_dismissed');
@@ -4834,17 +4845,6 @@ const AdvancedWidget = ({ language, widgetCopy, isOpen, setIsOpen }) => {
 
   return (
     <>
-      <AnimatePresence>
-        {isAiOpen && (
-          <FastPageAIAssistant
-            language={language}
-            isOpen={isAiOpen}
-            onClose={() => setIsAiOpen(false)}
-            openCalendly={openCalendly}
-          />
-        )}
-      </AnimatePresence>
-
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
         {/* Proactive Tooltip */}
         <AnimatePresence>
@@ -5623,6 +5623,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
+  const [isAiOpen, setIsAiOpen] = useState(false);
   const [waNotifIndex, setWaNotifIndex] = useState(-1);
   const [liveVisitorCount, setLiveVisitorCount] = useState(0);
 
@@ -7050,7 +7051,14 @@ export default function App() {
 
       {/* Advanced Widget — desktop only */}
       <div className="hidden md:block">
-        <AdvancedWidget language={language} widgetCopy={copy.widget} isOpen={isWidgetOpen} setIsOpen={setIsWidgetOpen} />
+        <AdvancedWidget
+          language={language}
+          widgetCopy={copy.widget}
+          isOpen={isWidgetOpen}
+          setIsOpen={setIsWidgetOpen}
+          isAiOpen={isAiOpen}
+          setIsAiOpen={setIsAiOpen}
+        />
       </div>
 
       {/* Professional Bottom Nav — mobile only */}
@@ -7203,26 +7211,24 @@ export default function App() {
               <span className="text-[10px] font-medium">{language === 'es' ? 'Precios' : 'Pricing'}</span>
             </motion.button>
 
-            {/* App / Theme button — if PWA installed show theme toggle, else install button */}
-            {isAppInstalled ? (
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={toggleTheme}
-                className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-yellow-400/70 hover:text-yellow-400 transition-colors"
-              >
-                {isDarkMode ? <Sun size={20} strokeWidth={1.8} /> : <Moon size={20} strokeWidth={1.8} />}
-                <span className="text-[10px] font-medium">{language === 'es' ? 'Tema' : 'Theme'}</span>
-              </motion.button>
-            ) : (
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={handleInstallApp}
-                className="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl text-white/50 hover:text-white/80 transition-colors"
-              >
-                <Download size={20} strokeWidth={1.8} />
-                <span className="text-[10px] font-medium">{language === 'es' ? 'App' : 'App'}</span>
-              </motion.button>
-            )}
+            {/* FastPage AI — Intelligent Advisor (1-Tap Mobile Access) */}
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setIsAiOpen(true);
+                trackCtaClick('mobile_nav_ai_toggle', 'ai_assistant');
+              }}
+              className={`flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl transition-all relative ${
+                isAiOpen ? 'text-yellow-400' : 'text-purple-400 hover:text-purple-300'
+              }`}
+              aria-label="Abrir Asistente FastPage AI"
+            >
+              <div className="relative">
+                <Sparkles size={20} strokeWidth={2} className="text-purple-400" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              </div>
+              <span className="text-[10px] font-bold tracking-tight bg-gradient-to-r from-purple-300 via-yellow-200 to-amber-300 bg-clip-text text-transparent">FastPage AI</span>
+            </motion.button>
           </div>
         </div>
       </div>
@@ -7231,6 +7237,18 @@ export default function App() {
           Was running on mobile too, attaching touchmove listeners that
           created DOM nodes on every frame and janked scrolling. */}
       {!isMobile && !prefersReducedMotion && <GlowingMouseTrail />}
+
+      {/* FastPage AI Assistant — Universal (Desktop & Mobile Native Experience) */}
+      <AnimatePresence>
+        {isAiOpen && (
+          <FastPageAIAssistant
+            language={language}
+            isOpen={isAiOpen}
+            onClose={() => setIsAiOpen(false)}
+            openCalendly={openCalendly}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Portfolio Modal */}
       <AnimatePresence>
