@@ -75,24 +75,8 @@ const CALENDLY_URL = import.meta.env.VITE_CALENDLY_URL || "https://calendly.com/
 
 const openCalendly = () => {
   trackCtaClick('calendly_open', 'google_meet');
-  const isMobileOrTablet = typeof window !== 'undefined' && (
-    /mobi|iphone|ipod|android.*mobile|windows phone|ipad|tablet/i.test(navigator.userAgent || '') ||
-    window.innerWidth < 768
-  );
-
-  // On mobile/tablets, direct clean tab avoids cross-origin iframe lag & sandbox stalls (loads in ~1.2s)
-  if (isMobileOrTablet) {
-    window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer');
-    return;
-  }
-
-  // On desktop: use popup if Calendly library is ready, otherwise direct tab
-  if (typeof window !== 'undefined' && window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
-    window.Calendly.initPopupWidget({
-      url: `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=0c0a09&text_color=ffffff&primary_color=eab308`
-    });
-  } else if (typeof window !== 'undefined') {
-    window.open(CALENDLY_URL, '_blank', 'noopener,noreferrer');
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('open-calendly-modal'));
   }
 };
 
@@ -5619,13 +5603,152 @@ const PullToRefreshIndicator = () => {
   );
 };
 
+// --- In-App Calendly Modal (Keeps user on site, zero lag, native mobile UX) ---
+function CalendlyModal({ isOpen, onClose, language = 'es' }) {
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const isEs = language === 'es';
+
+  useEffect(() => {
+    if (isOpen) {
+      setIframeLoaded(false);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4">
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-stone-950/85 backdrop-blur-md"
+      />
+
+      {/* Modal / Bottom Sheet */}
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 50, scale: 0.98 }}
+        transition={{ type: "spring", damping: 28, stiffness: 320 }}
+        className="relative w-full sm:max-w-4xl h-[92vh] sm:h-[86vh] max-h-[760px] bg-stone-900 border border-stone-800 rounded-t-3xl sm:rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-white z-10"
+      >
+        {/* Mobile drag handle indicator */}
+        <div className="sm:hidden w-full flex justify-center pt-2 pb-1 bg-stone-950">
+          <div className="w-12 h-1.5 rounded-full bg-stone-700/60" />
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 bg-stone-950 border-b border-stone-800">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-stone-950 shadow-md shadow-yellow-500/20 shrink-0">
+              <Video size={19} className="stroke-[2.4]" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-sm sm:text-base text-white">
+                  {isEs ? 'Sesión Estratégica 1:1 (15 min)' : '1:1 Strategic Session (15 min)'}
+                </h3>
+                <span className="hidden sm:inline-flex px-2 py-0.5 rounded text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  {isEs ? '100% GRATIS' : '100% FREE'}
+                </span>
+              </div>
+              <p className="text-[11px] sm:text-xs text-stone-400">
+                {isEs ? 'Google Meet con nuestro Director de Tecnología' : 'Google Meet with our Tech Director'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-stone-400 hover:text-white hover:bg-stone-800 transition-colors"
+              title={isEs ? "Abrir en pantalla completa" : "Open full screen"}
+            >
+              <ExternalLink size={14} />
+              <span>{isEs ? 'Pantalla completa' : 'Full screen'}</span>
+            </a>
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition-colors"
+              aria-label={isEs ? "Cerrar calendario" : "Close calendar"}
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Content area: Skeleton Loader + Embedded Calendly */}
+        <div className="relative flex-1 w-full bg-stone-950 overflow-hidden">
+          {!iframeLoaded && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center z-10 bg-stone-950">
+              <div className="w-12 h-12 rounded-2xl bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-400 animate-pulse">
+                <Calendar size={24} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  {isEs ? 'Cargando agenda en tiempo real...' : 'Loading real-time schedule...'}
+                </p>
+                <p className="text-xs text-stone-400 mt-1">
+                  {isEs ? 'Conectando con Google Meet' : 'Connecting with Google Meet'}
+                </p>
+              </div>
+              <div className="w-36 h-1.5 bg-stone-800 rounded-full overflow-hidden mt-2">
+                <div className="w-full h-full bg-gradient-to-r from-yellow-500 to-amber-400 animate-pulse" />
+              </div>
+            </div>
+          )}
+
+          <iframe
+            src={`${CALENDLY_URL}?embed_domain=fastpagepro.com&embed_type=Inline&hide_gdpr_banner=1&background_color=0c0a09&text_color=ffffff&primary_color=eab308`}
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            title="Calendly Scheduling"
+            onLoad={() => setIframeLoaded(true)}
+            className="w-full h-full border-0"
+            allow="camera; microphone; fullscreen"
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [isAiOpen, setIsAiOpen] = useState(false);
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
   const [waNotifIndex, setWaNotifIndex] = useState(-1);
   const [liveVisitorCount, setLiveVisitorCount] = useState(0);
+
+  // Global listener for in-app Calendly modal
+  useEffect(() => {
+    const handleOpen = () => setIsCalendlyOpen(true);
+    window.addEventListener('open-calendly-modal', handleOpen);
+    return () => window.removeEventListener('open-calendly-modal', handleOpen);
+  }, []);
 
   // Live visitor counter — simulated realistic
   useEffect(() => {
@@ -7258,6 +7381,17 @@ export default function App() {
             language={language}
             onClose={closePortfolioModal}
             onSelectProject={handleSelectProjectFromModal}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Calendly In-App Modal (Keeps user on site, zero lag, native mobile UX) */}
+      <AnimatePresence>
+        {isCalendlyOpen && (
+          <CalendlyModal
+            isOpen={isCalendlyOpen}
+            onClose={() => setIsCalendlyOpen(false)}
+            language={language}
           />
         )}
       </AnimatePresence>
