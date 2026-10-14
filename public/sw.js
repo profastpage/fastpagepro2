@@ -36,6 +36,9 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(event.request.url);
 
+  // Cache API only supports http: and https: schemes (prevents chrome-extension: scheme errors)
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
   // Skip external API calls and tracking
   if (
     url.hostname.includes('wa.me') ||

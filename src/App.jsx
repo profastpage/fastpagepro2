@@ -5248,13 +5248,13 @@ const FullProjectCaseStudyPage = ({ project, language, onClose, onSelectProject 
 
               <button
                 onClick={() => {
-                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Vi el proyecto *${project.title}* en su portafolio y quiero elegir esta arquitectura preconstruida para mi negocio con el *Descuento Especial + Beneficio para próximo desarrollo* 🚀. ¿Me brindan la cotización? ✨`);
+                  const msg = encodeURIComponent(`¡Hola Fast Page Pro! 👋 Vi el proyecto *${project.title}* en su portafolio y quiero elegir este prototipo para mi negocio con el *Descuento Especial + Beneficio para próximo desarrollo* 🚀. ¿Me brindan la cotización? ✨`);
                   window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${msg}`, '_blank', 'noopener,noreferrer');
                 }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white text-sm bg-emerald-600/90 hover:bg-emerald-600 border border-emerald-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-emerald-600/20"
               >
                 <WhatsAppOfficialIcon size={18} className="shrink-0" />
-                <span>{isEs ? "Elegir Base (Con Descuento)" : "Choose Base (With Discount)"}</span>
+                <span>{isEs ? "Elegir Prototipo (Con Descuento)" : "Choose Prototype (With Discount)"}</span>
               </button>
             </div>
           </div>
