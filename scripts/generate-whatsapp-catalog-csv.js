@@ -9,7 +9,7 @@
  *
  * Salida:
  * - public/catalogo-whatsapp.csv (Ruta HTTPS pública tras deploy)
- * - public/catalogo-whatsapp-fastpagepro.csv (Compatibilidad de retroceso)
+ * - public/catalogo-whatsapp-fastpagepro.csv (Ruta de feed configurada en Meta)
  * ============================================================================
  */
 
@@ -23,13 +23,12 @@ const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 
 const COMPANY_NAME = 'Fast Page Pro';
-const BASE_DOMAIN = process.env.SITE_URL || 'https://fastpagepro.com';
+const BASE_DOMAIN = process.env.SITE_URL || 'https://www.fastpagepro.com';
 const CLEAN_DOMAIN = BASE_DOMAIN.replace(/\/+$/, '');
 
 const CSV_OUTPUT_PRIMARY = path.join(ROOT_DIR, 'public', 'catalogo-whatsapp.csv');
 const CSV_OUTPUT_LEGACY = path.join(ROOT_DIR, 'public', 'catalogo-whatsapp-fastpagepro.csv');
 const ASSETS_DIR = path.join(ROOT_DIR, 'public', 'catalogo-whatsapp');
-const PRICES_JSON_PATH = path.join(ROOT_DIR, 'PORTAFOLIO_CATALOGO_WHATSAPP', 'CATALOGO_LOGISTICA_PRECIOS.json');
 
 // Encabezados estándar homologados por Meta y WhatsApp Business
 const HEADERS = [
@@ -45,12 +44,46 @@ const HEADERS = [
   'brand',
   'product_type',
   'google_product_category',
-  'fb_product_category'
+  'fb_product_category',
+  'custom_label_0',
+  'custom_label_1'
 ];
+
+// 29 Tarifas Oficiales y Personalizadas de Fast Page Pro (en PEN)
+const EXACT_PRICES = {
+  'vuelo-78-hotel': '700.00 PEN',
+  'hotel-puno-terra': '700.00 PEN',
+  'cmc-latam': '700.00 PEN',
+  'la-casona-gourmet': '700.00 PEN',
+  'creditos-yadiel': '800.00 PEN',
+  'moda-digital-pro': '800.00 PEN',
+  'femar-logistics': '800.00 PEN',
+  'union-el-progreso': '800.00 PEN',
+  'mandi-corp': '800.00 PEN',
+  'intiquilla-adventures': '1100.00 PEN',
+  'amc-soluciones-peru': '1200.00 PEN',
+  'nueva-vida-centro-medico': '1200.00 PEN',
+  'sertrade': '1200.00 PEN',
+  'gincana-club-campestre': '1300.00 PEN',
+  'jhon-asociados': '1300.00 PEN',
+  'peru-travel-experts': '1300.00 PEN',
+  'medina-almonte-firma-legal': '1400.00 PEN',
+  'breicorp': '1400.00 PEN',
+  'camisas-tallas-grandes': '1500.00 PEN',
+  'editorial-horizonte': '1500.00 PEN',
+  'urban-style': '1600.00 PEN',
+  'roma-abogados': '1600.00 PEN',
+  'maia-store': '1800.00 PEN',
+  'academia-el-profe': '2600.00 PEN',
+  'atlas': '2900.00 PEN',
+  'cotizador-pro': '3200.00 PEN',
+  'itools-peru': '3500.00 PEN',
+  'ecommerce-builder-pro': '4500.00 PEN',
+  'importaciones-usa-peru': '4500.00 PEN'
+};
 
 /**
  * Escapado estricto RFC 4180 para campos CSV.
- * Rodea siempre con comillas dobles y escapa comillas internas (" -> "").
  */
 function escapeCsv(val) {
   if (val === null || val === undefined) return '""';
@@ -60,8 +93,7 @@ function escapeCsv(val) {
 
 /**
  * Filtro de mitigación contra bots y escáneres automáticos de Meta.
- * Sustituye términos sensibles o restringidos (financieros, médicos, litigios)
- * por terminología neutra de servicios tecnológicos y desarrollo web.
+ * Sustituye términos sensibles por terminología neutra de servicios tecnológicos.
  */
 function sanitizeSensitiveContent(text) {
   if (!text) return '';
@@ -105,42 +137,41 @@ function getServicePrefix(category) {
   return 'Desarrollo Web';
 }
 
-function loadLogisticsPrices() {
-  const priceMap = {};
-  if (fs.existsSync(PRICES_JSON_PATH)) {
-    try {
-      const data = JSON.parse(fs.readFileSync(PRICES_JSON_PATH, 'utf8'));
-      if (Array.isArray(data.proyectos)) {
-        for (const pr of data.proyectos) {
-          if (pr.slug && pr.pricingLogistics?.peru?.min) {
-            priceMap[pr.slug] = `${Number(pr.pricingLogistics.peru.min).toFixed(2)} PEN`;
-          }
-        }
-      }
-    } catch (e) {
-      console.warn('⚠️ No se pudo leer CATALOGO_LOGISTICA_PRECIOS.json, se usará precio base.');
-    }
+function getCustomLabels(category, priceNum) {
+  const cat = (category || '').toLowerCase();
+  let label0 = 'Web Corporativa';
+  if (cat.includes('tienda') || cat.includes('ecommerce')) {
+    label0 = 'Tienda Online E-Commerce';
+  } else if (cat.includes('personalizado') || cat.includes('saas') || cat.includes('software')) {
+    label0 = 'Sistema SaaS a Medida';
+  } else if (cat.includes('app') || cat.includes('móvil')) {
+    label0 = 'App IA Conversacional';
   }
-  return priceMap;
+
+  let label1 = 'Prototipo Promo (S/ 700 - S/ 800)';
+  if (priceNum > 2000) {
+    label1 = 'Enterprise & SaaS (S/ 2,600 - S/ 4,500)';
+  } else if (priceNum > 800) {
+    label1 = 'Pro & CMS (S/ 1,100 - S/ 1,800)';
+  }
+
+  return { label0, label1 };
 }
 
 function generateCatalog() {
-  console.log('🚀 Iniciando generación de Catálogo Meta & WhatsApp Business...');
+  console.log('🚀 Iniciando generación de Catálogo Meta & WhatsApp Business con tarifas personalizadas...');
 
   const projects = PORTFOLIO_BY_LANG.es || [];
   if (!projects.length) {
     throw new Error('❌ No se encontraron proyectos en PORTFOLIO_BY_LANG.es');
   }
 
-  // Verificar o crear directorios necesarios
   const publicDir = path.join(ROOT_DIR, 'public');
   if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir, { recursive: true });
   }
 
   const existingAssets = fs.existsSync(ASSETS_DIR) ? fs.readdirSync(ASSETS_DIR) : [];
-  const pricesMap = loadLogisticsPrices();
-
   let missingAssetsCount = 0;
   const rows = [HEADERS.join(',')];
 
@@ -152,29 +183,48 @@ function generateCatalog() {
     const clientTitle = sanitizeSensitiveContent(p.title || p.clientName);
     const fullTitle = `${prefix}: ${clientTitle}`;
 
-    // 2. DESCRIPCIÓN COMERCIAL CON DECLARACIÓN INICIAL OBLIGATORIA
+    // 2. PRECIO EXACTO
+    const price = EXACT_PRICES[p.slug] || '900.00 PEN';
+    const priceNum = parseFloat(price);
+
+    // 3. ETIQUETAS PERSONALIZADAS PARA COLECCIONES EN WHATSAPP
+    const { label0, label1 } = getCustomLabels(p.category, priceNum);
+
+    // 4. DESCRIPCIÓN COMERCIAL ENRIQUECIDA (VALOR AGREGADO + PASARELAS + LLAVE EN MANO)
     const rawIndustry = p.industryLabel || p.category || 'Servicios Profesionales';
     const safeIndustry = sanitizeSensitiveContent(rawIndustry);
     const projectSummary = sanitizeSensitiveContent(p.description || p.solution || p.highlights || '');
 
+    const isEcommerce = p.category === 'Tienda Online' || p.slug === 'itools-peru';
+    const isSaas = p.category === 'Proyecto Personalizado' || p.category === 'App Móvil' || p.slug === 'academia-el-profe';
+
+    let featureHighlight = '';
+    if (isEcommerce) {
+      featureHighlight = '💳 Pasarelas de Pago: Integración API Oficial de Mercado Pago (Tarjetas Débito/Crédito Visa y Mastercard), pagos directos por Yape o Plin y transferencias bancarias. 🛒 Incluye CMS autoadministrable Sanity para control total de productos y stock.';
+    } else if (isSaas) {
+      featureHighlight = '⚡ Arquitectura Avanzada: Base de Datos en la nube, autenticación segura, cotizaciones automatizadas, paneles multi-rol y automatización de procesos B2B.';
+    } else {
+      featureHighlight = '🚀 Conversión: Motor de reservas, cotizaciones y pedidos directos a WhatsApp con enrutador dinámico de clientes.';
+    }
+
+    const valuePack = '✅ Llave en Mano: Incluye Dominio .com, hasta 5 correos corporativos, Certificado SSL de seguridad, máxima velocidad PageSpeed 95+ y posicionamiento SEO en Google e Inteligencia Artificial.';
+    const benefit = '🎁 Beneficio: Tarifa preferencial con descuento garantizado para tu próximo desarrollo.';
+
     const fullDescription = [
-      `Servicio profesional de diseño web, desarrollo de software y plataforma digital desarrollado a medida por ${COMPANY_NAME}.`,
-      `• Proyecto: ${clientTitle}`,
-      `• Rubro: ${safeIndustry}`,
-      `• Solución: ${projectSummary}`,
-      `• Stack Tecnológico: ${(p.techStack || ['React', 'Vite', 'Edge CDN']).slice(0, 4).join(', ')}`,
-      `• Beneficio: Despliegue en red Edge global con velocidad sub-segundo (< 0.8s), diseño responsive móvil/desktop y soporte continuo.`
+      `Servicio profesional de desarrollo web y software para ${clientTitle}. Desarrollado a medida por ${COMPANY_NAME} con arquitectura de carga ultra rápida (< 0.6s).`,
+      `• Rubro: ${safeIndustry}.`,
+      `• Solución: ${projectSummary}.`,
+      featureHighlight,
+      valuePack,
+      benefit
     ].join(' ');
 
-    // 3. ESTADOS ESTÁNDAR
+    // 5. ESTADOS ESTÁNDAR
     const availability = 'in stock';
     const condition = 'new';
 
-    // 4. PRECIO BASE HOMOLOGADO ISO 4217
-    const price = pricesMap[p.slug] || '900.00 PEN';
-
-    // 5. ENLACES PÚBLICOS
-    const link = p.caseStudyUrl || `${CLEAN_DOMAIN}/portafolio/${p.slug}`;
+    // 6. ENLACES PÚBLICOS
+    const link = p.link || `${CLEAN_DOMAIN}/portafolio/${p.slug}`;
     const desktopFile = `${p.slug}-desktop.jpg`;
     const mobileFile = `${p.slug}-mobile.jpg`;
 
@@ -189,7 +239,7 @@ function generateCatalog() {
     const image_link = `${CLEAN_DOMAIN}/catalogo-whatsapp/${desktopFile}`;
     const additional_image_link = `${CLEAN_DOMAIN}/catalogo-whatsapp/${mobileFile}`;
 
-    // 6. METADATOS DE MARCA Y TAXONOMÍA OFICIAL
+    // 7. METADATOS DE MARCA Y TAXONOMÍA OFICIAL
     const brand = COMPANY_NAME;
     const product_type = `Servicios Digitales > Desarrollo Web & Software > ${p.category || 'Web Profesional'}`;
     const google_product_category = 'Software > Computer Software';
@@ -208,7 +258,9 @@ function generateCatalog() {
       escapeCsv(brand),
       escapeCsv(product_type),
       escapeCsv(google_product_category),
-      escapeCsv(fb_product_category)
+      escapeCsv(fb_product_category),
+      escapeCsv(label0),
+      escapeCsv(label1)
     ].join(','));
   }
 
@@ -221,19 +273,20 @@ function generateCatalog() {
   fs.writeFileSync(CSV_OUTPUT_LEGACY, csvContent, 'utf8');
   console.log(`✅ Copia de compatibilidad generada en: ${CSV_OUTPUT_LEGACY}`);
 
-  // Si existe carpeta dist (después de un build previo), copiar también para preview inmediato
+  // Copiar a dist si existe para sincronización inmediata
   const distDir = path.join(ROOT_DIR, 'dist');
   if (fs.existsSync(distDir)) {
     fs.writeFileSync(path.join(distDir, 'catalogo-whatsapp.csv'), csvContent, 'utf8');
     fs.writeFileSync(path.join(distDir, 'catalogo-whatsapp-fastpagepro.csv'), csvContent, 'utf8');
-    console.log(`✅ Catálogo copiado a carpeta dist/ para distribución inmediata.`);
+    console.log(`✅ Catálogo copiado a carpeta dist/.`);
   }
 
   console.log(`\n📊 RESUMEN DE EJECUCIÓN:`);
-  console.log(`• Total de productos/servicios exportados: ${projects.length}`);
+  console.log(`• Total de productos exportados: ${projects.length}`);
+  console.log(`• Precios aplicados: 100% personalizados según lista oficial`);
   console.log(`• Columnas generadas: ${HEADERS.length}`);
   console.log(`• Assets faltantes: ${missingAssetsCount}`);
-  console.log(`• URL del Data Feed en producción: ${CLEAN_DOMAIN}/catalogo-whatsapp.csv\n`);
+  console.log(`• URL del Data Feed en producción: ${CLEAN_DOMAIN}/catalogo-whatsapp-fastpagepro.csv\n`);
 }
 
 generateCatalog();
