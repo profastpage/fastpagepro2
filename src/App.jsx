@@ -5890,8 +5890,15 @@ export default function App() {
   });
   const [language, setLanguage] = useState(() => {
     try {
-      const savedLanguage = localStorage.getItem('language');
-      return savedLanguage === 'en' ? 'en' : 'es';
+      // Si la URL tiene parámetro explícito ?lang=en o ?lang=es se respeta
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const urlLang = params.get('lang');
+        if (urlLang === 'en') return 'en';
+        if (urlLang === 'es') return 'es';
+      }
+      // Requerimiento comercial: Por defecto SIEMPRE en Español ('es') para anuncios y público general
+      return 'es';
     } catch {
       return 'es';
     }
@@ -5964,6 +5971,9 @@ export default function App() {
   useEffect(() => {
     try {
       localStorage.setItem('language', language);
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = language;
+      }
     } catch {
       // ignore localStorage language sync errors
     }
